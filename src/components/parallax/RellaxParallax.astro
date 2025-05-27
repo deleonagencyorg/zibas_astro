@@ -1,0 +1,73 @@
+---
+/**
+ * Componente Rellax Parallax para efectos de parallax
+ * 
+ * Props:
+ * - speed: velocidad del efecto parallax (negativo sube, positivo baja)
+ * - percentage: si true, la velocidad se interpreta como porcentaje
+ * - zIndex: z-index del elemento
+ * - center: si true, centra el elemento
+ * - wrapper: selector del contenedor (opcional)
+ * - round: si true, redondea los valores
+ * - vertical: si true, habilita el parallax vertical (por defecto)
+ * - horizontal: si true, habilita el parallax horizontal
+ */
+export interface Props {
+  speed?: number;
+  percentage?: boolean;
+  zIndex?: number;
+  center?: boolean;
+  wrapper?: string;
+  round?: boolean;
+  vertical?: boolean;
+  horizontal?: boolean;
+  class?: string;
+}
+
+const {
+  speed = -2,
+  percentage = false,
+  zIndex = 0,
+  center = false,
+  wrapper = null,
+  round = true,
+  vertical = true,
+  horizontal = false,
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class={`rellax-element ${className}`}
+  data-rellax-speed={speed}
+  data-rellax-percentage={percentage ? "true" : "false"}
+  data-rellax-zindex={zIndex}
+  data-rellax-center={center ? "true" : "false"}
+  data-rellax-wrapper={wrapper}
+  data-rellax-round={round ? "true" : "false"}
+  data-rellax-vertical={vertical ? "true" : "false"}
+  data-rellax-horizontal={horizontal ? "true" : "false"}
+>
+  <slot />
+</div>
+
+<script>
+  import Rellax from 'rellax';
+  
+  // Inicializar Rellax cuando el DOM esté cargado
+  document.addEventListener('DOMContentLoaded', () => {
+    const rellax = new Rellax('.rellax-element', {
+      // Las opciones se toman de los atributos data-rellax-*
+      callback: function(positions) {
+        // callback opcional después de cada actualización
+      }
+    });
+    
+    // Actualizar Rellax en caso de cambios en el tamaño de la ventana
+    window.addEventListener('resize', () => {
+      if (rellax) {
+        rellax.refresh();
+      }
+    });
+  });
+</script>

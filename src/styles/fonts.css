@@ -1,0 +1,45 @@
+/* fonts.css: Fuentes para Taqueritos */
+
+/* FontdinerSwanky (para títulos, logotipos y elementos destacados) */
+@font-face {
+  font-family: 'FontdinerSwanky';
+  src: url('../assets/fonts/FontdinerSwanky.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto (para textos, párrafos y contenido general) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../assets/fonts/Roboto.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Variables CSS para compatibilidad con código existente */
+:root {
+  --font-title: 'FontdinerSwanky', serif;
+  --font-text: 'Roboto', sans-serif;
+}
+
+/* Clases de utilidad para usar directamente en HTML */
+.font-title {
+  font-family: var(--font-title);
+}
+
+.font-text {
+  font-family: var(--font-text);
+}
+
+/* Utilidad para títulos, subtítulos, botones, header y footer */
+.title, h1, h2, h3, h4, h5, h6,
+button, header, footer {
+  font-family: var(--font-title);
+}
+
+/* Utilidad para textos generales y párrafos */
+.text, p, input, textarea, label, span {
+  font-family: var(--font-text);
+}

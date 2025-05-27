@@ -1,0 +1,102 @@
+---
+import { getOptimalSizes, shouldPrioritize } from '../utils/imageUtils';
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: string | number;
+  height?: string | number;
+  class?: string;
+  color?: string; // Prop para color
+  priority?: boolean; // Prop para imágenes prioritarias (LCP)
+  sizes?: string; // Prop para tamaños responsivos
+  context?: string; // Contexto de uso de la imagen (hero, thumbnail, etc.)
+  decorative?: boolean; // Indica si la imagen es puramente decorativa
+  [key: string]: any;
+}
+
+const { 
+  src, 
+  alt, 
+  width, 
+  height, 
+  class: className, 
+  color, 
+  context = 'default',
+  priority: explicitPriority,
+  sizes: explicitSizes,
+  decorative = false,
+  ...rest 
+} = Astro.props;
+
+// Optimizar el texto alternativo
+let optimizedAlt = alt;
+
+// Si la imagen es decorativa, usar alt vacío para que los lectores de pantalla la ignoren
+if (decorative) {
+  optimizedAlt = '';
+} else if (alt) {
+  // Eliminar redundancias comunes en textos alternativos
+  optimizedAlt = alt
+    .replace(/^imagen de\s+/i, '')
+    .replace(/^foto de\s+/i, '')
+    .replace(/^icono de\s+/i, '')
+    .replace(/^imagen\s+/i, '')
+    .replace(/^foto\s+/i, '')
+    .replace(/^icono\s+/i, '');
+}
+
+// Determinar prioridad basada en contexto si no se especifica explícitamente
+const priority = explicitPriority !== undefined ? explicitPriority : shouldPrioritize(src, context);
+
+// Obtener tamaños óptimos basados en el contexto si no se especifican explícitamente
+const sizes = explicitSizes || getOptimalSizes(context);
+
+// Determinar si es una imagen WebP
+const isWebP = src.toLowerCase().endsWith('.webp');
+
+// Generar srcset para imágenes responsivas
+const isExternal = src.startsWith('http');
+let srcset = '';
+
+// Generar srcset para imágenes WebP
+if (isWebP) {
+  if (isExternal && src.includes('assets.doguiygatibienestar.com')) {
+    // Para imágenes servidas desde un CDN que soporta redimensionamiento
+    const baseUrl = src;
+    srcset = [
+      `${baseUrl}?w=640 640w`,
+      `${baseUrl}?w=768 768w`,
+      `${baseUrl}?w=1024 1024w`,
+      `${baseUrl}?w=1280 1280w`
+    ].join(', ');
+  } else if (!isExternal) {
+    // Para imágenes locales
+    const baseUrl = src.substring(0, src.lastIndexOf('.webp'));
+    srcset = [
+      `${baseUrl}-640w.webp 640w`,
+      `${baseUrl}-768w.webp 768w`,
+      `${baseUrl}-1024w.webp 1024w`,
+      `${baseUrl}-1280w.webp 1280w`
+    ].join(', ');
+  }
+}
+---
+
+<img 
+  src={src} 
+  alt={optimizedAlt}
+  class={className}
+  style={{
+    ...(color ? { filter: `brightness(0) invert(${color === 'white' ? 1 : 0})` } : {}),
+    objectFit: 'contain'
+  }}
+  {...(decorative ? { 'aria-hidden': 'true', 'role': 'presentation' } : {})}
+  loading={priority ? null : "lazy"}
+  decoding="async"
+  fetchpriority={priority ? "high" : "auto"}
+  width={width}
+  height={height}
+  {...(srcset ? { srcset, sizes } : {})}
+  {...rest}
+/>

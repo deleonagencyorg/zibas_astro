@@ -1,0 +1,56 @@
+/* Estilos base para elementos animados */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Animación de entrada */
+.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Direcciones de animación */
+.animate-from-up {
+  transform: translateY(-50px);
+}
+
+.animate-from-down {
+  transform: translateY(50px);
+}
+
+.animate-from-left {
+  transform: translateX(-50px);
+}
+
+.animate-from-right {
+  transform: translateX(50px);
+}
+
+/* Animación de fade in */
+.animate-fade {
+  opacity: 0;
+}
+
+/* Animación de zoom */
+.animate-zoom {
+  transform: scale(0.8);
+}
+
+/* Clases para diferentes duraciones */
+.animate-duration-300 {
+  transition-duration: 300ms;
+}
+
+.animate-duration-500 {
+  transition-duration: 500ms;
+}
+
+.animate-duration-700 {
+  transition-duration: 700ms;
+}
+
+.animate-duration-1000 {
+  transition-duration: 1000ms;
+}

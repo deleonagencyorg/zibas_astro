@@ -1,0 +1,108 @@
+---
+/**
+ * Componente ScrollReveal para animaciones de aparición al hacer scroll
+ * 
+ * Props:
+ * - delay: retraso en milisegundos antes de la animación
+ * - duration: duración de la animación en milisegundos
+ * - distance: distancia de la animación (px, %, rem, etc.)
+ * - origin: dirección desde donde aparece el elemento
+ * - opacity: opacidad inicial (0-1)
+ * - scale: escala inicial (0-1)
+ * - easing: función de timing para la animación
+ * - reset: si true, la animación se repite cada vez que el elemento entra en el viewport
+ * - class: clases CSS adicionales
+ */
+export interface Props {
+  delay?: number;
+  duration?: number;
+  distance?: string;
+  origin?: 'top' | 'right' | 'bottom' | 'left';
+  opacity?: number;
+  scale?: number;
+  easing?: string;
+  reset?: boolean;
+  class?: string;
+}
+
+const {
+  delay = 0,
+  duration = 800,
+  distance = '50px',
+  origin = 'bottom',
+  opacity = 0,
+  scale = 1,
+  easing = 'cubic-bezier(0.5, 0, 0, 1)',
+  reset = false,
+  class: className = "",
+} = Astro.props;
+---
+
+<div 
+  class={`scroll-reveal ${className}`}
+  data-sr-delay={delay}
+  data-sr-duration={duration}
+  data-sr-distance={distance}
+  data-sr-origin={origin}
+  data-sr-opacity={opacity}
+  data-sr-scale={scale}
+  data-sr-easing={easing}
+  data-sr-reset={reset ? "true" : "false"}
+>
+  <slot />
+</div>
+
+<script>
+  // Importamos ScrollReveal de forma dinámica para evitar errores en SSR
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Importación dinámica de ScrollReveal
+      const ScrollRevealModule = await import('scrollreveal');
+      const ScrollReveal = ScrollRevealModule.default;
+      
+      // Inicializar ScrollReveal
+      const sr = ScrollReveal({
+        reset: false, // Por defecto, no resetear las animaciones
+        mobile: true, // Habilitar en dispositivos móviles
+      });
+      
+      // Seleccionar todos los elementos con la clase scroll-reveal
+      const elements = document.querySelectorAll('.scroll-reveal');
+      
+      // Configurar cada elemento con sus propios parámetros
+      elements.forEach((el: Element) => {
+        // Convertir el elemento a HTMLElement para compatibilidad con ScrollReveal
+        const htmlEl = el as HTMLElement;
+        const delay = parseInt(el.getAttribute('data-sr-delay') || '0');
+        const duration = parseInt(el.getAttribute('data-sr-duration') || '800');
+        const distance = el.getAttribute('data-sr-distance') || '50px';
+        
+        // Validar que el origen sea uno de los valores permitidos
+        const originAttr = el.getAttribute('data-sr-origin') || 'bottom';
+        const origin = (['top', 'right', 'bottom', 'left'].includes(originAttr) 
+          ? originAttr as 'top' | 'right' | 'bottom' | 'left'
+          : 'bottom');
+          
+        const opacity = parseFloat(el.getAttribute('data-sr-opacity') || '0');
+        const scale = parseFloat(el.getAttribute('data-sr-scale') || '1');
+        const easing = el.getAttribute('data-sr-easing') || 'cubic-bezier(0.5, 0, 0, 1)';
+        const reset = el.getAttribute('data-sr-reset') === 'true';
+        
+        // Configurar ScrollReveal para este elemento
+        sr.reveal(htmlEl, {
+          delay,
+          duration,
+          distance,
+          origin,
+          opacity,
+          scale,
+          easing,
+          reset,
+          cleanup: true // Limpiar estilos después de la animación
+        });
+      });
+    } catch (error) {
+      console.error('Error al cargar ScrollReveal:', error);
+    }
+  });
+</script>

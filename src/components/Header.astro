@@ -1,0 +1,222 @@
+---
+// src/components/Header.astro
+import { getLocale, t } from '../i18n/i18n';
+import { logos, socialMediaLinks, type SocialLink } from '../config/assets';
+import LanguageSwitcher from './i18n/LanguageSwitcher.astro';
+
+const locale = getLocale();
+
+interface MenuItem {
+  id: string;
+  text: string;
+  href: string;
+  submenu?: MenuItem[];
+}
+
+// Obtener los items del menú desde las traducciones
+const itemsFromT = t('menu_items', { namespace: 'common', locale: locale });
+const menuItems: MenuItem[] = Array.isArray(itemsFromT) ? itemsFromT : [];
+const openMenuLabel: string = t('menu_labels.open_main_menu', { namespace: 'common', locale: locale }) || 'Open main menu';
+
+// Asegurarse de que los hrefs sean absolutos si es necesario o que Astro los maneje correctamente.
+// Por ahora, se asume que los hrefs en common.json ya incluyen el prefijo de idioma.
+
+const menuIconSvg = `
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+  </svg>
+`;
+const closeIconSvg = `
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+  </svg>
+`;
+---
+
+<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-colors duration-300 bg-transparent text-white py-3 px-4 sm:px-6 lg:px-8 font-sans">
+  <div class="container mx-auto flex items-center justify-between h-16">
+    
+    <!-- Logo para Desktop (Izquierda) -->
+    <div class="hidden md:flex items-center flex-shrink-0">
+      <a href={`/${locale}/`} class="block">
+        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-10 lg:h-12 w-auto" />
+      </a>
+    </div>
+
+    <!-- Menú Hamburguesa (Izquierda en Móvil) -->
+    <div class="md:hidden flex items-center">
+      <button id="mobile-menu-button" type="button" class="p-2 rounded-md text-white hover:text-gray-300 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+        <span class="sr-only">{openMenuLabel}</span>
+        <div id="menu-icon-container" set:html={menuIconSvg} />
+      </button>
+    </div>
+
+    <!-- Logo para Móvil (Derecha en Móvil) -->
+    <div class="md:hidden flex items-center">
+      <a href={`/${locale}/`} class="block">
+        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-10 w-auto" />
+      </a>
+    </div>
+
+    <!-- Navegación Desktop (Centrada) -->
+    <nav class="hidden md:flex flex-grow justify-center items-center space-x-1 lg:space-x-2">
+      {menuItems.map(item => (
+        <div class="relative group">
+          <a href={item.href} class="text-sm font-sans font-medium hover:text-gray-300 transition-colors px-3 py-2 flex items-center">
+            {item.text}
+            {item.submenu && (
+              <svg class="w-4 h-4 ml-1 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+            )}
+          </a>
+          {item.submenu && (
+            <div class="absolute left-0 mt-0 w-48 bg-white text-gray-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out invisible group-hover:visible z-50 py-1">
+              {item.submenu.map(subItem => (
+                <a href={subItem.href} class="block px-4 py-2 text-sm font-sans hover:bg-gray-100">{subItem.text}</a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <!-- Selector de Idioma Desktop (Antes de Redes Sociales) -->
+    <div class="hidden md:flex items-center mr-4">
+      <LanguageSwitcher />
+    </div>
+
+    <!-- Redes Sociales Desktop (Derecha) -->
+    <div class="hidden md:flex items-center flex-shrink-0 space-x-3">
+      {socialMediaLinks.map((social: SocialLink) => (
+        <a href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} class="text-white hover:text-gray-300">
+          <span class="sr-only">{social.name}</span>
+          {social.iconUrl && <img src={social.iconUrl} alt={social.alt || social.name} class="h-5 w-5" />}
+          {/* Si social.icon es un SVG string: <Fragment set:html={social.icon} /> */} 
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Menú Móvil Desplegable -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95 text-white pt-16 md:pt-20 font-sans">
+    <div class="container mx-auto px-4 h-full flex flex-col items-center py-8">
+      <a href={`/${locale}/`} class="mb-8">
+        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-12 w-auto" />
+      </a>
+      
+      <nav class="flex flex-col items-center space-y-3 text-center w-full">
+        {menuItems.map(item => (
+          <div class="w-full">
+            <a href={item.href} class="block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+              {item.text}
+            </a>
+            {item.submenu && (
+              <div class="mt-1 space-y-1 pl-4">
+                {item.submenu.map(subItem => (
+                  <a href={subItem.href} class="block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </nav>
+
+      <!-- Selector de Idioma Móvil -->
+      <div class="mt-6 mb-6">
+        <LanguageSwitcher />
+      </div>
+
+      <div class="mt-auto flex space-x-4">
+        {socialMediaLinks.map((social: SocialLink) => (
+          <a href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} class="text-white hover:text-gray-300">
+            <span class="sr-only">{social.name}</span>
+            {social.iconUrl && <img src={social.iconUrl} alt={social.alt || social.name} class="h-6 w-6" />}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIconContainer = document.getElementById('menu-icon-container');
+  const siteHeader = document.getElementById('site-header');
+
+  // Redefinir las variables SVG aquí para evitar errores de TypeScript
+  const menuIconSvg = `
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+    </svg>
+  `;
+  const closeIconSvg = `
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  `;
+
+  let isMenuOpen = false;
+
+  if (menuButton && mobileMenu && menuIconContainer && siteHeader) {
+    menuButton.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    mobileMenu.classList.toggle('hidden');
+    menuButton.setAttribute('aria-expanded', String(isMenuOpen));
+    
+    if (isMenuOpen) {
+      menuIconContainer.innerHTML = closeIconSvg;
+      document.body.style.overflow = 'hidden';
+      siteHeader.classList.remove('bg-transparent');
+      siteHeader.classList.add('bg-black', 'bg-opacity-90'); // Fondo del header cuando el menú móvil está abierto
+    } else {
+      menuIconContainer.innerHTML = menuIconSvg;
+      document.body.style.overflow = '';
+      // Solo vuelve transparente si está en el top y no hay scroll (si se implementa scroll listener)
+      if (window.scrollY < 50) { // 50 es un umbral de ejemplo
+         siteHeader.classList.add('bg-transparent');
+         siteHeader.classList.remove('bg-black', 'bg-opacity-90');
+      } else {
+        // Si hay scroll, un listener de scroll (no implementado aquí) debería manejar el fondo.
+        // Por ahora, si se cierra con scroll, el fondo se queda como lo puso el menú abierto.
+        // Para un comportamiento más robusto, se necesitaría lógica de scroll separada.
+         siteHeader.classList.remove('bg-transparent'); // Ejemplo: mantener un fondo sólido si hay scroll
+         siteHeader.classList.add('bg-gray-900'); // O el color que defina tu lógica de scroll
+      }
+    } // Cierre del else
+  }); // Cierre del menuButton.addEventListener
+} // Cierre del if (menuButton && mobileMenu && ...)
+
+  // Cerrar menú si se hace clic en un enlace del menú móvil
+  if (mobileMenu && menuButton) { // Asegurarse que mobileMenu y menuButton existen
+    mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (isMenuOpen) {
+        menuButton.click(); 
+      }
+      });
+    });
+  }
+
+  // Opcional: Cambiar fondo del header al hacer scroll (ejemplo básico)
+  // if (siteHeader) { // Comprobar si siteHeader existe para el listener de scroll
+  //   window.addEventListener('scroll', () => {
+  //   if (isMenuOpen) return; // No cambiar si el menú móvil está abierto
+
+  //   if (window.scrollY > 50) {
+  //     siteHeader.classList.remove('bg-transparent');
+  //     siteHeader.classList.add('bg-gray-900'); // Color de fondo con scroll
+  //   } else {
+  //     siteHeader.classList.add('bg-transparent');
+  //     siteHeader.classList.remove('bg-gray-900');
+  //     }
+  //   });
+  // }
+
+</script>
+
+<style>
+  /* Estilo para asegurar que el menú desplegable ocupe toda la altura si es necesario */
+  #mobile-menu > .container {
+    min-height: calc(100vh - 4rem); /* Ajustar 4rem si la altura del header es diferente */
+  }
+</style>

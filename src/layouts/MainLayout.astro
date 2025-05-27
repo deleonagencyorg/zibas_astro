@@ -1,0 +1,38 @@
+---
+// import GoogleTagManager from './i18n/GoogleTagManager.astro';
+// import GoogleTagManagerNoScript from './i18n/GoogleTagManagerNoScript.astro';
+import { getLocale, t } from '../i18n/i18n';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import I18nProvider from '../components/i18n/I18nProvider.astro';
+import { routesConfig } from '../config/routes';
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  children: any;
+}
+const { title, description, children } = Astro.props;
+const locale = getLocale();
+---
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {title && <title>{title}</title>}
+    {description && <meta name="description" content={description} />}
+    <slot name="head" />
+    {/* <GoogleTagManager /> */}
+  </head>
+  <body class="font-sans">
+    {/* <GoogleTagManagerNoScript /> */}
+    <I18nProvider>
+      <Header />
+      <main>
+        {children}
+      </main>
+      <Footer />
+    </I18nProvider>
+  </body>
+</html>

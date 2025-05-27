@@ -1,0 +1,82 @@
+---
+// src/pages/[lang]/[pageSlug].astro
+import { routesConfig, findRouteBySlug } from '../../config/routes';
+import { setLocale, t, type Locale } from '../../i18n/i18n';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+// Define the expected structure of the dynamically imported modules
+interface PageModule {
+  default: any; // Using 'any' for simplicity with dynamic Astro component imports
+}
+
+// Obtener todos los posibles componentes de contenido de página
+// La ruta para Astro.glob debe ser relativa desde este archivo o absoluta desde el proyecto.
+// Usaremos una ruta que asume que los componentes están en src/components/pages/
+const pageComponents = await Astro.glob('../../components/pages/*.astro');
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const route of routesConfig) {
+    if (route.id === 'home') continue; // La página de inicio se maneja en [lang]/index.astro
+
+    for (const lang in route.slugs) {
+      paths.push({
+        params: { lang, pageSlug: route.slugs[lang] },
+        props: { routeId: route.id }
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, pageSlug } = Astro.params as { lang: Locale; pageSlug: string };
+const { routeId } = Astro.props as { routeId: string };
+
+setLocale(lang);
+
+const currentRoute = routesConfig.find(r => r.id === routeId);
+
+if (!currentRoute) {
+  // Esto no debería suceder si getStaticPaths está bien configurado
+  // y routesConfig es consistente.
+  return Astro.redirect(`/${lang}/404`); // O una página de error más específica
+}
+
+// Usar import.meta.glob()
+// Esto devuelve un objeto donde las claves son las rutas y los valores son funciones para importar el módulo.
+const modules = import.meta.glob('../../components/pages/*.astro');
+
+// DEBUG: Log de los módulos encontrados por import.meta.glob()
+console.log('Módulos de página encontrados por import.meta.glob():', Object.keys(modules));
+
+// Transformar la ruta del contentComponent para que coincida con las claves de import.meta.glob()
+// Asumimos que [pageSlug].astro está en src/pages/[lang]/ y los componentes en src/components/pages/
+// Por lo tanto, '@/' se traduce a '../../' desde la perspectiva de [pageSlug].astro para llegar a la raíz de src/
+const targetModulePath = currentRoute.contentComponent.replace('@/', '../../');
+
+// DEBUG: Log de la ruta del módulo que se busca
+console.log(`Buscando módulo con ruta: ${targetModulePath} para la ruta ID: ${currentRoute.id}`);
+
+const moduleLoader = modules[targetModulePath]; // modules es Record<string, () => Promise<any>>
+
+if (!moduleLoader) {
+  console.error(`Cargador de módulo no encontrado para la ruta: ${currentRoute.id}. Se esperaba la ruta: ${targetModulePath}`);
+  console.error('Módulos disponibles de import.meta.glob():', Object.keys(modules));
+  return Astro.redirect(`/${lang}/404`);
+}
+
+const loadedModule = await moduleLoader(); // Ejecutar la función para cargar el módulo
+const ContentComponentModule = loadedModule as PageModule; // Explicitly cast to PageModule
+const ContentComponent = ContentComponentModule.default;
+
+if (!ContentComponent) {
+  console.error(`Componente por defecto no exportado o no encontrado en el módulo: ${targetModulePath} para la ruta ID: ${currentRoute.id}`);
+  return Astro.redirect(`/${lang}/404`);
+}
+
+const pageTitle = currentRoute.metaTitleKey ? t(currentRoute.metaTitleKey) : 'Page';
+const pageDescription = currentRoute.metaDescriptionKey ? t(currentRoute.metaDescriptionKey) : '';
+---
+<MainLayout title={pageTitle} description={pageDescription}>
+  <ContentComponent />
+</MainLayout>

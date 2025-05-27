@@ -1,0 +1,35 @@
+---
+import { routesConfig, getRouteById } from '../../config/routes';
+import { setLocale, t, type Locale } from '../../i18n/i18n';
+import MainLayout from '../../layouts/MainLayout.astro';
+// Importa el componente de contenido directamente
+import HomePageContent from '../../components/pages/HomePage.astro';
+
+export async function getStaticPaths() {
+  const homeRoute = getRouteById('home');
+  if (!homeRoute) return [];
+
+  return Object.keys(homeRoute.slugs).map(lang => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+setLocale(lang);
+
+const homeRoute = getRouteById('home');
+if (!homeRoute) {
+  // Manejar el caso en que la ruta 'home' no esté definida, aunque getStaticPaths debería prevenir esto.
+  // Podrías redirigir a 404 o mostrar un error.
+  throw new Error("Home route configuration is missing.");
+}
+
+const pageTitle = homeRoute.metaTitleKey ? t(homeRoute.metaTitleKey) : 'Home';
+const pageDescription = homeRoute.metaDescriptionKey ? t(homeRoute.metaDescriptionKey) : '';
+
+const ContentComponent = HomePageContent; // Asignación directa para la página de inicio
+---
+<MainLayout title={pageTitle} description={pageDescription}>
+  <ContentComponent />
+</MainLayout>
+

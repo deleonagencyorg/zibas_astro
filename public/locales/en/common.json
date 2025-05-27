@@ -1,0 +1,141 @@
+{
+  "welcome": "Welcome",
+  "home": "Home",
+  "about": "About",
+  "contact": "Contact",
+  "products_title": "Our Products",
+  "email": "Email",
+  "name": "Name",
+  "lastname": "Last name",
+  "phone": "Phone",
+  "country": "Country",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "edit": "Edit",
+  "profile": "Profile",
+  "privacy_policy": "Privacy policy",
+  "terms_conditions": "Terms and conditions",
+  "meta": {
+    "home": {
+      "title": "Taqueritos - Participate and win amazing prizes",
+      "description": "Join our Taqueritos promotion and win amazing prizes. Register your codes and increase your chances of winning."
+    }
+  },
+  "countries": {
+    "honduras": "Honduras",
+    "guatemala": "Guatemala",
+    "el_salvador": "El Salvador",
+    "nicaragua": "Nicaragua",
+    "costa_rica": "Costa Rica",
+    "republica_dominicana": "Dominican Republic"
+  },
+  "form_validation": {
+    "required": "This field is required",
+    "invalid_email": "Invalid email",
+    "password_min": "Password must be at least 8 characters",
+    "passwords_not_match": "Passwords do not match"
+  },
+  "cookie_consent": {
+    "title": "Cookie usage",
+    "description": "We use cookies to improve your experience on our website.",
+    "accept": "Accept",
+    "reject": "Reject",
+    "preferences": "Preferences"
+  },
+  "assets": {
+    "logo": "/images/en/logo.svg",
+    "hero": "/images/en/hero.jpg",
+    "slider": [
+      {
+        "id": "slide1",
+        "src": "/images/en/slider/slide1.jpg",
+        "alt": "Taqueritos promotion",
+        "title": "Participate and win!",
+        "description": "Discover our delicious Taqueritos promotion"
+      },
+      {
+        "id": "slide2",
+        "src": "/images/en/slider/slide2.jpg",
+        "alt": "Taqueritos prizes",
+        "title": "Great prizes",
+        "description": "Win amazing prizes with Taqueritos"
+      },
+      {
+        "id": "slide3",
+        "src": "/images/en/slider/slide3.jpg",
+        "alt": "Taqueritos flavor",
+        "title": "Unmatched flavor",
+        "description": "The authentic taste of Taqueritos"
+      }
+    ],
+    "products": [
+      {
+        "id": "product1",
+        "src": "/images/en/products/product1.jpg",
+        "alt": "Taqueritos Original",
+        "title": "Taqueritos Original"
+      },
+      {
+        "id": "product2",
+        "src": "/images/en/products/product2.jpg",
+        "alt": "Taqueritos Spicy",
+        "title": "Taqueritos Spicy"
+      }
+    ]
+  },
+  "menu_labels": {
+    "open_main_menu": "Open main menu",
+    "explore": "Explore"
+  },
+  "menu_items": [
+    {
+      "id": "home",
+      "text": "Home",
+      "href": "/en/"
+    },
+    {
+      "id": "shop",
+      "text": "Shop",
+      "href": "/en/shop"
+    },
+    {
+      "id": "products",
+      "text": "Products",
+      "href": "/en/products",
+      "submenu": [
+        {
+          "id": "product_tq_original",
+          "text": "Taqueritos Original",
+          "href": "/en/products/original"
+        },
+        {
+          "id": "product_tq_picante",
+          "text": "Taqueritos Spicy",
+          "href": "/en/products/spicy"
+        }
+      ]
+    },
+    {
+      "id": "recipes",
+      "text": "Recipes",
+      "href": "/en/recipes"
+    },
+    {
+      "id": "entertainment",
+      "text": "Entertainment",
+      "href": "/en/entertainment"
+    },
+    {
+      "id": "contact",
+      "text": "Contact",
+      "href": "/en/contact"
+    }
+  ],
+  "footer": {
+    "privacy_policy_text": "Privacy Policy",
+    "privacy_policy_url": "/en/privacy-policy",
+    "copyright": "Taqueritos {year}. All Rights Reserved"
+  }
+}

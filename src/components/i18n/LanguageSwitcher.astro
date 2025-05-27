@@ -1,0 +1,75 @@
+---
+import { getLocale } from '../../i18n/i18n';
+
+const { pathname } = Astro.url;
+const currentPath = pathname;
+const currentLocale = getLocale();
+
+// Extraer la ruta actual sin el prefijo de idioma
+const pathWithoutLocale = currentPath.replace(/^\/[a-z]{2}(\/|$)/, '/');
+
+// Construir las URLs para cada idioma manteniendo la ruta actual
+const esUrl = `/es${pathWithoutLocale}`;
+const enUrl = `/en${pathWithoutLocale}`;
+---
+
+<div class="language-switcher flex items-center space-x-2">
+  <a href={esUrl} class={`language-link flex items-center ${currentLocale === 'es' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="Español">
+    <span class="flag-icon mr-1">
+      <!-- Bandera de Honduras (emoji) -->
+      🇭🇳
+    </span>
+    <span>ES</span>
+  </a>
+  <span class="divider text-gray-400">|</span>
+  <a href={enUrl} class={`language-link flex items-center ${currentLocale === 'en' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="English">
+    <span class="flag-icon mr-1">
+      <!-- Bandera de Estados Unidos (emoji) -->
+      🇺🇸
+    </span>
+    <span>EN</span>
+  </a>
+</div>
+
+<script>
+  // Ya no necesitamos JavaScript para cambiar el idioma
+  // porque estamos usando enlaces directos con las URLs correctas
+</script>
+
+<style>
+  .language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .language-link {
+    color: var(--color-text, #333);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-size: 1rem;
+  }
+  
+  .language-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .language-link.active {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .divider {
+    color: var(--color-text-light, #666);
+  }
+  
+  .flag-icon {
+    font-size: 1.2em;
+    line-height: 1;
+  }
+</style>

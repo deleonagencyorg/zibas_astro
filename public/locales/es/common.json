@@ -1,0 +1,141 @@
+{
+  "welcome": "Bienvenido",
+  "home": "Inicio",
+  "about": "Acerca de",
+  "contact": "Contacto",
+  "products_title": "Nuestros Productos",
+  "email": "Correo electrónico",
+  "name": "Nombre",
+  "lastname": "Apellido",
+  "phone": "Teléfono",
+  "country": "País",
+  "submit": "Enviar",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "delete": "Eliminar",
+  "edit": "Editar",
+  "profile": "Perfil",
+  "privacy_policy": "Política de privacidad",
+  "terms_conditions": "Términos y condiciones",
+  "meta": {
+    "home": {
+      "title": "Taqueritos - Participa y gana premios increíbles",
+      "description": "Participa en nuestra promoción Taqueritos y gana premios increíbles. Registra tus códigos y aumenta tus posibilidades de ganar."
+    }
+  },
+  "countries": {
+    "honduras": "Honduras",
+    "guatemala": "Guatemala",
+    "el_salvador": "El Salvador",
+    "nicaragua": "Nicaragua",
+    "costa_rica": "Costa Rica",
+    "republica_dominicana": "República Dominicana"
+  },
+  "form_validation": {
+    "required": "Este campo es requerido",
+    "invalid_email": "Correo electrónico inválido",
+    "password_min": "La contraseña debe tener al menos 8 caracteres",
+    "passwords_not_match": "Las contraseñas no coinciden"
+  },
+  "cookie_consent": {
+    "title": "Uso de cookies",
+    "description": "Utilizamos cookies para mejorar tu experiencia en nuestro sitio web.",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "preferences": "Preferencias"
+  },
+  "assets": {
+    "logo": "/images/es/logo.svg",
+    "hero": "/images/es/hero.jpg",
+    "slider": [
+      {
+        "id": "slide1",
+        "src": "/images/es/slider/slide1.jpg",
+        "alt": "Taqueritos promoción",
+        "title": "¡Participa y gana!",
+        "description": "Descubre nuestra deliciosa promoción de Taqueritos"
+      },
+      {
+        "id": "slide2",
+        "src": "/images/es/slider/slide2.jpg",
+        "alt": "Premios Taqueritos",
+        "title": "Grandes premios",
+        "description": "Gana increíbles premios con Taqueritos"
+      },
+      {
+        "id": "slide3",
+        "src": "/images/es/slider/slide3.jpg",
+        "alt": "Taqueritos sabor",
+        "title": "Sabor incomparable",
+        "description": "El auténtico sabor de Taqueritos"
+      }
+    ],
+    "products": [
+      {
+        "id": "product1",
+        "src": "/images/es/products/product1.jpg",
+        "alt": "Taqueritos Original",
+        "title": "Taqueritos Original"
+      },
+      {
+        "id": "product2",
+        "src": "/images/es/products/product2.jpg",
+        "alt": "Taqueritos Picante",
+        "title": "Taqueritos Picante"
+      }
+    ]
+  },
+  "menu_labels": {
+    "open_main_menu": "Abrir menú principal",
+    "explore": "Explorar"
+  },
+  "menu_items": [
+    {
+      "id": "home",
+      "text": "Inicio",
+      "href": "/es/"
+    },
+    {
+      "id": "shop",
+      "text": "Comprar",
+      "href": "/es/tienda"
+    },
+    {
+      "id": "products",
+      "text": "Productos",
+      "href": "/es/productos",
+      "submenu": [
+        {
+          "id": "product_tq_original",
+          "text": "Taqueritos Original",
+          "href": "/es/productos/original"
+        },
+        {
+          "id": "product_tq_picante",
+          "text": "Taqueritos Picante",
+          "href": "/es/productos/picante"
+        }
+      ]
+    },
+    {
+      "id": "recipes",
+      "text": "Recetas",
+      "href": "/es/recetas"
+    },
+    {
+      "id": "entertainment",
+      "text": "Entretenimiento",
+      "href": "/es/entretenimiento"
+    },
+    {
+      "id": "contact",
+      "text": "Contacto",
+      "href": "/es/contacto"
+    }
+  ],
+  "footer": {
+    "privacy_policy_text": "Política de Privacidad",
+    "privacy_policy_url": "/es/politica-privacidad",
+    "copyright": "Taqueritos {year}. Todos los Derechos Reservados"
+  }
+}

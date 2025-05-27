@@ -1,0 +1,45 @@
+---
+// Este componente ahora es un wrapper que también incluye la detección automática de idioma
+// La funcionalidad principal de i18n está en el archivo i18n.ts
+import { getLocale, setLocale } from '../../i18n/i18n';
+---
+
+<slot />
+
+<script>
+  // Función para verificar si ya se ha establecido un idioma en localStorage
+  function hasStoredLocale() {
+    return localStorage.getItem('locale') !== null;
+  }
+
+  // Función para detectar y establecer el idioma basado en la geolocalización
+  async function detectAndSetLocale() {
+    // Si ya hay un idioma guardado en localStorage, respetarlo
+    if (hasStoredLocale()) return;
+    
+    try {
+      // Llamar a nuestro endpoint de API para detectar el país y obtener el idioma recomendado
+      const response = await fetch('/api/detect-locale');
+      const data = await response.json();
+      
+      if (data.defaultLocale) {
+        // Establecer el idioma detectado
+        localStorage.setItem('locale', data.defaultLocale);
+        
+        // Si el idioma detectado es diferente al actual, redirigir a la versión correcta
+        const currentLocale = window.location.pathname.split('/')[1] || 'es';
+        if (data.defaultLocale !== currentLocale) {
+          // Construir la nueva URL con el idioma detectado
+          const path = window.location.pathname.split('/').slice(2).join('/');
+          const newPath = `/${data.defaultLocale}/${path}`;
+          window.location.href = newPath;
+        }
+      }
+    } catch (error) {
+      console.error('Error al detectar el idioma:', error);
+    }
+  }
+
+  // Ejecutar la detección de idioma cuando se carga la página
+  document.addEventListener('DOMContentLoaded', detectAndSetLocale);
+</script>

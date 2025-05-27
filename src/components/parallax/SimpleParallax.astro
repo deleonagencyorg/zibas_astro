@@ -1,0 +1,94 @@
+---
+/**
+ * Componente Simple Parallax para efectos de parallax en imágenes
+ * 
+ * Props:
+ * - src: URL de la imagen
+ * - alt: Texto alternativo para la imagen
+ * - scale: Factor de escala (1.0 - 2.0)
+ * - orientation: Orientación del movimiento (up, down, left, right)
+ * - overflow: Si true, permite que la imagen se desborde
+ * - delay: Retraso en ms
+ * - transition: Velocidad de transición (slow, medium, fast)
+ * - class: Clases CSS adicionales
+ */
+export interface Props {
+  src: string;
+  alt: string;
+  scale?: number;
+  orientation?: 'up' | 'down' | 'left' | 'right';
+  overflow?: boolean;
+  delay?: number;
+  transition?: 'slow' | 'medium' | 'fast';
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  scale = 1.5,
+  orientation = 'up',
+  overflow = false,
+  delay = 0,
+  transition = 'medium',
+  class: className = "",
+} = Astro.props;
+
+// Mapeo de valores de transición a velocidades
+const transitionSpeeds = {
+  slow: 0.6,
+  medium: 0.8,
+  fast: 1.0
+};
+---
+
+<div class={`simple-parallax-wrapper ${className}`}>
+  <img
+    src={src}
+    alt={alt}
+    class="simple-parallax"
+    data-parallax-scale={scale}
+    data-parallax-orientation={orientation}
+    data-parallax-overflow={overflow ? "true" : "false"}
+    data-parallax-delay={delay}
+    data-parallax-transition-speed={transitionSpeeds[transition]}
+  />
+</div>
+
+<style>
+  .simple-parallax-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  
+  .simple-parallax {
+    width: 100%;
+    display: block;
+  }
+</style>
+
+<script>
+  import simpleParallax from 'simple-parallax-js';
+  
+  // Inicializar Simple Parallax cuando el DOM esté cargado
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.simple-parallax');
+    
+    images.forEach(img => {
+      const scale = parseFloat(img.getAttribute('data-parallax-scale') || '1.5');
+      const orientation = img.getAttribute('data-parallax-orientation') || 'up';
+      const overflow = img.getAttribute('data-parallax-overflow') === 'true';
+      const delay = parseInt(img.getAttribute('data-parallax-delay') || '0');
+      const speed = parseFloat(img.getAttribute('data-parallax-transition-speed') || '0.8');
+      
+      new simpleParallax(img, {
+        scale: scale,
+        orientation: orientation,
+        overflow: overflow,
+        delay: delay,
+        transition: `cubic-bezier(0,0,${speed},1)`
+      });
+    });
+  });
+</script>

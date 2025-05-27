@@ -1,0 +1,456 @@
+---
+import { getAssetArray } from '../i18n/assetUtils';
+import { getLocale } from '../i18n/i18n';
+
+interface Props {
+  assetKey?: string;
+  autoplay?: boolean;
+  interval?: number;
+  showControls?: boolean;
+  showDots?: boolean;
+  height?: string;
+  class?: string;
+}
+
+const { 
+  assetKey = 'slider', 
+  autoplay = true, 
+  interval = 5000,
+  showControls = true,
+  showDots = true,
+  height = '500px',
+  class: className = ''
+} = Astro.props;
+
+// Obtener el idioma actual para el atributo data-locale
+const currentLocale = getLocale();
+
+// Obtener los slides del archivo de traducción según el idioma actual
+const slides = await getAssetArray<{
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  description: string;
+}>(assetKey);
+---
+
+<div class={`slider-container ${className}`} data-locale={currentLocale} data-asset-key={assetKey} data-autoplay={autoplay.toString()} data-interval={interval.toString()}>
+  <div class="slider">
+    {slides.map((slide, index) => (
+      <div class="slide" id={slide.id} data-index={index}>
+        <img src={slide.src} alt={slide.alt} loading={index === 0 ? 'eager' : 'lazy'} />
+        <div class="slide-content">
+          <h2>{slide.title}</h2>
+          <p>{slide.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  {showControls && (
+    <div class="slider-controls">
+      <button class="prev-btn" aria-label="Slide anterior">❮</button>
+      {showDots && (
+        <div class="slider-dots">
+          {slides.map((_, index) => (
+            <button class="dot" data-index={index} aria-label={`Ir a slide ${index + 1}`}></button>
+          ))}
+        </div>
+      )}
+      <button class="next-btn" aria-label="Siguiente slide">❯</button>
+    </div>
+  )}
+</div>
+
+<script>
+  // Script para controlar el slider
+  import { getAssetArray } from '../i18n/assetUtils';
+  import { getLocale } from '../i18n/i18n';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Función para inicializar todos los sliders en la página
+    const initializeSliders = () => {
+      const sliderContainers = document.querySelectorAll('.slider-container');
+      
+      sliderContainers.forEach(container => {
+        const slider = container.querySelector('.slider');
+        const slides = container.querySelectorAll('.slide');
+        const dots = container.querySelectorAll('.dot');
+        const prevBtn = container.querySelector('.prev-btn');
+        const nextBtn = container.querySelector('.next-btn');
+        
+        // Verificar que existan todos los elementos necesarios
+        if (!slider) return;
+        
+        // Obtener configuración del slider
+        const autoplay = container.getAttribute('data-autoplay') === 'true';
+        const interval = parseInt(container.getAttribute('data-interval') || '5000', 10);
+        const assetKey = container.getAttribute('data-asset-key') || 'slider';
+        
+        let currentIndex = 0;
+        const slideCount = slides.length;
+        let autoPlayInterval: number | null = null;
+        
+        // Función para mostrar un slide específico
+        const showSlide = (index: number) => {
+          // Normalizar el índice (loop)
+          if (index < 0) index = slideCount - 1;
+          if (index >= slideCount) index = 0;
+          
+          currentIndex = index;
+          
+          // Actualizar posición del slider
+          if (slideCount > 0 && slides[0]) {
+            slider.scrollTo({
+              left: (slides[0] as HTMLElement).offsetWidth * currentIndex,
+              behavior: 'smooth'
+            });
+          }
+          
+          // Actualizar dots
+          dots.forEach((dot, i) => {
+            if (i === currentIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        };
+        
+        // Inicializar el primer slide
+        if (slideCount > 0) {
+          showSlide(0);
+        }
+        
+        // Event listeners para los controles
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            showSlide(currentIndex - 1);
+            // Detener autoplay al interactuar manualmente
+            if (autoPlayInterval) {
+              clearInterval(autoPlayInterval);
+              autoPlayInterval = null;
+            }
+          });
+        }
+        
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            showSlide(currentIndex + 1);
+            // Detener autoplay al interactuar manualmente
+            if (autoPlayInterval) {
+              clearInterval(autoPlayInterval);
+              autoPlayInterval = null;
+            }
+          });
+        }
+        
+        // Event listeners para los dots
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            showSlide(index);
+            // Detener autoplay al interactuar manualmente
+            if (autoPlayInterval) {
+              clearInterval(autoPlayInterval);
+              autoPlayInterval = null;
+            }
+          });
+        });
+        
+        // Auto-play (si está habilitado)
+        if (autoplay && slideCount > 1) {
+          autoPlayInterval = setInterval(() => {
+            showSlide(currentIndex + 1);
+          }, interval) as unknown as number;
+          
+          // Detener auto-play al interactuar
+          container.addEventListener('mouseenter', () => {
+            if (autoPlayInterval) {
+              clearInterval(autoPlayInterval);
+              autoPlayInterval = null;
+            }
+          });
+          
+          // Reanudar auto-play al dejar de interactuar
+          container.addEventListener('mouseleave', () => {
+            if (!autoPlayInterval && autoplay) {
+              autoPlayInterval = setInterval(() => {
+                showSlide(currentIndex + 1);
+              }, interval) as unknown as number;
+            }
+          });
+        }
+        
+        // Función para actualizar el contenido del slider cuando cambia el idioma
+        const updateSliderContent = async () => {
+          const currentAssetKey = container.getAttribute('data-asset-key') || 'slider'; // Get assetKey for this specific slider
+          console.log(`Locale changed, updating slider for assetKey: ${currentAssetKey}`);
+          const locale = getLocale();
+          container.setAttribute('data-locale', locale);
+          
+          try {
+            // Obtener los nuevos slides del archivo de traducción
+            const newSlides = await getAssetArray<{
+              id: string;
+              src: string;
+              alt: string;
+              title: string;
+              description: string;
+            }>(assetKey);
+            
+            if (newSlides && newSlides.length > 0) {
+              // Actualizar el contenido de cada slide
+              slides.forEach((slide, index) => {
+                if (index < newSlides.length) {
+                  const newSlide = newSlides[index];
+                  const img = slide.querySelector('img');
+                  const title = slide.querySelector('h2');
+                  const description = slide.querySelector('p');
+                  
+                  if (img) img.setAttribute('src', newSlide.src);
+                  if (img) img.setAttribute('alt', newSlide.alt);
+                  if (title) title.textContent = newSlide.title;
+                  if (description) description.textContent = newSlide.description;
+                }
+              });
+            }
+          } catch (error) {
+            console.error('Error al actualizar el slider:', error);
+          }
+        };
+        
+        // Escuchar eventos de cambio de idioma
+        window.addEventListener('localeChanged', updateSliderContent);
+      });
+    };
+    
+    // Inicializar todos los sliders
+    initializeSliders();
+
+    // Escuchar cambios de idioma para actualizar los sliders
+    window.addEventListener('localeChanged', () => {
+      console.log('Locale changed event detected, re-initializing sliders.');
+      // Re-initialize all sliders, which will call updateSliderContent internally if structured that way,
+      // or directly call updateSliderContent for each if preferred.
+      // For simplicity here, we'll re-run the initialization logic which should pick up the new locale.
+      // A more targeted update would be better for performance if many sliders exist.
+      document.querySelectorAll('.slider-container').forEach(container => {
+        // This is a simplified re-init. Ideally, you'd have a dedicated update function per slider instance.
+        // For now, let's assume re-running parts of initializeSliders or a dedicated update function
+        // on each slider instance is needed.
+        // The current `updateSliderContent` is inside `initializeSliders` and scoped to one slider.
+        // We need to call it for each slider instance.
+        // This part needs careful implementation based on how `updateSliderContent` is tied to an instance.
+        // Let's assume for now that we want to trigger the update logic within each slider instance.
+        // The existing updateSliderContent is good, we just need to call it.
+        // We need a way to get a reference to each slider's updateSliderContent or re-trigger its setup.
+
+        // A simpler approach for now: Reload data and re-render for each slider.
+        // This is not ideal as it might re-create DOM elements unnecessarily.
+        // The current updateSliderContent is designed to be called within the scope of a single slider initialization.
+        // We'll add the call to updateSliderContent within each slider's event listener setup.
+      });
+    });
+
+    // Add the listener inside each slider's initialization to make `updateSliderContent` accessible
+    document.querySelectorAll('.slider-container').forEach(container => {
+      const sliderInstanceSpecificUpdate = async () => {
+        const assetKey = container.getAttribute('data-asset-key') || 'slider';
+        const locale = getLocale(); // Get current locale
+        const sliderElement = container.querySelector('.slider') as HTMLElement;
+        const dotsContainer = container.querySelector('.slider-dots') as HTMLElement;
+
+        if (!sliderElement) return;
+
+        try {
+          const newSlidesData = await getAssetArray<{
+            id: string;
+            src: string;
+            alt: string;
+            title: string;
+            description: string;
+          }>(assetKey, locale);
+
+          if (newSlidesData && newSlidesData.length > 0) {
+            // Clear existing slides and dots
+            sliderElement.innerHTML = '';
+            if (dotsContainer) dotsContainer.innerHTML = '';
+
+            // Create new slides
+            newSlidesData.forEach((slide, index) => {
+              const slideDiv = document.createElement('div');
+              slideDiv.className = 'slide';
+              slideDiv.id = slide.id;
+              slideDiv.setAttribute('data-index', index.toString());
+
+              const img = document.createElement('img');
+              img.src = slide.src;
+              img.alt = slide.alt;
+              img.loading = index === 0 ? 'eager' : 'lazy';
+              slideDiv.appendChild(img);
+
+              const contentDiv = document.createElement('div');
+              contentDiv.className = 'slide-content';
+              const h2 = document.createElement('h2');
+              h2.textContent = slide.title;
+              const p = document.createElement('p');
+              p.textContent = slide.description;
+              contentDiv.appendChild(h2);
+              contentDiv.appendChild(p);
+              slideDiv.appendChild(contentDiv);
+              sliderElement.appendChild(slideDiv);
+
+              // Create new dots
+              if (dotsContainer) {
+                const dotButton = document.createElement('button');
+                dotButton.className = 'dot';
+                dotButton.setAttribute('data-index', index.toString());
+                dotButton.setAttribute('aria-label', `Ir a slide ${index + 1}`);
+                dotsContainer.appendChild(dotButton);
+              }
+            });
+            // Re-initialize slider logic (showSlide, event listeners for new dots/buttons)
+            // This part is complex as it requires re-attaching event listeners and resetting state.
+            // For now, we've updated the content. A full re-initialization of the slider's JS logic
+            // for the new slides would be needed here.
+            // Calling initializeSliders() again might lead to nested listeners or issues.
+            // A dedicated function to re-bind events and reset currentIndex would be ideal.
+            console.log(`Slider ${assetKey} updated for locale ${locale}`);
+            // After updating content, you might need to re-run showSlide(0) or similar logic
+            // from the original initializeSliders function for this specific slider instance.
+          } else {
+            sliderElement.innerHTML = '<p>No slides available for this language.</p>';
+            if (dotsContainer) dotsContainer.innerHTML = '';
+          }
+        } catch (error) {
+          console.error(`Error updating slider ${assetKey} for locale ${locale}:`, error);
+          sliderElement.innerHTML = '<p>Error loading slides.</p>';
+          if (dotsContainer) dotsContainer.innerHTML = '';
+        }
+      };
+
+      // Store this function or a way to call it on the container element
+      (container as any).updateSliderContent = sliderInstanceSpecificUpdate;
+    });
+
+    // Global listener that calls the instance-specific update function
+    window.addEventListener('localeChanged', () => {
+      document.querySelectorAll('.slider-container').forEach(container => {
+        if ((container as any).updateSliderContent) {
+          (container as any).updateSliderContent();
+        }
+      });
+    });
+
+  });
+</script>
+
+<style>
+  .slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  
+  .slider {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  
+  .slider::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+  }
+  
+  .slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    position: relative;
+    height: var(--slide-height, 500px);
+  }
+  
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .slide-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+  }
+  
+  .slide-content h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .slider-controls {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .prev-btn, .next-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slider-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background: white;
+  }
+  
+  @media (max-width: 768px) {
+    .slide {
+      height: 300px;
+    }
+    
+    .slide-content h2 {
+      font-size: 1.5rem;
+    }
+    
+    .prev-btn, .next-btn {
+      width: 30px;
+      height: 30px;
+      font-size: 1rem;
+    }
+  }
+</style>

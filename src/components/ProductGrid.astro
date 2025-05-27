@@ -1,0 +1,242 @@
+---
+import { getAssetArray } from '../i18n/assetUtils';
+import { t, getLocale } from '../i18n/i18n';
+
+interface Props {
+  assetKey?: string;
+  title?: string;
+  columns?: number;
+  mobileColumns?: number;
+  class?: string;
+  imageHeight?: string;
+}
+
+const { 
+  assetKey = 'products', 
+  title = t('products_title'),
+  columns = 4,
+  mobileColumns = 2,
+  class: className = '',
+  imageHeight = '200px'
+} = Astro.props;
+
+// Obtener el idioma actual para el atributo data-locale
+const currentLocale = getLocale();
+
+// Obtener los productos del archivo de traducción según el idioma actual
+const products = getAssetArray<{
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  description?: string;
+  url?: string;
+}>(assetKey);
+
+// Calcular el ancho de las columnas para el estilo
+const columnWidth = `minmax(${250 / columns * 100}px, 1fr)`;
+const mobileColumnWidth = `minmax(${250 / mobileColumns * 100}px, 1fr)`;
+---
+
+<section class={`products-section ${className}`} data-locale={currentLocale} data-asset-key={assetKey}>
+  <h2 id="products-title">{title}</h2>
+  
+  <div class="product-grid" style={`--columns: ${columns}; --mobile-columns: ${mobileColumns}; --image-height: ${imageHeight};`}>
+    {products.map(product => (
+      <div class="product-card" id={product.id}>
+        {product.url ? (
+          <a href={product.url} class="product-link">
+            <div class="product-image">
+              <img src={product.src} alt={product.alt} loading="lazy" />
+            </div>
+            <h3 class="product-title">{product.title}</h3>
+            {product.description && <p class="product-description">{product.description}</p>}
+          </a>
+        ) : (
+          <>
+            <div class="product-image">
+              <img src={product.src} alt={product.alt} loading="lazy" />
+            </div>
+            <h3 class="product-title">{product.title}</h3>
+            {product.description && <p class="product-description">{product.description}</p>}
+          </>
+        )}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .products-section {
+    padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #00601b;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
+    gap: 2rem;
+  }
+  
+  .product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .product-image {
+    height: var(--image-height, 200px);
+    overflow: hidden;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+  }
+  
+  .product-title {
+    padding: 1rem 1rem 0.5rem;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .product-description {
+    padding: 0 1rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(var(--mobile-columns, 2), minmax(0, 1fr));
+      gap: 1rem;
+    }
+    
+    .product-image {
+      height: 150px;
+    }
+    
+    .product-title {
+      font-size: 1rem;
+      padding: 0.75rem 0.75rem 0.25rem;
+    }
+    
+    .product-description {
+      font-size: 0.8rem;
+      padding: 0 0.75rem 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Script para actualizar el contenido cuando cambia el idioma
+  import { getAssetArray, getAsset } from '../i18n/assetUtils';
+  import { t, getLocale } from '../i18n/i18n';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Función para inicializar todos los grids de productos
+    const initializeProductGrids = () => {
+      const productSections = document.querySelectorAll('.products-section');
+      
+      productSections.forEach(section => {
+        // Obtener configuración
+        const assetKey = section.getAttribute('data-asset-key') || 'products';
+        
+        // Función para actualizar el contenido cuando cambia el idioma
+        const updateContent = () => {
+          const locale = getLocale();
+          section.setAttribute('data-locale', locale);
+          
+          try {
+            // Actualizar el título
+            const titleElement = section.querySelector('#products-title');
+            if (titleElement) {
+              titleElement.textContent = t('products_title');
+            }
+            
+            // Obtener los nuevos productos
+            const newProducts = getAssetArray<{
+              id: string;
+              src: string;
+              alt: string;
+              title: string;
+              description?: string;
+              url?: string;
+            }>(assetKey);
+            
+            if (newProducts && newProducts.length > 0) {
+              const productCards = section.querySelectorAll('.product-card');
+              
+              // Actualizar cada tarjeta de producto
+              productCards.forEach((card, index) => {
+                if (index < newProducts.length) {
+                  const product = newProducts[index];
+                  const img = card.querySelector('img');
+                  const title = card.querySelector('.product-title');
+                  const description = card.querySelector('.product-description');
+                  const link = card.querySelector('.product-link');
+                  
+                  if (img) img.setAttribute('src', product.src);
+                  if (img) img.setAttribute('alt', product.alt);
+                  if (title) title.textContent = product.title;
+                  
+                  if (description && product.description) {
+                    description.textContent = product.description;
+                  }
+                  
+                  if (link && product.url) {
+                    link.setAttribute('href', product.url);
+                  }
+                }
+              });
+            }
+          } catch (error) {
+            console.error('Error al actualizar el grid de productos:', error);
+          }
+        };
+        
+        // Escuchar eventos de cambio de idioma
+        window.addEventListener('localeChanged', updateContent);
+      });
+    };
+    
+    // Inicializar
+    initializeProductGrids();
+  });
+</script>
