@@ -1,0 +1,145 @@
+---
+// src/views/Recipes/Detail/index.astro
+import { t } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+import './styles.css';
+import './scripts.js';
+
+interface RecipeItem {
+  id: string;
+  title: string;
+  description: string;
+  ingredients: string[];
+  instructions: string;
+  preparation_time: string;
+  servings: number;
+  image?: string;
+  tags?: string[];
+}
+
+const { currentLang, recipeId } = Astro.props;
+
+// Obtener datos desde traducciones
+const recipe = t(`recipes.items.${recipeId}`, { locale: currentLang });
+const allRecipes = t('recipes.items', { locale: currentLang });
+const relatedRecipes = allRecipes
+  .filter((item: any) => item.id !== recipeId)
+  .slice(0, 3);
+
+if (!recipe) {
+  throw new Error(t('errors.recipe_not_found', { locale: currentLang }));
+}
+
+function formatTime(minutes: number, locale: Locale): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  
+  if (locale === 'es') {
+    return hours > 0 
+      ? `${hours}h ${mins}min` 
+      : `${mins}min`;
+  } else {
+    return hours > 0 
+      ? `${hours}h ${mins}m` 
+      : `${mins}m`;
+  }
+}
+---
+
+<article class="recipe-detail bg-white py-12">
+  <div class="container mx-auto px-4">
+    <!-- Encabezado con título, tiempo y porciones -->
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">{recipe.title}</h1>
+      <div class="flex gap-4 text-gray-500 text-sm">
+        <span>
+          {t('recipes.preparation_time', { locale: currentLang })}: 
+          {formatTime(parseInt(recipe.preparation_time), currentLang)}
+        </span>
+        <span>•</span>
+        <span>
+          {t('recipes.servings', { locale: currentLang })}: {recipe.servings}
+        </span>
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        {recipe.image && (
+          <div class="relative rounded-lg overflow-hidden mb-8 h-80 lg:h-96">
+            <img 
+              src={recipe.image} 
+              alt={recipe.title}
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+            />
+          </div>
+        )}
+
+        <!-- Ingredientes -->
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold mb-4">
+            {t('recipes.ingredients', { locale: currentLang })}
+          </h2>
+          <ul class="recipe-ingredients space-y-2">
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index} class="flex items-start">
+                <span class="mr-2">•</span>
+                <span>{ingredient}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- Instrucciones -->
+        <section class="recipe-instructions">
+          <h2 class="text-2xl font-bold mb-4">
+            {t('recipes.instructions', { locale: currentLang })}
+          </h2>
+          <div class="prose max-w-none" set:html={recipe.instructions} />
+        </section>
+      </div>
+
+      <!-- Recetas relacionadas -->
+      {relatedRecipes.length > 0 && (
+        <aside class="lg:col-span-1">
+          <div class="bg-gray-50 p-6 rounded-lg sticky top-24">
+            <h2 class="text-2xl font-bold mb-6">
+              {t('recipes.related_recipes', { locale: currentLang })}
+            </h2>
+            <div class="space-y-6">
+              {relatedRecipes.map((related: any) => (
+                <a 
+                  href={`/${currentLang}/recetas/${related.id}`} 
+                  class="block group"
+                >
+                  <div class="flex flex-col">
+                    {related.image && (
+                      <div class="w-full h-40 rounded-md overflow-hidden mb-3">
+                        <img 
+                          src={related.image} 
+                          alt={related.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <h3 class="font-medium text-gray-900 group-hover:text-yellow-600 transition-colors mb-1">
+                        {related.title}
+                      </h3>
+                      <p class="text-sm text-gray-500 line-clamp-2">
+                        {related.description}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
+</article>

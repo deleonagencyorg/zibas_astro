@@ -1,8 +1,9 @@
 ---
-// src/components/Footer.astro
-import { t, type Locale } from '../i18n/i18n';
-import { logos} from '../config/assets';
-import LocalizedImage from '../components/LazyImage.astro';
+// src/components/common/Footer/index.astro
+import { t, type Locale } from '../../../i18n/i18n';
+import { logos} from '../../../config/assets';
+import LocalizedImage from '../LazyImage.astro';
+import './styles.css';
 
 export interface Props {
   currentLang: Locale;
@@ -54,9 +55,8 @@ const copyrightText = t('footer.copyright', { namespace: 'common', locale: curre
 
       <!-- Redes Sociales -->
       <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
-        <div class="flex space-x-4 mb-4">
-          {Object.entries(socialMedia).map(([key, social]) => {
-            const sm = social as { name: string; url: string; alt?: string; iconUrl?: string };
+        <div class="flex space-x-4 mb-4 social-links">
+          {socialMedia && Array.isArray(socialMedia) && socialMedia.map((sm) => {
             return (
               <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
                 <span class="sr-only">{sm.name}</span>
@@ -82,13 +82,11 @@ const copyrightText = t('footer.copyright', { namespace: 'common', locale: curre
       <div class="mb-2">
         <a href={privacyPolicyUrl} class="font-sans hover:text-gray-300 transition-colors">{privacyPolicyText}</a>
       </div>
-      <div class="text-gray-400 font-sans">
+      <div class="text-gray-400 font-sans copyright">
         {copyrightText}
       </div>
     </div>
   </div>
 </footer>
 
-<script>
-  // Si el footer tuviera elementos interactivos que requieran JS, iría aquí.
-</script>
+<script src="./scripts.js"></script>

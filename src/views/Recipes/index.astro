@@ -3,6 +3,8 @@
 import { t } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
 import { getLocale } from '../../i18n/i18n';
+import './styles.css';
+import './scripts.js';
 
 const currentLang = getLocale();
 const recipes = t('items', { namespace: 'recipes', locale: currentLang });
@@ -24,7 +26,6 @@ const recipes = t('items', { namespace: 'recipes', locale: currentLang });
                 src={recipe.image || '/images/recipes/placeholder.jpg'} 
                 alt={recipe.title} 
                 class="w-full h-full object-cover"
-                onError={(e: any) => e.target.src = '/images/recipes/placeholder.jpg'}
               />
             </div>
             <div class="p-6">
@@ -53,14 +54,4 @@ const recipes = t('items', { namespace: 'recipes', locale: currentLang });
   </div>
 </div>
 
-<script>
-  // Fix para las imágenes que no cargan
-  document.addEventListener('DOMContentLoaded', () => {
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      img.addEventListener('error', function() {
-        this.src = '/images/recipes/placeholder.jpg';
-      });
-    });
-  });
-</script>
+

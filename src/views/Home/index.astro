@@ -1,0 +1,51 @@
+<!-- src/views/Home/index.astro -->
+---
+import { t } from '../../i18n/i18n';
+import './styles.css';
+import './scripts.js';
+
+const { currentLang } = Astro.props;
+---
+
+  <main class="container mx-auto px-4 py-8">
+    <!-- Slider Section -->
+    
+    <!-- Hero Section -->
+    <section class="text-center py-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">{t('home.title', { locale: currentLang })}</h1>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">{t('home.subtitle', { locale: currentLang })}</p>
+      <a href={`/${currentLang}/${t('home.cta_link', { locale: currentLang })}`} class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg inline-block">
+        {t('home.cta_text', { locale: currentLang })}
+      </a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12">
+      <h2 class="text-3xl font-bold mb-8 text-center">{t('home.features_title', { locale: currentLang })}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold mb-3">{t('home.feature1_title', { locale: currentLang })}</h3>
+          <p>{t('home.feature1_desc', { locale: currentLang })}</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold mb-3">{t('home.feature2_title', { locale: currentLang })}</h3>
+          <p>{t('home.feature2_desc', { locale: currentLang })}</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-bold mb-3">{t('home.feature3_title', { locale: currentLang })}</h3>
+          <p>{t('home.feature3_desc', { locale: currentLang })}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-12 bg-gray-50 rounded-lg my-8">
+      <h2 class="text-3xl font-bold mb-8 text-center">{t('home.testimonials_title', { locale: currentLang })}</h2>
+      <div class="max-w-3xl mx-auto">
+        <blockquote class="text-xl italic">
+          "{t('home.testimonial1_text', { locale: currentLang })}"
+        </blockquote>
+        <p class="mt-4 font-medium">— {t('home.testimonial1_author', { locale: currentLang })}</p>
+      </div>
+    </section>
+  </main>

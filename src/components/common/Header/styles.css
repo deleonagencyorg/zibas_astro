@@ -1,0 +1,48 @@
+/* Estilos para el Header */
+
+/* Estilo para asegurar que el menú desplegable ocupe toda la altura si es necesario */
+#mobile-menu > .container {
+  min-height: calc(100vh - 4rem); /* Ajustar 4rem si la altura del header es diferente */
+}
+
+/* Estilos para el header fijo */
+#site-header {
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos para los enlaces del menú */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Animación para el menú móvil */
+#mobile-menu {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#mobile-menu:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+#mobile-menu.hidden {
+  opacity: 0;
+  visibility: hidden;
+}

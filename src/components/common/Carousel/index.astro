@@ -1,0 +1,60 @@
+---
+import CarouselSlide from './CarouselSlide.astro';
+import './styles.css';
+import { initCarousel } from './scripts';
+
+export interface Props {
+  slides: Array<{
+    desktop: string;
+    mobile: string;
+    alt: string;
+    title: string;
+    subtitle: string;
+    link?: string;
+  }>;
+}
+
+const { slides } = Astro.props;
+
+// Identificar la primera imagen para cargarla con prioridad
+const firstSlide = slides[0];
+
+// Opcional: Precargar la primera imagen para mejorar el LCP
+const preloadFirstImage = true;
+---
+
+<div class="relative overflow-hidden h-[300px] md:h-[90vh] min-h-[300px]">
+  {preloadFirstImage && (
+    <>
+      <!-- Precargar la primera imagen para dispositivos móviles -->
+      <link rel="preload" href={firstSlide.mobile} as="image" media="(max-width: 767px)">
+      <!-- Precargar la primera imagen para escritorio -->
+      <link rel="preload" href={firstSlide.desktop} as="image" media="(min-width: 768px)">
+    </>
+  )}
+  
+  <!-- Swiper container -->
+  <div class="swiper-container main-carousel h-full">
+    <div class="swiper-wrapper">
+      {slides.map((slide, index) => (
+        <CarouselSlide
+          slide={slide}
+          priority={index === 0}
+        />
+      ))}
+    </div>
+    
+    <!-- Navegación -->
+    <div class="swiper-button-next text-white"></div>
+    <div class="swiper-button-prev text-white"></div>
+    
+    <!-- Paginación -->
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    initCarousel();
+  });
+</script>

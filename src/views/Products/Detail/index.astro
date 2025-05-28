@@ -1,0 +1,155 @@
+---
+// src/views/Products/Detail/index.astro
+import { t } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+import './styles.css';
+import './scripts.js';
+
+interface ProductItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+  features: string[];
+  relatedProducts?: string[];
+}
+
+const { currentLang, productId } = Astro.props;
+
+// Obtener datos desde traducciones
+const product = t(`products.items.${productId}`, { locale: currentLang });
+const allProducts = t('products.items', { locale: currentLang });
+const relatedProducts = product.relatedProducts 
+  ? allProducts.filter((p: any) => product.relatedProducts.includes(p.id))
+  : allProducts
+      .filter((p: any) => p.id !== productId && p.category === product.category)
+      .slice(0, 3);
+
+if (!product) {
+  throw new Error(t('errors.product_not_found', { locale: currentLang }));
+}
+
+function formatPrice(price: number, locale: Locale): string {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: locale === 'es' ? 'MXN' : 'USD'
+  }).format(price);
+}
+---
+
+<article class="product-detail bg-white py-12">
+  <div class="container mx-auto px-4">
+    <!-- Encabezado con nombre y precio -->
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">{product.name}</h1>
+      <div class="text-2xl font-semibold text-yellow-600">
+        {formatPrice(product.price, currentLang)}
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Galería de imágenes -->
+      <div class="product-gallery">
+        {product.images.length > 0 ? (
+          <>
+            <div class="relative rounded-lg overflow-hidden mb-4 h-96">
+              <img 
+                src={product.images[0]} 
+                alt={product.name}
+                class="w-full h-full object-cover"
+                onerror="this.onerror=null;this.src='/images/products/placeholder.jpg';"
+              />
+            </div>
+            {product.images.length > 1 && (
+              <div class="grid grid-cols-4 gap-2">
+                {product.images.slice(1).map((image, index) => (
+                  <div class="relative rounded overflow-hidden h-20 cursor-pointer" onclick="/* Lógica para cambiar imagen principal */">
+                    <img 
+                      src={image} 
+                      alt={`${product.name} ${index + 2}`}
+                      class="w-full h-full object-cover"
+                      onerror="this.onerror=null;this.src='/images/products/placeholder.jpg';"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div class="relative rounded-lg overflow-hidden mb-4 h-96 bg-gray-100 flex items-center justify-center">
+            <span class="text-gray-400">
+              {t('products.no_image', { locale: currentLang })}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <!-- Detalles del producto -->
+      <div>
+        <!-- Descripción -->
+        <section class="mb-8">
+          <h2 class="text-2xl font-bold mb-4">
+            {t('products.description', { locale: currentLang })}
+          </h2>
+          <p class="text-gray-700">{product.description}</p>
+        </section>
+
+        <!-- Características -->
+        {product.features.length > 0 && (
+          <section class="product-features mb-8">
+            <h2 class="text-2xl font-bold mb-4">
+              {t('products.features', { locale: currentLang })}
+            </h2>
+            <ul class="space-y-2">
+              {product.features.map((feature, index) => (
+                <li key={index} class="flex items-start">
+                  <span class="mr-2">•</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+
+    <!-- Productos relacionados -->
+    {relatedProducts.length > 0 && (
+      <section class="mt-16">
+        <h2 class="text-2xl font-bold mb-8">
+          {t('products.related_products', { locale: currentLang })}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {relatedProducts.map((related: any) => (
+            <a 
+              href={`/${currentLang}/productos/${related.id}`} 
+              class="block group"
+            >
+              <div class="bg-gray-50 rounded-lg overflow-hidden transition-all hover:shadow-md">
+                <div class="relative h-48">
+                  <img 
+                    src={related.images?.[0] || '/images/products/placeholder.jpg'} 
+                    alt={related.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onerror="this.onerror=null;this.src='/images/products/placeholder.jpg';"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-lg text-gray-900 group-hover:text-yellow-600 transition-colors mb-1">
+                    {related.name}
+                  </h3>
+                  <p class="text-yellow-600 font-medium">
+                    {formatPrice(related.price, currentLang)}
+                  </p>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</article>
