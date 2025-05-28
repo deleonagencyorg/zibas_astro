@@ -40,46 +40,34 @@ if (!slides.length) {
 
 ---
 
-  <main class="w-full">
+  <main class="w-full flex flex-col items-center justify-center">
     <!-- Slider Section -->
-    <Carousel slides={slides} />
+    <div class="w-full flex justify-center">
+      <Carousel slides={slides} />
+    </div>
     
-    <!-- Hero Section -->
-    <section class="text-center py-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6">{t('home.title', { locale: currentLang })}</h1>
-      <p class="text-xl mb-8 max-w-2xl mx-auto">{t('home.subtitle', { locale: currentLang })}</p>
-      <a href={`/${currentLang}/${t('home.cta_link', { locale: currentLang })}`} class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg inline-block">
-        {t('home.cta_text', { locale: currentLang })}
-      </a>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-12">
-      <h2 class="text-3xl font-bold mb-8 text-center">{t('home.features_title', { locale: currentLang })}</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-3">{t('home.feature1_title', { locale: currentLang })}</h3>
-          <p>{t('home.feature1_desc', { locale: currentLang })}</p>
+    <!-- Spotify Section -->
+    <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center">
+      <div class="flex flex-wrap items-center justify-center">
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center"></div>
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center"></div>
+      </div>
+      
+      <div class="flex flex-wrap items-center justify-center">
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
+          <iframe loading="lazy" src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" data-ll-status="loaded" class="entered lazyloaded"></iframe>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-3">{t('home.feature2_title', { locale: currentLang })}</h3>
-          <p>{t('home.feature2_desc', { locale: currentLang })}</p>
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
+          <iframe loading="lazy" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold mb-3">{t('home.feature3_title', { locale: currentLang })}</h3>
-          <p>{t('home.feature3_desc', { locale: currentLang })}</p>
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
+        </div>
+        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
         </div>
       </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-12 bg-gray-50 rounded-lg my-8">
-      <h2 class="text-3xl font-bold mb-8 text-center">{t('home.testimonials_title', { locale: currentLang })}</h2>
-      <div class="max-w-3xl mx-auto">
-        <blockquote class="text-xl italic">
-          "{t('home.testimonial1_text', { locale: currentLang })}"
-        </blockquote>
-        <p class="mt-4 font-medium">— {t('home.testimonial1_author', { locale: currentLang })}</p>
-      </div>
-    </section>
+    
   </main>

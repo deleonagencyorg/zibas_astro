@@ -42,7 +42,7 @@ const closeIconSvg = `
 const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'common', locale: currentLang }) || 'Close main menu';
 ---
 
-<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-colors duration-300 bg-transparent text-white py-3 px-4 sm:px-6 lg:px-8 font-sans">
+<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-colors duration-300 bg-transparent text-white py-3 lg:pt-8 px-4 sm:px-6 lg:px-8 font-sans">
   <div class="container mx-auto flex items-center justify-between h-16">
     
     <!-- Logo para Desktop (Izquierda) -->
@@ -67,7 +67,7 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
       </a>
     </div>
     <!-- Desktop Right Aligned Content: Socials on top, Nav/Lang below, all right-aligned -->
-    <div class="hidden md:flex flex-col items-end space-y-2 py-1">
+    <div class="hidden md:flex flex-col items-end space-y-2 pt-1">
       {/* Social Media Row */}
       <div class="flex items-center space-x-3">
         {Object.entries(socialMedia).map(([key, social]) => (
@@ -92,7 +92,7 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
         <nav class="flex items-center space-x-1 lg:space-x-2">
           {menuItems.map(item => (
             <div class="relative group">
-              <a href={item.href} class="text-sm font-sans font-medium hover:text-gray-300 transition-colors px-3 py-2 flex items-center">
+              <a href={item.href} class="text-md font-sans font-semibold hover:text-gray-300 transition-colors px-3 py-2 flex items-center">
                 {item.text}
                 {item.submenu && (
                   <svg class="w-4 h-4 ml-1 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>

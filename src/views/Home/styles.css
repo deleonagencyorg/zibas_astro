@@ -1,1 +1,4 @@
-
+#spotify {
+    background: #8A2B71;
+    background: linear-gradient(90deg, rgba(138, 43, 113, 1) 0%, rgba(138, 43, 113, 1) 50%, rgba(100, 28, 81, 1) 50%, rgba(100, 28, 81, 1) 100%);
+}
