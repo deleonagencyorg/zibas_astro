@@ -1,6 +1,18 @@
+/* Sobrescribir variables de tema de Swiper */
+:root {
+  --swiper-theme-color: #ffffff;
+  --swiper-navigation-color: #ffffff;
+  --swiper-pagination-color: #ffffff;
+  --swiper-navigation-sides-offset: 30px;
+}
+
 .swiper-container.main-carousel {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .swiper-slide {
@@ -8,21 +20,48 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
   color: white;
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background: transparent;
   transition: all 0.3s ease;
+  text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+/* Hacer las flechas más pequeñas */
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet {
+  opacity: 0.7;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 0 4px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #0066ff;
+  opacity: 1;
+}
+
+/* Posicionar los indicadores más abajo */
+.swiper-pagination {
+  bottom: 20px !important;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  background: rgba(0, 0, 0, 0.8);
+  opacity: 0.8;
 }
 
 .swiper-pagination-bullet {

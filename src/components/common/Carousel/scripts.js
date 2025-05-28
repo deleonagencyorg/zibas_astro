@@ -1,25 +1,40 @@
-import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+// Este archivo se ejecutará solo en el cliente
+// Inicialización del carrusel con Swiper
+function initCarousel() {
+  // Esperar un momento para asegurar que todo esté cargado
+  setTimeout(() => {
+    try {
+      const swiper = new Swiper('.swiper-container.main-carousel', {
+        loop: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        on: {
+          init: function() {
+            console.log('Swiper inicializado correctamente');
+          }
+        }
+      });
+      
+      // Forzar update después de carga completa
+      window.addEventListener('load', () => {
+        swiper.update();
+        console.log('Swiper actualizado después de carga completa');
+      });
+    } catch (error) {
+      console.error('Error al inicializar Swiper:', error);
+    }
+  }, 500);
+}
 
-// Exportar como función global
-window.initCarousel = function() {
-  return new Swiper('.swiper-container.main-carousel', {
-    modules: [Navigation, Pagination, Autoplay],
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-  });
-};
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initCarousel);

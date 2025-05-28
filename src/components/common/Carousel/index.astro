@@ -1,9 +1,4 @@
 ---
-import { Swiper } from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import CarouselSlide from '../CarouselSlide.astro';
 import Skeleton from './Skeleton.astro';
 import './styles.css';
@@ -44,10 +39,48 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
 
 ---
 
+<!-- Importar Swiper desde CDN para garantizar disponibilidad -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<!-- Cargar scripts del carrusel solo en el cliente -->
+<script is:inline define:vars={{ carouselSelector: '.swiper-container.main-carousel' }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      try {
+        const swiper = new Swiper(carouselSelector, {
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          on: {
+            init: function() {
+              console.log('Swiper inicializado correctamente');
+            }
+          }
+        });
+        
+        window.addEventListener('load', () => swiper.update());
+      } catch (error) {
+        console.error('Error al inicializar Swiper:', error);
+      }
+    }, 500);
+  });
+</script>
+
 {loading ? (
   <Skeleton items={3} />
 ) : (
-  <div class="relative overflow-hidden h-[300px] md:h-[90vh] min-h-[300px]">
+  <div class="relative overflow-hidden h-screen w-screen">
     {preloadFirstImage && (
       <>
         <!-- Precargar la primera imagen para dispositivos móviles -->
@@ -65,79 +98,20 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
             slide={{
               desktop: slide.desktop,
               mobile: slide.mobile,
-              alt: slide.alt,
-              title: slide.title,
-              subtitle: slide.subtitle,
-              link: slide.link
+              alt: slide.alt || 'Taqueritos',
+              title: slide.title || '',
+              subtitle: slide.subtitle || '',
+              link: slide.link || ''
             }}
             priority={index === 0}
-            key={`slide-${index}`}
           />
         ))}
       </div>
       
-      <!-- Navegación -->
-      <div class="swiper-button-next text-white"></div>
-      <div class="swiper-button-prev text-white"></div>
-      
-      <!-- Paginación -->
+      <!-- Controles de navegación -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
     </div>
   </div>
 )}
-
-<style is:global>
-  .swiper-container {
-    width: 100%;
-    height: 100%;
-  }
-  .swiper-slide {
-    width: 100%;
-    height: 100%;
-  }
-  .swiper-button-next, .swiper-button-prev {
-    color: white;
-  }
-  .swiper-pagination-bullet-active {
-    background: white;
-  }
-</style>
-
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const swiper = new Swiper('.swiper-container.main-carousel', {
-      modules: [Navigation, Pagination, Autoplay],
-      loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      on: {
-        init: function() {
-          console.log('Swiper initialized successfully');
-        },
-        error: function(e) {
-          console.error('Swiper error:', e);
-        }
-      }
-    });
-    
-    // Forzar update después de carga de imágenes
-    setTimeout(() => swiper.update(), 1000);
-  });
-  
-  // Verificar que Swiper esté cargado
-  if(typeof Swiper === 'undefined') {
-    console.error('Swiper no está cargado correctamente');
-  } else {
-    console.log('Swiper está disponible:', Swiper.version);
-  }
-</script>
