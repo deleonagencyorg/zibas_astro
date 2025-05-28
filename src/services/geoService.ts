@@ -1,40 +1,35 @@
 import geoip from 'geoip-lite';
 import { setLocale, getLocale, type Locale } from '../i18n/i18n';
 
-// Lista de países de habla inglesa (códigos ISO)
-const ENGLISH_SPEAKING_COUNTRIES = [
+// Listas compartidas de países
+export const ENGLISH_SPEAKING_COUNTRIES = [
   'US', 'GB', 'CA', 'AU', 'NZ', 'IE', 'ZA', 'JM', 'BZ', 'BS', 
   'BB', 'AG', 'DM', 'GD', 'KN', 'LC', 'VC', 'TT', 'GY'
-];
+] as const;
 
-// Lista de países de habla hispana (códigos ISO)
-const SPANISH_SPEAKING_COUNTRIES = [
+export const SPANISH_SPEAKING_COUNTRIES = [
   'HN', 'ES', 'MX', 'AR', 'BO', 'CL', 'CO', 'CR', 'CU', 'DO', 
   'EC', 'SV', 'GT', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE'
-];
+] as const;
 
 /**
  * Detecta el país del usuario basado en su dirección IP
- * @param ip Dirección IP del usuario
- * @returns Código ISO del país o null si no se puede detectar
  */
 export function detectCountry(ip: string): string | null {
   try {
     const geo = geoip.lookup(ip);
     return geo?.country || null;
   } catch (error) {
-    console.error('Error al detectar el país:', error);
+    console.error('Error detecting country:', error);
     return null;
   }
 }
 
 /**
- * Determina el idioma predeterminado basado en el país
- * @param countryCode Código ISO del país
- * @returns Idioma predeterminado ('en' o 'es')
+ * Determina el idioma predeterminado basado en código de país
  */
 export function getDefaultLocaleByCountry(countryCode: string | null): Locale {
-  if (!countryCode) return 'es'; // Valor predeterminado si no se detecta el país
+  if (!countryCode) return 'es';
   
   if (ENGLISH_SPEAKING_COUNTRIES.includes(countryCode)) {
     return 'en';
@@ -44,8 +39,21 @@ export function getDefaultLocaleByCountry(countryCode: string | null): Locale {
     return 'es';
   }
   
-  // Para otros países, usar español como predeterminado
   return 'es';
+}
+
+/**
+ * Maneja toda la lógica de detección de locale (IP + headers + fallbacks)
+ */
+export function detectLocale(request: Request): {locale: Locale; ip: string; country: string | null} {
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 
+            request.headers.get('cf-connecting-ip') || '127.0.0.1';
+  
+  const countryCode = detectCountry(ip);
+  const locale = getDefaultLocaleByCountry(countryCode);
+  
+  return {locale, ip, country: countryCode};
 }
 
 /**
@@ -58,9 +66,8 @@ export function setLocaleByIp(ip: string): Locale {
   const currentLocale = getLocale();
   if (currentLocale) return currentLocale;
   
-  const countryCode = detectCountry(ip);
-  const defaultLocale = getDefaultLocaleByCountry(countryCode);
+  const { locale } = detectLocale({ headers: { get: () => ip } } as unknown as Request);
   
-  setLocale(defaultLocale);
-  return defaultLocale;
+  setLocale(locale);
+  return locale;
 }

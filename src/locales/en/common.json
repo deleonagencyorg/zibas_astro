@@ -88,24 +88,19 @@
     "slider": [
       {
         "id": "slide1",
-        "src": "/images/en/slider/slide1.jpg",
-        "alt": "Taqueritos promotion",
-        "title": "Participate and win!",
-        "description": "Discover our delicious Taqueritos promotion"
+        "src": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "url": ""
       },
       {
         "id": "slide2",
-        "src": "/images/en/slider/slide2.jpg",
-        "alt": "Taqueritos prizes",
-        "title": "Great prizes",
-        "description": "Win amazing prizes with Taqueritos"
-      },
-      {
-        "id": "slide3",
-        "src": "/images/en/slider/slide3.jpg",
-        "alt": "Taqueritos flavor",
-        "title": "Unmatched flavor",
-        "description": "The authentic taste of Taqueritos"
+        "src": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "url": ""
       }
     ],
     "products": [

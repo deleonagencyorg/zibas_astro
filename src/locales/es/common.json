@@ -87,24 +87,19 @@
     "slider": [
       {
         "id": "slide1",
-        "src": "/images/es/slider/slide1.jpg",
-        "alt": "Taqueritos promoción",
-        "title": "¡Participa y gana!",
-        "description": "Descubre nuestra deliciosa promoción de Taqueritos"
+        "src": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "url": ""
       },
       {
         "id": "slide2",
-        "src": "/images/es/slider/slide2.jpg",
-        "alt": "Premios Taqueritos",
-        "title": "Grandes premios",
-        "description": "Gana increíbles premios con Taqueritos"
-      },
-      {
-        "id": "slide3",
-        "src": "/images/es/slider/slide3.jpg",
-        "alt": "Taqueritos sabor",
-        "title": "Sabor incomparable",
-        "description": "El auténtico sabor de Taqueritos"
+        "src": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-2.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "url": ""
       }
     ],
     "products": [

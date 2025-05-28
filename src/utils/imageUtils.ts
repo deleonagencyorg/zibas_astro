@@ -57,7 +57,10 @@ export function getOptimalSizes(context: string = 'default'): string {
  * @param context Contexto donde se usa la imagen
  * @returns Boolean indicando si debe tener prioridad alta
  */
-export function shouldPrioritize(src: string, context: string = 'default'): boolean {
+export function shouldPrioritize(src?: string, context: string = 'default'): boolean {
+  // Si src no está definido, no priorizar
+  if (!src) return false;
+  
   // Imágenes de banner o hero generalmente son LCP
   if (context === 'hero' || context === 'banner') {
     return true;
