@@ -4,7 +4,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export function initCarousel() {
+// Exportar como función global
+window.initCarousel = function() {
   return new Swiper('.swiper-container.main-carousel', {
     modules: [Navigation, Pagination, Autoplay],
     loop: true,
@@ -21,4 +22,4 @@ export function initCarousel() {
       clickable: true,
     },
   });
-}
+};

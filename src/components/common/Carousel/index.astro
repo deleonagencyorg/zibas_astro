@@ -1,8 +1,12 @@
 ---
+import { Swiper } from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import CarouselSlide from '../CarouselSlide.astro';
 import Skeleton from './Skeleton.astro';
 import './styles.css';
-import { initCarousel } from './scripts';
 
 export interface Props {
   slides: Array<{
@@ -18,11 +22,26 @@ export interface Props {
 
 const { slides = [], loading = false } = Astro.props;
 
+// Log de depuración
+console.log('Carousel Props:', {
+  slides: slides,
+  loading: loading,
+  slidesCount: slides.length
+});
+
 // Identificar la primera imagen para cargarla con prioridad
-const firstSlide = slides[0];
+const firstSlide = slides[0] || {};
+
+// Log del primer slide
+if (firstSlide.desktop) {
+  console.log('First Slide:', firstSlide);
+} else {
+  console.warn('No slides available or first slide is incomplete');
+}
 
 // Opcional: Precargar la primera imagen para mejorar el LCP
-const preloadFirstImage = true;
+const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
+
 ---
 
 {loading ? (
@@ -42,9 +61,17 @@ const preloadFirstImage = true;
     <div class="swiper-container main-carousel h-full">
       <div class="swiper-wrapper">
         {slides.map((slide, index) => (
-          <CarouselSlide
-            slide={slide}
+          <CarouselSlide 
+            slide={{
+              desktop: slide.desktop,
+              mobile: slide.mobile,
+              alt: slide.alt,
+              title: slide.title,
+              subtitle: slide.subtitle,
+              link: slide.link
+            }}
             priority={index === 0}
+            key={`slide-${index}`}
           />
         ))}
       </div>
@@ -59,8 +86,58 @@ const preloadFirstImage = true;
   </div>
 )}
 
+<style is:global>
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-slide {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-button-next, .swiper-button-prev {
+    color: white;
+  }
+  .swiper-pagination-bullet-active {
+    background: white;
+  }
+</style>
+
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
-    initCarousel();
+    const swiper = new Swiper('.swiper-container.main-carousel', {
+      modules: [Navigation, Pagination, Autoplay],
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      on: {
+        init: function() {
+          console.log('Swiper initialized successfully');
+        },
+        error: function(e) {
+          console.error('Swiper error:', e);
+        }
+      }
+    });
+    
+    // Forzar update después de carga de imágenes
+    setTimeout(() => swiper.update(), 1000);
   });
+  
+  // Verificar que Swiper esté cargado
+  if(typeof Swiper === 'undefined') {
+    console.error('Swiper no está cargado correctamente');
+  } else {
+    console.log('Swiper está disponible:', Swiper.version);
+  }
 </script>

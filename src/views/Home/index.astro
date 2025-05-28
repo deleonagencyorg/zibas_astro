@@ -1,14 +1,48 @@
 <!-- src/views/Home/index.astro -->
 ---
-import { t } from '../../i18n/i18n';
+import { t, type Locale } from '../../i18n/i18n';
+import Carousel from '../../components/common/Carousel/index.astro';
 import './styles.css';
 import './scripts.js';
 
-const { currentLang } = Astro.props;
+// Precargar namespaces para mejor performance
+t('common', { locale: Astro.props.currentLang });
+t('recipe', { locale: Astro.props.currentLang });
+t('news', { locale: Astro.props.currentLang });
+t('products', { locale: Astro.props.currentLang });
+
+export interface Props {
+  currentLang: Locale;
+  loading?: boolean;
+}
+
+const { currentLang, loading = false } = Astro.props;
+const sliderAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
+console.log('Slider Assets:', sliderAssets);
+const slides = Array.isArray(sliderAssets) 
+  ? sliderAssets
+    .filter(asset => asset && typeof asset === 'object' && asset.desktop && asset.mobile)
+    .map(asset => ({
+      desktop: asset.desktop,
+      mobile: asset.mobile,
+      alt: asset.alt || 'Taqueritos',
+      title: asset.title || '',
+      subtitle: asset.description || '',
+      link: asset.url || asset.link || ''
+    }))
+  : [];
+
+if (!slides.length) {
+  console.error('No valid slides found in:', sliderAssets);
+}
+
+
+
 ---
 
   <main class="container mx-auto px-4 py-8">
     <!-- Slider Section -->
+    <Carousel slides={slides} />
     
     <!-- Hero Section -->
     <section class="text-center py-12">

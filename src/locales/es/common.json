@@ -87,19 +87,21 @@
     "slider": [
       {
         "id": "slide1",
-        "src": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
         "alt": "Taqueritos",
         "title": "",
         "description": "",
-        "url": ""
+        "link": ""
       },
       {
         "id": "slide2",
-        "src": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-2.webp",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
         "alt": "Taqueritos",
         "title": "",
         "description": "",
-        "url": ""
+        "link": ""
       }
     ],
     "products": [
