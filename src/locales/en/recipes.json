@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Recipes - Taqueritos",
+    "description": "Discover delicious recipes with Taqueritos. From traditional dishes to innovative creations."
+  },
+  "page": {
+    "title": "Our Recipes",
+    "description": "Discover delicious recipes with Taqueritos. From traditional dishes to innovative creations.",
+    "no_recipes": "No recipes available at this time.",
+    "read_more": "Read more"
+  },
+  "detail": {
+    "back": "Back to recipes",
+    "ingredients": "Ingredients",
+    "instructions": "Instructions",
+    "preparation_time": "Preparation time",
+    "cooking_time": "Cooking time",
+    "servings": "Servings",
+    "difficulty": "Difficulty",
+    "related_recipes": "Related recipes"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "items": [
+    {
+      "id": "tacos-al-pastor",
+      "title": "Tacos al Pastor",
+      "description": "Delicious tacos al pastor with pineapple and cilantro.",
+      "image": "/images/recipes/tacos-al-pastor.jpg",
+      "preparation_time": 30,
+      "cooking_time": 45,
+      "servings": 4,
+      "difficulty": "medium",
+      "ingredients": [
+        "500g marinated pork",
+        "8 corn tortillas",
+        "1 fresh pineapple",
+        "1 onion",
+        "Fresh cilantro",
+        "Salsa of your choice"
+      ],
+      "instructions": [
+        "Cut the meat into small pieces and cook over medium-high heat.",
+        "Heat the tortillas on a griddle.",
+        "Dice the pineapple, onion, and cilantro.",
+        "Assemble the tacos with the meat and diced ingredients.",
+        "Serve with salsa to taste."
+      ],
+      "tags": ["tacos", "pork", "mexican"]
+    },
+    {
+      "id": "enchiladas-verdes",
+      "title": "Green Enchiladas",
+      "description": "Traditional enchiladas with green sauce, chicken, and cheese.",
+      "image": "/images/recipes/enchiladas-verdes.jpg",
+      "preparation_time": 20,
+      "cooking_time": 30,
+      "servings": 4,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 corn tortillas",
+        "500g shredded chicken",
+        "300g green salsa",
+        "200g shredded cheese",
+        "1 onion",
+        "Sour cream"
+      ],
+      "instructions": [
+        "Warm the tortillas slightly to make them flexible.",
+        "Fill each tortilla with shredded chicken.",
+        "Roll the tortillas and place them on a plate.",
+        "Cover with green salsa and shredded cheese.",
+        "Bake until the cheese melts.",
+        "Serve with diced onion and sour cream."
+      ],
+      "tags": ["enchiladas", "chicken", "mexican"]
+    },
+    {
+      "id": "guacamole-tradicional",
+      "title": "Traditional Guacamole",
+      "description": "The classic Mexican guacamole, perfect for any occasion.",
+      "image": "/images/recipes/guacamole.jpg",
+      "preparation_time": 15,
+      "cooking_time": 0,
+      "servings": 4,
+      "difficulty": "easy",
+      "ingredients": [
+        "3 ripe avocados",
+        "1 tomato",
+        "1/2 onion",
+        "Fresh cilantro",
+        "1 lime",
+        "Salt to taste",
+        "Serrano pepper (optional)"
+      ],
+      "instructions": [
+        "Cut the avocados in half and remove the pit.",
+        "Mash the avocado pulp in a bowl.",
+        "Finely dice the tomato, onion, and cilantro.",
+        "Mix all ingredients with the avocado.",
+        "Squeeze the lime and add salt to taste.",
+        "If you want it spicy, add finely chopped serrano pepper."
+      ],
+      "tags": ["guacamole", "appetizer", "mexican"]
+    }
+  ]
+}

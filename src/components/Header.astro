@@ -1,10 +1,17 @@
 ---
 // src/components/Header.astro
-import { getLocale, t } from '../i18n/i18n';
-import { logos, socialMediaLinks, type SocialLink } from '../config/assets';
+import { t, type Locale } from '../i18n/i18n';
+import { logos} from '../config/assets';
+import LocalizedImage from '../components/LocalizedImage.astro';
 import LanguageSwitcher from './i18n/LanguageSwitcher.astro';
 
-const locale = getLocale();
+export interface Props {
+  currentLang: Locale;
+}
+const { currentLang } = Astro.props;
+
+// Obtener los datos de social media (url y alt) desde los archivos de traducción
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang });
 
 interface MenuItem {
   id: string;
@@ -13,13 +20,9 @@ interface MenuItem {
   submenu?: MenuItem[];
 }
 
-// Obtener los items del menú desde las traducciones
-const itemsFromT = t('menu_items', { namespace: 'common', locale: locale });
+const itemsFromT = t('menu_items', { namespace: 'common', locale: currentLang });
 const menuItems: MenuItem[] = Array.isArray(itemsFromT) ? itemsFromT : [];
-const openMenuLabel: string = t('menu_labels.open_main_menu', { namespace: 'common', locale: locale }) || 'Open main menu';
-
-// Asegurarse de que los hrefs sean absolutos si es necesario o que Astro los maneje correctamente.
-// Por ahora, se asume que los hrefs en common.json ya incluyen el prefijo de idioma.
+const openMenuLabel: string = t('menu_labels.open_main_menu', { namespace: 'common', locale: currentLang }) || 'Open main menu';
 
 const menuIconSvg = `
   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -38,8 +41,8 @@ const closeIconSvg = `
     
     <!-- Logo para Desktop (Izquierda) -->
     <div class="hidden md:flex items-center flex-shrink-0">
-      <a href={`/${locale}/`} class="block">
-        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-10 lg:h-12 w-auto" />
+      <a href={`/${currentLang}/`} class="block">
+        <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-10 lg:h-12 w-auto" />
       </a>
     </div>
 
@@ -53,8 +56,8 @@ const closeIconSvg = `
 
     <!-- Logo para Móvil (Derecha en Móvil) -->
     <div class="md:hidden flex items-center">
-      <a href={`/${locale}/`} class="block">
-        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-10 w-auto" />
+      <a href={`/${currentLang}/`} class="block">
+        <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-10 w-auto" />
       </a>
     </div>
 
@@ -81,26 +84,41 @@ const closeIconSvg = `
 
     <!-- Selector de Idioma Desktop (Antes de Redes Sociales) -->
     <div class="hidden md:flex items-center mr-4">
-      <LanguageSwitcher />
+      <LanguageSwitcher activeLocale={currentLang} />
     </div>
 
     <!-- Redes Sociales Desktop (Derecha) -->
     <div class="hidden md:flex items-center flex-shrink-0 space-x-3">
-      {socialMediaLinks.map((social: SocialLink) => (
+      {Object.entries(socialMedia).map(([key, social]) => (
         <a href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} class="text-white hover:text-gray-300">
           <span class="sr-only">{social.name}</span>
-          {social.iconUrl && <img src={social.iconUrl} alt={social.alt || social.name} class="h-5 w-5" />}
-          {/* Si social.icon es un SVG string: <Fragment set:html={social.icon} /> */} 
+          {social.iconUrl && (
+            <img
+              src={social.iconUrl}
+              alt={social.alt || social.name}
+              class="h-5 w-5 filter invert"
+              width={20}
+              height={20}
+              loading="lazy"
+            />
+          )}
         </a>
       ))}
+
     </div>
   </div>
 
   <!-- Menú Móvil Desplegable -->
   <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95 text-white pt-16 md:pt-20 font-sans">
+    <!-- Botón de cierre visible en la esquina superior derecha -->
+    <button id="mobile-menu-close" type="button" class="absolute top-4 right-4 p-2 rounded-md text-white hover:text-gray-300 focus:outline-none">
+      <span class="sr-only">Cerrar menú</span>
+      <div set:html={closeIconSvg} />
+    </button>
+    
     <div class="container mx-auto px-4 h-full flex flex-col items-center py-8">
-      <a href={`/${locale}/`} class="mb-8">
-        <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-12 w-auto" />
+      <a href={`/${currentLang}/`} class="mb-8">
+        <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-12 w-auto" />
       </a>
       
       <nav class="flex flex-col items-center space-y-3 text-center w-full">
@@ -122,16 +140,28 @@ const closeIconSvg = `
 
       <!-- Selector de Idioma Móvil -->
       <div class="mt-6 mb-6">
-        <LanguageSwitcher />
+        <LanguageSwitcher activeLocale={currentLang} />
       </div>
 
       <div class="mt-auto flex space-x-4">
-        {socialMediaLinks.map((social: SocialLink) => (
-          <a href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} class="text-white hover:text-gray-300">
-            <span class="sr-only">{social.name}</span>
-            {social.iconUrl && <img src={social.iconUrl} alt={social.alt || social.name} class="h-6 w-6" />}
-          </a>
-        ))}
+        {Object.entries(socialMedia).map(([key, social]) => {
+          const sm = social as { name: string; url: string; alt?: string; iconUrl?: string };
+          return (
+            <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
+              <span class="sr-only">{sm.name}</span>
+              {sm.iconUrl && (
+                <LocalizedImage
+                  assetKey={sm.iconUrl}
+                  alt={sm.alt || sm.name}
+                  class="h-6 w-6 filter invert"
+                  width={24}
+                  height={24}
+                  loading="lazy"
+                />
+              )}
+            </a>
+          );
+        })}
       </div>
     </div>
   </div>
@@ -142,6 +172,7 @@ const closeIconSvg = `
   const mobileMenu = document.getElementById('mobile-menu');
   const menuIconContainer = document.getElementById('menu-icon-container');
   const siteHeader = document.getElementById('site-header');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
 
   // Redefinir las variables SVG aquí para evitar errores de TypeScript
   const menuIconSvg = `
@@ -157,8 +188,8 @@ const closeIconSvg = `
 
   let isMenuOpen = false;
 
-  if (menuButton && mobileMenu && menuIconContainer && siteHeader) {
-    menuButton.addEventListener('click', () => {
+  // Función para abrir/cerrar el menú
+  function toggleMenu() {
     isMenuOpen = !isMenuOpen;
     mobileMenu.classList.toggle('hidden');
     menuButton.setAttribute('aria-expanded', String(isMenuOpen));
@@ -166,52 +197,36 @@ const closeIconSvg = `
     if (isMenuOpen) {
       menuIconContainer.innerHTML = closeIconSvg;
       document.body.style.overflow = 'hidden';
-      siteHeader.classList.remove('bg-transparent');
-      siteHeader.classList.add('bg-black', 'bg-opacity-90'); // Fondo del header cuando el menú móvil está abierto
+      siteHeader.classList.add('bg-transparent');
+      siteHeader.classList.remove('bg-black', 'bg-opacity-90', 'bg-gray-900');
     } else {
       menuIconContainer.innerHTML = menuIconSvg;
       document.body.style.overflow = '';
-      // Solo vuelve transparente si está en el top y no hay scroll (si se implementa scroll listener)
-      if (window.scrollY < 50) { // 50 es un umbral de ejemplo
-         siteHeader.classList.add('bg-transparent');
-         siteHeader.classList.remove('bg-black', 'bg-opacity-90');
-      } else {
-        // Si hay scroll, un listener de scroll (no implementado aquí) debería manejar el fondo.
-        // Por ahora, si se cierra con scroll, el fondo se queda como lo puso el menú abierto.
-        // Para un comportamiento más robusto, se necesitaría lógica de scroll separada.
-         siteHeader.classList.remove('bg-transparent'); // Ejemplo: mantener un fondo sólido si hay scroll
-         siteHeader.classList.add('bg-gray-900'); // O el color que defina tu lógica de scroll
-      }
-    } // Cierre del else
-  }); // Cierre del menuButton.addEventListener
-} // Cierre del if (menuButton && mobileMenu && ...)
+      siteHeader.classList.add('bg-transparent');
+      siteHeader.classList.remove('bg-black', 'bg-opacity-90', 'bg-gray-900');
+    }
+  }
+
+  // Agregar event listener al botón del menú
+  if (menuButton && mobileMenu && menuIconContainer && siteHeader) {
+    menuButton.addEventListener('click', toggleMenu);
+  }
+  
+  // Agregar event listener al botón de cierre
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', toggleMenu);
+  }
 
   // Cerrar menú si se hace clic en un enlace del menú móvil
-  if (mobileMenu && menuButton) { // Asegurarse que mobileMenu y menuButton existen
+  if (mobileMenu && menuButton) {
     mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (isMenuOpen) {
-        menuButton.click(); 
-      }
+      link.addEventListener('click', () => {
+        if (isMenuOpen) {
+          menuButton.click(); 
+        }
       });
     });
   }
-
-  // Opcional: Cambiar fondo del header al hacer scroll (ejemplo básico)
-  // if (siteHeader) { // Comprobar si siteHeader existe para el listener de scroll
-  //   window.addEventListener('scroll', () => {
-  //   if (isMenuOpen) return; // No cambiar si el menú móvil está abierto
-
-  //   if (window.scrollY > 50) {
-  //     siteHeader.classList.remove('bg-transparent');
-  //     siteHeader.classList.add('bg-gray-900'); // Color de fondo con scroll
-  //   } else {
-  //     siteHeader.classList.add('bg-transparent');
-  //     siteHeader.classList.remove('bg-gray-900');
-  //     }
-  //   });
-  // }
-
 </script>
 
 <style>

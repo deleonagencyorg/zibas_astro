@@ -11,7 +11,6 @@ module.exports = {
     'bg-pink', 'text-pink', 'border-pink',
     'bg-celeste', 'text-celeste', 'border-celeste',
     'bg-white', 'text-white', 'border-white',
-    'bg-black', 'text-black', 'border-black'
   ],
   theme: {
     extend: {
@@ -26,7 +25,6 @@ module.exports = {
         pink: '#F4ACBE',
         celeste: '#7AA2D6',
         white: '#FFFFFF',
-        black: '#484848',
         secondary: '#A6A3D1',
         tertiary: '#FFFBF2z',
       },

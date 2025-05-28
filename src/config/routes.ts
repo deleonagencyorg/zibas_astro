@@ -22,6 +22,27 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.contact.title',
     metaDescriptionKey: 'meta.contact.description',
   },
+  {
+    id: 'recipes',
+    slugs: { es: 'recetas', en: 'recipes' },
+    contentComponent: '@/components/pages/RecipesPage.astro',
+    metaTitleKey: 'meta.recipes.title',
+    metaDescriptionKey: 'meta.recipes.description',
+  },
+  {
+    id: 'news',
+    slugs: { es: 'noticias', en: 'news' },
+    contentComponent: '@/components/pages/NewsPage.astro',
+    metaTitleKey: 'meta.news.title',
+    metaDescriptionKey: 'meta.news.description',
+  },
+  {
+    id: 'products',
+    slugs: { es: 'productos', en: 'products' },
+    contentComponent: '@/components/pages/ProductsPage.astro',
+    metaTitleKey: 'meta.products.title',
+    metaDescriptionKey: 'meta.products.description',
+  },
   // ... Agrega más rutas aquí
 ];
 

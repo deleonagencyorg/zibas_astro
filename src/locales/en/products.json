@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "title": "Products - Taqueritos",
+    "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
+  },
+  "page": {
+    "title": "Our Products",
+    "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family.",
+    "no_products": "No products available at this time.",
+    "view_details": "View details"
+  },
+  "detail": {
+    "back": "Back to products",
+    "ingredients": "Ingredients",
+    "nutritional_info": "Nutritional information",
+    "where_to_buy": "Where to buy",
+    "related_products": "Related products",
+    "serving_suggestion": "Serving suggestion"
+  },
+  "categories": {
+    "all": "All",
+    "tortillas": "Tortillas",
+    "salsas": "Salsas",
+    "seasonings": "Seasonings",
+    "snacks": "Snacks"
+  },
+  "items": [
+    {
+      "id": "tortillas-maiz",
+      "title": "Corn Tortillas",
+      "description": "Our authentic corn tortillas, made with selected grains and the traditional process.",
+      "short_description": "Authentic corn tortillas for your favorite meals.",
+      "image": "/images/products/tortillas-maiz.jpg",
+      "category": "tortillas",
+      "ingredients": ["Nixtamalized corn", "Water", "Lime"],
+      "nutritional_info": {
+        "serving_size": "2 tortillas (50g)",
+        "calories": 120,
+        "fat": "1g",
+        "carbs": "25g",
+        "protein": "3g",
+        "sodium": "10mg"
+      },
+      "sizes": [
+        {
+          "name": "Pack of 10",
+          "weight": "250g",
+          "sku": "TM-10"
+        },
+        {
+          "name": "Pack of 20",
+          "weight": "500g",
+          "sku": "TM-20"
+        },
+        {
+          "name": "Pack of 30",
+          "weight": "750g",
+          "sku": "TM-30"
+        }
+      ],
+      "serving_suggestion": "Heat them on a griddle or pan for 30 seconds on each side to enjoy their maximum flavor.",
+      "tags": ["tortillas", "corn", "traditional"]
+    },
+    {
+      "id": "salsa-verde",
+      "title": "Green Salsa",
+      "description": "Our green salsa is made with fresh tomatillos, green chilies, and selected spices to give the perfect touch to your dishes.",
+      "short_description": "Green salsa with fresh tomatillos and green chilies.",
+      "image": "/images/products/salsa-verde.jpg",
+      "category": "salsas",
+      "ingredients": ["Tomatillos", "Green chilies", "Onion", "Garlic", "Cilantro", "Salt", "Spices"],
+      "nutritional_info": {
+        "serving_size": "2 tablespoons (30g)",
+        "calories": 15,
+        "fat": "0g",
+        "carbs": "3g",
+        "protein": "0g",
+        "sodium": "150mg"
+      },
+      "sizes": [
+        {
+          "name": "Small jar",
+          "weight": "220g",
+          "sku": "SV-220"
+        },
+        {
+          "name": "Medium jar",
+          "weight": "450g",
+          "sku": "SV-450"
+        }
+      ],
+      "serving_suggestion": "Ideal for tacos, enchiladas, huevos rancheros, or as a dip for your favorite snacks.",
+      "tags": ["salsa", "green", "spicy"]
+    },
+    {
+      "id": "totopos-maiz",
+      "title": "Corn Chips",
+      "description": "Our corn chips are crunchy, light, and perfect to enjoy alone or with your favorite salsas.",
+      "short_description": "Crunchy chips made with 100% natural corn.",
+      "image": "/images/products/totopos-maiz.jpg",
+      "category": "snacks",
+      "ingredients": ["Corn", "Vegetable oil", "Salt"],
+      "nutritional_info": {
+        "serving_size": "28g (approximately 14 chips)",
+        "calories": 140,
+        "fat": "7g",
+        "carbs": "19g",
+        "protein": "2g",
+        "sodium": "110mg"
+      },
+      "sizes": [
+        {
+          "name": "Small bag",
+          "weight": "100g",
+          "sku": "TT-100"
+        },
+        {
+          "name": "Family size",
+          "weight": "300g",
+          "sku": "TT-300"
+        }
+      ],
+      "serving_suggestion": "Enjoy with guacamole, salsa, or your favorite dip. They are also perfect for making nachos.",
+      "tags": ["chips", "snack", "corn"]
+    }
+  ]
+}

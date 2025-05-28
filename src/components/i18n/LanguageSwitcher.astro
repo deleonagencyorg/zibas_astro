@@ -1,9 +1,14 @@
 ---
-import { getLocale } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
 
 const { pathname } = Astro.url;
 const currentPath = pathname;
-const currentLocale = getLocale();
+
+export interface Props {
+  activeLocale: Locale;
+}
+const { activeLocale } = Astro.props;
+
 
 // Extraer la ruta actual sin el prefijo de idioma
 const pathWithoutLocale = currentPath.replace(/^\/[a-z]{2}(\/|$)/, '/');
@@ -14,20 +19,20 @@ const enUrl = `/en${pathWithoutLocale}`;
 ---
 
 <div class="language-switcher flex items-center space-x-2">
-  <a href={esUrl} class={`language-link flex items-center ${currentLocale === 'es' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="Español">
+  <a href={esUrl} class={`language-link flex items-center ${activeLocale === 'es' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="Español">
     <span class="flag-icon mr-1">
       <!-- Bandera de Honduras (emoji) -->
       🇭🇳
     </span>
-    <span>ES</span>
+    <span class="text-white">ES</span>
   </a>
   <span class="divider text-gray-400">|</span>
-  <a href={enUrl} class={`language-link flex items-center ${currentLocale === 'en' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="English">
+  <a href={enUrl} class={`language-link flex items-center ${activeLocale === 'en' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="English">
     <span class="flag-icon mr-1">
       <!-- Bandera de Estados Unidos (emoji) -->
       🇺🇸
     </span>
-    <span>EN</span>
+    <span class="text-white">EN</span>
   </a>
 </div>
 

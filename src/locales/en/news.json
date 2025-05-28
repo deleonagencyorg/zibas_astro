@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "title": "News - Taqueritos",
+    "description": "Stay up to date with the latest news and events from Taqueritos."
+  },
+  "page": {
+    "title": "News and Events",
+    "description": "Stay up to date with the latest news and events from Taqueritos.",
+    "no_news": "No news available at this time.",
+    "read_more": "Read more",
+    "published_on": "Published on"
+  },
+  "detail": {
+    "back": "Back to news",
+    "share": "Share",
+    "related_news": "Related news"
+  },
+  "items": [
+    {
+      "id": "nueva-sucursal-tegucigalpa",
+      "title": "New Location in Tegucigalpa",
+      "summary": "We are excited to announce the opening of our new location in Tegucigalpa.",
+      "content": "<p>We are excited to announce the opening of our new location in Tegucigalpa. Located in the heart of the city, our new venue will offer the same quality and flavor you've come to expect from Taqueritos.</p><p>The grand opening is scheduled for June 15th, and we'll have special promotions all week. Don't miss it!</p><p>Address: Avenida Principal #123, Colonia Palmira, Tegucigalpa.</p>",
+      "image": "/images/news/nueva-sucursal.jpg",
+      "published_date": "2025-05-01",
+      "author": "Taqueritos Team",
+      "tags": ["location", "tegucigalpa", "opening"]
+    },
+    {
+      "id": "menu-temporada-verano",
+      "title": "New Seasonal Menu: Summer Flavors",
+      "summary": "Discover our new seasonal menu with fresh and vibrant flavors for summer.",
+      "content": "<p>With the arrival of summer, we are excited to present our new seasonal menu: Summer Flavors. We have created a selection of dishes that capture the essence of the season with fresh, local ingredients.</p><p>From our new fish tacos with mango to our refreshing fruit drinks, there's something for everyone. Our chef has worked hard to create flavor combinations that will transport you to a tropical beach with every bite.</p><p>The menu will be available at all our locations starting June 1st. Come and try these delicious flavors before the season ends!</p>",
+      "image": "/images/news/menu-verano.jpg",
+      "published_date": "2025-04-15",
+      "author": "Chef Robert Martinez",
+      "tags": ["menu", "summer", "gastronomy"]
+    },
+    {
+      "id": "concurso-recetas",
+      "title": "Recipe Contest: Show Your Creativity",
+      "summary": "Participate in our recipe contest and win amazing prizes.",
+      "content": "<p>Do you have an original recipe using Taqueritos products? We want to see it! We're launching our first recipe contest where you can showcase your culinary creativity and win amazing prizes.</p><p>To participate, simply create an original recipe using at least one Taqueritos product, take a photo of your creation, and share it on Instagram with the hashtag #TaqueritosRecipes. Our panel of judges will select the top three recipes based on originality, presentation, and use of Taqueritos products.</p><p>The winner will receive a year's worth of free Taqueritos products, while second and third place will receive product baskets and gift certificates. The contest is open from May 1st to June 30th, 2025.</p><p>Don't wait any longer and show your culinary creativity with Taqueritos!</p>",
+      "image": "/images/news/concurso-recetas.jpg",
+      "published_date": "2025-04-01",
+      "author": "Marketing Department",
+      "tags": ["contest", "recipes", "prizes"]
+    }
+  ]
+}

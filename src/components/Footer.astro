@@ -1,9 +1,17 @@
 ---
 // src/components/Footer.astro
-import { getLocale, t } from '../i18n/i18n';
-import { logos, socialMediaLinks, type SocialLink } from '../config/assets';
+import { t, type Locale } from '../i18n/i18n';
+import { logos} from '../config/assets';
+import LocalizedImage from '../components/LocalizedImage.astro';
 
-const locale = getLocale();
+export interface Props {
+  currentLang: Locale;
+}
+const { currentLang } = Astro.props;
+
+// Obtener los datos de social media (url y alt) desde los archivos de traducción
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang });
+
 const currentYear = new Date().getFullYear();
 
 interface MenuItem {
@@ -13,56 +21,65 @@ interface MenuItem {
   submenu?: MenuItem[]; // Aunque no lo usemos para renderizar, la estructura lo tiene
 }
 
-const itemsFromT = t('menu_items', { namespace: 'common', locale: locale });
+const itemsFromT = t('menu_items', { namespace: 'common', locale: currentLang });
 const footerNavLinks: MenuItem[] = Array.isArray(itemsFromT) ? itemsFromT : [];
 
 // Obtener la etiqueta 'Explorar' de las nuevas menu_labels
-const exploreLabel = t('menu_labels.explore', { namespace: 'common', locale: locale }) || 'Explore';
+const exploreLabel = t('menu_labels.explore', { namespace: 'common', locale: currentLang }) || 'Explore';
 
-const privacyPolicyText = t('footer.privacy_policy_text', { namespace: 'common' });
-const privacyPolicyUrl = t('footer.privacy_policy_url', { namespace: 'common' });
-const copyrightText = t('footer.copyright', { namespace: 'common' }).replace('{year}', currentYear.toString());
-
-// Para el selector de idioma, asumiré que tienes un componente o lógica separada
-// Por ahora, no lo incluiré directamente para mantener el ejemplo enfocado.
-// Si tienes un LanguageSwitcher.astro, podrías importarlo y usarlo aquí.
+const privacyPolicyText = t('footer.privacy_policy_text', { namespace: 'common', locale: currentLang });
+const privacyPolicyUrl = t('footer.privacy_policy_url', { namespace: 'common', locale: currentLang });
+const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang }).replace('{year}', currentYear.toString());
 ---
 
-<footer class="bg-black text-white pt-16 pb-8 px-4 sm:px-6 lg:px-8 font-sans">
+<footer class="bg-black text-white pt-12 pb-8 px-4 sm:px-6 lg:px-8 font-sans">
   <div class="container mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
       <!-- Logo -->
       <div class="flex justify-center md:justify-start mb-8 md:mb-0">
-        <a href={`/${locale}/`} class="font-sans">
-          <img src={logos.bienestar.url} alt={logos.bienestar.alt || 'Taqueritos Logo'} class="h-12 lg:h-14 w-auto" />
+        <a href={`/${currentLang}/`} class="font-sans">
+          <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-12 lg:h-14 w-auto" />
         </a>
       </div>
 
       <!-- Navegación del Footer -->
-      <nav class="col-span-1 md:col-span-1 flex flex-col items-center md:items-start space-y-2 mb-8 md:mb-0">
-        <h3 class="text-lg font-sans font-semibold mb-3 uppercase">{exploreLabel}</h3>
-        {footerNavLinks.map(item => (
-          <a href={item.href} class="text-sm font-sans hover:text-gray-300 transition-colors">{item.text}</a>
-        ))}
-      </nav>
-
-      <!-- Redes Sociales y quizás Selector de Idioma -->
-      <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
-        <div class="flex space-x-4 mb-4">
-          {socialMediaLinks.map((social: SocialLink) => (
-            <a href={social.url} target="_blank" rel="noopener noreferrer" title={social.name} class="text-white hover:text-gray-300">
-              <span class="sr-only">{social.name}</span>
-              {social.iconUrl && <img src={social.iconUrl} alt={social.alt || social.name} class="h-6 w-6" />}
-            </a>
+      <nav class="col-span-1 md:col-span-1 flex flex-col items-center mb-8 md:mb-0">
+        <h3 class="text-lg font-sans font-semibold mb-3 uppercase text-center">{exploreLabel}</h3>
+        <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:gap-x-6">
+          {footerNavLinks.map(item => (
+            <a href={item.href} class="text-sm font-sans hover:text-gray-300 transition-colors mb-2 md:mb-0 text-center">{item.text}</a>
           ))}
         </div>
-        <!-- Espacio para el LanguageSwitcher si lo tienes -->
-        <!-- Ejemplo: <LanguageSwitcher /> -->
+      </nav>
+
+      <!-- Redes Sociales -->
+      <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
+        <div class="flex space-x-4 mb-4">
+          {Object.entries(socialMedia).map(([key, social]) => {
+            const sm = social as { name: string; url: string; alt?: string; iconUrl?: string };
+            return (
+              <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
+                <span class="sr-only">{sm.name}</span>
+                {sm.iconUrl && (
+                  <img
+                    src={sm.iconUrl}
+                    alt={sm.alt || sm.name}
+                    class="h-5 w-5 filter invert"
+                    width={20}
+                    height={20}
+                    loading="lazy"
+                  />
+                )}
+              </a>
+            );
+          })}
+        </div>
       </div>
     </div>
 
-    <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
-      <div class="mb-4 md:mb-0">
+    <!-- Sección inferior centrada -->
+    <div class="border-t border-gray-700 pt-8 flex flex-col items-center text-sm text-center">
+      <div class="mb-2">
         <a href={privacyPolicyUrl} class="font-sans hover:text-gray-300 transition-colors">{privacyPolicyText}</a>
       </div>
       <div class="text-gray-400 font-sans">

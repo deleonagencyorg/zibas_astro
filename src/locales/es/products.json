@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "title": "Productos - Taqueritos",
+    "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
+  },
+  "page": {
+    "title": "Nuestros Productos",
+    "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia.",
+    "no_products": "No hay productos disponibles en este momento.",
+    "view_details": "Ver detalles"
+  },
+  "detail": {
+    "back": "Volver a productos",
+    "ingredients": "Ingredientes",
+    "nutritional_info": "Información nutricional",
+    "where_to_buy": "Dónde comprar",
+    "related_products": "Productos relacionados",
+    "serving_suggestion": "Sugerencia de preparación"
+  },
+  "categories": {
+    "all": "Todos",
+    "tortillas": "Tortillas",
+    "salsas": "Salsas",
+    "seasonings": "Condimentos",
+    "snacks": "Snacks"
+  },
+  "items": [
+    {
+      "id": "tortillas-maiz",
+      "title": "Tortillas de Maíz",
+      "description": "Nuestras auténticas tortillas de maíz, hechas con granos seleccionados y el proceso tradicional.",
+      "short_description": "Auténticas tortillas de maíz para tus comidas favoritas.",
+      "image": "/images/products/tortillas-maiz.jpg",
+      "category": "tortillas",
+      "ingredients": ["Maíz nixtamalizado", "Agua", "Cal"],
+      "nutritional_info": {
+        "serving_size": "2 tortillas (50g)",
+        "calories": 120,
+        "fat": "1g",
+        "carbs": "25g",
+        "protein": "3g",
+        "sodium": "10mg"
+      },
+      "sizes": [
+        {
+          "name": "Paquete de 10",
+          "weight": "250g",
+          "sku": "TM-10"
+        },
+        {
+          "name": "Paquete de 20",
+          "weight": "500g",
+          "sku": "TM-20"
+        },
+        {
+          "name": "Paquete de 30",
+          "weight": "750g",
+          "sku": "TM-30"
+        }
+      ],
+      "serving_suggestion": "Caliéntalas en un comal o sartén por 30 segundos de cada lado para disfrutar de su máximo sabor.",
+      "tags": ["tortillas", "maíz", "tradicional"]
+    },
+    {
+      "id": "salsa-verde",
+      "title": "Salsa Verde",
+      "description": "Nuestra salsa verde está hecha con tomatillos frescos, chiles verdes y especias seleccionadas para darle el toque perfecto a tus platillos.",
+      "short_description": "Salsa verde con tomatillos frescos y chiles verdes.",
+      "image": "/images/products/salsa-verde.jpg",
+      "category": "salsas",
+      "ingredients": ["Tomatillos", "Chiles verdes", "Cebolla", "Ajo", "Cilantro", "Sal", "Especias"],
+      "nutritional_info": {
+        "serving_size": "2 cucharadas (30g)",
+        "calories": 15,
+        "fat": "0g",
+        "carbs": "3g",
+        "protein": "0g",
+        "sodium": "150mg"
+      },
+      "sizes": [
+        {
+          "name": "Frasco pequeño",
+          "weight": "220g",
+          "sku": "SV-220"
+        },
+        {
+          "name": "Frasco mediano",
+          "weight": "450g",
+          "sku": "SV-450"
+        }
+      ],
+      "serving_suggestion": "Ideal para tacos, enchiladas, huevos rancheros o como dip para tus snacks favoritos.",
+      "tags": ["salsa", "verde", "picante"]
+    },
+    {
+      "id": "totopos-maiz",
+      "title": "Totopos de Maíz",
+      "description": "Nuestros totopos de maíz son crujientes, ligeros y perfectos para disfrutar solos o con tus salsas favoritas.",
+      "short_description": "Totopos crujientes hechos con maíz 100% natural.",
+      "image": "/images/products/totopos-maiz.jpg",
+      "category": "snacks",
+      "ingredients": ["Maíz", "Aceite vegetal", "Sal"],
+      "nutritional_info": {
+        "serving_size": "28g (aproximadamente 14 totopos)",
+        "calories": 140,
+        "fat": "7g",
+        "carbs": "19g",
+        "protein": "2g",
+        "sodium": "110mg"
+      },
+      "sizes": [
+        {
+          "name": "Bolsa pequeña",
+          "weight": "100g",
+          "sku": "TT-100"
+        },
+        {
+          "name": "Bolsa familiar",
+          "weight": "300g",
+          "sku": "TT-300"
+        }
+      ],
+      "serving_suggestion": "Disfruta con guacamole, salsa o tu dip favorito. También son perfectos para preparar nachos.",
+      "tags": ["totopos", "snack", "maíz"]
+    }
+  ]
+}

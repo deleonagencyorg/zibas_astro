@@ -1,12 +1,12 @@
 // Sistema de internacionalización simple
-import esCommon from '../../public/locales/es/common.json';
-import enCommon from '../../public/locales/en/common.json';
-import esRecipes from '../../public/locales/es/recipes.json';
-import esNews from '../../public/locales/es/news.json';
-import esProducts from '../../public/locales/es/products.json';
-import enRecipes from '../../public/locales/en/recipes.json';
-import enNews from '../../public/locales/en/news.json';
-import enProducts from '../../public/locales/en/products.json';
+import esCommon from '../locales/es/common.json';
+import enCommon from '../locales/en/common.json';
+import esRecipes from '../locales/es/recipes.json';
+import esNews from '../locales/es/news.json';
+import esProducts from '../locales/es/products.json';
+import enRecipes from '../locales/en/recipes.json';
+import enNews from '../locales/en/news.json';
+import enProducts from '../locales/en/products.json';
 
 // Tipos para las traducciones
 export type Locale = 'es' | 'en';

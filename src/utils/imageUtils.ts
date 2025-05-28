@@ -17,7 +17,7 @@ export function generateImageSizes(baseUrl: string, extension: string): string[]
   
   return sizes.map(size => {
     // Para URLs externas que soportan parámetros de tamaño (como CDNs)
-    if (baseUrl.includes('assets.doguiygatibienestar.com')) {
+    if (baseUrl.includes('assets.doguiygatiprincipal.com')) {
       const separator = hasParams ? '&' : '?';
       return `${baseUrl}${separator}w=${size} ${size}w`;
     }

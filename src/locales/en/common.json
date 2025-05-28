@@ -1,8 +1,9 @@
 {
   "welcome": "Welcome",
-  "home": "Home",
   "about": "About",
   "contact": "Contact",
+  "contact.title": "Contact Us",
+  "contact.content": "This is the contact page content. Fill out the form below or reach out to us directly.",
   "products_title": "Our Products",
   "email": "Email",
   "name": "Name",
@@ -21,6 +22,22 @@
     "home": {
       "title": "Taqueritos - Participate and win amazing prizes",
       "description": "Join our Taqueritos promotion and win amazing prizes. Register your codes and increase your chances of winning."
+    },
+    "contact": {
+      "title": "Contact - Taqueritos",
+      "description": "Contact us for more information about our products and promotions."
+    },
+    "recipes": {
+      "title": "Recipes - Taqueritos",
+      "description": "Discover delicious recipes with Taqueritos. From traditional dishes to innovative creations."
+    },
+    "news": {
+      "title": "News - Taqueritos",
+      "description": "Stay up to date with the latest news and events from Taqueritos."
+    },
+    "products": {
+      "title": "Products - Taqueritos",
+      "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
     }
   },
   "countries": {
@@ -37,6 +54,27 @@
     "password_min": "Password must be at least 8 characters",
     "passwords_not_match": "Passwords do not match"
   },
+  "social_media": {
+    "facebook": {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/taqueritosmx/",
+      "alt": "Taqueritos Facebook",
+      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-facebook.svg"
+    },
+    "instagram": {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/taqueritosmx/",
+      "alt": "Taqueritos Instagram",
+      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-instagram.svg"
+    },
+    "tiktok": {
+      "name": "TikTok",
+      "url": "https://www.tiktok.com/@taqueritosmx",
+      "alt": "Taqueritos TikTok",
+      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-tiktok.svg"
+    }
+  },
+  
   "cookie_consent": {
     "title": "Cookie usage",
     "description": "We use cookies to improve your experience on our website.",
@@ -96,9 +134,14 @@
       "href": "/en/"
     },
     {
-      "id": "shop",
-      "text": "Shop",
-      "href": "/en/shop"
+      "id": "recipes",
+      "text": "Recipes",
+      "href": "/en/recipes"
+    },
+    {
+      "id": "news",
+      "text": "News",
+      "href": "/en/news"
     },
     {
       "id": "products",
@@ -133,6 +176,22 @@
       "href": "/en/contact"
     }
   ],
+  "home": {
+    "title": "Taqueritos - Authentic Mexican Food",
+    "subtitle": "Enjoy the best tacos and Mexican dishes",
+    "cta_text": "View Menu",
+    "cta_link": "menu",
+    "features_title": "Our Advantages",
+    "feature1_title": "Fresh Ingredients",
+    "feature1_desc": "We use only the freshest and most authentic ingredients.",
+    "feature2_title": "Traditional Recipes",
+    "feature2_desc": "Prepared following traditional Mexican recipes.",
+    "feature3_title": "Fast Service",
+    "feature3_desc": "Enjoy your favorite food without long waits.",
+    "testimonials_title": "What our customers say",
+    "testimonial1_text": "The best tacos I've ever had. Authentic Mexican flavor!",
+    "testimonial1_author": "John Smith"
+  },
   "footer": {
     "privacy_policy_text": "Privacy Policy",
     "privacy_policy_url": "/en/privacy-policy",

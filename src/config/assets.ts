@@ -4,7 +4,7 @@
  */
 
 // Base URL del bucket de S3
-const S3_BASE_URL = 'https://assets.doguiygatibienestar.com/assets';
+const S3_BASE_URL = 'https://snack.yummiespromociones.com/taqueritos';
 
 // Interfaz básica para assets
 export interface Asset {
@@ -22,44 +22,17 @@ export interface SocialLink {
 
 // Logos
 export const logos = {
-  cargill: {
-    url: `${S3_BASE_URL}/Cargill.webp`,
-    alt: 'Cargill'
-  },
-  bienestar: {
-    url: `${S3_BASE_URL}/logobienestar.svg`,
-    alt: 'Bien Estar'
-  },
-  dogui: {
-    url: `${S3_BASE_URL}/logoDogi.svg`,
-    alt: 'Dogui'
-  },
-  gati: {
-    url: `${S3_BASE_URL}/logoGati.svg`,
-    alt: 'Gati'
+  principal: {
+    url: `${S3_BASE_URL}/Logo-Taqueritos-2019-300x100.webp`,
+    alt: 'Taqueritos'
   }
 };
 
 // Enlaces de Redes Sociales
 // Asegúrate de que las URLs de los iconos sean correctas y existan en tu S3_BASE_URL o donde los alojes.
-export const socialMediaLinks: SocialLink[] = [
-  {
-    name: 'Facebook',
-    url: 'https://www.facebook.com/taqueritosmx/', // Reemplaza con tu URL real
-    iconUrl: `${S3_BASE_URL}/icons/facebook.svg`, // Ejemplo, ajusta la ruta y el nombre del icono
-    alt: 'Facebook de Taqueritos'
-  },
-  {
-    name: 'Instagram',
-    url: 'https://www.instagram.com/taqueritosmx/', // Reemplaza con tu URL real
-    iconUrl: `${S3_BASE_URL}/icons/instagram.svg`, // Ejemplo, ajusta la ruta y el nombre del icono
-    alt: 'Instagram de Taqueritos'
-  },
-  {
-    name: 'TikTok',
-    url: 'https://www.tiktok.com/@taqueritosmx', // Reemplaza con tu URL real
-    iconUrl: `${S3_BASE_URL}/icons/tiktok.svg`, // Ejemplo, ajusta la ruta y el nombre del icono
-    alt: 'TikTok de Taqueritos'
-  }
+export const socialMediaIconUrls = {
+  facebook: `${S3_BASE_URL}/icons8-facebook.svg`,
+  instagram: `${S3_BASE_URL}/icons8-instagram.svg`,
+  tiktok: `${S3_BASE_URL}/icons8-tiktok.svg`,
+};
   // Añade más redes si es necesario
-];

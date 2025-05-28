@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Recetas - Taqueritos",
+    "description": "Descubre deliciosas recetas con Taqueritos. Desde platos tradicionales hasta creaciones innovadoras."
+  },
+  "page": {
+    "title": "Nuestras Recetas",
+    "description": "Descubre deliciosas recetas con Taqueritos. Desde platos tradicionales hasta creaciones innovadoras.",
+    "no_recipes": "No hay recetas disponibles en este momento.",
+    "read_more": "Leer más"
+  },
+  "detail": {
+    "back": "Volver a recetas",
+    "ingredients": "Ingredientes",
+    "instructions": "Instrucciones",
+    "preparation_time": "Tiempo de preparación",
+    "cooking_time": "Tiempo de cocción",
+    "servings": "Porciones",
+    "difficulty": "Dificultad",
+    "related_recipes": "Recetas relacionadas"
+  },
+  "difficulty": {
+    "easy": "Fácil",
+    "medium": "Media",
+    "hard": "Difícil"
+  },
+  "items": [
+    {
+      "id": "tacos-al-pastor",
+      "title": "Tacos al Pastor",
+      "description": "Deliciosos tacos al pastor con piña y cilantro.",
+      "image": "/images/recipes/tacos-al-pastor.jpg",
+      "preparation_time": 30,
+      "cooking_time": 45,
+      "servings": 4,
+      "difficulty": "medium",
+      "ingredients": [
+        "500g de carne de cerdo marinada",
+        "8 tortillas de maíz",
+        "1 piña fresca",
+        "1 cebolla",
+        "Cilantro fresco",
+        "Salsa de tu preferencia"
+      ],
+      "instructions": [
+        "Corta la carne en trozos pequeños y cocina a fuego medio-alto.",
+        "Calienta las tortillas en un comal.",
+        "Pica la piña, la cebolla y el cilantro.",
+        "Arma los tacos con la carne y los ingredientes picados.",
+        "Sirve con salsa al gusto."
+      ],
+      "tags": ["tacos", "cerdo", "mexicano"]
+    },
+    {
+      "id": "enchiladas-verdes",
+      "title": "Enchiladas Verdes",
+      "description": "Tradicionales enchiladas con salsa verde, pollo y queso.",
+      "image": "/images/recipes/enchiladas-verdes.jpg",
+      "preparation_time": 20,
+      "cooking_time": 30,
+      "servings": 4,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 tortillas de maíz",
+        "500g de pollo desmenuzado",
+        "300g de salsa verde",
+        "200g de queso rallado",
+        "1 cebolla",
+        "Crema agria"
+      ],
+      "instructions": [
+        "Calienta ligeramente las tortillas para que sean flexibles.",
+        "Rellena cada tortilla con pollo desmenuzado.",
+        "Enrolla las tortillas y colócalas en un plato.",
+        "Cubre con salsa verde y queso rallado.",
+        "Hornea hasta que el queso se derrita.",
+        "Sirve con cebolla picada y crema agria."
+      ],
+      "tags": ["enchiladas", "pollo", "mexicano"]
+    },
+    {
+      "id": "guacamole-tradicional",
+      "title": "Guacamole Tradicional",
+      "description": "El clásico guacamole mexicano, perfecto para cualquier ocasión.",
+      "image": "/images/recipes/guacamole.jpg",
+      "preparation_time": 15,
+      "cooking_time": 0,
+      "servings": 4,
+      "difficulty": "easy",
+      "ingredients": [
+        "3 aguacates maduros",
+        "1 tomate",
+        "1/2 cebolla",
+        "Cilantro fresco",
+        "1 limón",
+        "Sal al gusto",
+        "Chile serrano (opcional)"
+      ],
+      "instructions": [
+        "Corta los aguacates por la mitad y retira el hueso.",
+        "Machaca la pulpa del aguacate en un recipiente.",
+        "Pica finamente el tomate, la cebolla y el cilantro.",
+        "Mezcla todos los ingredientes con el aguacate.",
+        "Exprime el limón y añade sal al gusto.",
+        "Si deseas picante, añade chile serrano finamente picado."
+      ],
+      "tags": ["guacamole", "entrada", "mexicano"]
+    }
+  ]
+}
