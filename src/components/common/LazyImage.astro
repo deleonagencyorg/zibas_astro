@@ -86,8 +86,7 @@ if (isWebP) {
   alt={optimizedAlt}
   class={className}
   style={{
-    ...(color ? { filter: `brightness(0) invert(${color === 'white' ? 1 : 0})` } : {}),
-    objectFit: 'contain'
+    ...(color ? { filter: `brightness(0) invert(${color === 'white' ? 1 : 0})` } : {})
   }}
   {...(decorative ? { 'aria-hidden': 'true', 'role': 'presentation' } : {})}
   loading={priority ? null : "lazy"}

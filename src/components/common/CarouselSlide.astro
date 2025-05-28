@@ -17,18 +17,18 @@ export interface Props {
 const { slide, priority = false } = Astro.props;
 ---
 
-<div class="swiper-slide relative md:h-full">
-  <div class="absolute inset-0 overflow-hidden h-full">
+<div class="swiper-slide relative md:h-full ">
+  <div class="absolute inset-0 overflow-hidden h-full ">
     <LazyImage 
       src={slide.mobile} 
       alt={slide.alt}
-      class="w-full object-cover object-center md:hidden"
+      class="w-full h-full object-cover object-center md:hidden"
       priority={priority}
     />
     <LazyImage 
       src={slide.desktop} 
       alt={slide.alt}
-      class="w-full object-cover object-center hidden md:block"
+      class="w-full object-contain object-center hidden md:block"
       priority={priority}
     />
   </div>
