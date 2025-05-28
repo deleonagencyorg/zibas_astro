@@ -4,11 +4,14 @@ import { t, type Locale } from '../../../i18n/i18n';
 import { logos} from '../../../config/assets';
 import LocalizedImage from '../LazyImage.astro';
 import './styles.css';
+import Skeleton from './Skeleton.astro';
 
 export interface Props {
   currentLang: Locale;
+  loading?: boolean;
 }
-const { currentLang } = Astro.props;
+
+const { currentLang, loading = false } = Astro.props;
 
 // Obtener los datos de social media (url y alt) desde los archivos de traducción
 const socialMedia = t('social_media', { namespace: 'common', locale: currentLang });
@@ -33,60 +36,64 @@ const privacyPolicyUrl = t('footer.privacy_policy_url', { namespace: 'common', l
 const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang }).replace('{year}', currentYear.toString());
 ---
 
-<footer class="bg-black text-white pt-12 pb-8 px-4 sm:px-6 lg:px-8 font-sans">
-  <div class="container mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
-      <!-- Logo -->
-      <div class="flex justify-center md:justify-start mb-8 md:mb-0">
-        <a href={`/${currentLang}/`} class="font-sans">
-          <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-12 lg:h-14 w-auto" />
-        </a>
+{loading ? (
+  <Skeleton />
+) : (
+  <footer class="bg-black text-white pt-12 pb-8 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
+        <!-- Logo -->
+        <div class="flex justify-center md:justify-start mb-8 md:mb-0">
+          <a href={`/${currentLang}/`} class="font-sans">
+            <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-12 lg:h-14 w-auto" />
+          </a>
+        </div>
+
+        <!-- Navegación del Footer -->
+        <nav class="col-span-1 md:col-span-1 flex flex-col items-center mb-8 md:mb-0">
+          <h3 class="text-lg font-sans font-semibold mb-3 uppercase text-center">{exploreLabel}</h3>
+          <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:gap-x-6">
+            {footerNavLinks.map(item => (
+              <a href={item.href} class="text-sm font-sans hover:text-gray-300 transition-colors mb-2 md:mb-0 text-center">{item.text}</a>
+            ))}
+          </div>
+        </nav>
+
+        <!-- Redes Sociales -->
+        <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
+          <div class="flex space-x-4 mb-4 social-links">
+            {socialMedia && Array.isArray(socialMedia) && socialMedia.map((sm) => {
+              return (
+                <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
+                  <span class="sr-only">{sm.name}</span>
+                  {sm.iconUrl && (
+                    <img
+                      src={sm.iconUrl}
+                      alt={sm.alt || sm.name}
+                      class="h-5 w-5 filter invert"
+                      width={20}
+                      height={20}
+                      loading="lazy"
+                    />
+                  )}
+                </a>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      <!-- Navegación del Footer -->
-      <nav class="col-span-1 md:col-span-1 flex flex-col items-center mb-8 md:mb-0">
-        <h3 class="text-lg font-sans font-semibold mb-3 uppercase text-center">{exploreLabel}</h3>
-        <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:gap-x-6">
-          {footerNavLinks.map(item => (
-            <a href={item.href} class="text-sm font-sans hover:text-gray-300 transition-colors mb-2 md:mb-0 text-center">{item.text}</a>
-          ))}
+      <!-- Sección inferior centrada -->
+      <div class="border-t border-gray-700 pt-8 flex flex-col items-center text-sm text-center">
+        <div class="mb-2">
+          <a href={privacyPolicyUrl} class="font-sans hover:text-gray-300 transition-colors">{privacyPolicyText}</a>
         </div>
-      </nav>
-
-      <!-- Redes Sociales -->
-      <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
-        <div class="flex space-x-4 mb-4 social-links">
-          {socialMedia && Array.isArray(socialMedia) && socialMedia.map((sm) => {
-            return (
-              <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
-                <span class="sr-only">{sm.name}</span>
-                {sm.iconUrl && (
-                  <img
-                    src={sm.iconUrl}
-                    alt={sm.alt || sm.name}
-                    class="h-5 w-5 filter invert"
-                    width={20}
-                    height={20}
-                    loading="lazy"
-                  />
-                )}
-              </a>
-            );
-          })}
+        <div class="text-gray-400 font-sans copyright">
+          {copyrightText}
         </div>
       </div>
     </div>
-
-    <!-- Sección inferior centrada -->
-    <div class="border-t border-gray-700 pt-8 flex flex-col items-center text-sm text-center">
-      <div class="mb-2">
-        <a href={privacyPolicyUrl} class="font-sans hover:text-gray-300 transition-colors">{privacyPolicyText}</a>
-      </div>
-      <div class="text-gray-400 font-sans copyright">
-        {copyrightText}
-      </div>
-    </div>
-  </div>
-</footer>
+  </footer>
+)}
 
 <script src="./scripts.js"></script>

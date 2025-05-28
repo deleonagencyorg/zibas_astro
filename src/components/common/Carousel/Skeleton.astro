@@ -1,0 +1,21 @@
+---
+interface Props {
+  items?: number;
+}
+const { items = 1 } = Astro.props;
+---
+
+<div class="relative overflow-hidden h-[300px] md:h-[90vh] min-h-[300px] bg-gray-100 animate-pulse">
+  <div class="swiper-container h-full">
+    <div class="swiper-wrapper">
+      {Array.from({ length: items }).map(() => (
+        <div class="swiper-slide h-full bg-gray-200">
+          <div class="absolute inset-x-0 bottom-8 flex flex-col items-center justify-center text-center px-4">
+            <div class="h-8 w-3/4 bg-gray-300 rounded mb-2"></div>
+            <div class="h-6 w-1/2 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
