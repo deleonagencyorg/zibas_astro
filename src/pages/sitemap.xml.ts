@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { languages } from '../../i18n/config';
+import { languages } from '../i18n/config';
 
 const staticPages = ['/', '/menu', '/nosotros', '/contacto'];
 
