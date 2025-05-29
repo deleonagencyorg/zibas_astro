@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { languages } from '../i18n/config';
+import config from '../i18n/config';
 
 const staticPages = ['/', '/menu', '/nosotros', '/contacto'];
 
@@ -8,7 +8,7 @@ export const GET: APIRoute = async () => {
   const posts = await getCollection('blog');
   
   const pages = staticPages.flatMap(page => 
-    languages.map(lang => `/${lang.code}${page}`)
+    config.supportedLocales.map(lang => `/${lang}${page}`)
   );
 
   const blogPosts = posts.map(post => 
