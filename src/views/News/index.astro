@@ -4,7 +4,6 @@ import { t } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
 import { getLocale } from '../../i18n/i18n';
 import './styles.css';
-import './scripts.js';
 
 const currentLang = getLocale();
 const news = t('items', { namespace: 'news', locale: currentLang });
@@ -57,4 +56,15 @@ function formatDate(dateString: string, locale: Locale) {
     )}
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', function() {
+        this.src = '/images/news/placeholder.jpg';
+      });
+    });
+  });
+</script>
 

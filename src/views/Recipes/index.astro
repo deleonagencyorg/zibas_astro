@@ -4,7 +4,7 @@ import { t } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
 import { getLocale } from '../../i18n/i18n';
 import './styles.css';
-import './scripts.js';
+
 
 const currentLang = getLocale();
 const recipes = t('items', { namespace: 'recipes', locale: currentLang });
@@ -54,4 +54,14 @@ const recipes = t('items', { namespace: 'recipes', locale: currentLang });
   </div>
 </div>
 
-
+<script>
+  // This script runs only on the client side
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', function() {
+        this.src = '/images/recipes/placeholder.jpg';
+      });
+    });
+  });
+</script>
