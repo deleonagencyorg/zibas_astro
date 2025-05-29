@@ -1,59 +1,4 @@
 {
-  "welcome": "Bienvenido",
-  "about": "Acerca de",
-  "contact": "Contacto",
-  "contact.title": "Contáctanos",
-  "contact.content": "Este es el contenido de la página de contacto. Completa el formulario a continuación o comunícate con nosotros directamente.",
-  "products_title": "Nuestros Productos",
-  "email": "Correo electrónico",
-  "name": "Nombre",
-  "lastname": "Apellido",
-  "phone": "Teléfono",
-  "country": "País",
-  "submit": "Enviar",
-  "cancel": "Cancelar",
-  "save": "Guardar",
-  "delete": "Eliminar",
-  "edit": "Editar",
-  "profile": "Perfil",
-  "privacy_policy": "Política de privacidad",
-  "terms_conditions": "Términos y condiciones",
-  "meta": {
-    "home": {
-      "title": "Taqueritos - Participa y gana premios increíbles",
-      "description": "Participa en nuestra promoción Taqueritos y gana premios increíbles. Registra tus códigos y aumenta tus posibilidades de ganar."
-    },
-    "contact": {
-      "title": "Contacto - Taqueritos",
-      "description": "Contáctanos para obtener más información sobre nuestros productos y promociones."
-    },
-    "recipes": {
-      "title": "Recetas - Taqueritos",
-      "description": "Descubre deliciosas recetas con Taqueritos. Desde platos tradicionales hasta creaciones innovadoras."
-    },
-    "news": {
-      "title": "Noticias - Taqueritos",
-      "description": "Mantente al día con las últimas noticias y eventos de Taqueritos."
-    },
-    "products": {
-      "title": "Productos - Taqueritos",
-      "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
-    }
-  },
-  "countries": {
-    "honduras": "Honduras",
-    "guatemala": "Guatemala",
-    "el_salvador": "El Salvador",
-    "nicaragua": "Nicaragua",
-    "costa_rica": "Costa Rica",
-    "republica_dominicana": "República Dominicana"
-  },
-  "form_validation": {
-    "required": "Este campo es requerido",
-    "invalid_email": "Correo electrónico inválido",
-    "password_min": "La contraseña debe tener al menos 8 caracteres",
-    "passwords_not_match": "Las contraseñas no coinciden"
-  },
   "social_media": {
     "facebook": {
       "name": "Facebook",
@@ -173,6 +118,10 @@
     }
   ],
   "home": {
+    "spotify":{
+     "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-768x116.webp",
+      "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
+    },
     "title": "Taqueritos - Comida Auténtica",
     "subtitle": "Disfruta de los mejores tacos y platillos mexicanos",
     "cta_text": "Ver Menú",

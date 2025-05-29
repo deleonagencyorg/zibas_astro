@@ -1,26 +1,29 @@
 <!-- src/views/Home/index.astro -->
 ---
-import { t, type Locale } from '../../i18n/i18n';
+import LazyImage from '../../components/common/LazyImage.astro';
+import { t, getLocale } from '../../i18n/i18n';
 import Carousel from '../../components/common/Carousel/index.astro';
 import './styles.css';
-import './scripts.js';
 
+// Obtener idioma actual
+const currentLang = getLocale();
 // Precargar namespaces para mejor performance
-t('common', { locale: Astro.props.currentLang });
-t('recipe', { locale: Astro.props.currentLang });
-t('news', { locale: Astro.props.currentLang });
-t('products', { locale: Astro.props.currentLang });
+t('common', { locale: currentLang });
+t('recipe', { locale: currentLang });
+t('news', { locale: currentLang });
+t('products', { locale: currentLang });
 
 export interface Props {
-  currentLang: Locale;
+  currentLang: string;
   loading?: boolean;
 }
 
-const { currentLang, loading = false } = Astro.props;
-const sliderAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
-console.log('Slider Assets:', sliderAssets);
-const slides = Array.isArray(sliderAssets) 
-  ? sliderAssets
+const { loading = false } = Astro.props;
+const spotifyAssets = t('home.spotify', { namespace: 'common', locale: currentLang }) || {};
+console.log('spotifyAssets', spotifyAssets)
+const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
+const slides = Array.isArray(commonAssets) 
+  ? commonAssets
     .filter(asset => asset && typeof asset === 'object' && asset.desktop && asset.mobile)
     .map(asset => ({
       desktop: asset.desktop,
@@ -32,10 +35,6 @@ const slides = Array.isArray(sliderAssets)
     }))
   : [];
 
-if (!slides.length) {
-  console.error('No valid slides found in:', sliderAssets);
-}
-
 
 
 ---
@@ -46,28 +45,71 @@ if (!slides.length) {
       <Carousel slides={slides} />
     </div>
     
+    <!-- Preconnect to Spotify for faster loading -->
+    <link rel="preconnect" href="https://open.spotify.com" />
+    
     <!-- Spotify Section -->
     <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center">
-      <div class="flex flex-wrap items-center justify-center">
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center"></div>
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center"></div>
-      </div>
-      
-      <div class="flex flex-wrap items-center justify-center">
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
-          <iframe loading="lazy" src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" data-ll-status="loaded" class="entered lazyloaded"></iframe>
+      <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8 px-8">
+        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
+          <div class="spotify-skeleton w-[295px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
+          <iframe loading="lazy" data-src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" class="hidden"></iframe>
+          <p class="py-6" >
+            <a href="https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1" target="_blank" rel="noopener noreferrer">
+              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
+            </a>
+          </p>
         </div>
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
-          <iframe loading="lazy" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
+        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
+          <div class="spotify-skeleton w-full max-w-[295px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
+          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
+          <p class="py-6" >
+            <a href="https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9" target="_blank" rel="noopener noreferrer">
+              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
+            </a>
+          </p>
         </div>
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
+        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
+          <div class="spotify-skeleton w-full max-w-[300px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
+          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
+          <p class="py-6">
+            <a href="https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY" target="_blank" rel="noopener noreferrer">
+              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
+            </a>
+          </p>
         </div>
-        <div class="flex-1 min-w-[250px] flex flex-col items-center justify-center">
-          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" data-rocket-lazyload="fitvidscompatible" data-lazy-src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" data-ll-status="loaded" class="entered lazyloaded"></iframe>
+        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
+          <div class="spotify-skeleton w-full max-w-[300px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
+          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
+          <p class="py-6">
+            <a href="https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j" target="_blank" rel="noopener noreferrer">
+              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
+            </a>
+          </p>
         </div>
       </div>
     </section>
 
-    
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const iframe = entry.target.querySelector('iframe');
+              if (iframe) {
+                iframe.src = iframe.dataset.src;
+                iframe.classList.remove('hidden');
+                entry.target.querySelector('.spotify-skeleton').remove();
+                observer.unobserve(entry.target);
+              }
+            }
+          });
+        }, { rootMargin: '200px' });
+
+        document.querySelectorAll('#spotify > div > div').forEach(container => {
+          observer.observe(container);
+        });
+      });
+    </script>
+
   </main>
