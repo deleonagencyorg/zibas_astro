@@ -50,7 +50,17 @@ const slides = Array.isArray(commonAssets)
     
     <!-- Spotify Section -->
     <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center">
-      <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8 px-8">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
+        <div class="w-full md:w-1/2 flex justify-center items-center gap-8">
+          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/notamusical1.webp" alt="Spotify Listen In" class="w-8 object-cover object-center"/>
+          <h2 class="text-4xl font-normal text-center text-white">TAQUE MUSIC</h2>
+          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/notamusical2.webp" alt="Spotify Listen In" class="w-8 object-cover object-center"/>
+        </div>
+        <div class="w-full md:w-1/2 flex justify-center items-center">
+          <LazyImage src={spotifyAssets.listen_in_spotify} alt="Spotify Listen In" class="w-64 object-cover object-center"/>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 md:gap-20 px-8">
         <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
           <div class="spotify-skeleton w-[295px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
           <iframe loading="lazy" data-src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" class="hidden"></iframe>
