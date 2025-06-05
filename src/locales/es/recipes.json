@@ -13,6 +13,20 @@
     "explore_more": {
       "title": "Explora más recetas aquí",
       "link": "/es/recetas"
+    },
+    "visit_text_1": {
+      "title": "Visítanos en"
+    },
+    "visit_text_2": {
+      "title": "y"
+    },
+    "visit_1": {
+      "title": "SNACKSYUMMIES.COM",
+      "link": "https://snack.snacksyummies.com"
+    },
+    "visit_2": {
+      "title": "YUMMIES.TV",
+      "link": "https://www.youtube.com/channel/UCKySsb2yXXLcbLvY5X77e4g"
     }
   },
   "detail": {

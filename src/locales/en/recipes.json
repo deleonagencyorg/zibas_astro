@@ -13,6 +13,27 @@
     "explore_more": {
       "title": "Explore more recipes here",
       "link": "/en/recipes"
+    },
+    "visit_text_1": {
+      "title": "Visit us at"
+    },
+    "visit_text_2": {
+      "title": " "
+    },
+    "visit_text_3": {
+      "title": "- Make Your Day and Taqueritos "
+    },
+    "visit_1": {
+      "title": "Instagram",
+      "link": "https://www.instagram.com/taqueritosusa/"
+    },
+    "visit_2": {
+      "title": "TikTok",
+      "link": "https://taqueritos.com/en/home/https://www.tiktok.com/@taqueritosusa"
+    },
+    "visit_3": {
+      "title": "Facebook",
+      "link": "https://www.facebook.com/taqueritosusa/"
     }
   },
   "detail": {
