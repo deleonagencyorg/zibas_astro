@@ -3,7 +3,7 @@
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
-import './scripts.js';
+import { initProductDetail } from './scripts.js';
 
 interface ProductItem {
   id: string;
@@ -19,16 +19,42 @@ interface ProductItem {
 const { currentLang, productId } = Astro.props;
 
 // Obtener datos desde traducciones
-const product = t(`products.items.${productId}`, { locale: currentLang });
-const allProducts = t('products.items', { locale: currentLang });
-const relatedProducts = product.relatedProducts 
-  ? allProducts.filter((p: any) => product.relatedProducts.includes(p.id))
-  : allProducts
-      .filter((p: any) => p.id !== productId && p.category === product.category)
-      .slice(0, 3);
+const product = t(`items.${productId}`, { locale: currentLang, namespace: 'products' }) || {};
 
-if (!product) {
+// Si el producto no existe, lanzar error
+if (!product || Object.keys(product).length === 0) {
   throw new Error(t('errors.product_not_found', { locale: currentLang }));
+}
+
+// Asegurar que todas las propiedades necesarias existan
+const safeProduct = {
+  id: product.id || productId,
+  name: product.name || '',
+  description: product.description || '',
+  price: product.price || 0,
+  category: product.category || '',
+  images: Array.isArray(product.images) ? product.images : [],
+  features: Array.isArray(product.features) ? product.features : [],
+  relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts : [],
+  presentaciones: Array.isArray(product.presentaciones) ? product.presentaciones : [],
+  background_image: product.background_image || '',
+  short_description: product.short_description || ''
+};
+
+// Obtener todos los productos como un array
+const productsData = t('products', { locale: currentLang }) || {};
+const allProductsArray = Array.isArray(productsData.items) ? productsData.items : [];
+
+// Filtrar productos relacionados
+let relatedProducts: any[] = [];
+if (safeProduct.relatedProducts.length > 0) {
+  relatedProducts = allProductsArray.filter((p: any) => 
+    safeProduct.relatedProducts.includes(p.id)
+  );
+} else {
+  relatedProducts = allProductsArray
+    .filter((p: any) => p.id !== productId && p.category === safeProduct.category)
+    .slice(0, 3);
 }
 
 function formatPrice(price: number, locale: Locale): string {
@@ -43,9 +69,9 @@ function formatPrice(price: number, locale: Locale): string {
   <div class="container mx-auto px-4">
     <!-- Encabezado con nombre y precio -->
     <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-800 mb-2">{product.name}</h1>
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">{safeProduct.name}</h1>
       <div class="text-2xl font-semibold text-yellow-600">
-        {formatPrice(product.price, currentLang)}
+        {formatPrice(safeProduct.price, currentLang)}
       </div>
     </header>
 
@@ -53,23 +79,23 @@ function formatPrice(price: number, locale: Locale): string {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Galería de imágenes -->
       <div class="product-gallery">
-        {product.images.length > 0 ? (
+        {safeProduct.images.length > 0 ? (
           <>
             <div class="relative rounded-lg overflow-hidden mb-4 h-96">
               <img 
-                src={product.images[0]} 
-                alt={product.name}
+                src={safeProduct.images[0]} 
+                alt={safeProduct.name}
                 class="w-full h-full object-cover"
                 onerror="this.onerror=null;this.src='/images/products/placeholder.jpg';"
               />
             </div>
-            {product.images.length > 1 && (
+            {safeProduct.images.length > 1 && (
               <div class="grid grid-cols-4 gap-2">
-                {product.images.slice(1).map((image, index) => (
+                {safeProduct.images.slice(1).map((image: string, index: number) => (
                   <div class="relative rounded overflow-hidden h-20 cursor-pointer" onclick="/* Lógica para cambiar imagen principal */">
                     <img 
                       src={image} 
-                      alt={`${product.name} ${index + 2}`}
+                      alt={`${safeProduct.name} ${index + 2}`}
                       class="w-full h-full object-cover"
                       onerror="this.onerror=null;this.src='/images/products/placeholder.jpg';"
                     />
@@ -94,18 +120,18 @@ function formatPrice(price: number, locale: Locale): string {
           <h2 class="text-2xl font-bold mb-4">
             {t('products.description', { locale: currentLang })}
           </h2>
-          <p class="text-gray-700">{product.description}</p>
+          <p class="text-gray-700">{safeProduct.description}</p>
         </section>
 
         <!-- Características -->
-        {product.features.length > 0 && (
+        {safeProduct.features.length > 0 && (
           <section class="product-features mb-8">
             <h2 class="text-2xl font-bold mb-4">
               {t('products.features', { locale: currentLang })}
             </h2>
             <ul class="space-y-2">
-              {product.features.map((feature, index) => (
-                <li key={index} class="flex items-start">
+              {safeProduct.features.map((feature: string, index: number) => (
+                <li class="flex items-start">
                   <span class="mr-2">•</span>
                   <span>{feature}</span>
                 </li>
@@ -125,7 +151,7 @@ function formatPrice(price: number, locale: Locale): string {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {relatedProducts.map((related: any) => (
             <a 
-              href={`/${currentLang}/productos/${related.id}`} 
+              href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${related.id}`} 
               class="block group"
             >
               <div class="bg-gray-50 rounded-lg overflow-hidden transition-all hover:shadow-md">
@@ -153,3 +179,11 @@ function formatPrice(price: number, locale: Locale): string {
     )}
   </div>
 </article>
+
+<script>
+  // Este script se ejecuta solo en el navegador
+  import { initProductDetail } from './scripts.js';
+  document.addEventListener('DOMContentLoaded', () => {
+    initProductDetail();
+  });
+</script>

@@ -21,8 +21,8 @@
       "title": "Nueva Sucursal en Tegucigalpa",
       "summary": "Estamos emocionados de anunciar la apertura de nuestra nueva sucursal en Tegucigalpa.",
       "content": "<p>Estamos emocionados de anunciar la apertura de nuestra nueva sucursal en Tegucigalpa. Ubicada en el corazón de la ciudad, nuestra nueva ubicación ofrecerá la misma calidad y sabor que has llegado a esperar de Taqueritos.</p><p>La gran inauguración está programada para el 15 de junio, y tendremos promociones especiales durante toda la semana. ¡No te lo pierdas!</p><p>Dirección: Avenida Principal #123, Colonia Palmira, Tegucigalpa.</p>",
-      "image": "/images/news/nueva-sucursal.jpg",
-      "published_date": "2025-05-01",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/nueva-sucursal.webp",
+      "published_date": "5 de mayo de 2025",
       "author": "Equipo Taqueritos",
       "tags": ["sucursal", "tegucigalpa", "apertura"]
     },

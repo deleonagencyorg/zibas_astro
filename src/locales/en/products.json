@@ -26,11 +26,68 @@
   },
   "items": [
     {
+      "id": "tortillas-harina",
+      "name": "Flour Tortillas",
+      "description": "Soft and flexible flour tortillas, perfect for any preparation.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-harina.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas-harina.webp",
+      "presentaciones": [
+        {
+          "valor": "8 units",
+          "icono": "package-small"
+        },
+        {
+          "valor": "16 units",
+          "icono": "package-medium"
+        }
+      ],
+      "short_description": "Soft and flexible flour tortillas.",
+      "category": "tortillas",
+      "ingredients": ["Wheat flour", "Water", "Salt", "Vegetable oil"],
+      "nutritional_info": {
+        "serving_size": "2 tortillas (50g)",
+        "calories": 120,
+        "fat": "2g",
+        "carbs": "25g",
+        "protein": "3g",
+        "sodium": "10mg"
+      },
+      "sizes": [
+        {
+          "name": "Pack of 8",
+          "weight": "200g",
+          "sku": "TH-8"
+        },
+        {
+          "name": "Pack of 16",
+          "weight": "400g",
+          "sku": "TH-16"
+        }
+      ],
+      "serving_suggestion": "Heat them on a griddle or pan for 30 seconds on each side to enjoy their maximum flavor.",
+      "tags": ["tortillas", "flour", "flexible"]
+    },
+    {
       "id": "tortillas-maiz",
-      "title": "Corn Tortillas",
+      "name": "Corn Tortillas",
       "description": "Our authentic corn tortillas, made with selected grains and the traditional process.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-maiz.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas.webp",
+      "presentaciones": [
+        {
+          "valor": "12 units",
+          "icono": "package-small"
+        },
+        {
+          "valor": "24 units",
+          "icono": "package-medium"
+        },
+        {
+          "valor": "36 units",
+          "icono": "package-large"
+        }
+      ],
       "short_description": "Authentic corn tortillas for your favorite meals.",
-      "image": "/images/products/tortillas-maiz.jpg",
       "category": "tortillas",
       "ingredients": ["Nixtamalized corn", "Water", "Lime"],
       "nutritional_info": {
@@ -63,12 +120,23 @@
     },
     {
       "id": "salsa-verde",
-      "title": "Green Salsa",
-      "description": "Our green salsa is made with fresh tomatillos, green chilies, and selected spices to give the perfect touch to your dishes.",
+      "name": "Green Salsa",
+      "description": "Traditional green salsa with fresh tomatillos and serrano chili.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/salsa-verde.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-salsa-verde.webp",
+      "presentaciones": [
+        {
+          "valor": "220g",
+          "icono": "bottle-small"
+        },
+        {
+          "valor": "450g",
+          "icono": "bottle-large"
+        }
+      ],
       "short_description": "Green salsa with fresh tomatillos and green chilies.",
-      "image": "/images/products/salsa-verde.jpg",
       "category": "salsas",
-      "ingredients": ["Tomatillos", "Green chilies", "Onion", "Garlic", "Cilantro", "Salt", "Spices"],
+      "ingredients": ["Tomatillos", "Serrano chili", "Onion", "Garlic", "Cilantro", "Salt", "Spices"],
       "nutritional_info": {
         "serving_size": "2 tablespoons (30g)",
         "calories": 15,

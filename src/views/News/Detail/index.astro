@@ -3,7 +3,7 @@
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
-import './scripts.js';
+import { initNewsDetail } from './scripts.js';
 
 interface NewsItem {
   id: string;
@@ -19,15 +19,33 @@ interface NewsItem {
 const { currentLang, newsId } = Astro.props;
 
 // Obtener datos directamente desde las traducciones
-const newsItem = t(`news.items.${newsId}`, { locale: currentLang });
-const allNews = t('news.items', { locale: currentLang });
-const relatedNews = allNews
-  .filter((item: any) => item.id !== newsId)
-  .slice(0, 3); // Limitar a 3 noticias relacionadas
+const newsItem = t(`items.${newsId}`, { locale: currentLang, namespace: 'news' }) || {};
 
-if (!newsItem) {
+// Si la noticia no existe, lanzar error
+if (!newsItem || Object.keys(newsItem).length === 0) {
   throw new Error(t('errors.news_not_found', { locale: currentLang }));
 }
+
+// Asegurar que todas las propiedades necesarias existan
+const safeNewsItem = {
+  id: newsItem.id || newsId,
+  title: newsItem.title || '',
+  content: newsItem.content || '',
+  summary: newsItem.summary || '',
+  date: newsItem.date || '',
+  author: newsItem.author || '',
+  image: newsItem.image || '',
+  tags: Array.isArray(newsItem.tags) ? newsItem.tags : []
+};
+
+// Obtener todas las noticias como un array
+const newsData = t('news', { locale: currentLang }) || {};
+const allNewsArray = Array.isArray(newsData.items) ? newsData.items : [];
+
+// Filtrar noticias relacionadas
+const relatedNews = allNewsArray
+  .filter((item: any) => item.id !== newsId)
+  .slice(0, 3); // Limitar a 3 noticias relacionadas
 
 function formatDate(dateString: string, locale: Locale) {
   if (!dateString) return '';
@@ -52,7 +70,7 @@ function formatDate(dateString: string, locale: Locale) {
         {t('page.title', { namespace: 'news', locale: currentLang })}
       </a>
       <span class="mx-2">/</span>
-      <span class="text-gray-900">{newsItem.title}</span>
+      <span class="text-gray-900">{safeNewsItem.title}</span>
     </nav>
 
     <!-- Contenido principal -->
@@ -60,20 +78,20 @@ function formatDate(dateString: string, locale: Locale) {
       <div class="lg:col-span-2">
         <!-- Encabezado con título, fecha y autor -->
         <header class="mb-6">
-          <h1 class="text-4xl font-bold text-gray-800 mb-2">{newsItem.title}</h1>
+          <h1 class="text-4xl font-bold text-gray-800 mb-2">{safeNewsItem.title}</h1>
           <div class="flex items-center text-gray-500 text-sm">
-            <span>{formatDate(newsItem.published_date, currentLang)}</span>
-            {newsItem.author && <span class="mx-2">•</span>}
-            {newsItem.author && <span>{newsItem.author}</span>}
+            <span>{formatDate(safeNewsItem.date, currentLang)}</span>
+            {safeNewsItem.author && <span class="mx-2">•</span>}
+            {safeNewsItem.author && <span>{safeNewsItem.author}</span>}
           </div>
         </header>
 
         <!-- Imagen principal -->
-        {newsItem.image && (
+        {safeNewsItem.image && (
           <div class="relative rounded-lg overflow-hidden mb-8 h-80 lg:h-96">
             <img 
-              src={newsItem.image} 
-              alt={newsItem.title} 
+              src={safeNewsItem.image} 
+              alt={safeNewsItem.title} 
               class="w-full h-full object-cover"
               onerror="this.onerror=null;this.src='/images/news/placeholder.jpg';"
             />
@@ -81,14 +99,14 @@ function formatDate(dateString: string, locale: Locale) {
         )}
 
         <!-- Contenido de la noticia -->
-        <div class="prose prose-lg max-w-none mb-8 text-gray-700" set:html={newsItem.content} />
+        <div class="prose prose-lg max-w-none mb-8 text-gray-700" set:html={safeNewsItem.content} />
 
         <!-- Sección de etiquetas -->
-        {newsItem.tags && newsItem.tags.length > 0 && (
+        {safeNewsItem.tags && safeNewsItem.tags.length > 0 && (
           <div class="mb-8">
             <h3 class="text-lg font-semibold mb-2">{t('detail.tags', { namespace: 'news', locale: currentLang })}</h3>
             <div class="flex flex-wrap gap-2">
-              {newsItem.tags.map((tag: string) => (
+              {safeNewsItem.tags.map((tag: string) => (
                 <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">{tag}</span>
               ))}
             </div>
@@ -105,7 +123,7 @@ function formatDate(dateString: string, locale: Locale) {
                class="text-blue-600 hover:text-blue-800">
               Facebook
             </a>
-            <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(newsItem.title)}`} 
+            <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(safeNewsItem.title)}`} 
                target="_blank" 
                rel="noopener noreferrer"
                class="text-blue-400 hover:text-blue-600">
@@ -171,3 +189,11 @@ function formatDate(dateString: string, locale: Locale) {
     </div>
   </div>
 </article>
+
+<script>
+  // Este script se ejecuta solo en el navegador
+  import { initNewsDetail } from './scripts.js';
+  document.addEventListener('DOMContentLoaded', () => {
+    initNewsDetail();
+  });
+</script>

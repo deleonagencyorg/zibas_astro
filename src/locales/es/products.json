@@ -26,11 +26,68 @@
   },
   "items": [
     {
+      "id": "tortillas-harina",
+      "name": "Tortillas de Harina",
+      "description": "Tortillas de harina suaves y flexibles, perfectas para cualquier preparación.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-harina.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas-harina.webp",
+      "presentaciones": [
+        {
+          "valor": "8 unidades",
+          "icono": "package-small"
+        },
+        {
+          "valor": "16 unidades",
+          "icono": "package-medium"
+        }
+      ],
+      "short_description": "Tortillas de harina suaves y flexibles.",
+      "category": "tortillas",
+      "ingredients": ["Harina", "Agua", "Sal"],
+      "nutritional_info": {
+        "serving_size": "2 tortillas (50g)",
+        "calories": 120,
+        "fat": "1g",
+        "carbs": "25g",
+        "protein": "3g",
+        "sodium": "10mg"
+      },
+      "sizes": [
+        {
+          "name": "Paquete de 10",
+          "weight": "250g",
+          "sku": "TH-10"
+        },
+        {
+          "name": "Paquete de 20",
+          "weight": "500g",
+          "sku": "TH-20"
+        }
+      ],
+      "serving_suggestion": "Caliéntalas en un comal o sartén por 30 segundos de cada lado para disfrutar de su máximo sabor.",
+      "tags": ["tortillas", "harina", "suaves"]
+    },
+    {
       "id": "tortillas-maiz",
-      "title": "Tortillas de Maíz",
+      "name": "Tortillas de Maíz",
       "description": "Nuestras auténticas tortillas de maíz, hechas con granos seleccionados y el proceso tradicional.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-maiz.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas.webp",
+      "presentaciones": [
+        {
+          "valor": "12 unidades",
+          "icono": "package-small"
+        },
+        {
+          "valor": "24 unidades",
+          "icono": "package-medium"
+        },
+        {
+          "valor": "36 unidades",
+          "icono": "package-large"
+        }
+      ],
       "short_description": "Auténticas tortillas de maíz para tus comidas favoritas.",
-      "image": "/images/products/tortillas-maiz.jpg",
       "category": "tortillas",
       "ingredients": ["Maíz nixtamalizado", "Agua", "Cal"],
       "nutritional_info": {
@@ -63,10 +120,21 @@
     },
     {
       "id": "salsa-verde",
-      "title": "Salsa Verde",
-      "description": "Nuestra salsa verde está hecha con tomatillos frescos, chiles verdes y especias seleccionadas para darle el toque perfecto a tus platillos.",
+      "name": "Salsa Verde",
+      "description": "Salsa verde tradicional con tomatillos frescos y chile serrano.",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/salsa-verde.webp",
+      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-salsa-verde.webp",
+      "presentaciones": [
+        {
+          "valor": "220g",
+          "icono": "bottle-small"
+        },
+        {
+          "valor": "450g",
+          "icono": "bottle-large"
+        }
+      ],
       "short_description": "Salsa verde con tomatillos frescos y chiles verdes.",
-      "image": "/images/products/salsa-verde.jpg",
       "category": "salsas",
       "ingredients": ["Tomatillos", "Chiles verdes", "Cebolla", "Ajo", "Cilantro", "Sal", "Especias"],
       "nutritional_info": {

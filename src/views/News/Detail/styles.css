@@ -1,4 +1,6 @@
 /* src/views/News/Detail/styles.css */
+@tailwind components;
+
 @layer components {
   .news-detail .prose {
     max-width: 100%;
