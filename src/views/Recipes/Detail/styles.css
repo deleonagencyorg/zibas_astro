@@ -1,34 +1,33 @@
-@layer components {
-  .recipe-detail {
-    /* Estilos base */
-  }
-  
-  .recipe-ingredients {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .recipe-ingredients li {
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: flex-start;
-  }
-  
-  .recipe-instructions {
-    margin-top: 2rem;
-  }
-  
-  .recipe-instructions .prose {
-    max-width: 100%;
-  }
-  
-  .recipe-instructions .prose ol,
-  .recipe-instructions .prose ul {
-    margin-bottom: 1rem;
-    margin-left: 1.5rem;
-  }
-  
-  .recipe-instructions .prose li {
-    margin-bottom: 0.5rem;
-  }
+/* Estilos para la página de detalle de recetas */
+.recipe-detail {
+  margin-bottom: 2rem;
+}
+
+.recipe-ingredients {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.recipe-ingredients li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.recipe-instructions {
+  margin-top: 2rem;
+}
+
+.recipe-instructions .prose {
+  max-width: 100%;
+}
+
+.recipe-instructions .prose ol,
+.recipe-instructions .prose ul {
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+}
+
+.recipe-instructions .prose li {
+  margin-bottom: 0.5rem;
 }

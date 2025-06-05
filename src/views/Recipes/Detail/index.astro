@@ -3,7 +3,7 @@
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
-import './scripts.js';
+import { initRecipeDetailScripts } from './scripts.js';
 
 interface RecipeItem {
   id: string;
@@ -144,3 +144,18 @@ function formatTime(minutes: number, locale: Locale): string {
     </div>
   </div>
 </article>
+
+<script>
+  // Este script se ejecuta solo en el navegador
+  document.addEventListener('DOMContentLoaded', () => {
+    // Manejo de imágenes que fallan al cargar
+    document.querySelectorAll('.recipe-detail img').forEach(img => {
+      if (!img.hasAttribute('onerror')) {
+        img.addEventListener('error', function(this: HTMLImageElement) {
+          this.onerror = null;
+          this.src = '/images/recipes/placeholder.jpg';
+        });
+      }
+    });
+  });
+</script>

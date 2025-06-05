@@ -3,6 +3,7 @@
 import { routesConfig, findRouteBySlug } from '../../config/routes';
 import { setLocale, t, type Locale } from '../../i18n/i18n';
 import MainLayout from '../../layouts/MainLayout.astro';
+import RecipeDetail from '../../views/Recipes/Detail/index.astro';
 
 // Define the expected structure of the dynamically imported modules
 interface PageModule {
@@ -34,12 +35,63 @@ const { routeId } = Astro.props as { routeId: string };
 
 setLocale(lang);
 
-const currentRoute = routesConfig.find(r => r.id === routeId);
+// Logging para depuración
+console.log('URL completa:', Astro.url.pathname);
+const urlParts = Astro.url.pathname.split('/').filter(Boolean);
+console.log('Partes de URL:', urlParts);
 
+// Verificar si es una ruta de detalle de receta
+// Formato: /es/recetas/[id] o /en/recipes/[id]
+if (urlParts.length === 3) {
+  const langCode = urlParts[0];
+  const section = urlParts[1];
+  const detailId = urlParts[2];
+  
+  console.log(`Verificando ruta: /${langCode}/${section}/${detailId}`);
+  
+  // Verificar si es una ruta de recetas
+  const isRecipesRoute = 
+    (langCode === 'es' && section === 'recetas') || 
+    (langCode === 'en' && section === 'recipes');
+  
+  if (isRecipesRoute) {
+    console.log(`Detectada ruta de receta: ${detailId}`);
+    
+    try {
+      // Cargar datos de recetas directamente
+      const allRecipes = t('items', { namespace: 'recipes', locale: langCode as Locale }) || [];
+      console.log(`Total de recetas cargadas: ${allRecipes.length}`);
+      console.log('IDs de recetas disponibles:', allRecipes.map((r: any) => r.id));
+      
+      const recipe = allRecipes.find((r: any) => r.id === detailId);
+      console.log('Receta encontrada:', recipe ? recipe.id : 'NO');
+      
+      if (recipe) {
+        console.log('Renderizando detalle de receta:', recipe.title);
+        return (
+          <MainLayout title={recipe.title} currentLang={langCode as Locale}>
+            <RecipeDetail currentLang={langCode as Locale} recipeId={detailId} />
+          </MainLayout>
+        );
+      } else {
+        console.error(`Receta con ID ${detailId} no encontrada`);
+        return Astro.redirect(`/${langCode}/404`);
+      }
+    } catch (error) {
+      console.error('Error al cargar receta:', error);
+      return Astro.redirect(`/${langCode}/404`);
+    }
+  }
+}
+
+// Obtener la ruta actual para páginas normales
+const currentRoute = findRouteBySlug(lang, pageSlug);
+console.log('Ruta encontrada:', currentRoute?.id);
+
+// Si no es una ruta de detalle o no se encontró la receta, seguir con el flujo normal
 if (!currentRoute) {
-  // Esto no debería suceder si getStaticPaths está bien configurado
-  // y routesConfig es consistente.
-  return Astro.redirect(`/${lang}/404`); // O una página de error más específica
+  console.error(`Ruta no encontrada para lang=${lang}, pageSlug=${pageSlug}`);
+  return Astro.redirect(`/${lang}/404`);
 }
 
 // Usar import.meta.glob()

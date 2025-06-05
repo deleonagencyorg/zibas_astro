@@ -1,5 +1,6 @@
 // src/views/Recipes/Detail/scripts.js
-document.addEventListener('DOMContentLoaded', () => {
+// Este código se ejecutará solo en el cliente
+export function initRecipeDetailScripts() {
   // Manejo de imágenes que fallan al cargar
   document.querySelectorAll('.recipe-detail img').forEach(img => {
     if (!img.hasAttribute('onerror')) {
@@ -12,4 +13,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Puedes agregar más lógica específica para recetas aquí
   // Ej: manejo de porciones, conversión de unidades, etc.
-});
+}

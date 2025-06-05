@@ -21,7 +21,7 @@ const {
 } = Astro.props;
 
 const currentLocale = getLocale();
-const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'receta' : 'recipe'}/${id}`;
+const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
 ---
 
 <a 
