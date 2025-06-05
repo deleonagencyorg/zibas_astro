@@ -122,6 +122,12 @@
      "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-768x116.webp",
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
     },
+    "delivery":{
+      "delivery_icon_left":"https://snack.yummiespromociones.com/taqueritos/Banner_Delivery_Neutro.webp",
+      "delivery_icon_right":"https://snack.yummiespromociones.com/taqueritos/moto.webp",
+      "hugo_app_icon":"https://snack.yummiespromociones.com/taqueritos/logohugo.webp",
+      "ocho_app_icon":"https://snack.yummiespromociones.com/taqueritos/Logo_Ocho.webp"
+    },
     "title": "Taqueritos - Comida Auténtica",
     "subtitle": "Disfruta de los mejores tacos y platillos mexicanos",
     "cta_text": "Ver Menú",
