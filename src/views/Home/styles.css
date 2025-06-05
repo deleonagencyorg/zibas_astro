@@ -9,3 +9,8 @@
   background: linear-gradient(90deg,rgba(65, 130, 223, 1) 1%, rgba(65, 130, 223, 1) 50%, rgba(28, 108, 223, 1) 50%, rgba(28, 108, 223, 1) 100%);
 
 }
+#recipes{
+  background: #ffbb3c;
+  background: linear-gradient(90deg,rgba(255, 187, 60, 1) 0%, rgba(255, 105, 39, 1) 100%);
+
+}
