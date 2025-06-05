@@ -10,6 +10,8 @@
     "read_more": "Read more"
   },
   "home": {
+    "recipes": "Ingredients",
+    "Ipreparation" : "Preparation",
     "explore_more": {
       "title": "Explore more recipes here",
       "link": "/en/recipes"
@@ -21,10 +23,10 @@
       "title": " "
     },
     "visit_text_3": {
-      "title": "- Make Your Day and Taqueritos "
+      "title": "- Make Your Day and Taqueritos"
     },
     "visit_1": {
-      "title": "Instagram",
+      "title": "| Instagram ,",
       "link": "https://www.instagram.com/taqueritosusa/"
     },
     "visit_2": {
@@ -32,7 +34,7 @@
       "link": "https://taqueritos.com/en/home/https://www.tiktok.com/@taqueritosusa"
     },
     "visit_3": {
-      "title": "Facebook",
+      "title": "| Facebook",
       "link": "https://www.facebook.com/taqueritosusa/"
     }
   },
@@ -55,6 +57,66 @@
     {
       "id": "jalapeno-poppers",
       "title": "Jalapeño Poppers with Taqueritos Chile Toreado",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "preparation_time": 20,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 jalapeños, seeded",
+        "2 cups cream cheese",
+        "1 teaspoon garlic powder",
+        "1 teaspoon onion powder",
+        "½ teaspoon paprika",
+        "Salt to taste",
+        "½ teaspoon Worcestershire sauce",
+        "Vegetable oil",
+        "Taqueritos Chile Toreado",
+        "Flour",
+        "2 beaten eggs"
+      ],
+      "instructions": [
+        "Step 1: In a bowl, mix the cream cheese, garlic, onion, paprika, salt, and Worcestershire sauce. Adjust consistency to taste.",
+        "Step 2: Fill the jalapeños with the mixture.",
+        "Step 3: Beat the eggs in a separate bowl and coat the jalapeños with flour and egg.",
+        "Step 4: Crush the Taqueritos Chile Toreado in a bowl.",
+        "Step 5: Roll each jalapeño in the crushed Taqueritos. Heat enough oil in a pan and fry the jalapeños until golden.",
+        "Step 6: Serve and enjoy with your favorite sauce."
+      ],
+      "product": "taqueritos-chile-toreado",
+      "tags": ["chile toreado", "jalapeño", "popper", "taqueritos"]
+    },
+    {
+      "id": "jalapeno-poppers2",
+      "title": "Jalapeño Poppers with Taqueritos Chile Toreado2",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "preparation_time": 20,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 jalapeños, seeded",
+        "2 cups cream cheese",
+        "1 teaspoon garlic powder",
+        "1 teaspoon onion powder",
+        "½ teaspoon paprika",
+        "Salt to taste",
+        "½ teaspoon Worcestershire sauce",
+        "Vegetable oil",
+        "Taqueritos Chile Toreado",
+        "Flour",
+        "2 beaten eggs"
+      ],
+      "instructions": [
+        "Step 1: In a bowl, mix the cream cheese, garlic, onion, paprika, salt, and Worcestershire sauce. Adjust consistency to taste.",
+        "Step 2: Fill the jalapeños with the mixture.",
+        "Step 3: Beat the eggs in a separate bowl and coat the jalapeños with flour and egg.",
+        "Step 4: Crush the Taqueritos Chile Toreado in a bowl.",
+        "Step 5: Roll each jalapeño in the crushed Taqueritos. Heat enough oil in a pan and fry the jalapeños until golden.",
+        "Step 6: Serve and enjoy with your favorite sauce."
+      ],
+      "product": "taqueritos-chile-toreado",
+      "tags": ["chile toreado", "jalapeño", "popper", "taqueritos"]
+    },
+    {
+      "id": "jalapeno-poppers3",
+      "title": "Jalapeño Poppers with Taqueritos Chile Toreado3",
       "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
       "preparation_time": 20,
       "difficulty": "easy",

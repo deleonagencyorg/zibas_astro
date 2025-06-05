@@ -10,6 +10,8 @@
     "read_more": "Leer más"
   },
   "home": {
+    "recipes": "Ingredientes",
+    "preparation" : "Preparación",
     "explore_more": {
       "title": "Explora más recetas aquí",
       "link": "/es/recetas"
@@ -76,6 +78,72 @@
       ],
       "product": "taqueritos-chile-toreado",
       "tags": ["chile toreado", "jalapeño", "popper", "taqueritos"]
+    },
+    {
+      "id": "jalapeno-poppers2",
+      "slug": "taqueritos-chile-toreado-jalapeno-poppers",
+      "title": "Jalapeño Poppers con Taqueritos Chile Toreado ",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "image_product": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
+      "preparation_time": 20,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 jalapeños sin semillas",
+        "2 tazas de queso crema",
+        "1 cucharadita de ajo en polvo",
+        "1 cucharadita de cebolla en polvo",
+        "½ cucharadita de práprika",
+        "Sal al gusto",
+        "½ cucharadita de salsa inglesa",
+        "Aceite vegetal",
+        "Taqueritos Chile Toreado",
+        "Harina",
+        "2 huevos batidos"
+
+      ],
+      "instructions": [
+    "Paso 1: Mezcla sobre un recipiente el queso crema, el ajo, la cebolla, la páprika, la sal y la salsa inglesa. La consistencia es al gusto.",
+    "Paso 2: Rellena los jalapeños con la mezcla.",
+    "Paso 3: Bate el huevo sobre un reciente adicional y pasa el jalapeño sobre la harina y el huevo.",
+    "Paso 4: En un reciente tritura los Taqueritos Chile Toreado.",
+    "Paso 5: Pasa cada jalapeño sobre los Taqueritos triturados. En un sartén calienta suficiente aceite y fríe los jalapeños hasta dorarlos.",
+    "Paso 6: Sírvelos y disfrútalos con tu salsa favorita."
+      ],
+      "product": "taqueritos-chile-toreado",
+      "tags": ["chile toreado", "jalapeño", "popper", "taqueritos"]
+    },
+    {
+      "id": "jalapeno-poppers3",
+      "slug": "taqueritos-chile-toreado-jalapeno-poppers",
+      "title": "Jalapeño Poppers con Taqueritos Chile Toreado ",
+      "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "preparation_time": 20,
+      "difficulty": "easy",
+      "ingredients": [
+        "12 jalapeños sin semillas",
+        "2 tazas de queso crema",
+        "1 cucharadita de ajo en polvo",
+        "1 cucharadita de cebolla en polvo",
+        "½ cucharadita de práprika",
+        "Sal al gusto",
+        "½ cucharadita de salsa inglesa",
+        "Aceite vegetal",
+        "Taqueritos Chile Toreado",
+        "Harina",
+        "2 huevos batidos"
+
+      ],
+      "instructions": [
+    "Paso 1: Mezcla sobre un recipiente el queso crema, el ajo, la cebolla, la páprika, la sal y la salsa inglesa. La consistencia es al gusto.",
+    "Paso 2: Rellena los jalapeños con la mezcla.",
+    "Paso 3: Bate el huevo sobre un reciente adicional y pasa el jalapeño sobre la harina y el huevo.",
+    "Paso 4: En un reciente tritura los Taqueritos Chile Toreado.",
+    "Paso 5: Pasa cada jalapeño sobre los Taqueritos triturados. En un sartén calienta suficiente aceite y fríe los jalapeños hasta dorarlos.",
+    "Paso 6: Sírvelos y disfrútalos con tu salsa favorita."
+      ],
+      "product": "taqueritos-chile-toreado",
+      "tags": ["chile toreado", "jalapeño", "popper", "taqueritos"]
     }
+    
   ]
 }

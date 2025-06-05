@@ -4,6 +4,7 @@ import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
 import { initRecipeDetailScripts } from './scripts.js';
+import { time } from 'console';
 
 interface RecipeItem {
   id: string;
@@ -20,6 +21,7 @@ interface RecipeItem {
 const { currentLang, recipeId } = Astro.props;
 
 // Obtener datos desde traducciones
+const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipes = t('items', { namespace: 'recipes', locale: currentLang as Locale }) || [];
 const recipe = recipes.find((item: RecipeItem) => item.id === recipeId);
 
@@ -47,103 +49,97 @@ function formatTime(minutes: number, locale: Locale): string {
   }
 }
 ---
-
-<article class="recipe-detail bg-white py-12">
-  <div class="container mx-auto px-4">
-    <!-- Encabezado con título, tiempo y porciones -->
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-800 mb-2">{recipe.title}</h1>
-      <div class="flex gap-4 text-gray-500 text-sm">
-        <span>
-          {t('recipes.preparation_time', { locale: currentLang })}: 
-          {formatTime(parseInt(recipe.preparation_time), currentLang)}
-        </span>
-        <span>•</span>
-        <span>
-          {t('recipes.servings', { locale: currentLang })}: {recipe.servings}
+<div id="hero" class="flex flex-col pt-8 md:pt-12 md:flex-row justify-center items-center md:h-[43rem] pb-8">
+  <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+    {recipe.image && (
+      <div class="w-full md:w-1/2 flex justify-center">
+        <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
+          <img 
+            src={recipe.image} 
+            alt={recipe.title}
+            class="w-full h-full object-cover"
+            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+          />
+        </div>
+      </div>
+    )}
+    
+    <div class="w-[80%] md:w-1/2 flex flex-col gap-4 bg-white md:p-8 p-4 rounded-lg">
+      <h1 class=" font-heading md:text-3xl text-2xl font-bold text-gray-800 mb-2 text-center md:text-left">{recipe.title}</h1>
+      <div class="flex items-center justify-center md:justify-start">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-5 w-5 md:h-6 md:w-6 text-gray-500" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
+          />
+        </svg>
+        <span class="ml-2 md:ml-5 text-gray-500 font-heading text-base md:text-xl">
+          {recipe.preparation_time} MINS
         </span>
       </div>
-    </header>
-
-    <!-- Contenido principal -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
-        {recipe.image && (
-          <div class="relative rounded-lg overflow-hidden mb-8 h-80 lg:h-96">
-            <img 
-              src={recipe.image} 
-              alt={recipe.title}
-              class="w-full h-full object-cover"
-              onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-            />
-          </div>
-        )}
-
-        <!-- Ingredientes -->
-        <section class="mb-8">
-          <h2 class="text-2xl font-bold mb-4">
-            {t('recipes.ingredients', { locale: currentLang })}
-          </h2>
-          <ul class="list-disc list-inside space-y-2">
-            {recipe.ingredients.map((ingredient: string) => (
-              <li class="text-gray-700">
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <!-- Instrucciones -->
-        <section class="recipe-instructions">
-          <h2 class="text-2xl font-bold mb-4">
-            {t('recipes.instructions', { locale: currentLang })}
-          </h2>
-          <div class="prose max-w-none" set:html={recipe.instructions} />
-        </section>
-      </div>
-
-      <!-- Recetas relacionadas -->
-      {relatedRecipes.length > 0 && (
-        <aside class="lg:col-span-1">
-          <div class="bg-gray-50 p-6 rounded-lg sticky top-24">
-            <h2 class="text-2xl font-bold mb-6">
-              {t('recipes.related_recipes', { locale: currentLang })}
-            </h2>
-            <div class="space-y-6">
-              {relatedRecipes.map((related: RecipeItem) => (
-                <a 
-                  href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${related.id}`} 
-                  class="block group"
-                >
-                  <div class="flex flex-col">
-                    {related.image && (
-                      <div class="w-full h-40 rounded-md overflow-hidden mb-3">
-                        <img 
-                          src={related.image} 
-                          alt={related.title}
-                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-                        />
-                      </div>
-                    )}
-                    <div>
-                      <h3 class="font-medium text-gray-900 group-hover:text-yellow-600 transition-colors mb-1">
-                        {related.title}
-                      </h3>
-                      <p class="text-sm text-gray-500 line-clamp-2">
-                        {related.description}
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </aside>
-      )}
     </div>
   </div>
-</article>
+</div>
+<div id="ingredients" class="pt-8 md:pt-0 flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
+  <h1 class="font-heading font-bold md:text-4xl text-2xl text-white text-center md:text-left">{recipesAssets.recipes}</h1>
+  <div class="w-full mt-8 md:mt-0 md:max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+    
+    {recipe.image && (
+      <div class="w-full md:w-1/2 flex justify-center">
+        <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
+          <img 
+            src={recipe.image} 
+            alt={recipe.title}
+            class="w-full h-full object-cover"
+            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+          />
+        </div>
+      </div>
+    )}
+    
+    <div class="w-[80%] md:w-1/2 flex flex-col gap-4  md:p-8 p-4 rounded-lg text-white">
+      <section class="mb-8 text-white">
+        <ul class="list-disc list-inside space-y-2 text-white">
+          {recipe.ingredients.map((ingredient: string) => (
+            <li class="text-white">
+              {ingredient}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div id="instructions" class="flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
+
+  <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+    <div class="w-[80%]  flex items-center justify-center flex-col gap-4  md:p-8 p-4 rounded-lg text-white">
+      <h1 class="font-heading font-bold md:text-4xl text-2xl text-black text-center md:text-left">{recipesAssets.preparation}</h1>
+      <section class="mb-8 text-white">
+        <ul class="list-disc list-inside space-y-2 text-gray-800">
+          {recipe.instructions.map((instruction: string) => (
+            <li class="text-gray-800">
+              {instruction}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
+<div id="suggestions_releated" class="flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
+
+</div>
+
 
 <script>
   // Este script se ejecuta solo en el navegador

@@ -29,9 +29,10 @@ module.exports = {
         tertiary: '#FFFBF2z',
       },
       fontFamily: {
-        sans: ['Roboto', 'Inter', 'sans-serif'],
-        title: ['FontdinerSwanky', 'serif'], // Using 'serif' as a generic fallback
-        text: ['Roboto', 'Inter', 'sans-serif']
+        sans: ['Poppins', 'sans-serif'],
+        title: ['FontdinerSwanky', 'serif'],
+        heading: ['Poppins', 'sans-serif'],
+        text: ['Poppins', 'sans-serif']
       }
     }
   },
