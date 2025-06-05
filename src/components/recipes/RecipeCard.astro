@@ -1,0 +1,60 @@
+---
+import LazyImage from '../common/LazyImage.astro';
+import { getLocale } from '../../i18n/i18n';
+
+interface Props {
+  image: string;
+  title: string;
+  time: string;
+  id: string;
+  textColor?: string;
+  iconColor?: string;
+}
+
+const { 
+  image, 
+  title, 
+  time, 
+  id,
+  textColor = 'text-black',
+  iconColor = 'text-black'
+} = Astro.props;
+
+const currentLocale = getLocale();
+const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'receta' : 'recipe'}/${id}`;
+---
+
+<a 
+  href={recipeLink} 
+  class="block group hover:scale-105 transition-transform duration-300 ease-in-out"
+>
+  <article class="rounded-lg overflow-hidden shadow-md bg-white">
+    <div class="aspect-square w-full relative">
+      <LazyImage
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="p-4">
+      <h3 class={`font-bold text-xl mb-2 ${textColor}`}>{title}</h3>
+      <div class="flex items-center">
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class={`h-5 w-5 ${iconColor} mr-2`} 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
+          />
+        </svg>
+        <span class={`${textColor}`}>{time}</span>
+      </div>
+    </div>
+  </article>
+</a>

@@ -11,7 +11,7 @@ interface RecipeItem {
   description: string;
   ingredients: string[];
   instructions: string;
-  preparation_time: string;
+  preparation_time: number;
   servings: number;
   image?: string;
   tags?: string[];
@@ -20,14 +20,16 @@ interface RecipeItem {
 const { currentLang, recipeId } = Astro.props;
 
 // Obtener datos desde traducciones
-const recipe = t(`recipes.items.${recipeId}`, { locale: currentLang });
-const allRecipes = t('recipes.items', { locale: currentLang });
-const relatedRecipes = allRecipes
-  .filter((item: any) => item.id !== recipeId)
+const recipes = t('items', { namespace: 'recipes', locale: currentLang as Locale }) || [];
+const recipe = recipes.find((item: RecipeItem) => item.id === recipeId);
+
+// Obtener recetas relacionadas
+const relatedRecipes = recipes
+  .filter((item: RecipeItem) => item.id !== recipeId)
   .slice(0, 3);
 
 if (!recipe) {
-  throw new Error(t('errors.recipe_not_found', { locale: currentLang }));
+  throw new Error(`Recipe with id ${recipeId} not found`);
 }
 
 function formatTime(minutes: number, locale: Locale): string {
@@ -82,11 +84,10 @@ function formatTime(minutes: number, locale: Locale): string {
           <h2 class="text-2xl font-bold mb-4">
             {t('recipes.ingredients', { locale: currentLang })}
           </h2>
-          <ul class="recipe-ingredients space-y-2">
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index} class="flex items-start">
-                <span class="mr-2">•</span>
-                <span>{ingredient}</span>
+          <ul class="list-disc list-inside space-y-2">
+            {recipe.ingredients.map((ingredient: string) => (
+              <li class="text-gray-700">
+                {ingredient}
               </li>
             ))}
           </ul>
@@ -109,9 +110,9 @@ function formatTime(minutes: number, locale: Locale): string {
               {t('recipes.related_recipes', { locale: currentLang })}
             </h2>
             <div class="space-y-6">
-              {relatedRecipes.map((related: any) => (
+              {relatedRecipes.map((related: RecipeItem) => (
                 <a 
-                  href={`/${currentLang}/recetas/${related.id}`} 
+                  href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${related.id}`} 
                   class="block group"
                 >
                   <div class="flex flex-col">

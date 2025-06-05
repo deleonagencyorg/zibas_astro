@@ -3,11 +3,12 @@
 import LazyImage from '../../components/common/LazyImage.astro';
 import { t, getLocale } from '../../i18n/i18n';
 import Carousel from '../../components/common/Carousel/index.astro';
+import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import './styles.css';
 
 // Obtener idioma actual
 const currentLang = getLocale();
-// Precargar namespaces para mejor performance
+// Precargar namespaces
 t('common', { locale: currentLang });
 t('recipes', { locale: currentLang });
 t('news', { locale: currentLang });
@@ -21,7 +22,7 @@ export interface Props {
 const { loading = false } = Astro.props;
 const spotifyAssets = t('home.spotify', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
-const recipes = t('items', { namespace: 'recipes', locale: currentLang }) || {};
+const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
 const deliveryAssets = t('home.delivery', { namespace: 'common', locale: currentLang }) || {};
 console.log('spotifyAssets', spotifyAssets)
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
@@ -172,6 +173,23 @@ const slides = Array.isArray(commonAssets)
             <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </a>
+        <div id="allrecipes" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto px-4">
+    {recipeItems.slice(0, 2).map((recipe: {
+      id: string;
+      title: string;
+      image: string;
+      preparation_time: number;
+    }) => (
+      <RecipeCard
+        image={recipe.image}
+        title={recipe.title}
+        time={`${recipe.preparation_time}MIN`}
+        id={recipe.id}
+        textColor="text-green-700"
+        iconColor="text-green-600"
+      />
+    ))}
+  </div>
       </div>
     </div>
     <div class="w-full flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 text-white font-bold text-4xl font-sans font-weight-bold">
