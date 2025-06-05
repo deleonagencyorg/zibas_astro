@@ -2,6 +2,19 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [1.1.0] - 2025-06-04
+
+### Añadido
+
+#### Sección de Delivery
+
+- Nueva sección de delivery visible solo en español
+- Diseño responsive para móvil y desktop
+- Integración con PedidosYa y apps de delivery
+- Botones de acción "Comprar ahora"
+- Assets localizados para la sección
+- Estilos con gradiente azul
+
 ## [1.0.0] - 2025-05-27
 
 ### Añadido
