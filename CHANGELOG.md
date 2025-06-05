@@ -2,6 +2,18 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [1.2.0] - 2025-06-04
+
+### Añadido
+
+#### Menú Multinivel
+
+- Soporte para menús de hasta 3 niveles de profundidad
+- Menús desplegables en móvil con iconos de hamburguesa
+- Interacción mejorada para submenús en dispositivos móviles
+- Navegación intuitiva con indicadores visuales
+
+
 ## [1.1.0] - 2025-06-04
 
 ### Añadido

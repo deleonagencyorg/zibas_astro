@@ -1,20 +1,42 @@
 {
+  "meta": {
+    "home": {
+      "title": "Inicio",
+      "description": "Viví tus momentos más salvajes y disfrutá la experiencia de sabor intenso que te ofrecen Taqueritos. Hacé clic para conocer más sobre nuestros eventos."
+    },
+    "contact": {
+      "title": "Contacto",
+      "description": "Contáctanos para más información sobre nuestros productos y promociones."
+    },
+    "recipes": {
+      "title": "Recetas",
+      "description": "Descubre deliciosas recetas con Taqueritos. Desde platos tradicionales hasta creaciones innovadoras."
+    },
+    "news": {
+      "title": "Noticias",
+      "description": "Mantente al día con las últimas noticias y eventos de Taqueritos."
+    },
+    "products": {
+      "title": "Productos",
+      "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
+    }
+  },
   "social_media": {
     "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/taqueritosmx/",
+      "url": "https://www.facebook.com/taqueritoslatam/",
       "alt": "Facebook de Taqueritos",
       "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/taqueritosmx/",
+      "url": "https://www.instagram.com/taqueritoslatam/",
       "alt": "Instagram de Taqueritos",
       "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@taqueritosmx",
+      "url": "https://www.tiktok.com/@taqueritoslatam",
       "alt": "TikTok de Taqueritos",
       "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-tiktok.svg"
     }
@@ -70,19 +92,26 @@
   },
   "menu_items": [
     {
-      "id": "home",
-      "text": "Inicio",
-      "href": "/es/"
-    },
-    {
-      "id": "recipes",
-      "text": "Recetas",
-      "href": "/es/recetas"
-    },
-    {
-      "id": "news",
-      "text": "Noticias",
-      "href": "/es/noticias"
+      "id": "shop",
+      "text": "🇭🇳 Comprar",
+      "href": "",
+      "submenu": [
+        {
+          "id": "hugo",
+          "text": "Hugo Tegucigalpa",
+          "href": "https://hugoapp.app.link/tsGW7qeq55?_p=c11d37dc990262eee01f8ce3e1b5"
+        },
+        {
+          "id": "hugosanpedrosula",
+          "text": "Hugo San Pedro Sula",
+          "href": "https://hugoapp.app.link/3QUMaJbq55?_p=c11d37dc990262eee01f8ce3e1b5"
+        },
+        {
+          "id": "ochodelivery",
+          "text": "Ocho Delivery",
+          "href": "https://play.google.com/store/apps/details?id=io.beanar.ocho&hl=es_GT&gl=US"
+        }
+      ]
     },
     {
       "id": "products",
@@ -90,14 +119,24 @@
       "href": "/es/productos",
       "submenu": [
         {
-          "id": "product_tq_original",
-          "text": "Taqueritos Original",
-          "href": "/es/productos/original"
+          "id": "taqueritoschiletoreado",
+          "text": "Taqueritos Chile Toreado",
+          "href": "/es/productos/taqueritos-chile-toreado"
         },
         {
-          "id": "product_tq_picante",
-          "text": "Taqueritos Picante",
-          "href": "/es/productos/picante"
+          "id": "taqueritosquesofusion",
+          "text": "Taqueritos Queso Fusion",
+          "href": "/es/productos/taqueritos-queso-fusion"
+        },
+        {
+          "id": "taqueritosdragondehielo",
+          "text": "Taqueritos Dragon de Hielo",
+          "href": "/es/productos/taqueritos-dragon-de-hielo"
+        },
+        {
+          "id": "taqueritosdragondelfuego",
+          "text": "Taqueritos Dragon de Fuego",
+          "href": "/es/productos/taqueritos-dragon-de-fuego"
         }
       ]
     },
@@ -109,12 +148,48 @@
     {
       "id": "entertainment",
       "text": "Entretenimiento",
-      "href": "/es/entretenimiento"
+      "href": "/es/entretenimiento",
+      "submenu": [
+        {
+          "id": "music",
+          "text": "Música",
+          "href": "",
+          "submenu": [
+            {
+              "id": "nochegaming",
+              "text": "Noche Gaming",
+              "href": "https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9?si=7f3173d8d90e49f5&nd=1"
+            },
+            {
+              "id": "palosintensos",
+              "text": "Pa Los Intensos",
+              "href": "https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j?si=5adf77b78f744a6b&nd=1"
+            },
+            {
+              "id": "aexplorar",
+              "text": "A Explorar",
+              "href": "https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY?si=d00dc827295345c1&nd=1"
+            }
+          ]
+        },
+        {
+          "id": "podcast",
+          "text": "Podcast",
+         "href": "",
+          "submenu": [
+            {
+              "id": "compartetupasionbytaqueritos",
+              "text": "Comparte Tu Pasión por Taqueritos",
+              "href": "https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "contact",
       "text": "Contacto",
-      "href": "/es/contacto"
+      "href": "https://www.snacksyummies.com/contacto/"
     }
   ],
   "home": {
@@ -144,7 +219,7 @@
     "testimonial1_author": "Juan Pérez",
     "meta": {
       "title": "Taqueritos - Participa y gana premios increíbles",
-      "description": "Participa en nuestra promoción Taqueritos y gana premios increíbles. Registra tus códigos y aumenta tus posibilidades de ganar."
+      "description": "Viví tus momentos más salvajes y disfrutá la experiencia de sabor intenso que te ofrecen Taqueritos. Hacé clic para conocer más sobre nuestros eventos."
     }
   },
   "footer": {

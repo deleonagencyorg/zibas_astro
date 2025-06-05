@@ -15,8 +15,20 @@ export interface Props {
 }
 const { currentLang } = Astro.props;
 
+// Interfaces for type safety
+interface SocialMedia {
+  name: string;
+  url: string;
+  iconUrl: string;
+  alt?: string;
+}
+
+interface SocialMediaCollection {
+  [key: string]: SocialMedia;
+}
+
 // Obtener los datos de social media (url y alt) desde los archivos de traducción
-const socialMedia = t('social_media', { namespace: 'common', locale: currentLang });
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as SocialMediaCollection;
 
 interface MenuItem {
   id: string;
@@ -92,7 +104,7 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
         <nav class="flex items-center space-x-1 lg:space-x-2">
           {menuItems.map(item => (
             <div class="relative group">
-              <a href={item.href} class="text-md font-sans font-semibold hover:text-gray-300 transition-colors px-3 py-2 flex items-center">
+              <a href={item.href} class="text-md font-sans font-semibold hover:text-gray-300 transition-colors px-3 py-2 flex items-center text-shadow">
                 {item.text}
                 {item.submenu && (
                   <svg class="w-4 h-4 ml-1 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
@@ -101,7 +113,21 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
               {item.submenu && (
                 <div class="absolute left-0 mt-0 w-48 bg-white text-gray-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out invisible group-hover:visible z-50 py-1">
                   {item.submenu.map(subItem => (
-                    <a href={subItem.href} class="block px-4 py-2 text-sm font-sans hover:bg-gray-100">{subItem.text}</a>
+                    <div class="relative group/submenu">
+                      <a href={subItem.href} class="block px-4 py-2 text-sm font-sans hover:bg-black hover:text-white flex justify-between items-center transition-colors duration-200">
+                        {subItem.text}
+                        {subItem.submenu && (
+                          <svg class="w-3 h-3 ml-1 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" /></svg>
+                        )}
+                      </a>
+                      {subItem.submenu && (
+                        <div class="absolute left-full top-0 w-48 bg-white text-gray-800 rounded-md shadow-lg opacity-0 group-hover/submenu:opacity-100 transition-opacity duration-200 ease-in-out invisible group-hover/submenu:visible z-50 py-1">
+                          {subItem.submenu.map(thirdItem => (
+                            <a href={thirdItem.href} class="block px-4 py-2 text-sm font-sans hover:bg-black hover:text-white transition-colors duration-200">{thirdItem.text}</a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -134,13 +160,40 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
       <nav class="flex flex-col items-center space-y-3 text-center w-full">
         {menuItems.map(item => (
           <div class="w-full">
-            <a href={item.href} class="block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
-              {item.text}
-            </a>
+            <div class="flex items-center">
+              <a href={item.href} class="flex-grow block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+                {item.text}
+              </a>
+              {item.submenu && (
+                <button class="menu-toggle px-2 py-1 text-white hover:text-gray-300">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                  </svg>
+                </button>
+              )}
+            </div>
             {item.submenu && (
-              <div class="mt-1 space-y-1 pl-4">
+              <div class="submenu-container hidden mt-1 space-y-1 pl-4">
                 {item.submenu.map(subItem => (
-                  <a href={subItem.href} class="block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                  <div>
+                    <div class="flex items-center">
+                      <a href={subItem.href} class="flex-grow block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                      {subItem.submenu && (
+                        <button class="submenu-toggle px-2 py-1 text-gray-400 hover:text-gray-200">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    {subItem.submenu && (
+                      <div class="third-level-submenu hidden mt-1 space-y-1 pl-4">
+                        {subItem.submenu.map(thirdItem => (
+                          <a href={thirdItem.href} class="block text-md font-sans font-normal text-gray-500 hover:text-gray-300 transition-colors py-1">{thirdItem.text}</a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             )}
@@ -181,39 +234,66 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
 function initMobileMenu() {
   const menuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
+  const closeButton = document.getElementById('mobile-menu-close');
   const menuIconContainer = document.getElementById('menu-icon-container');
-  const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-  if (!menuButton || !mobileMenu || !menuIconContainer || !mobileMenuClose) {
-    console.error('Header: Mobile menu DOM elements not all found. Menu will not function.');
-    return;
-  }
-
-  // Initialize isMenuOpen based on whether 'hidden' class is present
-  let isMenuOpen = !mobileMenu.classList.contains('hidden');
-
-  function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-    mobileMenu.classList.toggle('hidden');
-    menuButton.setAttribute('aria-expanded', String(isMenuOpen));
+  if (menuButton && mobileMenu && closeButton && menuIconContainer) {
+    menuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+      menuIconContainer.innerHTML = isExpanded ? astroMenuIconSvg : astroCloseIconSvg;
+    });
     
-    if (isMenuOpen) {
-      menuIconContainer.innerHTML = astroCloseIconSvg; // Use passed variable
-      document.body.style.overflow = 'hidden';
-    } else {
-      menuIconContainer.innerHTML = astroMenuIconSvg; // Use passed variable
-      document.body.style.overflow = '';
-    }
+    closeButton.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuIconContainer.innerHTML = astroMenuIconSvg;
+    });
   }
-
-  menuButton.addEventListener('click', toggleMenu);
-  mobileMenuClose.addEventListener('click', toggleMenu);
-
-  // Close menu when a link inside it is clicked
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (isMenuOpen) {
-        toggleMenu(); // Call toggleMenu to ensure state and UI are consistent
+  
+  // Add event listeners for menu toggles (first level)
+  const menuToggles = document.querySelectorAll('.menu-toggle');
+  menuToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentDiv = toggle.closest('.w-full');
+      const submenuContainer = parentDiv.querySelector('.submenu-container');
+      
+      if (submenuContainer) {
+        submenuContainer.classList.toggle('hidden');
+        // Toggle icon between hamburger and minus
+        const svg = toggle.querySelector('svg');
+        if (submenuContainer.classList.contains('hidden')) {
+          // Show hamburger icon
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+        } else {
+          // Show minus icon
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 18M6 6l12 0"></path>';
+        }
+      }
+    });
+  });
+  
+  // Add event listeners for submenu toggles (second level)
+  const submenuToggles = document.querySelectorAll('.submenu-toggle');
+  submenuToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentDiv = toggle.closest('div');
+      const thirdLevelSubmenu = parentDiv.nextElementSibling;
+      
+      if (thirdLevelSubmenu && thirdLevelSubmenu.classList.contains('third-level-submenu')) {
+        thirdLevelSubmenu.classList.toggle('hidden');
+        // Toggle icon between hamburger and minus
+        const svg = toggle.querySelector('svg');
+        if (thirdLevelSubmenu.classList.contains('hidden')) {
+          // Show hamburger icon
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+        } else {
+          // Show minus icon
+          svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 18M6 6l12 0"></path>';
+        }
       }
     });
   });
