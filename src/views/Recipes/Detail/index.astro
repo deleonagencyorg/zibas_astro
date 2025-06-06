@@ -108,6 +108,7 @@ function formatTime(minutes: number, locale: Locale): string {
       )}
       
       <div class="w-[80%] md:w-1/2 flex flex-col gap-4 md:p-8 p-4 rounded-lg text-white">
+       
         <section class="mb-8 text-white">
           <ul class="list-disc list-inside space-y-2 text-white">
             {recipe.ingredients.map((ingredient: string) => (
@@ -125,8 +126,10 @@ function formatTime(minutes: number, locale: Locale): string {
 <div id="instructions" class="mt-[-2rem]  md:mt-[-2rem] flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
 
   <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
-    <div class="w-[80%]  flex items-center justify-center flex-col gap-4  md:p-8 p-4 rounded-lg text-white">
-      <h1 class="font-heading font-bold md:text-4xl text-2xl text-gray-600 text-center md:text-left">{recipesAssets.preparation}</h1>
+    <div class="w-[80%]  flex items-center justify-center flex-col gap-4  md:p-0 p-4 rounded-lg text-white">
+      <h1 class="font-heading font-bold md:text-4xl text-2xl text-gray-600 text-center mb-8">
+        {recipesAssets.preparation}
+      </h1>
       <section class="mb-8 text-white">
         <ul class="list-disc list-inside space-y-2 text-gray-600">
           {recipe.instructions.map((instruction: string) => (

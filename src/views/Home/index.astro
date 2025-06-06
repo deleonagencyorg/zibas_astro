@@ -192,13 +192,16 @@ const slides = Array.isArray(commonAssets)
         </div>
       </div>
     </div>
-    <div class="w-full flex flex-col md:flex-row items-center justify-center gap-6 md:gap-2 px-8 py-8 text-white font-bold text-4xl font-sans font-weight-bold">
+    <div class="md:w-full w-[80%] flex flex-wrap items-center justify-center gap-2 px-4 py-8 text-white font-bold text-md md:text-4xl font-sans font-weight-bold">
       <span>{recipesAssets.visit_text_1.title}</span>
       <a href={recipesAssets.visit_1.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_1.title}</a>
       <span>{recipesAssets.visit_text_2.title}</span>
       <a href={recipesAssets.visit_2.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_2.title}</a>
-      {getLocale() === 'en' && (<span>{recipesAssets.visit_text_3.title}</span>
-      <a href={recipesAssets.visit_3.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_3.title}</a>
+      {getLocale() === 'en' && (
+        <>
+        <span>{recipesAssets.visit_text_3.title}</span>
+        <a href={recipesAssets.visit_3.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_3.title}</a>
+        </>
       )}
     </div>
   </section>
