@@ -5,7 +5,7 @@ export function initProductDetail() {
   // Manejo de imágenes que fallan al cargar
   document.querySelectorAll('.product-detail img').forEach(img => {
     if (!img.hasAttribute('onerror')) {
-      img.addEventListener('error', function(this: HTMLImageElement) {
+      img.addEventListener('error', function() {
         this.onerror = null;
         this.src = '/images/products/placeholder.jpg';
       });
