@@ -78,7 +78,7 @@ if (allProductsArray.length > 1) {
     `}
   >
     <div class="md:mt-[0] container mx-auto px-4 py-12 flex flex-col md:flex-row items-center">
-      <img id="product-image" class="mb-[2rem] w-full md:hidden" src={safeProduct.image} alt={safeProduct.name} />
+      <img id="product-image" class="mb-[2rem] w-[100%] md:hidden" src={safeProduct.image} alt={safeProduct.name} />
       <div class="w-full md:w-1/2 md:ml-auto">
         
         <h1 class="md:text-4xl text-3xl font-bold mb-6 text-white">{safeProduct.name}</h1>
@@ -117,7 +117,21 @@ if (allProductsArray.length > 1) {
     </div>
   </article>
 )}
-
+<div id="related-products" class="container mx-auto px-4 py-12">
+  <h2 class="text-2xl font-bold mb-8 text-white">{productsAssets.related_products}</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {relatedProducts.slice(0, 2).map((product) => (
+      <a 
+        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+        class="block hover:scale-105 transition-transform"
+      >
+        <div class="aspect-square overflow-hidden w-full h-[400px]" style={`background-image: url('${product.image}'); background-size: cover; background-position: center;`}>
+          
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
 <script>
   // Este script se ejecuta solo en el navegador
   import { initProductDetail } from './scripts.js';
