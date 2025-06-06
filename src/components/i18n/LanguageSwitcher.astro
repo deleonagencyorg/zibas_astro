@@ -9,19 +9,48 @@ export interface Props {
 }
 const { activeLocale } = Astro.props;
 
+// Mapeo de rutas equivalentes entre idiomas
+const routeTranslations = {
+  'recetas': 'recipes',
+  'productos': 'products',
+  'noticias': 'news',
+  'contacto': 'contact'
+  // Agregar más rutas según sea necesario
+};
 
-// Extraer la ruta actual sin el prefijo de idioma
-const pathWithoutLocale = currentPath.replace(/^\/[a-z]{2}(\/|$)/, '/');
+// Extraer la ruta actual y el idioma
+const pathParts = currentPath.split('/').filter(Boolean);
+const currentLocale = pathParts[0] || 'es';
+const currentRoute = pathParts.slice(1).join('/');
 
-// Construir las URLs para cada idioma manteniendo la ruta actual
-const esUrl = `/es${pathWithoutLocale}`;
-const enUrl = `/en${pathWithoutLocale}`;
+// Función para obtener la ruta traducida
+const getTranslatedPath = (targetLocale: Locale) => {
+  if (currentRoute === '') return `/${targetLocale}`;
+  
+  // Si estamos en una ruta mapeada, traducirla
+  const translatedRoute = Object.entries(routeTranslations).reduce(
+    (acc, [esRoute, enRoute]) => {
+      if (currentLocale === 'es' && currentRoute.startsWith(esRoute)) {
+        return currentRoute.replace(esRoute, enRoute);
+      }
+      if (currentLocale === 'en' && currentRoute.startsWith(enRoute)) {
+        return currentRoute.replace(enRoute, esRoute);
+      }
+      return acc;
+    },
+    currentRoute
+  );
+  
+  return `/${targetLocale}/${translatedRoute}`;
+};
+
+const esUrl = activeLocale === 'es' ? currentPath : getTranslatedPath('es');
+const enUrl = activeLocale === 'en' ? currentPath : getTranslatedPath('en');
 ---
 
 <div class="language-switcher flex items-center space-x-2">
   <a href={esUrl} class={`language-link flex items-center ${activeLocale === 'es' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="Español">
     <span class="flag-icon mr-1">
-      <!-- Bandera de Honduras (emoji) -->
       🇭🇳
     </span>
     <span class="text-white">ES</span>
@@ -29,17 +58,11 @@ const enUrl = `/en${pathWithoutLocale}`;
   <span class="divider text-gray-400">|</span>
   <a href={enUrl} class={`language-link flex items-center ${activeLocale === 'en' ? 'font-bold text-yellow-500' : 'text-white hover:text-yellow-300'}`} title="English">
     <span class="flag-icon mr-1">
-      <!-- Bandera de Estados Unidos (emoji) -->
       🇺🇸
     </span>
     <span class="text-white">EN</span>
   </a>
 </div>
-
-<script>
-  // Ya no necesitamos JavaScript para cambiar el idioma
-  // porque estamos usando enlaces directos con las URLs correctas
-</script>
 
 <style>
   .language-switcher {
