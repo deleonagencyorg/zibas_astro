@@ -13,7 +13,8 @@
     {
       "id": "taqueritos-chile-toreado",
       "name": "Taqueritos Chile Toreado",
-      "image": "banner-chile-toreado-1-300x37.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
+      "background_color": "#007c34",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos-1-300x37.webp",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
@@ -45,6 +46,7 @@
       "name": "Taqueritos Queso Fusion",
       "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-300x41.webp",
       "image": "https://snack.yummiespromociones.com/taqueritos/14-Banner-Producto-960x559-1.webp",
+      "background_color": "#eba332",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/2-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
@@ -62,8 +64,9 @@
       ]
     },
     {
-      "id": "taqueritos-dragon-hielo",
+      "id": "taqueritos-dragon-de-hielo",
       "name": "Taqueritos Dragón Hielo",
+      "background_color": "#000000",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
       "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-hielo.webp",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-hielo-producto.webp",
@@ -83,8 +86,9 @@
       ]
     },
     {
-      "id": "taqueritos-dragon-fuego",
+      "id": "taqueritos-dragon-de-fuego",
       "name": "Taqueritos Dragón Fuego",
+      "background_color": "#000000",
       "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-fuego.webp",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-fuego-producto.webp",

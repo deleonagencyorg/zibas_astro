@@ -121,7 +121,7 @@
     {
       "id": "products",
       "text": "Products",
-      "href": "/en/products",
+      "href": "#",
       "submenu": [
         {
           "id": "taqueritoschiletoreado",
@@ -131,19 +131,19 @@
         {
           "id": "taqueritosdragondehielo",
           "text": "Taqueritos Dragon Ice",
-          "href": "/en/products/taqueritos-dragon-ice"
+          "href": "/en/products/taqueritos-dragon-de-hielo"
         },
         {
           "id": "taqueritosdragondelfuego",
           "text": "Taqueritos Dragon Fire",
-          "href": "/en/products/taqueritos-dragon-fire"
+          "href": "/en/products/taqueritos-dragon-de-fuego"
         }
       ]
     },
     {
       "id": "entertainment",
       "text": "Entertainment",
-      "href": "/en/entretenimiento",
+      "href": "#",
       "submenu": [
         {
           "id": "music",
