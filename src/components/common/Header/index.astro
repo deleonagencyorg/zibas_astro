@@ -161,15 +161,21 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
         {menuItems.map(item => (
           <div class="w-full">
             <div class="flex items-center justify-center">
-              <a href="#" class="menu-parent block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
-                {item.text}
-              </a>
-              {item.submenu && (
-                <button class="menu-toggle px-2 py-1 text-white hover:text-gray-300 ml-1">
-                  <svg class="w-5 h-5 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </button>
+              {item.submenu ? (
+                <>
+                  <a href="#" class="menu-parent block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+                    {item.text}
+                  </a>
+                  <button class="menu-toggle px-2 py-1 text-white hover:text-gray-300 ml-1">
+                    <svg class="w-5 h-5 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                </>
+              ) : (
+                <a href={item.href} class="block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+                  {item.text}
+                </a>
               )}
             </div>
             {item.submenu && (
@@ -177,13 +183,17 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
                 {item.submenu.map(subItem => (
                   <div>
                     <div class="flex items-center justify-center">
-                      <a href="#" class="submenu-parent block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
-                      {subItem.submenu && (
-                        <button class="submenu-toggle px-2 py-1 text-gray-400 hover:text-gray-200 ml-1">
-                          <svg class="w-4 h-4 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                          </svg>
-                        </button>
+                      {subItem.submenu ? (
+                        <>
+                          <a href="#" class="submenu-parent block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                          <button class="submenu-toggle px-2 py-1 text-gray-400 hover:text-gray-200 ml-1">
+                            <svg class="w-4 h-4 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
+                        </>
+                      ) : (
+                        <a href={subItem.href} class="block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
                       )}
                     </div>
                     {subItem.submenu && (
