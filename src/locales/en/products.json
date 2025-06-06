@@ -3,193 +3,51 @@
     "title": "Products - Taqueritos",
     "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
   },
-  "page": {
-    "title": "Our Products",
-    "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family.",
-    "no_products": "No products available at this time.",
-    "view_details": "View details"
-  },
-  "detail": {
-    "back": "Back to products",
-    "ingredients": "Ingredients",
-    "nutritional_info": "Nutritional information",
-    "where_to_buy": "Where to buy",
-    "related_products": "Related products",
-    "serving_suggestion": "Serving suggestion"
-  },
-  "categories": {
-    "all": "All",
-    "tortillas": "Tortillas",
-    "salsas": "Salsas",
-    "seasonings": "Seasonings",
-    "snacks": "Snacks"
+  "home": {
+    "countries": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+    "presentations": "PRESENTATIONS",
+    "text": "*Size per presentation varies by country.",
+    "product_available": "PRODUCT AVAILABLE IN"
   },
   "items": [
     {
-      "id": "tortillas-harina",
-      "name": "Flour Tortillas",
-      "description": "Soft and flexible flour tortillas, perfect for any preparation.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-harina.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas-harina.webp",
-      "presentaciones": [
-        {
-          "valor": "8 units",
-          "icono": "package-small"
-        },
-        {
-          "valor": "16 units",
-          "icono": "package-medium"
-        }
-      ],
-      "short_description": "Soft and flexible flour tortillas.",
-      "category": "tortillas",
-      "ingredients": ["Wheat flour", "Water", "Salt", "Vegetable oil"],
-      "nutritional_info": {
-        "serving_size": "2 tortillas (50g)",
-        "calories": 120,
-        "fat": "2g",
-        "carbs": "25g",
-        "protein": "3g",
-        "sodium": "10mg"
-      },
+      "id": "taqueritos-chile-toreado",
+      "name": "Taqueritos Chile Toreado",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
-          "name": "Pack of 8",
-          "weight": "200g",
-          "sku": "TH-8"
-        },
-        {
-          "name": "Pack of 16",
-          "weight": "400g",
-          "sku": "TH-16"
+          "value": "8",
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
-      ],
-      "serving_suggestion": "Heat them on a griddle or pan for 30 seconds on each side to enjoy their maximum flavor.",
-      "tags": ["tortillas", "flour", "flexible"]
+      ]
     },
     {
-      "id": "tortillas-maiz",
-      "name": "Corn Tortillas",
-      "description": "Our authentic corn tortillas, made with selected grains and the traditional process.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-maiz.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas.webp",
-      "presentaciones": [
-        {
-          "valor": "12 units",
-          "icono": "package-small"
-        },
-        {
-          "valor": "24 units",
-          "icono": "package-medium"
-        },
-        {
-          "valor": "36 units",
-          "icono": "package-large"
-        }
-      ],
-      "short_description": "Authentic corn tortillas for your favorite meals.",
-      "category": "tortillas",
-      "ingredients": ["Nixtamalized corn", "Water", "Lime"],
-      "nutritional_info": {
-        "serving_size": "2 tortillas (50g)",
-        "calories": 120,
-        "fat": "1g",
-        "carbs": "25g",
-        "protein": "3g",
-        "sodium": "10mg"
-      },
+      "id": "taqueritos-dragon-ice",
+      "name": "Taqueritos Dragon Ice",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "image": "https://snack.yummiespromociones.com/taqueritos/imagen2-2.avif",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/2-2.avif",
       "sizes": [
         {
-          "name": "Pack of 10",
-          "weight": "250g",
-          "sku": "TM-10"
-        },
-        {
-          "name": "Pack of 20",
-          "weight": "500g",
-          "sku": "TM-20"
-        },
-        {
-          "name": "Pack of 30",
-          "weight": "750g",
-          "sku": "TM-30"
+          "value": "8",
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
-      ],
-      "serving_suggestion": "Heat them on a griddle or pan for 30 seconds on each side to enjoy their maximum flavor.",
-      "tags": ["tortillas", "corn", "traditional"]
+      ]
     },
     {
-      "id": "salsa-verde",
-      "name": "Green Salsa",
-      "description": "Traditional green salsa with fresh tomatillos and serrano chili.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/salsa-verde.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-salsa-verde.webp",
-      "presentaciones": [
-        {
-          "valor": "220g",
-          "icono": "bottle-small"
-        },
-        {
-          "valor": "450g",
-          "icono": "bottle-large"
-        }
-      ],
-      "short_description": "Green salsa with fresh tomatillos and green chilies.",
-      "category": "salsas",
-      "ingredients": ["Tomatillos", "Serrano chili", "Onion", "Garlic", "Cilantro", "Salt", "Spices"],
-      "nutritional_info": {
-        "serving_size": "2 tablespoons (30g)",
-        "calories": 15,
-        "fat": "0g",
-        "carbs": "3g",
-        "protein": "0g",
-        "sodium": "150mg"
-      },
+      "id": "taqueritos-dragon-fire",
+      "name": "Taqueritos Dragon Fire",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "image": "https://snack.yummiespromociones.com/taqueritos/image-4-2.avif",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-3.avif",
       "sizes": [
         {
-          "name": "Small jar",
-          "weight": "220g",
-          "sku": "SV-220"
-        },
-        {
-          "name": "Medium jar",
-          "weight": "450g",
-          "sku": "SV-450"
+          "value": "8",
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
-      ],
-      "serving_suggestion": "Ideal for tacos, enchiladas, huevos rancheros, or as a dip for your favorite snacks.",
-      "tags": ["salsa", "green", "spicy"]
-    },
-    {
-      "id": "totopos-maiz",
-      "title": "Corn Chips",
-      "description": "Our corn chips are crunchy, light, and perfect to enjoy alone or with your favorite salsas.",
-      "short_description": "Crunchy chips made with 100% natural corn.",
-      "image": "/images/products/totopos-maiz.jpg",
-      "category": "snacks",
-      "ingredients": ["Corn", "Vegetable oil", "Salt"],
-      "nutritional_info": {
-        "serving_size": "28g (approximately 14 chips)",
-        "calories": 140,
-        "fat": "7g",
-        "carbs": "19g",
-        "protein": "2g",
-        "sodium": "110mg"
-      },
-      "sizes": [
-        {
-          "name": "Small bag",
-          "weight": "100g",
-          "sku": "TT-100"
-        },
-        {
-          "name": "Family size",
-          "weight": "300g",
-          "sku": "TT-300"
-        }
-      ],
-      "serving_suggestion": "Enjoy with guacamole, salsa, or your favorite dip. They are also perfect for making nachos.",
-      "tags": ["chips", "snack", "corn"]
+      ]
     }
   ]
 }

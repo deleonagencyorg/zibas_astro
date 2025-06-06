@@ -1,195 +1,107 @@
 {
   "meta": {
-    "title": "Productos",
+    "title": "Productos - Taqueritos",
     "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
   },
-  "page": {
-    "title": "Nuestros Productos",
-    "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia.",
-    "no_products": "No hay productos disponibles en este momento.",
-    "view_details": "Ver detalles"
-  },
-  "detail": {
-    "back": "Volver a productos",
-    "ingredients": "Ingredientes",
-    "nutritional_info": "Información nutricional",
-    "where_to_buy": "Dónde comprar",
-    "related_products": "Productos relacionados",
-    "serving_suggestion": "Sugerencia de preparación"
-  },
-  "categories": {
-    "all": "Todos",
-    "tortillas": "Tortillas",
-    "salsas": "Salsas",
-    "seasonings": "Condimentos",
-    "snacks": "Snacks"
+  "home": {
+    "countries": "banderas-taqueritos-1-300x37.webp",
+    "presentations": "PRESENTACIONES",
+    "text": "*El tamaño por presentación varía según el país.",
+    "product_available": "PRODUCTO DISPONIBLE EN"
   },
   "items": [
     {
-      "id": "tortillas-harina",
-      "name": "Tortillas de Harina",
-      "description": "Tortillas de harina suaves y flexibles, perfectas para cualquier preparación.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-harina.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas-harina.webp",
-      "presentaciones": [
-        {
-          "valor": "8 unidades",
-          "icono": "package-small"
-        },
-        {
-          "valor": "16 unidades",
-          "icono": "package-medium"
-        }
-      ],
-      "short_description": "Tortillas de harina suaves y flexibles.",
-      "category": "tortillas",
-      "ingredients": ["Harina", "Agua", "Sal"],
-      "nutritional_info": {
-        "serving_size": "2 tortillas (50g)",
-        "calories": 120,
-        "fat": "1g",
-        "carbs": "25g",
-        "protein": "3g",
-        "sodium": "10mg"
-      },
+      "id": "taqueritos-chile-toreado",
+      "name": "Taqueritos Chile Toreado",
+      "image": "banner-chile-toreado-1-300x37.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos-1-300x37.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
-          "name": "Paquete de 10",
-          "weight": "250g",
-          "sku": "TH-10"
+          "value": "14",
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-5-200x300-1.webp"
         },
         {
-          "name": "Paquete de 20",
-          "weight": "500g",
-          "sku": "TH-20"
+          "value": "34",
+          "image": "https://snack.yummiespromociones.com/taqueritos/gramaje34-taqueritos-1.webp"
+        },
+        {
+          "value": "80",
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-3-200x300-1.webp"
+        },
+        {
+          "value": "180",
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-2-200x300-1.webp"
+        },
+
+        {
+          "value": "600",
+          "image": "https://snack.yummiespromociones.com/taqueritos/taqueritos_600g.webp"
         }
-      ],
-      "serving_suggestion": "Caliéntalas en un comal o sartén por 30 segundos de cada lado para disfrutar de su máximo sabor.",
-      "tags": ["tortillas", "harina", "suaves"]
+      ]
     },
     {
-      "id": "tortillas-maiz",
-      "name": "Tortillas de Maíz",
-      "description": "Nuestras auténticas tortillas de maíz, hechas con granos seleccionados y el proceso tradicional.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/tortillas-maiz.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-tortillas.webp",
-      "presentaciones": [
-        {
-          "valor": "12 unidades",
-          "icono": "package-small"
-        },
-        {
-          "valor": "24 unidades",
-          "icono": "package-medium"
-        },
-        {
-          "valor": "36 unidades",
-          "icono": "package-large"
-        }
-      ],
-      "short_description": "Auténticas tortillas de maíz para tus comidas favoritas.",
-      "category": "tortillas",
-      "ingredients": ["Maíz nixtamalizado", "Agua", "Cal"],
-      "nutritional_info": {
-        "serving_size": "2 tortillas (50g)",
-        "calories": 120,
-        "fat": "1g",
-        "carbs": "25g",
-        "protein": "3g",
-        "sodium": "10mg"
-      },
+      "id": "taqueritos-queso-fusion",
+      "name": "Taqueritos Queso Fusion",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-300x41.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/14-Banner-Producto-960x559-1.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/2-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
-          "name": "Paquete de 10",
-          "weight": "250g",
-          "sku": "TM-10"
+          "value": "34",
+          "image": "https://snack.yummiespromociones.com/taqueritos/gramaje34-taqueritos-1.webp"
         },
         {
-          "name": "Paquete de 20",
-          "weight": "500g",
-          "sku": "TM-20"
+          "value": "80",
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-3-200x300-1.webp"
         },
         {
-          "name": "Paquete de 30",
-          "weight": "750g",
-          "sku": "TM-30"
+          "value": "180",
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-2-200x300-1.webp"
         }
-      ],
-      "serving_suggestion": "Caliéntalas en un comal o sartén por 30 segundos de cada lado para disfrutar de su máximo sabor.",
-      "tags": ["tortillas", "maíz", "tradicional"]
+      ]
     },
     {
-      "id": "salsa-verde",
-      "name": "Salsa Verde",
-      "description": "Salsa verde tradicional con tomatillos frescos y chile serrano.",
-      "image": "https://taqueritos.com/wp-content/uploads/2024/03/salsa-verde.webp",
-      "background_image": "https://taqueritos.com/wp-content/uploads/2024/03/bg-salsa-verde.webp",
-      "presentaciones": [
-        {
-          "valor": "220g",
-          "icono": "bottle-small"
-        },
-        {
-          "valor": "450g",
-          "icono": "bottle-large"
-        }
-      ],
-      "short_description": "Salsa verde con tomatillos frescos y chiles verdes.",
-      "category": "salsas",
-      "ingredients": ["Tomatillos", "Chiles verdes", "Cebolla", "Ajo", "Cilantro", "Sal", "Especias"],
-      "nutritional_info": {
-        "serving_size": "2 cucharadas (30g)",
-        "calories": 15,
-        "fat": "0g",
-        "carbs": "3g",
-        "protein": "0g",
-        "sodium": "150mg"
-      },
+      "id": "taqueritos-dragon-hielo",
+      "name": "Taqueritos Dragón Hielo",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-hielo.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-hielo-producto.webp",
       "sizes": [
         {
-          "name": "Frasco pequeño",
-          "weight": "220g",
-          "sku": "SV-220"
+          "value": "34",
+          "image": "https://snack.yummiespromociones.com/taqueritos/34-taqueritos_w.webp"
         },
         {
-          "name": "Frasco mediano",
-          "weight": "450g",
-          "sku": "SV-450"
+          "value": "36",
+          "image": "https://snack.yummiespromociones.com/taqueritos/36-taqueritos_2.webp"
+        },
+        {
+          "value": "180",
+          "image": "https://snack.yummiespromociones.com/taqueritos/180-taqueritos_w.webp"
         }
-      ],
-      "serving_suggestion": "Ideal para tacos, enchiladas, huevos rancheros o como dip para tus snacks favoritos.",
-      "tags": ["salsa", "verde", "picante"]
+      ]
     },
     {
-      "id": "totopos-maiz",
-      "title": "Totopos de Maíz",
-      "description": "Nuestros totopos de maíz son crujientes, ligeros y perfectos para disfrutar solos o con tus salsas favoritas.",
-      "short_description": "Totopos crujientes hechos con maíz 100% natural.",
-      "image": "/images/products/totopos-maiz.jpg",
-      "category": "snacks",
-      "ingredients": ["Maíz", "Aceite vegetal", "Sal"],
-      "nutritional_info": {
-        "serving_size": "28g (aproximadamente 14 totopos)",
-        "calories": 140,
-        "fat": "7g",
-        "carbs": "19g",
-        "protein": "2g",
-        "sodium": "110mg"
-      },
+      "id": "taqueritos-dragon-fuego",
+      "name": "Taqueritos Dragón Fuego",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-fuego.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-fuego-producto.webp",
       "sizes": [
         {
-          "name": "Bolsa pequeña",
-          "weight": "100g",
-          "sku": "TT-100"
+          "value": "34",
+          "image": "https://snack.yummiespromociones.com/taqueritos/34-taqueritos_w.webp"
         },
         {
-          "name": "Bolsa familiar",
-          "weight": "300g",
-          "sku": "TT-300"
+          "value": "36",
+          "image": "https://snack.yummiespromociones.com/taqueritos/36-taqueritos_2.webp"
+        },
+        {
+          "value": "180",
+          "image": "https://snack.yummiespromociones.com/taqueritos/180-taqueritos_w.webp"
         }
-      ],
-      "serving_suggestion": "Disfruta con guacamole, salsa o tu dip favorito. También son perfectos para preparar nachos.",
-      "tags": ["totopos", "snack", "maíz"]
+      ]
     }
   ]
 }

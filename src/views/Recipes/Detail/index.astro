@@ -3,8 +3,7 @@
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
-import { initRecipeDetailScripts } from './scripts.js';
-import { time } from 'console';
+import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 
 interface RecipeItem {
   id: string;
@@ -88,46 +87,50 @@ function formatTime(minutes: number, locale: Locale): string {
     </div>
   </div>
 </div>
-<div id="ingredients" class="pt-8 md:pt-0 flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
-  <h1 class="font-heading font-bold md:text-4xl text-2xl text-white text-center md:text-left">{recipesAssets.recipes}</h1>
-  <div class="w-full mt-8 md:mt-0 md:max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+<div id="ingredients" class="pt-8 md:pt-0 flex flex-col justify-center items-center md:h-[43rem] mb-8">
+  <div class="w-full max-w-6xl px-4">
+    <h1 class="font-heading font-bold md:text-4xl text-2xl text-white text-center mb-8">
+      {recipesAssets.recipes}
+    </h1>
     
-    {recipe.image && (
-      <div class="w-full md:w-1/2 flex justify-center">
-        <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
-          <img 
-            src={recipe.image} 
-            alt={recipe.title}
-            class="w-full h-full object-cover"
-            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-          />
+    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+      {recipe.image && (
+        <div class="w-full md:w-1/2 flex justify-center">
+          <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
+            <img 
+              src={recipe.product_image} 
+              alt={recipe.title}
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+            />
+          </div>
         </div>
+      )}
+      
+      <div class="w-[80%] md:w-1/2 flex flex-col gap-4 md:p-8 p-4 rounded-lg text-white">
+        <section class="mb-8 text-white">
+          <ul class="list-disc list-inside space-y-2 text-white">
+            {recipe.ingredients.map((ingredient: string) => (
+              <li class="text-white">
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
-    )}
-    
-    <div class="w-[80%] md:w-1/2 flex flex-col gap-4  md:p-8 p-4 rounded-lg text-white">
-      <section class="mb-8 text-white">
-        <ul class="list-disc list-inside space-y-2 text-white">
-          {recipe.ingredients.map((ingredient: string) => (
-            <li class="text-white">
-              {ingredient}
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   </div>
 </div>
 
-<div id="instructions" class="flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
+<div id="instructions" class="mt-[-2rem]  md:mt-[-2rem] flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
 
   <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
     <div class="w-[80%]  flex items-center justify-center flex-col gap-4  md:p-8 p-4 rounded-lg text-white">
-      <h1 class="font-heading font-bold md:text-4xl text-2xl text-black text-center md:text-left">{recipesAssets.preparation}</h1>
+      <h1 class="font-heading font-bold md:text-4xl text-2xl text-gray-600 text-center md:text-left">{recipesAssets.preparation}</h1>
       <section class="mb-8 text-white">
-        <ul class="list-disc list-inside space-y-2 text-gray-800">
+        <ul class="list-disc list-inside space-y-2 text-gray-600">
           {recipe.instructions.map((instruction: string) => (
-            <li class="text-gray-800">
+            <li class="text-gray-600">
               {instruction}
             </li>
           ))}
@@ -136,8 +139,25 @@ function formatTime(minutes: number, locale: Locale): string {
     </div>
   </div>
 </div>
-<div id="suggestions_releated" class="flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
-
+<div id="suggestions_related" class="mt-[-2rem] flex flex-col justify-center items-center py-12 bg-white ">
+  <div class="w-full max-w-6xl px-4">
+    <h2 class="pb-8 text-3xl md:text-4xl font-bold text-gray-600 mb-8 text-center font-heading">
+      {recipesAssets.related_recipes}
+    </h2>
+    
+    <div class="w-full mx-auto grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-16">
+      {relatedRecipes.map((related: RecipeItem) => (
+        <RecipeCard
+          image={related.image || '/images/recipes/placeholder.jpg'}
+          title={related.title}
+          time={`${related.preparation_time} ${currentLang === 'es' ? 'min' : 'mins'}`}
+          id={related.id}
+          textColor="text-gray-800"
+          iconColor="text-gray-500"
+        />
+      ))}
+    </div>
+  </div>
 </div>
 
 

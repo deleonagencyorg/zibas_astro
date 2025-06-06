@@ -43,3 +43,9 @@
   background: #ffffff;
 
 }
+
+#ingredients{
+  background-image: url('https://snack.yummiespromociones.com/taqueritos/RECETAS2.webp');
+  background-size: cover;
+  background-position: center;
+}

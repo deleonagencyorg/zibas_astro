@@ -10,6 +10,7 @@
     "read_more": "Read more"
   },
   "home": {
+    "related_recipes": "Related recipes",
     "recipes": "Ingredients",
     "Ipreparation" : "Preparation",
     "explore_more": {
@@ -58,6 +59,7 @@
       "id": "jalapeno-poppers",
       "title": "Jalapeño Poppers with Taqueritos Chile Toreado",
       "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
       "difficulty": "easy",
       "ingredients": [
@@ -88,6 +90,7 @@
       "id": "jalapeno-poppers2",
       "title": "Jalapeño Poppers with Taqueritos Chile Toreado2",
       "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
       "difficulty": "easy",
       "ingredients": [
@@ -118,6 +121,7 @@
       "id": "jalapeno-poppers3",
       "title": "Jalapeño Poppers with Taqueritos Chile Toreado3",
       "image": "https://taqueritos.com/wp-content/uploads/2024/03/400x400-1.webp",
+      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
       "difficulty": "easy",
       "ingredients": [
