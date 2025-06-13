@@ -54,8 +54,8 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-02-1.webp",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
         "alt": "Taqueritos",
         "title": "",
         "description": "",
@@ -63,8 +63,45 @@
       },
       {
         "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "link": ""
+      },
+      {
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "link": ""
+      },
+      {
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "link": ""
+      }
+      ,
+      {
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
+        "alt": "Taqueritos",
+        "title": "",
+        "description": "",
+        "link": ""
+      },
+      {
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
         "alt": "Taqueritos",
         "title": "",
         "description": "",
@@ -91,28 +128,7 @@
     "explore": "Explorar"
   },
   "menu_items": [
-    {
-      "id": "shop",
-      "text": "🇭🇳 Comprar",
-      "href": "",
-      "submenu": [
-        {
-          "id": "hugo",
-          "text": "Hugo Tegucigalpa",
-          "href": "https://hugoapp.app.link/tsGW7qeq55?_p=c11d37dc990262eee01f8ce3e1b5"
-        },
-        {
-          "id": "hugosanpedrosula",
-          "text": "Hugo San Pedro Sula",
-          "href": "https://hugoapp.app.link/3QUMaJbq55?_p=c11d37dc990262eee01f8ce3e1b5"
-        },
-        {
-          "id": "ochodelivery",
-          "text": "Ocho Delivery",
-          "href": "https://play.google.com/store/apps/details?id=io.beanar.ocho&hl=es_GT&gl=US"
-        }
-      ]
-    },
+
     {
       "id": "products",
       "text": "Productos",
@@ -148,7 +164,7 @@
     {
       "id": "entertainment",
       "text": "Entretenimiento",
-      "href": "/es/entretenimiento",
+      "href": "#",
       "submenu": [
         {
           "id": "music",

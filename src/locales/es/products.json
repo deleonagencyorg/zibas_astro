@@ -7,7 +7,8 @@
     "countries": "banderas-taqueritos-1-300x37.webp",
     "presentations": "PRESENTACIONES",
     "text": "*El tamaño por presentación varía según el país.",
-    "product_available": "PRODUCTO DISPONIBLE EN"
+    "product_available": "PRODUCTO DISPONIBLE EN",
+    "related_products": "Prueba también"
   },
   "items": [
     {
@@ -15,7 +16,7 @@
       "name": "Taqueritos Chile Toreado",
       "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
       "background_color": "#007c34",
-      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos-1-300x37.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {

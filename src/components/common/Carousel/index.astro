@@ -80,7 +80,7 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
 {loading ? (
   <Skeleton items={3} />
 ) : (
-  <div class="relative overflow-hidden h-[300px] md:h-full w-screen">
+  <div class="relative overflow-hidden w-screen" transition:animate="fade">
     {preloadFirstImage && (
       <>
         <!-- Precargar la primera imagen para dispositivos móviles -->
@@ -91,7 +91,7 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
     )}
     
     <!-- Swiper container -->
-    <div class="swiper-container main-carousel h-[300px] lg:h-full">
+    <div class="swiper-container main-carousel">
       <div class="swiper-wrapper">
         {slides.map((slide, index) => (
           <CarouselSlide 

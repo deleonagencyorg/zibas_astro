@@ -36,12 +36,13 @@ const uniqueCategories = Object.keys(categories);
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
         {products.map((product: any) => (
-          <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300" data-category={product.category}>
+          <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300" data-category={product.category} transition:animate="fade">
             <div class="relative h-48 overflow-hidden">
               <img 
                 src={product.image || '/images/products/placeholder.jpg'} 
                 alt={product.title} 
                 class="w-full h-full object-cover"
+                transition:name={`product-image-${product.id}`}
               />
             </div>
             <div class="p-6">

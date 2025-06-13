@@ -6,6 +6,7 @@ import Header from '../components/common/Header/index.astro';
 import Footer from '../components/common/Footer/index.astro';
 import I18nProvider from '../components/i18n/I18nProvider.astro';
 import { routesConfig } from '../config/routes';
+import { ViewTransitions } from 'astro:transitions';
 import "../styles/global.css";
 
 export interface Props {
@@ -28,17 +29,18 @@ const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUr
     <link rel="icon" type="image/png" href="https://snack.yummiespromociones.com/taqueritos/favicon.png" />
     {title && <title>Taqueritos - {title}</title>}
     {description && <meta name="description" content={description} />}
+    <ViewTransitions />
     <slot name="head" />
     {/* <GoogleTagManager /> */}
   </head>
   <body class="font-sans">
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
-      <Header key={pageLocaleForKeysAndHtml} currentLang={pageLocaleForKeysAndHtml} />
-      <main>
+      <Header currentLang={pageLocaleForKeysAndHtml} />
+      <main transition:animate="slide">
         <slot />
       </main>
-      <Footer key={pageLocaleForKeysAndHtml} currentLang={pageLocaleForKeysAndHtml} />
+      <Footer currentLang={pageLocaleForKeysAndHtml} />
     </I18nProvider>
   </body>
 </html>

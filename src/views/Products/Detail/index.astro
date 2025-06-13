@@ -71,14 +71,15 @@ if (allProductsArray.length > 1) {
   <div id="hero" class="w-full h-80 md:h-[32rem] bg-cover bg-center" style="background-image: url('https://snack.yummiespromociones.com/taqueritos/banner_productos_en.webp'); background-size: cover; background-position: center;"></div>
 )}
 {safeProduct.background_color && (
-  <article id="product-detail" class="product-detail pt-8 md:pt-29 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative min-h-screen flex items-center" 
+  <article id="product-detail" class="product-detail pt-12 md:pt-29 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative min-h-screen flex items-center" 
     style={`
       --mobile-bg: ${safeProduct.background_color};
       --desktop-bg: url('${safeProduct.background_image}');
     `}
+    transition:animate="slide"
   >
     <div class="md:mt-[0] container mx-auto px-4 py-12 flex flex-col md:flex-row items-center">
-      <img id="product-image" class="mb-[2rem] w-[100%] md:hidden" src={safeProduct.image} alt={safeProduct.name} />
+      <img id="product-image" class="mb-[2rem] w-[100%] md:hidden" src={safeProduct.image} alt={safeProduct.name} transition:name={`product-image-${safeProduct.id}`} />
       <div class="w-full md:w-1/2 md:ml-auto">
         
         <h1 class="md:text-4xl text-3xl font-bold mb-6 text-white">{safeProduct.name}</h1>
@@ -117,8 +118,8 @@ if (allProductsArray.length > 1) {
     </div>
   </article>
 )}
-<div id="related-products" class="container mx-auto px-4 py-12">
-  <h2 class="text-2xl font-bold mb-8 text-white">{productsAssets.related_products}</h2>
+<div id="related-products" class="container mx-auto px-4 py-12" transition:animate="fade">
+  <h2 class="text-2xl font-bold mb-8 text-white text-center">{productsAssets.related_products}</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     {relatedProducts.slice(0, 2).map((product) => (
       <a 

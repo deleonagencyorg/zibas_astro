@@ -10,7 +10,7 @@ import LazyImage from '../../components/common/LazyImage.astro';
 const currentLang = getLocale();
 const recipes = t('items', { namespace: 'recipes', locale: currentLang });
 ---
-<div id="hero" class="w-full h-80 md:h-[32rem] bg-cover bg-center" style="background-image: url('https://snack.yummiespromociones.com/taqueritos/banner_recetas.webp'); background-size: cover; background-position: center;"></div>
+<div id="hero" class="w-full h-80 md:h-[32rem] bg-cover bg-center" style="background-image: url('https://snack.yummiespromociones.com/taqueritos/banner_recetas.webp'); background-size: cover; background-position: center;" transition:animate="fade"></div>
 <div class="bg-white py-12">
 
   <div class="container mx-auto px-4 mt-12">
@@ -18,7 +18,7 @@ const recipes = t('items', { namespace: 'recipes', locale: currentLang });
     {recipes.length === 0 ? (
       <p class="text-center text-gray-500">{t('page.no_recipes', { namespace: 'recipes' })}</p>
     ) : (
-      <div class="md:w-[80%] w-full mx-auto grid grid-cols-2 md:grid-cols-3 md:gap-32 gap-6">
+      <div class="md:w-[80%] w-full mx-auto grid grid-cols-2 md:grid-cols-3 md:gap-32 gap-6" transition:animate="slide">
         {recipes.map((recipe: any) => (
           <RecipeCard
             image={recipe.image || '/images/recipes/placeholder.jpg'}

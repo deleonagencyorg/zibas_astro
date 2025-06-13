@@ -53,7 +53,7 @@ const slides = Array.isArray(commonAssets)
     <link rel="preconnect" href="https://open.spotify.com" />
     
     <!-- Spotify Section -->
-    <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center" style="margin-top: -1rem;">
+    <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center" style="margin-top: -1rem;" transition:animate="fade">
       <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
         <div class="w-full md:w-1/2 flex justify-center items-center gap-8">
           <LazyImage src="https://snack.yummiespromociones.com/taqueritos/notamusical1.webp" alt="Spotify Listen In" class="w-8 object-cover object-center"/>
@@ -105,7 +105,7 @@ const slides = Array.isArray(commonAssets)
     </section>
 
     <!-- Delivery Section -->
-    {getLocale() === 'es' && (
+    <!-- {getLocale() === 'es' && (
       <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
         <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
           <div class="w-full md:w-1/2 flex justify-center items-center gap-8">
@@ -151,9 +151,9 @@ const slides = Array.isArray(commonAssets)
           </div>
         </div>
       </section>
-    )}
+    )} -->
 
-  <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center">
+  <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-4">
         <div class="flex flex-row items-center gap-8">
@@ -197,12 +197,12 @@ const slides = Array.isArray(commonAssets)
       <a href={recipesAssets.visit_1.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_1.title}</a>
       <span>{recipesAssets.visit_text_2.title}</span>
       <a href={recipesAssets.visit_2.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_2.title}</a>
-      {getLocale() === 'en' && (
-        <>
+   
+   
         <span>{recipesAssets.visit_text_3.title}</span>
         <a href={recipesAssets.visit_3.link} target="_blank" rel="noopener noreferrer" class="text-red">{recipesAssets.visit_3.title}</a>
-        </>
-      )}
+        
+    
     </div>
   </section>
     <script is:inline>

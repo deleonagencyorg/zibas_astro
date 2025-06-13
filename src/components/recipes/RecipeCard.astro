@@ -27,6 +27,7 @@ const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 're
 <a 
   href={recipeLink} 
   class="block group hover:scale-105 transition-transform duration-300 ease-in-out"
+  transition:animate="fade"
 >
   <article class="flex flex-col gap-3">
     <div class="aspect-square w-full relative rounded-2xl shadow-lg overflow-hidden">
@@ -34,6 +35,7 @@ const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 're
         src={image}
         alt={title}
         class="w-full h-full object-cover"
+        transition:name={`recipe-image-${id}`}
       />
     </div>
     <div class="flex flex-col gap-2">
