@@ -19,10 +19,7 @@
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
-        {
-          "value": "14",
-          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-5-200x300-1.webp"
-        },
+  
         {
           "value": "34",
           "image": "https://snack.yummiespromociones.com/taqueritos/gramaje34-taqueritos-1.webp"

@@ -5,8 +5,8 @@ import MainLayout from '../../../layouts/MainLayout.astro';
 import RecipeDetail from '../../../views/Recipes/Detail/index.astro';
 
 export function getStaticPaths() {
-  // Obtener todos los idiomas y recetas disponibles
-  const locales = ['en'];
+  // Incluir ambos idiomas
+  const locales = ['en', 'es'];
   const paths = [];
 
   for (const locale of locales) {
@@ -23,7 +23,7 @@ export function getStaticPaths() {
     }
   }
 
-  console.log(`Generated ${paths.length} recipe routes in English`);
+  console.log(`Generated ${paths.length} recipe routes`);
   return paths;
 }
 

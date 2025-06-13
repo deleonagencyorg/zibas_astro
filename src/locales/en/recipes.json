@@ -12,7 +12,7 @@
   "home": {
     "related_recipes": "Related recipes",
     "recipes": "Ingredients",
-    "Ipreparation" : "Preparation",
+    "preparation": "Preparation",
     "explore_more": {
       "title": "Explore more recipes here",
       "link": "/en/recipes"
@@ -32,7 +32,7 @@
     },
     "visit_2": {
       "title": "TikTok",
-      "link": "https://taqueritos.com/en/home/https://www.tiktok.com/@taqueritosusa"
+      "link": "https://www.tiktok.com/@taqueritosusa"
     },
     "visit_3": {
       "title": "| Facebook",
@@ -55,459 +55,211 @@
     "hard": "Hard"
   },
   "items": [
-
     {
-      "id": "jalapeno-poppers3",
-      "slug": "taqueritos-chile-toreado-jalapeno-poppers",
-      "title": "Jalapeño Poppers with Taqueritos Chile Toreado ",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 20,
-      "ingredients": [
-        "12 seeded jalapenos",
-        "2 cups of cream cheese",
-        "1 teaspoon garlic powder",
-        "1 teaspoon onion powder",
-        "½ teaspoon of paprika",
-        "Salt to taste",
-        "½ teaspoon worcestershire sauce",
-        "Vegetable oil",
-        "Taqueritos Chile Toreado",
-        "Flour",
-        "2 beaten eggs"
-
-      ],
-      "instructions": [
-        "Step 1: Mix the cream cheese, garlic, onion, paprika, salt and Worcestershire sauce in a container.",
-        "Step 2: Fill the jalapenos with the mixture.",
-        "Step 3: Beat the egg over a second layer and pass the jalapeño over the flour and egg.",
-        "Step 4: In a recent grind the Taqueritos Chile Toreado.",
-        "Step 5: Pass each jalapeño over the crushed Taqueritos. In a frying pan, heat enough oil and fry the jalapenos until golden.",
-        "Step 6: Serve and enjoy with your favorite sauce."
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "jalapeno", "popper", "taqueritos"]
-    },
-
-  {
-      "id": "taquedogs",
-      "slug": "taquedogs-en",
+      "id": "TaqueDogs",
+      "slug": "taqueritos-Queso funcion - TaqueDogs",
       "title": "TaqueDogs",
-      "image": "400x400-1.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/TaqueDogs.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 15,
       "ingredients": [
-        "Hot Dog Ingredients 1:",
-        "Hot Dog Bread", "Sausages", "cheeseCilantro and lime mayonnaise", "Taqueritos",
-        "Hot Dog Ingredients 2:",
-        "Hot Dog Bread", "Sausages", "Mayonnaise", "Mustard", "Cheese", "Chili", "Taqueritos",
-        "Hot Dog Ingredients 3:",
-        "Hot Dog Bread", "Sausages", "Mayonnaise", "Mustard", "Ketchup", "Coleslaw", "Taqueritos"
+        "1. Pan para Hot Dog",
+        "2. queso",
+        "3. Mayonesa de cilantro y limón",
+        "4. Taqueritos",
+        "1.Pan para Hot Dog",
+        "2.Salchichas",
+        "3.Mayonesa",
+        "4.Mostaza",
+        "5.Queso",
+        "6.Chili",
+        "7.Taqueritos",
+        "1.Pan para Hot Dog",
+        "2.Salchichas",
+        "3.Mayonesa",
+        "4.Mostaza",
+        "5.Kétchup",
+        "6.Coleslaw",
+        "7.Taqueritos"
       ],
-      "instructions": [
-        "Step: Arm your TaqueDogs and enjoy"
-      ],
-      "product": "taqueritos-queso-fusión",
-      "tags": ["queso fusíon", "taquedogs", "taqueritos"]
+      "instructions": ["Arma tus TaqueDogs y disfruta"],
+      "product": ["taqueritos-Queso-función"],
+      "tags": ["Taqueritos", "Queso", "Función"]
     },
-
-  {
-      "id": "crazy-corn",
-      "slug": "crazy-corn-with-taqueritos-chile-toreado",
-      "title": "Creazy Corn with Taqueritos Chile Toreado",
-      "image": "400x400-1.webp",
+    {
+      "id": "Elotes Locos con Taqueritos Chile Toreado",
+      "slug": "Taqueritos- Chile - Toreado",
+      "title": "Elotes Locos con Taqueritos Chile Toreado",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Elote_loco_Con_Chile_Taqueritos.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
       "ingredients": [
-        "2 corn kernels",
-        "1 bag of Taqueritos Chile Toreado",
-        "1 cup mayonnaise",
-        "2 lemons in quarters"
+        "2 elotes de maíz",
+        "1 bolsa de Taqueritos Chile Toreado",
+        "1 taza de mayonesa",
+        "2 limones en cuartos"
       ],
       "instructions": [
-        "Step 1: Let’s break each of the corn and then place them in a pot with hot water.",
-        "Step 2: When they are ready, remove them and remove the excess water. It passes them through the mayonnaise completely covering it.",
-        "Step 3: The Taqueritos place them in a food processor and crush them. Once crushed, cover the corn and serve them little lemon."
+        "1. Parta cada uno de los elotes y después los coloca en una olla con agua caliente.",
+        "Paso 2. Cuando estén listos los retira y botar el exceso de agua.",
+        "Paso 3. Los pasa por la mayonesa cubriéndolos totalmente.",
+        "Paso 4. Los Taqueritos, colocarlos en un procesador de alimentos y los tritura.",
+        "Paso 5. Una vez triturados, cubra los elotes y servir con un poco de limón."
       ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "corn", "taqueritos"]
+      "product": ["taqueritos-Queso-función"],
+      "tags": ["Taqueritos", "Chile", "Toreado"]
     },
-
-  {
-      "id": "toreado-cheese",
-      "slug": "toreado-cheese-dice-with-taqueritos-chile-toreado",
-      "title": "Toreado Cheese Dice with Taqueritos Chile Toreado",
-      "image": "400x400-1.webp",
+    {
+      "id": "Dados de Queso Toreados",
+      "slug": "Taqueritos- Chile - Toreado",
+      "title": "Dados de Queso Toreados con Taqueritos Chile Toreado",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Dados_Queso_T.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
       "ingredients": [
-        "1 pound of diced cream cheese or quesillo",
-        "1 cup of flour",
-        "2 beaten eggs",
-        "2 cups of crushed Taqueritos Chile Toreado",
-        "Oil for frying"
+        "1 libra de queso crema o quesillo en dados.",
+        "1 taza de harina",
+        "2 huevos batidos",
+        "2 tazas de Taqueritos Chile Toreado triturados",
+        "Aceite para freír"
       ],
       "instructions": [
-        "Step 1: Blend the taqueritos in a food processor.",
-        "Step 2: Pass the cheese cubes through the flour, the egg and the crushed Taqueritos.",
-        "Step 3: Heat the oil to fry each of the cubes or dices of cheese.",
-        "Step 4: Remove them and remove the excess oil and enjoy."
+        "Paso 1. Triturar los taqueritos en un procesador de alimentos.",
+        "Paso 2. Pase los cubos de queso por la harina, el huevo y los Taqueritos triturados.",
+        "Paso 3. Caliente el aceite para freír cada uno de cubos o dados de queso.",
+        "Paso 4. Retirelos y elimine el exceso de aceite y disfrute."
       ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["Cheese dice", "chile toreado", "toreado", "taqueritos"]
+      "product": ["taqueritos-Queso-función"],
+      "tags": ["Taqueritos", "Chile", "Toreado"]
     },
-
-  {
-      "id": "caesar-salad",
-      "slug": "caesar-salad-with-toreado-chicken-and-taqueritos-queso-fusion",
-      "title": "Caesar Salad with Toreado Chicken and Taqueritos Queso Fusión",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
+    {
+      "id": "Ensalada César con Pollo Toreado",
+      "slug": "Taqueritos- Queso - Función",
+      "title": "Ensalada César con Pollo Toreado y Taqueritos Queso Fusión",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Ensalada_CesarT.webp",
+      "product_image": "",
       "preparation_time": 15,
       "ingredients": [
-        "1 romaine lettuce",
-        "1 chicken breast",
-        "Season to taste",
-        "1 cup of shredded Taqueritos Queso Fusión",
-        "1 cup of whole Taqueritos Queso Fusión",
-        "½ cup of parmesan cheese",
-        "Oil for frying the necessary quantity",
-        "Caesar sauce"
+        "1 lechuga romana",
+        "1 pechuga de pollo",
+        "Salpimentar al gusto",
+        "1 taza de Taqueritos Queso Fusión Triturado",
+        "1 taza de Taqueritos Queso Fusión Enteros",
+        "½ taza de queso parmesano",
+        "Aceite para freír la cantidad necesaria",
+        "Salsa César"
       ],
       "instructions": [
-        "Step 1: Season the chicken breasts and then put a little oil in a pan and cook. Once it’s ready cut into chunks.",
-        "Step 2: On a plate, place the chopped lettuce so that you can later place the chicken on top and sprinkle with the Parmesan cheese.",
-        "Step 3: Drop the Taqueritos on top of the salad as if they were croutons.",
-        "Step 4: Garnish with Caesar sauce."
+        "Paso 1. Salpimentar las pechugas de pollo y luego colocar un poco de aceite en una sartén y cocinar.",
+        "Paso 2. Una vez que esté lista corte en trozos",
+        "Paso 3. En un plato, coloque la lechuga troceada para poder después encima coloca de forma decorativa el pollo y espolvorear con el queso parmesano.",
+        "Paso 4. Deje caer de los Taqueritos encima de la ensalada como si fueran unos crotones.",
+        "Paso 5. Adereza con salsa César."
       ],
-      "product": "taqueritos-queso-fusión",
-      "tags": ["ceasar salad", "toreado chicken", "queso fusión", "taqueritos"]
+      "product": ["Taqueritos- Queso - Función"],
+      "tags": ["Taqueritos", "Queso", "Función"]
     },
-
-  {
-      "id": "mango-prepared",
-      "slug": "mango-prepared-with-taqueritos-queso-fusion-y-chile-toreado",
-      "title": "Mango Prepared with Taqueritos Queso Fusión y Chile Toreado",
-      "image": "400x400-1.webp",
+    {
+      "id": "Mango Preparado con Taquerito",
+      "slug": "Taqueritos- Chile - Toreado",
+      "title": "Mango Preparado con Taqueritos Queso Fusión y Chile Toreado",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Mango_preparado-1.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 15,
+      "preparation_time": 20,
       "ingredients": [
-        "1 mango chunks",
-        "Salt to taste",
-        "Papper to taste",
-        "2 tablespoons soy sauce",
-        "1 tablespoon lemon",
-        "1 bag of Taqueritos Queso Fusión y Chile Toreado"
+        "1 mango en trozos",
+        "Sal al gusto",
+        "Salpimentar al gusto",
+        "Pimienta al gusto",
+        "2 cucharadas de salsa soya",
+        "1 cucharada de limón",
+        "1 bolsa de Taqueritos Queso Fusión y Chile Toreado"
       ],
       "instructions": [
-        "Step 1: In a bowl place all the ingredients and mix perfectly.",
-        "Step 2: Put in the refrigerator for about 20 minutes and enjoy."
+        "Paso 1. En un tazón colocar todos los ingredientes y mezclar perfectamente",
+        "Paso 2. Meter en refrigeración por unos 20 minutos y disfrutar."
       ],
-      "product": ["taqueritos-chile-toreado", "taqueritos-queso-fusión"],
-      "tags": ["chile toreado", "queso fución", "mango", "taqueritos"]
+      "product": ["Taqueritos- Queso - Función - Chile - Toreado"],
+      "tags": ["Taqueritos", "Queso", "Función"]
     },
-
-  {
-      "id": "cheese-quesadilla",
-      "slug": "ham-and-cheese-quesadilla-with-taqueritos-chile-queso-fusion",
-      "title": "Ham and Cheese Quesadilla with Taqueritos Chile Queso Fusión",
-      "image": "400x400-1.webp",
+    {
+      "id": "Quesadilla de Jamón y Queso con Taqueritos",
+      "slug": "Taqueritos- Queso - Fusión",
+      "title": "Quesadilla de Jamón y Queso con Taqueritos Chile Queso Fusión",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Quesadilla_Taque.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 20,
       "ingredients": [
-        "2 fluor tortillas",
-        "2 tablespoons cream butter",
-        "8 slices of cheese",
-        "4 slices of ham",
-        "1 bag Taqueritos Chile Toreado",
-        "Ranch sauce to your taste"
+        "2 tortillas de harina",
+        "2 cucharadas de mantequilla crema",
+        "8 rebanadas de queso",
+        "4 rebanadas de jamón",
+        "Salsa ranch a su gusto"
       ],
       "instructions": [
-        "Step 1: In each of the tortillas we are going to place one of the tablespoons of butter. Then we will place 4 of the cheese slices.",
-        "Step 2: Then we will put 4 slices of ham on top.",
-        "Step 3: Now we place the Taqueritos around the entire tortilla and on top of the last 4 slices of cheese.",
-        "Step 4: To finish we will use the flour tortilla on top and then we take it to a pan and brown it on both sides.",
-        "Step 5: Cut in half and serve as desired with ranch sauce."
+        "Paso 1. En cada una de las tortillas vamos a colocar una de las cucharadas de mantequilla.",
+        "Paso 2. Después colocaremos 4 de las rebanadas de queso.",
+        "Paso 3. Luego pondremos encima 4 rebanadas de jamón.",
+        "Paso 4. Ahora colocamos de los Taqueritos alrededor de toda la tortilla y encima las últimas 4 rebanadas de queso.",
+        "Paso 5. Para finalizar utilizaremos la tortilla de harina por encima y luego llevamos a una sartén y la doramos por ambos lados.",
+        "Paso 6. Corte por mitades y sirva a su gusto de salsa ranch."
       ],
-      "product": "taqueritos-queso-fusión",
-      "tags": ["ham", "cheese", "quesadilla", "queso fusión", "taqueritos"]
+      "product": ["Taqueritos- Queso - Función"],
+      "tags": ["Taqueritos", "Queso", "Función"]
     },
-
-  {
-      "id": "roasted-meat",
-      "slug": "roasted-meat-with-taqueritos",
-      "title": "Roasted Meat with Taqueritos",
-      "image": "400x400-1.webp",
+    {
+      "id": "Carne Asada con Taqueritos",
+      "slug": "Taqueritos- Queso - Fusión",
+      "title": "Carne Asadacon Taqueritos",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Carne_Asada.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 20,
       "ingredients": [
-        "2 tablespoons oil",
-        "1 pound minced beef roast",
-        "Season to taste",
-        "½ cup chismol",
-        "1 jalapeno pepper, sliced (optional)",
-        "1 bag of 36 g Taqueritos Chile Toreado",
-        "1 bag of 36 g Taqueritos Queso Fusión"
+        "2 cucharadas de aceite",
+        "1 libra de carne para asar de res en trocitos Salpimentar al gusto",
+        "½ taza de chismol",
+        "1 chile jalapeño en rebanadas (opcional)",
+        "1 bolsa de 36 g Taqueritos Chile Toreado",
+        "1 bolsa de 36 g Taqueritos Queso Fusión"
       ],
       "instructions": [
-        "Step 1: Season the meat with the salt and pepper. Then cook in a pan and when ready to reserve.",
-        "Step 2: Serve the Taqueritos on a plate or container.",
-        "Step 3: Serve the meat on top and the chismol.",
-        "Step 4: Add the jalapeño if you like."
+        "Paso 1. Sazonar la carne con la sal y pimienta.  Luego cocinar en una sartén y al estar lista reservar.",
+        "Paso 2. Servir los Taqueritos en un plato o recipiente.",
+        "Paso 3. Servir la carne encima y el chismol.",
+        "Paso 4. Agregar el jalapeño si lo desea."
       ],
-      "product": ["taqueritos-chile-toreado", "taqueritos-queso-fusión"],
-      "tags": ["chile toreado", "roasted meat", "queso fusión", "taqueritos"]
+      "product": ["Taqueritos- Queso - Función"],
+      "tags": ["Taqueritos", "Queso", "Función", "Chile", "Toreado"]
     },
-
-  {
-      "id": "breaded-chicken",
-      "slug": "breaded-chicken-wings-taqueritos-toreado-and-fusion-cheese",
-      "title": "Breaded Chicken Wings Taqueritos Toreado and Fusion Cheese",
-      "image": "400x400-1.webp",
+    {
+      "id": "Alitas de Pollo Empanizadas",
+      "slug": "Taqueritos- Queso - Fusión",
+      "title": "Alitas de Pollo Empanizadas Taqueritos Toreado Y Queso Fusión",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Alitas.jpg",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 15,
       "ingredients": [
-        "12 chicken wings",
-        "Seasoned with salt and pepper to taste",
-        "2 teaspoons garlic powder",
-        "1 teaspoon cumin",
-        "1 cup flour",
-        "3 beaten eggs",
-        "Oil for frying",
-        "1/2 cup BBQ sauce",
-        "1/2 cup ranchera sauce",
-        "1 36g bag Taqueritos Chile Toreado",
-        "1 36g bag Taqueritos Queso Fusión"
+        "12 alitas de pollo",
+        "Salpimentar al gusto",
+        "2 cucharaditas de ajo en polvo",
+        "1 cucharadita de comino",
+        "3 huevos batidos",
+        "Aceite para freír",
+        "½ taza salsa bbq",
+        "½ taza de salsa ranchera",
+        "1 bolsa de 36g Taqueritos Chile Toreado",
+        "1 bolsa de 36g Taqueritos Queso Fusión"
       ],
       "instructions": [
-        "Step 1: Mix the spices (salt, pepper, garlic, and cumin, then season the chicken wings).",
-        "Step 2: Let the seasoned wings rest for about half an hour.",
-        "Step 3: Blend the two types of in a food processor and mix in a bowl.",
-        "Step 4: Dip the wings into the flour, then the egg, and finally the Taqueritos.",
-        "Step 5: Heat the oil and fry the wings.",
-        "Step 6: Serve the wings on a plate and accompany them with the sauces."
+        "Paso 1. Mezclar las especias (la sal, la pimienta, el ajo y comino después adobar las alitas de pollo).",
+        "Paso 2. Reposar por una media hora las alitas adobadas.",
+        "Paso 3. Triturar los dos tipos de Taqueritos en un procesador de alimentos y mezclar en un tazón.",
+        "Paso 4. Pasar las alitas por la harina, después por el huevo y por último los Taqueritos.",
+        "Paso 5. Calentar el aceite y freír las alitas.",
+        "Paso 6. Servir las alitas en un plato y acompañar con las salsas."
       ],
-      "product": ["taqueritos-chile-toreado", "taqueritos-queso-fusión"],
-      "tags": ["chile toreado", "queso fusión", "chicken wings", "taqueritos"]
-    },
-
-{
-      "id": "ice-cream",
-      "slug": "ice-cream-taco-taqueritos-chile-toreado-2",
-      "title": "Ice Cream Taco Taqueritos Chile Toreado",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 10,
-      "ingredients": [
-        "1 container for ice cream",
-        "1 scoop of vanilla ice cream",
-        "1 scoop of strawberry ice cream",
-        "1 tablespoon of jelly of your taste",
-        "1 tablespoon of caramel or chocolate syrup",
-        "2 cherries to decorate",
-        "1 bag of 36g Taqueritos Chile Toreado or Queso Fusión"
-      ],
-      "instructions": [
-        "Step 1: Place the ice cream scoops.",
-        "Step 2: Add the jelly and syrup.",
-        "Step 3: Place one of the two types of Taqueritos around the ice cream and decorate with some cherries."
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "ice cream", "taco", "taqueritos"]
-    },
-
-{
-      "id": "omelette",
-      "slug": "omelette-with-taqueritos-chile-toreado",
-      "title": "Omelette with Taqueritos Chile Toreado",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 15,
-      "ingredients": [
-        "2 eggs",
-        "Salt and pepper to taste",
-        "2 tablespoons oil divided",
-        "1 tablespoon onion, minced Grated mozzarella cheese",
-        "¼ cup of Taqueritos Chile Toreado"
-      ],
-      "instructions": [
-        "Step 1: Beat the eggs and add salt and pepper to taste.",
-        "Step 2: Heat a tablespoon of oil in a non-stick pan and fry the onion over medium heat until transparent and add it to the egg.",
-        "Step 3: In the same skillet add the other tablespoon of oil and raise the temperature to medium high heat. Add the egg and cook until set.",
-        "Step 4: Flip it over with the help of a spatula or lid. Add the cheese and the taqueritos and close the omelette.",
-        "Step 5: Reduce the heat to medium low and cook until the cheese is melted."
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "omelette", "taqueritos"]
-    },
-
-{
-      "id": "baked-pasta",
-      "slug": "baked-pasta-with-taqueritos-queso-fusion",
-      "title": "Baked Pasta with Taqueritos Queso Fusión",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
-      "preparation_time": 30,
-      "ingredients": [
-        "1 tablespoon vegetable oil",
-        "¼ cup red onion, chopped",
-        "1 cup of sliced mushrooms",
-        "1 can of tuna in water drained",
-        "4 tablespoons cream cheese",
-        "3 tablespoons of milk",
-        "Salt and pepper to taste",
-        "¼ cup of black olivese",
-        "1 package of Coditos previously cooked al dente (according to package instructions)",
-        "1¼ cup of Parmesan cheese",
-        "½ cup of shredded Fusion Cheese Taqueritos",
-        "Chopped chives"
-      ],
-      "instructions": [
-        "Step 1: Preheat the oven to 350ºF.",
-        "Step 2: Heat the oil in a skillet over medium heat and brown the onion for 3 minutes. Add the mushrooms and cook for 3 more minutes. Add the tuna, cream cheese, milk and mix well. Season with salt and pepper to taste and remove from heat.",
-        "Step 3: Add the olives, mix them and little by little add the pasta. Stir it well and place it in a previously greased baking dish. Add the Parmesan cheese, the taqueritos and the chives on top. Cover the pan with aluminum foil and bake for 25 minutes. Remove the foil and bake for 5 more minutes."
-      ],
-      "product": "taqueritos-queso-fusión",
-      "tags": ["baked", "queso fusión", "pasta", "taqueritos"]
-    },
-
-{
-      "id": "spacy-shrim",
-      "slug": "spicy-shrimp-with-taqueritos",
-      "title": "Spicy Shrimp with Taqueritos",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 30,
-      "ingredients": [
-        "2 cups of crushed Chile Toreado Taqueritos.",
-        "1 egg.",
-        "1 cup of milk.",
-        "1 ½ cup of flour.",
-        "½ teaspoon of salt.",
-        "¼ teaspoon of black pepper.",
-        "12 large shrimp peeled and cleaned.",
-        "Tartar sauce:" ,
-        "1 cup of lemon mazola mayonnaise", "1 clove of garlic", "grated", "2 tablespoons of chopped pickles", "1 tablespoon capers", "chopped", "2 tablespoons of chopped parsley", "1 tablespoon of grated red onion", "juice of 1 lemon", "1 tablespoon of pickle juice", "¼ salt", "¼ of black pepper"
-      ],
-      "instructions": [
-        "Step 1: With a mortar crush the Taqueritos, until they are well ground, place them in a bowl.",
-        "Step 2: In a medium bowl, beat the eggs with the milk, add the flour, salt, and pepper",
-        "Step 3: until smooth. Preheat the oil to 180 ° C. Pass the clean and dry shrimp through the mixture of milk, egg and flour.",
-        "Step 4: Put the shrimp on the hot oil and cook for 2 minutes until they are golden brown and crisp.",
-        "Step 5: Serve hot with tartar sauce.Tartar sauce:Procedure:",
-        "Step 6: Tartar sauce: Procedure:",
-        "Finely chop the gherkins", "capers and parsley", "Put the mayonnaise and lemon juice in a bowl and mix the capers and the chopped pickle and parsley", "chop the onion and garlic clove and add to the mixture", "Add the salt and pepper and 1 tablespoon of pickle juice mix well and ready to accompany your roasted shrimp"
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "spicy shrim", "taqueritos"]
-    },
-
-{
-      "id": "crunchy-bends",
-      "slug": "crunchy-bends-with-taqueritos-queso-fusion",
-      "title": "Crunchy Bends with Taqueritos Queso Fusión",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
-      "preparation_time": 15,
-      "ingredients": [
-        "1 tablespoon vegetable oil",
-        "¼ teaspoon salt",
-        "1 cup of ground beef",
-        "1 cup tomato sauce",
-        "2 tablespoons taco seasoning",
-        "Taco Cheese Mix",
-        "1 cup of Fusion Cheese Taqueritos, halved",
-        "Wheat flour tortillas",
-        "Pico de gallo, cream and chopped lettuce to serve"
-      ],
-      "instructions": [
-        "Step 1: Season the meat with the salt.",
-        "Step 2: Heat the oil in a skillet and brown the meat over medium high heat for 3 minutes..",
-        "Step 3: Add the taco seasoning and sauce and heat for 3 more minutes. Remove from heat and reserve.",
-        "Step 4: On a flour tortilla, place a layer of meat, then follow with a layer of cheese and finish with a Taqueritos Queso Fusión. Close the tortilla in parts, bringing the edge to the center and overlapping each fold.",
-        "Step 6: Heat a griddle or a frying pan and brown the folded on both sides over medium heat.",
-        "Step 7: Serve with chopped lettuce, cream and pico de gallo on top."
-      ],
-      "product": "taqueritos-queso-fusión",
-      "tags": ["queso fusión", "crunchy bends", "taqueritos"]
-    },
-
-{
-      "id": "small-bals",
-      "slug": "small-balls-covered-of-zibas-with-taqueritos",
-      "title": "Small balls covered of Zibas with Taqueritos",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 45,
-      "ingredients": [
-        "1 Chips Creams and Spices crushed from Zibas bag",
-        "1 Bag of Taqueritos Chile Toreado",
-        "1 package softened cream cheese",
-        "1 cup cheddar cheese shredded",
-        "1 teaspoon garlic salt",
-        "4 slices of chopped fried bacon",
-        "½ cup chives, chopped",
-        "1 tablespoon of paprika"
-      ],
-      "instructions": [
-        "Step 1: In a bowl, mix the cream cheese with the cheddar cheese, garlic salt, bacon, chives and paprika.",
-        "Step 2: Shape this mixture into balls and cover with the crushed Zibas.",
-        "Step 3: Place the balls on a tray and let them cool for 1 hour.",
-        "Step 4: Before serving, place a Taquerito in the middle of each ball and serve."
-      ],
-      "product": ["zibas-crema-especias", "taqueritos-chile-toreado"],
-      "tags": ["zibas", "queso fusión", "small balls", "cream and spices", "taqueritos"]
-    },
-
-{
-      "id": "rajitas",
-      "slug": "rajitas-with-taqueritos-chile-toreado",
-      "title": "Rajitas with Taqueritos Chile Toreado",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 15,
-      "ingredients": [
-        "1 green mango",
-        "1 red apple",
-        "1 carrot",
-        "1 cucumber",
-        "1 bag of Taqueritos Chile Toreado"
-      ],
-      "instructions": [
-        "Step 1: Cut the fruits and vegetables into strips.",
-        "Step 2: Crush the Taqueritos until they become a powder and cover the fruits and vegetables with this powder.",
-        "Step 3: Add lemon to taste and serve."
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "rajitas", "green mango", "red apple", "taqueritos"]
+      "product": ["Taqueritos- Queso - Función"],
+      "tags": ["Taqueritos", "Queso", "Función", "Chile", "Toreado"]
     }
-,
-{
-      "id": "fried-cheese",
-      "slug": "queso-frito-with-taqueritos",
-      "title": "Fried Cheese with Taqueritos",
-      "image": "400x400-1.webp",
-      "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
-      "preparation_time": 20,
-      "ingredients": [
-        "1 pound of cheese for frying",
-        "½ cup of flour",
-        "1 egg",
-        "Abundant oil",
-        "1 Taqueritos Chile Toreado (or the flavor of your preference)"
-      ],
-      "instructions": [
-        "Step 1: Blend the Taqueritos.",
-        "Step 2: Cut the cheese into flakes.",
-        "Step 3: Place the egg in separate containers and the flour in another.",
-        "Step 4: Dip the cheese flakes in the flour, then in the egg, and finally in the crushed Taqueritos.",
-        "Step 5: Heat the oil in a pot and dip the cheese until golden brown.",
-        "Step 6: Serve and garnish with dressing and jalapeño peppers."
-      ],
-      "product": "taqueritos-chile-toreado",
-      "tags": ["chile toreado", "cheese", "jalapeno", "taqueritos"]
-    }
-
-
   ]
 }

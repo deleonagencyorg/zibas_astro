@@ -54,58 +54,58 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "alt": "Taqueritos",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": ""
+        "link": "https://forms.zohopublic.com/dinantco/form/DescubretuDragonconTaqueritos/formperma/Cpf9QG1k_WPbqGocmfun4bRxMaCfVhpAuz5sQiGv4cI"
       },
+
       {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "alt": "Taqueritos",
+        "id": "slide4",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": ""
-      },
-      {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
-        "alt": "Taqueritos",
-        "title": "",
-        "description": "",
-        "link": ""
+        "link": "https://taqueritos.com/producto/taqueritos-dragon-de-fuego/"
       },
       {
         "id": "slide3",
         "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
         "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
-        "alt": "Taqueritos",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": ""
-      }
-      ,
-      {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
-        "alt": "Taqueritos",
-        "title": "",
-        "description": "",
-        "link": ""
+        "link": "https://www.amazon.com/stores/page/7964A27A-5177-44C3-AAEC-6DA181502081?ingress=3"
       },
       {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
-        "alt": "Taqueritos",
+        "id": "slide33",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_home_taqueritos-4.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_home_taqueritos-4.webp",
+        "alt": "Ofertas Especiales",
         "title": "",
         "description": "",
-        "link": ""
+        "link": "https://www.amazon.com/stores/page/7964A27A-5177-44C3-AAEC-6DA181502081?ingress=3"
+      },
+      {
+        "id": "slide5",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
+        "alt": "",
+        "title": "",
+        "description": "",
+        "link": "/es/productos/chile-toreado"
+      },
+      {
+        "id": "slide6",
+        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
+        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
+        "alt": "",
+        "title": "",
+        "description": "",
+        "link": "/es/productos/taqueritos-queso-fusion"
       }
     ],
     "products": [
@@ -113,7 +113,7 @@
         "id": "product1",
         "src": "/images/es/products/product1.jpg",
         "alt": "Taqueritos Original",
-        "title": "Taqueritos Original"
+        "title": ""
       },
       {
         "id": "product2",
