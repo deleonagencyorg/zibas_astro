@@ -54,13 +54,13 @@ const closeIconSvg = `
 const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'common', locale: currentLang }) || 'Close main menu';
 ---
 
-<header id="site-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-black bg-opacity-50 backdrop-blur-md text-white py-3 lg:pt-8 px-4 sm:px-6 lg:px-8 font-sans">
+<header id="site-header" class="fixed md:absolute top-0 left-0 w-full z-40 transition-all duration-300 bg-black bg-opacity-50 backdrop-blur-md text-white py-3 lg:pt-8 px-4 sm:px-6 lg:px-8 font-sans">
   <div class="container mx-auto flex items-center justify-between h-16">
     
     <!-- Logo para Desktop (Izquierda) -->
     <div class="hidden md:flex items-center flex-shrink-0 pt-6">
       <a href={`/${currentLang}/`} class="block">
-        <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-10 lg:h-20 w-auto" transition:name="logo" />
+        <img src={logos.principal.url} alt={logos.principal.alt || 'Snacks Yummies Logo'} class="h-10 lg:h-20 w-auto" transition:name="logo" />
       </a>
     </div>
 
@@ -75,7 +75,7 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
     <!-- Logo para Móvil (Derecha en Móvil) -->
     <div class="md:hidden flex items-center">
       <a href={`/${currentLang}/`} class="block">
-        <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-10 w-auto" transition:name="logo-mobile" />
+        <img src={logos.principal.url} alt={logos.principal.alt || 'Snacks Yummies Logo'} class="h-10 w-auto" transition:name="logo-mobile" />
       </a>
     </div>
     <!-- Desktop Right Aligned Content: Socials on top, Nav/Lang below, all right-aligned -->
@@ -241,6 +241,39 @@ const closeMenuLabel: string = t('menu_labels.close_main_menu', { namespace: 'co
 </header>
 
 <script define:vars={{ astroMenuIconSvg: menuIconSvg, astroCloseIconSvg: closeIconSvg }}>
+// Función para controlar el comportamiento del header al hacer scroll en desktop
+function initHeaderScrollBehavior() {
+  const header = document.getElementById('site-header');
+  let lastScrollTop = 0;
+  
+  function handleScroll() {
+    if (window.innerWidth < 768) return; // Solo aplicar en desktop (md y superior)
+    
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Si estamos en el top de la página (primeros 50px), mantener como absolute
+    if (scrollTop <= 50) {
+      header.classList.remove('fixed');
+      header.classList.add('absolute');
+      header.classList.remove('bg-black', 'bg-opacity-90');
+      header.classList.add('bg-black', 'bg-opacity-50', 'backdrop-blur-md');
+    } else {
+      // Si hacemos scroll hacia abajo, fijar el header
+      header.classList.remove('absolute');
+      header.classList.add('fixed');
+      header.classList.remove('bg-opacity-50');
+      header.classList.add('bg-black', 'bg-opacity-90');
+    }
+    
+    lastScrollTop = scrollTop;
+  }
+  
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', handleScroll);
+  
+  // Ejecutar una vez al cargar para establecer el estado inicial
+  handleScroll();
+}
 function initMobileMenu() {
   // Función para alternar la visibilidad del submenú
   function toggleSubmenu(submenuContainer, toggleButton) {
@@ -336,9 +369,13 @@ function initMobileMenu() {
 // Ensure the script runs after the DOM is fully loaded
 if (typeof window !== 'undefined') {
   if (document.readyState === 'loading') { // Still loading
-    document.addEventListener('DOMContentLoaded', initMobileMenu);
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initHeaderScrollBehavior();
+    });
   } else { // `DOMContentLoaded` has already fired
     initMobileMenu();
+    initHeaderScrollBehavior();
   }
 }
 </script>

@@ -4,7 +4,7 @@
  */
 
 // Base URL del bucket de S3
-const S3_BASE_URL = 'https://snack.yummiespromociones.com/taqueritos';
+const S3_BASE_URL = 'https://snack.yummiespromociones.com/snacksyummies';
 
 // Interfaz básica para assets
 export interface Asset {
@@ -23,10 +23,11 @@ export interface SocialLink {
 // Logos
 export const logos = {
   principal: {
-    url: `${S3_BASE_URL}/Logo-Taqueritos-2019-300x100.webp`,
-    alt: 'Taqueritos'
+    url: `${S3_BASE_URL}/Logo_SnacksYummies.svg`,
+    alt: 'Snacks Yummies'
   }
 };
+
 
 // Enlaces de Redes Sociales
 // Asegúrate de que las URLs de los iconos sean correctas y existan en tu S3_BASE_URL o donde los alojes.

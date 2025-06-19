@@ -51,6 +51,8 @@
   "assets": {
     "logo": "/images/es/logo.svg",
     "hero": "/images/es/hero.jpg",
+    "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
+    "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
         "id": "slide1",

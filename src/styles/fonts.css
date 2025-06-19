@@ -1,37 +1,19 @@
 /* fonts.css: Fuentes para Taqueritos */
 
-/* FontdinerSwanky (para títulos, logotipos y elementos destacados) */
 @font-face {
-  font-family: 'FontdinerSwanky';
-  src: url('../assets/fonts/FontdinerSwanky.ttf') format('truetype');
+  font-family: 'TroisMille';
+  src: url('../assets/fonts/TroisMilleTRIALRglr23.ttf') format('truetype');
   font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Poppins (fuente principal) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('../assets/fonts/poppins-v23-latin-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Poppins';
-  src: url('../assets/fonts/poppins-v23-latin-700.woff2') format('woff2');
-  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 /* Variables CSS para compatibilidad con código existente */
 :root {
-  --font-title: 'FontdinerSwanky', serif;
-  --font-heading: 'Poppins', sans-serif;
-  --font-text: 'Poppins', sans-serif;
-  --font-sans: 'Poppins', sans-serif;
+  --font-title: 'TroisMille', serif;
+  --font-heading: 'TroisMille', serif;
+  --font-text: 'TroisMille', serif;
+  --font-sans: 'TroisMille', serif;
 }
 
 /* Clases de utilidad para usar directamente en HTML */
