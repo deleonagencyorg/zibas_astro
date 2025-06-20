@@ -1,0 +1,118 @@
+.orbital-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.orbital-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orbital-center {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(0, 153, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.orbital-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 153, 255, 0.3) 0%, rgba(0, 153, 255, 0) 70%);
+  animation: pulse 3s infinite alternate;
+}
+
+.orbital-products {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.orbital-product {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)))) translateX(180px) rotate(calc(var(--index) * (-360deg / var(--total))));
+  animation: orbit 20s linear infinite;
+  animation-delay: calc(var(--index) * -4s / var(--total));
+}
+
+.product-link {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+
+.product-image {
+  width: 150px;
+  height: auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+
+.orbital-product:hover .product-link {
+  transform: scale(1.1);
+}
+
+@keyframes orbit {
+  0% {
+    transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)))) translateX(180px) rotate(calc(var(--index) * (-360deg / var(--total))));
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)) + 360deg)) translateX(180px) rotate(calc(var(--index) * (-360deg / var(--total)) - 360deg));
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .orbital-carousel-container {
+    height: 400px;
+  }
+  
+  .orbital-product {
+    transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)))) translateX(140px) rotate(calc(var(--index) * (-360deg / var(--total))));
+  }
+  
+  @keyframes orbit {
+    0% {
+      transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)))) translateX(140px) rotate(calc(var(--index) * (-360deg / var(--total))));
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(calc(var(--index) * (360deg / var(--total)) + 360deg)) translateX(140px) rotate(calc(var(--index) * (-360deg / var(--total)) - 360deg));
+    }
+  }
+  
+  .product-image {
+    width: 120px;
+  }
+}

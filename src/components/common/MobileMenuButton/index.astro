@@ -1,0 +1,62 @@
+---
+import { t, type Locale } from '../../../i18n/i18n';
+
+export interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+// Traducciones
+const openMenuLabel = t('menu_labels.open_main_menu', { namespace: 'common', locale: currentLang }) || 'Open main menu';
+
+// SVG Icons
+const menuIconSvg = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+</svg>`;
+
+const closeIconSvg = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+</svg>`;
+---
+
+<!-- Mobile Menu Button -->
+<div class="md:hidden">
+  <button
+    id="mobile-menu-button"
+    type="button"
+    class="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300"
+    aria-expanded="false"
+    aria-label={openMenuLabel}
+  >
+    <span class="sr-only">{openMenuLabel}</span>
+    <div id="menu-icon-container" set:html={menuIconSvg}></div>
+  </button>
+</div>
+
+<script define:vars={{ astroMenuIconSvg: menuIconSvg, astroCloseIconSvg: closeIconSvg }}>
+function initMobileMenuButton() {
+  const menuButton = document.getElementById('mobile-menu-button');
+  const menuIconContainer = document.getElementById('menu-icon-container');
+
+  if (menuButton && menuIconContainer) {
+    menuButton.addEventListener('click', () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu) {
+        mobileMenu.classList.toggle('hidden');
+        if (!mobileMenu.classList.contains('hidden')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+        menuIconContainer.innerHTML = isExpanded ? astroMenuIconSvg : astroCloseIconSvg;
+      }
+    });
+  }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initMobileMenuButton);
+</script>

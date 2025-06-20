@@ -1,0 +1,218 @@
+---
+import LanguageSwitcher from '../../i18n/LanguageSwitcher.astro';
+import LocalizedImage from '../LazyImage.astro';
+import { t, type Locale } from '../../../i18n/i18n';
+import { socialMediaIconUrls, logos } from '../../../config/assets';
+
+export interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+// Obtener los datos de social media y menú desde las traducciones
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
+const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) as any[];
+
+// Traducciones
+const openMenuLabel = t('menu_labels.open_main_menu', { namespace: 'common', locale: currentLang }) || 'Open main menu';
+const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', locale: currentLang }) || 'Close main menu';
+
+---
+
+<!-- Menú Móvil Global -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-screen h-screen z-[2147483647] bg-primary overflow-y-auto">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <a href={`/${currentLang}/`} class="block">
+        <img src={logos.principal.url} alt={logos.principal.alt} class="h-10 w-auto" />
+      </a>
+      <button id="mobile-menu-close" type="button" class="text-white">
+        <span class="sr-only">{closeMenuLabel}</span>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="flex flex-col items-center space-y-3 text-center w-full text-white">
+      {menuItems && menuItems.map((item: any) => (
+        <div class="w-full">
+          <div class="flex items-center justify-center text-white">
+            {item.submenu ? (
+              <>
+                <a href="#" class="menu-parent block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+                  {item.text}
+                </a>
+                <button class="menu-toggle px-2 py-1 text-white hover:text-gray-300 ml-1">
+                  <svg class="w-5 h-5 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+              </>
+            ) : (
+              <a href={item.href} class="block text-xl font-sans font-medium hover:text-gray-300 transition-colors py-2">
+                {item.text}
+              </a>
+            )}
+          </div>
+          {item.submenu && (
+            <div class="submenu-container hidden mt-1 space-y-1 pl-4 text-center">
+              {item.submenu.map((subItem: any) => (
+                <div>
+                  <div class="flex items-center justify-center">
+                    {subItem.submenu ? (
+                      <>
+                        <a href="#" class="submenu-parent block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                        <button class="submenu-toggle px-2 py-1 text-gray-400 hover:text-gray-200 ml-1">
+                          <svg class="w-4 h-4 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                          </svg>
+                        </button>
+                      </>
+                    ) : (
+                      <a href={subItem.href} class="block text-lg font-sans font-normal text-gray-400 hover:text-gray-200 transition-colors py-1">{subItem.text}</a>
+                    )}
+                  </div>
+                  {subItem.submenu && (
+                    <div class="third-level-submenu hidden mt-1 space-y-1 pl-4 text-center">
+                      {subItem.submenu.map((thirdItem: any) => (
+                        <a href={thirdItem.href} class="block text-md font-sans font-normal text-gray-500 hover:text-gray-300 transition-colors py-1 text-center">{thirdItem.text}</a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <!-- Selector de Idioma Móvil -->
+    <div class="mt-6 mb-6 flex justify-center">
+      <LanguageSwitcher activeLocale={currentLang} />
+    </div>
+
+    <div class="mt-auto flex space-x-4">
+      {socialMedia && Object.entries(socialMedia).map(([key, social]) => {
+        const sm = social as { name: string; url: string; alt?: string; iconUrl?: string };
+        return (
+          <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
+            <span class="sr-only">{sm.name}</span>
+            {sm.iconUrl && (
+              <LocalizedImage
+                assetKey={sm.iconUrl}
+                alt={sm.alt || sm.name}
+                class="h-6 w-6 filter invert"
+                width={24}
+                height={24}
+                loading="lazy"
+              />
+            )}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<script>
+function initMobileMenu() {
+  // Función para alternar la visibilidad del submenú
+  function toggleSubmenu(submenuContainer: Element, toggleButton: Element) {
+    submenuContainer.classList.toggle('hidden');
+    const svg = toggleButton.querySelector('svg');
+    if (svg) {
+      if (submenuContainer.classList.contains('hidden')) {
+        // Show down arrow
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>';
+      } else {
+        // Show up arrow
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>';
+      }
+    }
+  }
+
+  const mobileMenu = document.getElementById('mobile-menu');
+  const closeButton = document.getElementById('mobile-menu-close');
+
+  if (mobileMenu && closeButton) {
+    closeButton.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      document.body.style.overflow = '';
+      
+      // Actualizar el botón del header
+      const menuButton = document.getElementById('mobile-menu-button');
+      const menuIconContainer = document.getElementById('menu-icon-container');
+      if (menuButton && menuIconContainer) {
+        menuButton.setAttribute('aria-expanded', 'false');
+        // Restaurar icono de menú
+        menuIconContainer.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>`;
+      }
+    });
+  }
+  
+  // Add event listeners for menu toggles (first level)
+  const menuToggles = document.querySelectorAll('.menu-toggle');
+  menuToggles.forEach((toggle: Element) => {
+    toggle.addEventListener('click', (e: Event) => {
+      e.preventDefault();
+      const parentDiv = toggle.closest('.w-full');
+      const submenuContainer = parentDiv?.querySelector('.submenu-container');
+      
+      if (submenuContainer) {
+        toggleSubmenu(submenuContainer, toggle);
+      }
+    });
+  });
+  
+  // Add event listeners for menu parent items (first level)
+  const menuParents = document.querySelectorAll('.menu-parent');
+  menuParents.forEach((parent: Element) => {
+    parent.addEventListener('click', (e: Event) => {
+      e.preventDefault();
+      const parentDiv = parent.closest('.w-full');
+      const submenuContainer = parentDiv?.querySelector('.submenu-container');
+      const toggle = parentDiv?.querySelector('.menu-toggle');
+      
+      if (submenuContainer && toggle) {
+        toggleSubmenu(submenuContainer, toggle);
+      }
+    });
+  });
+  
+  // Add event listeners for submenu toggles (second level)
+  const submenuToggles = document.querySelectorAll('.submenu-toggle');
+  submenuToggles.forEach((toggle: Element) => {
+    toggle.addEventListener('click', (e: Event) => {
+      e.preventDefault();
+      const parentDiv = toggle.closest('div');
+      const thirdLevelSubmenu = parentDiv?.nextElementSibling;
+      
+      if (thirdLevelSubmenu && thirdLevelSubmenu.classList.contains('third-level-submenu')) {
+        toggleSubmenu(thirdLevelSubmenu, toggle);
+      }
+    });
+  });
+  
+  // Add event listeners for submenu parent items (second level)
+  const submenuParents = document.querySelectorAll('.submenu-parent');
+  submenuParents.forEach((parent: Element) => {
+    parent.addEventListener('click', (e: Event) => {
+      e.preventDefault();
+      const parentDiv = parent.closest('div');
+      const thirdLevelSubmenu = parentDiv?.nextElementSibling;
+      const toggle = parentDiv?.querySelector('.submenu-toggle');
+      
+      if (thirdLevelSubmenu && thirdLevelSubmenu.classList.contains('third-level-submenu') && toggle) {
+        toggleSubmenu(thirdLevelSubmenu, toggle);
+      }
+    });
+  });
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initMobileMenu);
+</script>

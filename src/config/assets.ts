@@ -12,6 +12,13 @@ export interface Asset {
   alt?: string;
 }
 
+export const generalAssets = {
+  locationIcon: `${S3_BASE_URL}/iconmap.svg`,
+  phoneIcon: `${S3_BASE_URL}/iconphone.svg`,
+  emailIcon: `${S3_BASE_URL}/iconemail.svg`,
+  timeIcon: `${S3_BASE_URL}/iconsizes.svg`,
+};
+
 // Interfaz para enlaces de redes sociales
 export interface SocialLink {
   name: string;

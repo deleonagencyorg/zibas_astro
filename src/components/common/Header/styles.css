@@ -40,11 +40,20 @@
 /* Animación para el menú móvil */
 #mobile-menu {
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
 }
 
 #mobile-menu:not(.hidden) {
   opacity: 1;
   visibility: visible;
+  display: block;
 }
 
 #mobile-menu.hidden {

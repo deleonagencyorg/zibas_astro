@@ -57,6 +57,24 @@ const sizes = explicitSizes || getOptimalSizes(context);
 // Determinar si es una imagen WebP
 const isWebP = src.toLowerCase().endsWith('.webp');
 
+// Función para calcular la rotación de matiz según el color
+function getHueRotate(color: string) {
+  // Valores aproximados para colores comunes
+  const hueValues: Record<string, string> = {
+    'red': '0deg',
+    'orange': '35deg',
+    'yellow': '60deg',
+    'green': '120deg',
+    'blue': '240deg',
+    'purple': '270deg',
+    'pink': '330deg',
+    'white': '0deg',
+    'black': '0deg',
+  };
+  
+  return hueValues[color.toLowerCase()] || '0deg';
+}
+
 // Generar srcset para imágenes responsivas
 const isExternal = src.startsWith('http');
 let srcset = '';
@@ -86,7 +104,9 @@ if (isWebP) {
   alt={optimizedAlt}
   class={className}
   style={{
-    ...(color ? { filter: `brightness(0) invert(${color === 'white' ? 1 : 0})` } : {})
+    ...(color === 'white' ? { filter: 'brightness(0) invert(1)' } : 
+        color === 'black' ? { filter: 'brightness(0) invert(0)' } : 
+        color ? { filter: `brightness(0) saturate(100%) invert(${color === 'white' ? 1 : 0}) sepia(0) saturate(${color !== 'white' && color !== 'black' ? '7500%' : '100%'}) hue-rotate(${getHueRotate(color)})` } : {})
   }}
   {...(decorative ? { 'aria-hidden': 'true', 'role': 'presentation' } : {})}
   loading={priority ? null : "lazy"}

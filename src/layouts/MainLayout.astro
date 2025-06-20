@@ -4,6 +4,7 @@
 import { getLocale, type Locale } from '../i18n/i18n'; // t is not used, Locale type might be needed
 import Header from '../components/common/Header/index.astro';
 import Footer from '../components/common/Footer/index.astro';
+import MobileMenu from '../components/common/MobileMenu/index.astro';
 import I18nProvider from '../components/i18n/I18nProvider.astro';
 import { routesConfig } from '../config/routes';
 import { ViewTransitions } from 'astro:transitions';
@@ -42,5 +43,8 @@ const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUr
       </main>
       <Footer currentLang={pageLocaleForKeysAndHtml} />
     </I18nProvider>
+    
+    <!-- Menú móvil al final del body para máximo z-index -->
+    <MobileMenu currentLang={pageLocaleForKeysAndHtml} />
   </body>
 </html>

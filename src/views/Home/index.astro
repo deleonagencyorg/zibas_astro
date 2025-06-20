@@ -3,6 +3,7 @@
 import LazyImage from '../../components/common/LazyImage.astro';
 import { t, getLocale } from '../../i18n/i18n';
 import Carousel from '../../components/common/Carousel/index.astro';
+import OrbitalCarousel from '../../components/common/OrbitalCarousel/index.astro';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import './styles.css';
 
@@ -28,6 +29,10 @@ console.log('spotifyAssets', spotifyAssets)
 const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
 const sliderMaskMobile = t('assets.slidermaskmobile', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp';
 
+// Obtener productos para el ca rusel orbital
+const newProductsData = t('new_products', { namespace: 'new-products', locale: currentLang });
+const newProducts = Array.isArray(newProductsData) ? newProductsData : [];
+
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
 const slides = Array.isArray(commonAssets) 
   ? commonAssets
@@ -46,9 +51,18 @@ const slides = Array.isArray(commonAssets)
 
 ---
 
-  <main class="w-full flex flex-col items-center justify-center">
+  <main class="w-full flex flex-col items-center justify-center mt-0">
     <!-- Slider Section con máscara -->
     <div class="relative w-full overflow-hidden max-w-[100vw]">
+      <!-- Título superpuesto posicionado a la izquierda y centrado verticalmente -->
+      <div class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
+        <LazyImage 
+          src="https://snack.yummiespromociones.com/snacksyummies/Header-Title.webp" 
+          alt="Título decorativo" 
+          class="md:w-40 lg:w-80 object-cover object-center" 
+        />
+      </div>
+      
       <!-- Máscara PNG superpuesta (cambia según el idioma y dispositivo) -->
       <div class="absolute inset-0 z-10 pointer-events-none w-screen left-0 right-0">
         <!-- Imágen para desktop -->
@@ -63,7 +77,13 @@ const slides = Array.isArray(commonAssets)
       </div>
     </div>
     
-
+    <!-- Sección de Carrusel Orbital de Productos -->
+    <section class="w-full py-12 bg-gradient-to-b from-secondary to-blue-700">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-white mb-8">Nuestros Productos</h2>
+        <OrbitalCarousel products={newProducts} class="mt-8" />
+      </div>
+    </section>
 
   <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">

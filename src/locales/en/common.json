@@ -210,6 +210,24 @@
   "footer": {
     "privacy_policy_text": "Privacy Policy",
     "privacy_policy_url": "/en/privacy-policy",
-    "copyright": "Taqueritos {year}. All Rights Reserved"
-  }
+    "copyright": "Yummies {year}. All Rights Reserved",
+    "address": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa, Tegucigalpa, Honduras",
+    "phone": "(504) 2275-3370",
+    "hours": "8:00 a.m. - 5:00 p.m.",
+    "newsletter_title": "Get the crunchiest news with our newsletter",
+    "newsletter_placeholder": "youremail@email.com",
+    "newsletter_button": "Subscribe"
+  },
+  "messagetop":[
+    {
+      "id":"1",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place 🎉",
+      "link":""
+    },
+    {
+      "id":"2",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place 🎉",
+      "link":""
+    }
+  ]
 }

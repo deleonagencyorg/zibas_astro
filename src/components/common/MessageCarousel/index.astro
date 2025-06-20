@@ -1,0 +1,136 @@
+---
+import { t, type Locale } from '../../../i18n/i18n';
+
+interface Props {
+  currentLang: Locale;
+}
+
+interface Message {
+  title: string;
+  link?: string;
+}
+
+const { currentLang } = Astro.props;
+
+// Obtener los mensajes del archivo de traducción
+const messages = t('messagetop', { namespace: 'common', locale: currentLang }) as Message[] || [];
+---
+
+<div id="message-carousel" class="w-full bg-tertiary text-white py-6 md:py-3 relative overflow-hidden z-10">
+  <div class="container mx-auto px-4">
+    <div class="message-slider flex items-center justify-center h-6 md:h-8 relative">
+      {messages.map((message: Message, index: number) => (
+        <div class="message-slide absolute w-full text-center transition-all duration-700 transform" 
+             data-index={index} 
+             style={index === 0 ? "opacity: 1; transform: translateY(0)" : "opacity: 0; transform: translateY(20px)"}>
+          {message.link ? (
+            <a href={message.link} class="text-white hover:underline text-sm md:text-lg font-medium">
+              {message.title}
+            </a>
+          ) : (
+            <span class="text-sm md:text-lg font-medium">{message.title}</span>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="absolute top-0 bottom-0 left-4 flex items-center">
+    <button id="prev-message" class="text-white p-1 hover:bg-white hover:bg-opacity-20 rounded-full transition-all duration-300" aria-label="Mensaje anterior">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+  </div>
+  <div class="absolute top-0 bottom-0 right-4 flex items-center">
+    <button id="next-message" class="text-white p-1 hover:bg-white hover:bg-opacity-20 rounded-full transition-all duration-300" aria-label="Siguiente mensaje">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.message-slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    function showSlide(index: number) {
+      slides.forEach((slide: HTMLElement, i: number) => {
+        if (i === index) {
+          slide.style.opacity = '1';
+          slide.style.transform = 'translateY(0)';
+          slide.style.zIndex = '1';
+          // Añadir un efecto visual al botón activo
+          slide.classList.add('active-slide');
+        } else {
+          slide.style.opacity = '0';
+          slide.style.transform = 'translateY(20px)';
+          slide.style.zIndex = '0';
+          slide.classList.remove('active-slide');
+        }
+      });
+      
+      // Añadir un efecto visual a los botones
+      const prevButton: HTMLElement | null = document.getElementById('prev-message');
+      const nextButton: HTMLElement | null = document.getElementById('next-message');
+      
+      if (prevButton && nextButton) {
+        prevButton.classList.add('pulse-animation');
+        nextButton.classList.add('pulse-animation');
+        
+        setTimeout(() => {
+          prevButton.classList.remove('pulse-animation');
+          nextButton.classList.remove('pulse-animation');
+        }, 300);
+      }
+    };
+    
+    const nextSlide = () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    };
+    
+    const prevSlide = () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    };
+    
+    // Iniciar rotación automática
+    const startAutoRotation = () => {
+      interval = setInterval(nextSlide, 5000); // Cambiar cada 5 segundos
+    };
+    
+    // Detener rotación al interactuar
+    // Limpiar el intervalo anterior si existe
+    const stopAutoRotation = () => {
+      if (interval) clearInterval(interval);
+    };
+    
+    // Reiniciar rotación después de interactuar
+    const resetAutoRotation = () => {
+      stopAutoRotation();
+      startAutoRotation();
+    };
+    
+    // Configurar botones de navegación
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        prevSlide();
+        resetAutoRotation();
+      });
+    }
+    
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        nextSlide();
+        resetAutoRotation();
+      });
+    }
+    
+    // Iniciar rotación automática
+    startAutoRotation();
+  });
+</script>
