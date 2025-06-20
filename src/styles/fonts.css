@@ -8,9 +8,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'TroisMille Bold';
+  src: url('../assets/fonts/TroisMilleBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 /* Variables CSS para compatibilidad con código existente */
 :root {
-  --font-title: 'TroisMille', serif;
+  --font-title: 'TroisMille  Bold', serif;
   --font-heading: 'TroisMille', serif;
   --font-text: 'TroisMille', serif;
   --font-sans: 'TroisMille', serif;
@@ -23,7 +32,6 @@
 
 .font-heading {
   font-family: var(--font-heading);
-  font-weight: 700;
 }
 
 .font-text, .font-sans {

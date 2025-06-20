@@ -80,12 +80,54 @@ const slides = Array.isArray(commonAssets)
     <!-- Sección de Carrusel Orbital de Productos -->
     <section class="w-full py-12 bg-gradient-to-b from-secondary to-blue-700">
       <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center text-white mb-8">Nuestros Productos</h2>
+        <h2 class="text-4xl font-bold text-center text-white mb-8">Nuevos Productos</h2>
         <OrbitalCarousel products={newProducts} class="mt-8" />
       </div>
     </section>
 
-  <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
+    <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
+      <h1 class="text-4xl font-title font-bold text-center text-white mb-8">RECETAS</h1>
+     <div id="allrecipes" class="grid grid-cols-2 md:grid-cols-2 gap-6 w-full px-4">
+          {recipeItems.slice(0, 2).map((recipe: {
+            id: string;
+            title: string;
+            image: string;
+            preparation_time: number;
+          }) => (
+            <RecipeCard
+              image={recipe.image}
+              title={recipe.title}
+              time={`${recipe.preparation_time}MIN`}
+              id={recipe.id}
+              textColor="text-white"
+              iconColor="text-white"
+            />
+          ))}
+        </div>
+  </section>
+
+  
+
+  <section id="brands" class="w-full py-12 flex flex-col items-center justify-center">
+
+  </section>
+
+  <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
+
+  </section>
+
+  <section id="socialmedia" class="w-full py-12 flex flex-col items-center justify-center">
+
+  </section>
+
+    <section id="quiz" class="w-full h-screen flex flex-col items-center justify-center bg-tertiary" transition:animate="slide">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-white mb-8">Encuesta</h2>
+     
+      </div>
+    </section>
+
+  <!-- <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-4">
         <div class="flex flex-row items-center gap-8">
@@ -136,7 +178,7 @@ const slides = Array.isArray(commonAssets)
         
     
     </div>
-  </section>
+  </section> -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
         const observer = new IntersectionObserver((entries) => {

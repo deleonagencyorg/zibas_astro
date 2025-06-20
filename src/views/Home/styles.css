@@ -10,7 +10,9 @@
 
 }
 #recipes{
-  background: #ffbb3c;
-  background: linear-gradient(90deg,rgba(255, 187, 60, 1) 0%, rgba(255, 105, 39, 1) 100%);
+  background: url('https://snack.yummiespromociones.com/snacksyummies/bgrecipes2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
 }

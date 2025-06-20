@@ -20,7 +20,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['TroisMille', 'sans-serif'],
-        title: ['TroisMille', 'serif'],
+        title: ['TroisMille Bold', 'serif'],
         heading: ['TroisMille', 'sans-serif'],
         text: ['TroisMille', 'sans-serif']
       }
