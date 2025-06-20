@@ -1,0 +1,227 @@
+---
+import RecipeCard from './RecipeCard.astro';
+
+export interface Props {
+  recipes: any[];
+  title?: string;
+}
+
+const { 
+  recipes = [],
+  title = 'RECETAS'
+} = Astro.props;
+
+// Asegurarse de que recipes es un array
+const recipeItems = Array.isArray(recipes) ? recipes : [];
+
+// Agrupar recetas en grupos de 3 para desktop y 2 para mobile
+const desktopGroups = [];
+for (let i = 0; i < recipeItems.length; i += 3) {
+  desktopGroups.push(recipeItems.slice(i, i + 3));
+}
+
+const mobileGroups = [];
+for (let i = 0; i < recipeItems.length; i += 1) {
+  mobileGroups.push([recipeItems[i]]);
+}
+---
+
+<div class="w-full ">
+  <div class="w-full px-4 ">
+    <!-- Título alineado a la izquierda -->
+    <!-- Carousel de recetas - MOBILE (2 por slide) - Solo visible en mobile -->
+    <div class="recipes-carousel relative md:hidden">
+      <div class="recipes-carousel-container overflow-hidden md:py-12 py-6 md:px-12 px-4">
+        <div class="recipes-carousel-track flex transition-transform duration-300 " id="recipesTrackMobile">
+          {mobileGroups.map((group, index) => (
+            <div class="recipe-slide-group w-full flex-shrink-0 flex justify-center">
+              {group.map(recipe => (
+                <div class="recipe-slide w-full max-w-sm mx-auto mx-4">
+                  <RecipeCard
+                    image={recipe.image}
+                    hoverImage={recipe.hover_image || recipe.image}
+                    title={recipe.title}
+                    time={`${recipe.preparation_time}MIN`}
+                    id={recipe.id}
+                    difficulty={recipe.difficulty || '---'}
+                    servings={recipe.servings || 0}
+                    rating={recipe.rating || 0}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Controles de navegación mobile (flechas y puntos en la parte inferior) -->
+      <div class="flex justify-center items-center gap-4 mt-6">
+        <!-- Flecha anterior -->
+        <button class="carousel-prev bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnMobile">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <!-- Puntos indicadores -->
+        <div class="carousel-dots-mobile flex gap-2"></div>
+        
+        <!-- Flecha siguiente -->
+        <button class="carousel-next bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnMobile">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Carousel de recetas - DESKTOP (3 por slide) - Solo visible en desktop -->
+    <div class="recipes-carousel relative hidden md:block">
+      <div class="recipes-carousel-container overflow-hidden py-12">
+        <div class="recipes-carousel-track flex transition-transform duration-300" id="recipesTrackDesktop">
+          {desktopGroups.map((group, index) => (
+            <div class="recipe-slide-group w-full flex-shrink-0 flex gap-6">
+              {group.map(recipe => (
+                <div class="recipe-slide w-1/3">
+                  <RecipeCard
+                    image={recipe.image}
+                    hoverImage={recipe.hover_image || recipe.image}
+                    title={recipe.title}
+                    time={`${recipe.preparation_time}MIN`}
+                    id={recipe.id}
+                    difficulty={recipe.difficulty || '---'}
+                    servings={recipe.servings || 0}
+                    rating={recipe.rating || 0}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Controles de navegación desktop (flechas y puntos en la parte inferior) -->
+      <div class="flex justify-center items-center gap-4 mt-8">
+        <!-- Flecha anterior -->
+        <button class="carousel-prev bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnDesktop">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <!-- Puntos indicadores -->
+        <div class="carousel-dots-desktop flex gap-2"></div>
+        
+        <!-- Flecha siguiente -->
+        <button class="carousel-next bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnDesktop">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Botón "Ver Todas" - Visible en ambos modes -->
+    <div class="flex justify-center mt-6">
+      <a href="/es/recetas" class="bg-white text-primary font-bold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors">
+        Ver Todas
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Configuración para el carrusel mobile
+    setupCarousel({
+      trackId: 'recipesTrackMobile',
+      prevBtnId: 'prevBtnMobile',
+      nextBtnId: 'nextBtnMobile',
+      dotsContainerClass: 'carousel-dots-mobile'
+    });
+
+    // Configuración para el carrusel desktop
+    setupCarousel({
+      trackId: 'recipesTrackDesktop',
+      prevBtnId: 'prevBtnDesktop',
+      nextBtnId: 'nextBtnDesktop',
+      dotsContainerClass: 'carousel-dots-desktop'
+    });
+
+    // Función para configurar cada carrusel
+    function setupCarousel({ trackId, prevBtnId, nextBtnId, dotsContainerClass }) {
+      const track = document.getElementById(trackId);
+      const prevBtn = document.getElementById(prevBtnId);
+      const nextBtn = document.getElementById(nextBtnId);
+      const dotsContainer = document.querySelector(`.${dotsContainerClass}`);
+
+      if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+      const slideGroups = track.querySelectorAll('.recipe-slide-group');
+      const totalGroups = slideGroups.length;
+      let currentGroup = 0;
+
+      // Crear indicadores de puntos
+      createDots();
+
+      // Actualizar el estado inicial
+      updatePosition();
+
+      // Botón anterior
+      prevBtn.addEventListener('click', () => {
+        if (currentGroup > 0) {
+          currentGroup--;
+          updatePosition();
+        }
+      });
+
+      // Botón siguiente
+      nextBtn.addEventListener('click', () => {
+        if (currentGroup < totalGroups - 1) {
+          currentGroup++;
+          updatePosition();
+        }
+      });
+
+      // Crear indicadores
+      function createDots() {
+        dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < totalGroups; i++) {
+          const dot = document.createElement('button');
+          dot.classList.add(
+            'w-3', 'h-3', 'rounded-full', 
+            i === currentGroup ? 'bg-white' : 'bg-gray-300'
+          );
+          dot.addEventListener('click', () => {
+            currentGroup = i;
+            updatePosition();
+          });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      // Actualizar posición del carrusel
+      function updatePosition() {
+        // Mover el track
+        track.style.transform = `translateX(-${currentGroup * 100}%)`;
+        
+        // Actualizar dots
+        const dots = dotsContainer.querySelectorAll('button');
+        dots.forEach((dot, i) => {
+          if (i === currentGroup) {
+            dot.classList.remove('bg-gray-300');
+            dot.classList.add('bg-white');
+          } else {
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-gray-300');
+          }
+        });
+
+        // Habilitar/deshabilitar botones según la posición
+        prevBtn.classList.toggle('opacity-50', currentGroup === 0);
+        nextBtn.classList.toggle('opacity-50', currentGroup === totalGroups - 1);
+      }
+    }
+  });
+</script>

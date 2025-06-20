@@ -217,6 +217,15 @@
     }
   ],
   "home": {
+    "socialmedia":{
+      "title":"https://snack.yummiespromociones.com/snacksyummies/titlesocialmedia.webp",
+      "description":"Siguenos en nuestras redes sociales - Snacks Yummies"
+    },
+    "quiz":{
+      "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
+      "description":"Descubre cómo hacer tus días más Yummies",
+      "button":"Hacer Quiz"
+    },
     "spotify":{
      "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-768x116.webp",
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
@@ -227,7 +236,7 @@
       "hugo_app_icon":"https://snack.yummiespromociones.com/taqueritos/logohugo.webp",
       "ocho_app_icon":"https://snack.yummiespromociones.com/taqueritos/Logo_Ocho.webp"
     },
-    "title": "Taqueritos - Comida Auténtica",
+    "title": " Snacks Yummies -  Comida Auténtica",
     "subtitle": "Disfruta de los mejores tacos y platillos mexicanos",
     "cta_text": "Ver Menú",
     "cta_link": "menu",
@@ -242,7 +251,7 @@
     "testimonial1_text": "Los mejores tacos que he probado en mi vida. ¡Auténtico sabor mexicano!",
     "testimonial1_author": "Juan Pérez",
     "meta": {
-      "title": "Taqueritos - Participa y gana premios increíbles",
+      "title": " Snacks Yummies -  Participa y gana premios increíbles",
       "description": "Viví tus momentos más salvajes y disfrutá la experiencia de sabor intenso que te ofrecen Taqueritos. Hacé clic para conocer más sobre nuestros eventos."
     }
   },

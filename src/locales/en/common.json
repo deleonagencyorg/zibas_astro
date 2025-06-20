@@ -188,11 +188,16 @@
     }
   ],
   "home": {
+    "quiz":{
+      "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
+      "description":"Descubre cómo hacer tus días más Yummies",
+      "button":"Hacer Quiz"
+    },
     "spotify":{
       "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-_1_2-2-768x116.avif",
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
     },
-    "title": "Taqueritos - Authentic Mexican Food",
+    "title": " Snacks Yummies -  Authentic Mexican Food",
     "subtitle": "Enjoy the best tacos and Mexican dishes",
     "cta_text": "View Menu",
     "cta_link": "menu",
