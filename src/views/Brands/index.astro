@@ -37,7 +37,7 @@ try {
 ---
 
 <div class="brands-container">
-  <header class="brands-header text-center py-8">
+<header class="brands-header text-center py-8">
     <h1 class="text-8xl font-bold mb-4 font-title text-white">{pageTitle}</h1>
     
     <div class="brands-carousel-container relative w-full my-8">
@@ -60,7 +60,7 @@ try {
               <LazyImage
                 src={brand.logo} 
                 alt={brand.title} 
-                class="w-16 md:w-24 h-16 md:h-24 object-contain"
+                class="w-16 md:w-32 h-16 md:h-32 object-contain"
               />
             </a>
           ))}
@@ -74,6 +74,7 @@ try {
       </button>
     </div>
   </header>
+</div>
 
   <div class="container mx-auto px-4 mt-[-2rem]">
     <div class="brands-list">
