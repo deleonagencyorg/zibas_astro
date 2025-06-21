@@ -96,6 +96,28 @@ html {
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
 
+/* Product preview that overlaps the card */
+.product-preview-container {
+  position: relative;
+  z-index: 10;
+}
+
+.product-preview-image {
+  width: 60%;
+  height: auto;
+  max-width: 120%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+  transform: translateX(10%);
+}
+
+@media (max-width: 767px) {
+  .product-preview-image {
+    max-width: 100%;
+    transform: translateY(-10%);
+  }
+}
+
 /* Brand cards in the list */
 .brands-list {
   display: flex;
@@ -142,32 +164,78 @@ html {
   }
 }
 
-.chip-top-left {
-  top: -20px;
-  left: 0;
-  transform: rotate(-15deg);
-  animation-delay: 0s;
+/* Desktop chip positions */
+@media (min-width: 768px) {
+  .chip-top-left {
+    top: -30px;
+    left: -20px;
+    transform: rotate(-15deg);
+    animation-delay: 0s;
+  }
+  
+  .chip-top-right {
+    top: -30px;
+    right: -20px;
+    transform: rotate(15deg);
+    animation-delay: 0.5s;
+  }
+  
+  .chip-bottom-left {
+    bottom: -20px;
+    left: -20px;
+    transform: rotate(-10deg);
+    animation-delay: 1s;
+  }
+  
+  .chip-bottom-right {
+    bottom: -20px;
+    right: -20px;
+    transform: rotate(10deg);
+    animation-delay: 1.5s;
+  }
+  
+  .chip-mobile {
+    display: none;
+  }
 }
 
-.chip-top-right {
-  top: -10px;
-  right: 0;
-  transform: rotate(15deg);
-  animation-delay: 0.5s;
-}
-
-.chip-bottom-left {
-  bottom: 0;
-  left: 10px;
-  transform: rotate(-10deg);
-  animation-delay: 1s;
-}
-
-.chip-bottom-right {
-  bottom: 10px;
-  right: 0;
-  transform: rotate(10deg);
-  animation-delay: 1.5s;
+/* Mobile chip positions */
+@media (max-width: 767px) {
+  .chip-desktop {
+    display: none;
+  }
+  
+  .brand-card {
+    overflow: visible;
+  }
+  
+  .brand-card .chip-top-left {
+    top: -15px;
+    left: 15px;
+    transform: rotate(-15deg);
+    animation-delay: 0s;
+  }
+  
+  .brand-card .chip-top-right {
+    top: -15px;
+    right: 15px;
+    transform: rotate(15deg);
+    animation-delay: 0.5s;
+  }
+  
+  .brand-card .chip-bottom-left {
+    bottom: -15px;
+    left: 15px;
+    transform: rotate(-10deg);
+    animation-delay: 1s;
+  }
+  
+  .brand-card .chip-bottom-right {
+    bottom: -15px;
+    right: 15px;
+    transform: rotate(10deg);
+    animation-delay: 1.5s;
+  }
 }
 
 @keyframes float {
@@ -186,10 +254,11 @@ html {
   position: relative;
   padding: 2rem;
   margin-bottom: 2rem;
-  overflow: hidden;
   border-radius:3rem;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .brand-card:hover {

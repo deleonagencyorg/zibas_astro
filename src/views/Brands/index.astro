@@ -78,14 +78,52 @@ try {
   <div class="container mx-auto px-4 py-8">
     <div class="brands-list">
       {brandsData.map((brand: any, index: number) => (
-        <div id={brand.slug} class="brand-card" style={`background-color: ${brand.bgColor || '#ffffff'}`}>
-          <div class="container mx-auto px-4 py-8">
+        <div id={brand.slug} class="brand-card relative" style={`background-color: ${brand.bgColor || '#ffffff'}`}>
+          {/* Mobile chip images positioned at brand card corners */}
+          {brand.imageChip1 && (
+            <div class="chip-image chip-top-left chip-mobile">
+              <LazyImage
+                src={brand.imageChip1}
+                alt="Chip"
+                class="w-24 h-24 object-contain"
+              />
+            </div>
+          )}
+          {brand.imageChip2 && (
+            <div class="chip-image chip-top-right chip-mobile">
+              <LazyImage
+                src={brand.imageChip2}
+                alt="Chip"
+                class="w-24 h-24 object-contain"
+              />
+            </div>
+          )}
+          {brand.imageChip3 && (
+            <div class="chip-image chip-bottom-left chip-mobile">
+              <LazyImage
+                src={brand.imageChip3}
+                alt="Chip"
+                class="w-16 h-16 object-contain"
+              />
+            </div>
+          )}
+          {brand.imageChip4 && (
+            <div class="chip-image chip-bottom-right chip-mobile">
+              <LazyImage
+                src={brand.imageChip4}
+                alt="Chip"
+                class="w-16 h-16 object-contain"
+              />
+            </div>
+          )}
+          
+          <div class="container mx-auto px-4 py-8 relative">
             <div class="flex flex-col md:flex-row items-center justify-between">
               <div class="md:w-1/2 order-2 md:order-1 flex items-center justify-center">
                 <div class="brand-logo-container relative">
-                  {/* Chip images positioned around the logo */}
+                  {/* Desktop chip images positioned around the logo */}
                   {brand.imageChip1 && (
-                    <div class="chip-image chip-top-left">
+                    <div class="chip-image chip-top-left chip-desktop">
                       <LazyImage
                         src={brand.imageChip1}
                         alt="Chip"
@@ -94,7 +132,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip2 && (
-                    <div class="chip-image chip-top-right">
+                    <div class="chip-image chip-top-right chip-desktop">
                       <LazyImage
                         src={brand.imageChip2}
                         alt="Chip"
@@ -103,7 +141,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip3 && (
-                    <div class="chip-image chip-bottom-left">
+                    <div class="chip-image chip-bottom-left chip-desktop">
                       <LazyImage
                         src={brand.imageChip3}
                         alt="Chip"
@@ -112,7 +150,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip4 && (
-                    <div class="chip-image chip-bottom-right">
+                    <div class="chip-image chip-bottom-right chip-desktop">
                       <LazyImage
                         src={brand.imageChip4}
                         alt="Chip"
@@ -121,17 +159,18 @@ try {
                     </div>
                   )}
                   
+                  
                   <div class="flex flex-col items-center z-10 relative">
                     <LazyImage
                       src={brand.logo}
                       alt={brand.title}
-                      class="w-50 h-20 object-contain"
+                      class="md:w-70 w-50 h-20 object-contain"
                       transition:name={`brand-image-${brand.id}`}
                     />
                     {!brand.url || brand.url === '#' ? null : (
                       <a 
                         href={brand.url}
-                        class="inline-block bg-white text-primary hover:bg-primary hover:text-white py-2 px-6 rounded-full transition-colors duration-300 mt-6"
+                        class="inline-block bg-white border border-primary text-primary hover:bg-primary hover:text-white py-2 px-6 rounded-full transition-colors duration-300 mt-6"
                       >
                         {homeAssets.textButton}
                       </a>
@@ -139,11 +178,11 @@ try {
                   </div>
                 </div>
               </div>
-              <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex justify-center md:justify-end">
+              <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex items-center justify-center product-preview-container">
                 <LazyImage 
                   src={brand.imageProductPreview || brand.image} 
                   alt={brand.title} 
-                  class="max-w-full h-auto max-h-64 object-contain product-glow"
+                  class="product-preview-image"
                   transition:name={`brand-image-${brand.id}`}
                 />
               </div>
@@ -151,16 +190,8 @@ try {
           </div>
           
           <!-- Decorative elements like triangles and chips based on the reference image -->
-          {index % 2 === 0 && (
-            <div class="absolute top-0 right-0 -mt-4 -mr-4">
-              <div class="w-8 h-8 transform rotate-45 bg-yellow-500"></div>
-            </div>
-          )}
-          {index % 2 === 1 && (
-            <div class="absolute bottom-0 left-0 -mb-4 -ml-4">
-              <div class="w-8 h-8 transform rotate-45 bg-red-500"></div>
-            </div>
-          )}
+          
+          
         </div>
       ))}
     </div> 
