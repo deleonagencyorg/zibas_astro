@@ -121,11 +121,11 @@ try {
           
           <div class="container mx-auto px-4 py-8 relative">
             <div class="flex flex-col md:flex-row items-center justify-between">
-              <div class="md:w-1/2 order-2 md:order-1 flex items-center justify-center">
+              <div id="info-brand" class={`md:w-1/2 order-2 md:order-${index % 2 === 0 ? '1' : '2'} flex items-center justify-center`}>
                 <div class="brand-logo-container relative">
                   {/* Desktop chip images positioned around the logo */}
                   {brand.imageChip1 && (
-                    <div class="chip-image chip-top-left chip-desktop">
+                    <div class="chip-image chip-desktop chip-top-left">
                       <LazyImage
                         src={brand.imageChip1}
                         alt="Chip"
@@ -134,7 +134,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip2 && (
-                    <div class="chip-image chip-top-right chip-desktop">
+                    <div class="chip-image chip-desktop chip-top-right">
                       <LazyImage
                         src={brand.imageChip2}
                         alt="Chip"
@@ -143,7 +143,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip3 && (
-                    <div class="chip-image chip-bottom-left chip-desktop">
+                    <div class="chip-image chip-desktop chip-bottom-left">
                       <LazyImage
                         src={brand.imageChip3}
                         alt="Chip"
@@ -152,7 +152,7 @@ try {
                     </div>
                   )}
                   {brand.imageChip4 && (
-                    <div class="chip-image chip-bottom-right chip-desktop">
+                    <div class="chip-image chip-desktop chip-bottom-right">
                       <LazyImage
                         src={brand.imageChip4}
                         alt="Chip"
@@ -161,8 +161,7 @@ try {
                     </div>
                   )}
                   
-                  
-                  <div id="brand-logo"class="flex flex-col items-center z-10 relative">
+                  <div id="brand-logo" class="flex flex-col items-center z-10 relative">
                     <LazyImage
                       src={brand.logo}
                       alt={brand.title}
@@ -179,7 +178,8 @@ try {
                   </div>
                 </div>
               </div>
-              <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex items-center justify-center product-preview-container">
+              
+              <div id="product-image-brand" class={`md:w-1/2 order-1 md:order-${index % 2 === 0 ? '2' : '1'} mb-6 md:mb-0 flex items-center justify-center product-preview-container`}>
                 <div class="products-carousel" id={`products-carousel-${brand.id}`}>
                   <div class="products-carousel-inner">
                     {brand.products && brand.products.length > 0 ? (
