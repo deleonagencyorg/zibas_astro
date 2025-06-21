@@ -113,82 +113,30 @@
   },
   "menu_items": [
     {
-      "id": "recipes",
-      "text": "Recipes",
-      "href": "/en/recipes"
-    },
-    {
-      "id": "products",
-      "text": "Products",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "taqueritoschiletoreado",
-          "text": "Taqueritos Chile Toreado",
-          "href": "/en/products/taqueritos-chile-toreado"
-        },
-        {
-          "id": "taqueritosdragondehielo",
-          "text": "Taqueritos Dragon Ice",
-          "href": "/en/products/taqueritos-dragon-de-hielo"
-        },
-        {
-          "id": "taqueritosdragondelfuego",
-          "text": "Taqueritos Dragon Fire",
-          "href": "/en/products/taqueritos-dragon-de-fuego"
-        }
-      ]
-    },
-    {
-      "id": "entertainment",
-      "text": "Entertainment",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "music",
-          "text": "Music",
-          "href": "",
-          "submenu": [
-            {
-              "id": "nochegaming",
-              "text": "Gaming Night",
-              "href": "https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9?si=7f3173d8d90e49f5&nd=1"
-            },
-            {
-              "id": "palosintensos",
-              "text": "For The Intense Ones",
-              "href": "https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j?si=5adf77b78f744a6b&nd=1"
-            },
-            {
-              "id": "aexplorar",
-              "text": "To Explore",
-              "href": "https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY?si=d00dc827295345c1&nd=1"
-            }
-          ]
-        },
-        {
-          "id": "podcast",
-          "text": "Podcast",
-         "href": "",
-          "submenu": [
-            {
-              "id": "compartetupasionbytaqueritos",
-              "text": "Share Your Passion for Taqueritos",
-              "href": "https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1"
-            }
-          ]
-        }
-      ]
+      "id": "brands",
+      "text": "Brands",
+      "href": "/en/brands"
     },
     {
       "id": "recipes",
       "text": "Recipes",
       "href": "/en/recipes"
+    },
+    {
+      "id": "blog",
+      "text": "Blog",
+      "href": "https://www.snacksyummies.com/en/blog/"
     },
     {
       "id": "contact",
       "text": "Contact",
       "href": "https://www.snacksyummies.com/en/contact/"
+    }
+    ,
+    {
+      "id": "find-us",
+      "text": "Find Us",
+      "href": "https://www.snacksyummies.com/en/find-us/"
     }
   ],
   "home": {

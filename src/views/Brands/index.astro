@@ -38,7 +38,7 @@ try {
 
 <div class="brands-container">
   <header class="brands-header text-center py-8">
-    <h1 class="text-4xl font-bold mb-4">{pageTitle}</h1>
+    <h1 class="text-8xl font-bold mb-4 font-title text-white">{pageTitle}</h1>
     
     <div class="brands-carousel-container relative w-full my-8">
       <!-- Botones de navegación -->
@@ -75,10 +75,11 @@ try {
     </div>
   </header>
 
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 mt-[-2rem]">
     <div class="brands-list">
       {brandsData.map((brand: any, index: number) => (
-        <div id={brand.slug} class="brand-card relative" style={`background-color: ${brand.bgColor || '#ffffff'}`}>
+        <div id={brand.slug} class="brand-card relative flex items-center mt-[-2rem]">
+          <div class="brand-card-bg" style={`background-color: ${brand.bgColor || '#ffffff'}`}></div>
           {/* Mobile chip images positioned at brand card corners */}
           {brand.imageChip1 && (
             <div class="chip-image chip-top-left chip-mobile">
@@ -127,7 +128,7 @@ try {
                       <LazyImage
                         src={brand.imageChip1}
                         alt="Chip"
-                        class="w-24 h-24 object-contain"
+                        class="w-24 h-24 mx-6 my-2 object-contain"
                       />
                     </div>
                   )}
@@ -136,7 +137,7 @@ try {
                       <LazyImage
                         src={brand.imageChip2}
                         alt="Chip"
-                        class="w-24 h-24 object-contain"
+                        class="w-24 h-24 mx-6 my-2 object-contain"
                       />
                     </div>
                   )}
@@ -145,7 +146,7 @@ try {
                       <LazyImage
                         src={brand.imageChip3}
                         alt="Chip"
-                        class="w-24 h-24 object-contain"
+                        class="w-24 h-24 mx-6 my-2 object-contain"
                       />
                     </div>
                   )}
@@ -154,7 +155,7 @@ try {
                       <LazyImage
                         src={brand.imageChip4}
                         alt="Chip"
-                        class="w-24 h-24 object-contain"
+                        class="w-24 h-24 mx-6 my-2 object-contain"
                       />
                     </div>
                   )}
@@ -164,7 +165,6 @@ try {
                     <LazyImage
                       src={brand.logo}
                       alt={brand.title}
-                      class="md:w-70 w-50 h-20 object-contain"
                       transition:name={`brand-image-${brand.id}`}
                     />
                     {!brand.url || brand.url === '#' ? null : (

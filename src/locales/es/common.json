@@ -140,33 +140,10 @@
     "explore": "Explorar"
   },
   "menu_items": [
-
     {
-      "id": "products",
-      "text": "Productos",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "taqueritoschiletoreado",
-          "text": "Taqueritos Chile Toreado",
-          "href": "/es/productos/taqueritos-chile-toreado"
-        },
-        {
-          "id": "taqueritosquesofusion",
-          "text": "Taqueritos Queso Fusion",
-          "href": "/es/productos/taqueritos-queso-fusion"
-        },
-        {
-          "id": "taqueritosdragondehielo",
-          "text": "Taqueritos Dragon de Hielo",
-          "href": "/es/productos/taqueritos-dragon-de-hielo"
-        },
-        {
-          "id": "taqueritosdragondelfuego",
-          "text": "Taqueritos Dragon de Fuego",
-          "href": "/es/productos/taqueritos-dragon-de-fuego"
-        }
-      ]
+      "id": "brands",
+      "text": "Marcas",
+      "href": "/es/marcas"
     },
     {
       "id": "recipes",
@@ -174,50 +151,20 @@
       "href": "/es/recetas"
     },
     {
-      "id": "entertainment",
-      "text": "Entretenimiento",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "music",
-          "text": "Música",
-          "href": "",
-          "submenu": [
-            {
-              "id": "nochegaming",
-              "text": "Noche Gaming",
-              "href": "https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9?si=7f3173d8d90e49f5&nd=1"
-            },
-            {
-              "id": "palosintensos",
-              "text": "Pa Los Intensos",
-              "href": "https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j?si=5adf77b78f744a6b&nd=1"
-            },
-            {
-              "id": "aexplorar",
-              "text": "A Explorar",
-              "href": "https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY?si=d00dc827295345c1&nd=1"
-            }
-          ]
-        },
-        {
-          "id": "podcast",
-          "text": "Podcast",
-         "href": "",
-          "submenu": [
-            {
-              "id": "compartetupasionbytaqueritos",
-              "text": "Comparte Tu Pasión por Taqueritos",
-              "href": "https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1"
-            }
-          ]
-        }
-      ]
+      "id": "blog",
+      "text": "Blog",
+      "href": "https://www.snacksyummies.com/es/blog/"
     },
     {
       "id": "contact",
       "text": "Contacto",
-      "href": "https://www.snacksyummies.com/contacto/"
+      "href": "https://www.snacksyummies.com/es/contacto/"
+    }
+    ,
+    {
+      "id": "find-us",
+      "text": "Encontranos",
+      "href": "https://www.snacksyummies.com/es/encontranos/"
     }
   ],
   "home": {

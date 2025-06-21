@@ -69,7 +69,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-peque.webp",
             "bgColor": "#F08C00",
             "title": "Zibas",
-            "url": "https://zibas.com",
+            "url": "https://zibaspapas.com",
             "alt": "Zibas",
             "products": [
                 {
@@ -94,7 +94,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/delrancho-peque.webp",
             "bgColor": "#E59400",
             "title": "Del Rancho",
-            "url": "https://delrancho.com",
+            "url": "#",
             "alt": "Del Rancho",
             "products": [
                 {
@@ -144,7 +144,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-peque.webp",
             "bgColor": "#E59400",
             "title": "Taco",
-            "url": "https://taco.com.mx",
+            "url": "#",
             "alt": "Taco",
             "products": [
                 {
@@ -152,31 +152,6 @@
                     "title": "Taco Queso Fusion",
                     "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-taco.svg",
                     "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-taco.svg"
-                }
-            ]
-        },
-        {
-            "id": "ranchitas",
-            "slug": "ranchitas",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
-            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
-            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip2.webp",
-            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip3.webp",
-            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip4.webp",
-            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-marca.webp",
-            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-producto.webp",
-            "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-grande.webp",
-            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-peque.webp",
-            "bgColor": "#3D4852",
-            "title": "Ranchitas",
-            "url": "https://ranchitas.com",
-            "alt": "Ranchitas",
-            "products": [
-                {
-                    "id": "ranchitas-queso-fusion",
-                    "title": "Ranchitas Queso Fusion",
-                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg",
-                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg"
                 }
             ]
         },
@@ -194,7 +169,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-peque.webp",
             "bgColor": "#91CAE9",
             "title": "Xixi",
-            "url": "https://xixi.com",
+            "url": "#",
             "alt": "Xixi",
             "products": [
                 {
@@ -244,7 +219,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-peque.webp",
             "bgColor": "#ffffff",
             "title": "Yummi Pops",
-            "url": "https://yummipops.com",
+            "url": "#",
             "alt": "Yummi Pops",
             "products": [
                 {
@@ -294,7 +269,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-peque.webp",
             "bgColor": "#84B3DA",
             "title": "Cappy",
-            "url": "https://cappy.com",
+            "url": "#",
             "alt": "Cappy", 
             "products": [
                 {
@@ -319,7 +294,7 @@
             "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-peque.webp",
             "bgColor": "#4895CE",
             "title": "Anillitos de Papa",
-            "url": "https://anillitos.com",
+            "url": "#",
             "alt": "Anillitos de Papa", 
             "products": [
                 {
