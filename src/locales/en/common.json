@@ -190,16 +190,17 @@
   "home": {
     "newsletter":{
       "placeholder":"email@email.com",
-      "buttonText":"Suscribe"
+      "buttonText":"Subscribe"
     },
     "socialmedia":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlesocialmedia.webp",
-      "description":"Siguenos en nuestras redes sociales - Snacks Yummies"
+      "description":"Follow us on our social media - Snacks Yummies",
+      "newsletter":"Subscribe to our newsletter full of flavor"
     },
     "quiz":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
-      "description":"Descubre cómo hacer tus días más Yummies",
-      "button":"Hacer Quiz"
+      "description":"Discover how to make your days more Yummies",
+      "button":"Make Quiz"
     },
     "spotify":{
       "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-_1_2-2-768x116.avif",

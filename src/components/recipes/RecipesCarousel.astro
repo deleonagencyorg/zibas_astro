@@ -4,12 +4,17 @@ import RecipeCard from './RecipeCard.astro';
 export interface Props {
   recipes: any[];
   title?: string;
+  textButton?: string;
 }
 
 const { 
   recipes = [],
-  title = 'RECETAS'
+  title = 'RECETAS',
+  textButton = 'Ver Todas'
 } = Astro.props;
+
+// Obtener el idioma actual de la URL
+const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 
 // Asegurarse de que recipes es un array
 const recipeItems = Array.isArray(recipes) ? recipes : [];
@@ -31,12 +36,12 @@ for (let i = 0; i < recipeItems.length; i += 1) {
     <!-- Título alineado a la izquierda -->
     <!-- Carousel de recetas - MOBILE (2 por slide) - Solo visible en mobile -->
     <div class="recipes-carousel relative md:hidden">
-      <div class="recipes-carousel-container overflow-hidden md:py-12 py-6 md:px-12 px-4">
+      <div class="recipes-carousel-container w-full  md:py-12 py-6 md:px-12 px-4">
         <div class="recipes-carousel-track flex transition-transform duration-300 " id="recipesTrackMobile">
           {mobileGroups.map((group, index) => (
-            <div class="recipe-slide-group w-full flex-shrink-0 flex justify-center">
+            <div class="recipe-slide-group w-full flex-shrink-0 flex justify-center ">
               {group.map(recipe => (
-                <div class="recipe-slide w-full max-w-sm mx-auto mx-4">
+                <div class="recipe-slide w-full max-w-sm mx-4">
                   <RecipeCard
                     image={recipe.image}
                     hoverImage={recipe.hover_image || recipe.image}
@@ -122,9 +127,9 @@ for (let i = 0; i < recipeItems.length; i += 1) {
     </div>
     
     <!-- Botón "Ver Todas" - Visible en ambos modes -->
-    <div class="flex justify-center mt-6">
-      <a href="/es/recetas" class="bg-white text-primary font-bold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors">
-        Ver Todas
+    <div class="flex justify-center mt-6 w-full px-4 md:px-0">
+      <a href={`/${currentLang === 'es' ? 'es/recetas' : 'en/recipes'}`} class="bg-white text-primary font-bold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors w-full md:w-auto text-center">
+        {textButton}
       </a>
     </div>
   </div>

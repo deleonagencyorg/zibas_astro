@@ -1,0 +1,333 @@
+{
+    "home": {
+        "title": "Brands",
+        "description": "Brands"
+    },
+    "brands": [
+        {
+            "id": "taqueritos",
+            "slug": "taqueritos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-peque.webp",
+            "bgColor": "#3D4852",
+            "title": "Taqueritos",
+            "url": "https://taqueritos.com",
+            "alt": "Taqueritos",
+            "products": [
+                {
+                    "id": "taqueritos-queso-fusion",
+                    "title": "Taqueritos Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-taqueritos.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-taqueritos.svg"
+                }
+            ]
+        },
+        {
+            "id": "zambos",
+            "slug": "zambos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/zambos-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/zambos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/zambos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-peque.webp",
+            "bgColor": "#64A70B",
+            "title": "Zambos",
+            "url": "https://zambos.com",
+            "alt": "Zambos",
+            "products": [
+                {
+                    "id": "zambos-queso-fusion",
+                    "title": "Zambos Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-zambos.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-zambos.svg"
+                }
+            ]
+        },
+        {
+            "id": "zibas",
+            "slug": "zibas",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/zibas-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/zibas-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/zibas-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-peque.webp",
+            "bgColor": "#F08C00",
+            "title": "Zibas",
+            "url": "https://zibas.com",
+            "alt": "Zibas",
+            "products": [
+                {
+                    "id": "zibas-queso-fusion",
+                    "title": "Zibas Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-zibas.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-zibas.svg"
+                }
+            ]
+        },
+        {
+            "id": "delrancho",
+            "slug": "delrancho",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/delrancho-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/delrancho-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/delrancho-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/delrancho-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/delrancho-peque.webp",
+            "bgColor": "#E59400",
+            "title": "Del Rancho",
+            "url": "https://delrancho.com",
+            "alt": "Del Rancho",
+            "products": [
+                {
+                    "id": "delrancho-queso-fusion",
+                    "title": "Del Rancho Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-delrancho.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-delrancho.svg"
+                }
+            ]
+        },
+        {
+            "id": "ranchitas",
+            "slug": "ranchitas",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-peque.webp",
+            "bgColor": "#C6474B",
+            "title": "Ranchitas",
+            "url": "https://ranchitas.com",
+            "alt": "Ranchitas",
+            "products": [
+                {
+                    "id": "ranchitas-queso-fusion",
+                    "title": "Ranchitas Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg"
+                }
+            ]
+        },
+        {
+            "id": "taco",
+            "slug": "taco",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/taco-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taco-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taco-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taco-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/taco-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/taco-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/taco-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/taco-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-peque.webp",
+            "bgColor": "#E59400",
+            "title": "Taco",
+            "url": "https://taco.com.mx",
+            "alt": "Taco",
+            "products": [
+                {
+                    "id": "taco-queso-fusion",
+                    "title": "Taco Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-taco.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-taco.svg"
+                }
+            ]
+        },
+        {
+            "id": "ranchitas",
+            "slug": "ranchitas",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-peque.webp",
+            "bgColor": "#3D4852",
+            "title": "Ranchitas",
+            "url": "https://ranchitas.com",
+            "alt": "Ranchitas",
+            "products": [
+                {
+                    "id": "ranchitas-queso-fusion",
+                    "title": "Ranchitas Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-ranchitas.svg"
+                }
+            ]
+        },
+        {
+            "id": "xixi",
+            "slug": "xixi",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/xixi-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/xixi-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-peque.webp",
+            "bgColor": "#91CAE9",
+            "title": "Xixi",
+            "url": "https://xixi.com",
+            "alt": "Xixi",
+            "products": [
+                {
+                    "id": "xixi-queso-fusion",
+                    "title": "Xixi Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-xixi.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-xixi.svg"
+                }
+            ]
+        },
+        {
+            "id": "yummimix",
+            "slug": "yummimix",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummimix-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yummimix-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yummimix-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yummimix-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummimix-peque.webp",
+            "bgColor": "#C6D000",
+            "title": "Yumm Mix",
+            "url": "https://yummimix.com",
+            "alt": "Yumm Mix",
+            "products": [
+                {
+                    "id": "yummimix-queso-fusion",
+                    "title": "Yumm Mix Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-yummimix.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-yummimix.svg"
+                }
+            ]
+        },
+        {
+            "id": "yummipops",
+            "slug": "yummipops",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummipops-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yummipops-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yummipops-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yummipops-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-peque.webp",
+            "bgColor": "#ffffff",
+            "title": "Yummi Pops",
+            "url": "https://yummipops.com",
+            "alt": "Yummi Pops",
+            "products": [
+                {
+                    "id": "yummipops-queso-fusion",
+                    "title": "Yummipops Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-yummipops.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-yummipops.svg"
+                }
+            ]
+        },
+        {
+            "id": "yumminuts",
+            "slug": "yumminuts",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-peque.webp",
+            "bgColor": "#0073C1",
+            "title": "Yumminuts",
+            "url": "https://yumminuts.com",
+            "alt": "Yumminuts", 
+            "products": [
+                {
+                    "id": "yumminuts-queso-fusion",
+                    "title": "Yumminuts Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-yumminuts.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-yumminuts.svg"
+                }
+            ]
+        },
+        {
+            "id": "cappy",
+            "slug": "cappy",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/cappy-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/cappy-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/cappy-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-peque.webp",
+            "bgColor": "#84B3DA",
+            "title": "Cappy",
+            "url": "https://cappy.com",
+            "alt": "Cappy", 
+            "products": [
+                {
+                    "id": "cappy-queso-fusion",
+                    "title": "Cappy Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-cappy.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-cappy.svg"
+                }
+            ]
+        },
+        {
+            "id": "anillitos",
+            "slug": "anillitos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/anillitos-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/anillitos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/anillitos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/anillitos-grande.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-peque.webp",
+            "bgColor": "#4895CE",
+            "title": "Anillitos de Papa",
+            "url": "https://anillitos.com",
+            "alt": "Anillitos de Papa", 
+            "products": [
+                {
+                    "id": "anillitos-de-papa-queso-fusion",
+                    "title": "Anillitos de Papa Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/icons8-anillitos.svg",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/icons8-anillitos.svg"
+                }
+            ]
+        }
+    ]
+}

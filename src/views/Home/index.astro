@@ -95,8 +95,8 @@ const slides = Array.isArray(commonAssets)
     <section id="recipes" class="w-full py-12" transition:animate="slide">
      <div class="container mx-auto px-4">
         <h2 class="text-6xl  font-sans font-semibold text-center md:text-left text-white mb-8">{recipesAssets.title}</h2>
-        <div class=" mx-auto md:w-[65%]">
-          <RecipesCarousel recipes={recipeItems} />
+        <div class=" mx-auto md:w-[70%]">
+          <RecipesCarousel recipes={recipeItems} textButton={recipesAssets.view_more} />
         </div>
       </div>
     </section>
@@ -120,18 +120,20 @@ const slides = Array.isArray(commonAssets)
         </div>
         <div class="flex flex-col items-center justify-center">
           <LazyImage src={homeAssets.socialmedia.title} alt="Social Media" class="mx-auto w-full h-full object-cover object-center mb-4"/>
+          <SocialMediaIcons 
+          currentLang={currentLang} 
+          iconColor='#0A3D7E' 
+          centered={true}
+          class="mt-4 w-full" 
+        />
+        <p class="text-primary text-center pt-4">{homeAssets.socialmedia.newsletter}</p>
           <Newsletter 
             placeholder={homeAssets.newsletter.placeholder}
             buttonText={homeAssets.newsletter.buttonText}
             centered={true}
             class="mt-4 w-full mb-4"
           />
-          <SocialMediaIcons 
-            currentLang={currentLang} 
-            iconColor='#0A3D7E' 
-            centered={true}
-            class="mt-4 w-full" 
-          />
+         
 
         </div>
         <div class="flex items-center justify-center">
@@ -173,13 +175,13 @@ const slides = Array.isArray(commonAssets)
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-4">
         <div class="flex flex-row items-center gap-8">
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/Sal.webp" alt="Sal" class="w-12 object-cover object-center"/>
+          <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/Sal.webp" alt="Sal" class="w-12 object-cover object-center"/>
           <h2 class="text-5xl font-normal text-center text-white">TAQUE</h2>
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/pimienta.webp" alt="Pimienta" class="w-12 object-cover object-center"/>
+          <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/pimienta.webp" alt="Pimienta" class="w-12 object-cover object-center"/>
         </div>
         <h2 class="text-5xl font-normal text-center text-white">RECETAS</h2>
         <p>
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/sarten.webp" alt="Recetas" class="w-80 object-cover object-center"/>
+          <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/sarten.webp" alt="Recetas" class="w-80 object-cover object-center"/>
         </p>
       </div>
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-8">
