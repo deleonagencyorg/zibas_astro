@@ -15,6 +15,12 @@ interface Props {
   [key: string]: any;
 }
 
+// Función para detectar si una URL es un SVG
+function isSvgUrl(url: string): boolean {
+  if (!url) return false;
+  return url.toLowerCase().endsWith('.svg');
+}
+
 const { 
   src, 
   alt, 
@@ -59,6 +65,9 @@ const isWebP = src.toLowerCase().endsWith('.webp');
 
 // Función para calcular la rotación de matiz según el color
 function getHueRotate(color: string) {
+  // Si no hay color, devolver 0deg
+  if (!color) return '0deg';
+  
   // Valores aproximados para colores comunes
   const hueValues: Record<string, string> = {
     'red': '0deg',
@@ -70,9 +79,66 @@ function getHueRotate(color: string) {
     'pink': '330deg',
     'white': '0deg',
     'black': '0deg',
+    'primary': '0deg',
+    'secondary': '0deg',
+    'tertiary': '0deg',
+    'quaternary': '0deg',
+    'quinary': '0deg',
+    'senary': '0deg',
+    'septenary': '0deg',
+    'octonary': '0deg',
+    'nonary': '0deg',
+    'decenary': '0deg',
   };
   
-  return hueValues[color.toLowerCase()] || '0deg';
+  // Verificar si es un color nombrado
+  const namedColor = color.toLowerCase();
+  if (hueValues[namedColor]) {
+    return hueValues[namedColor];
+  }
+  
+  // Verificar si es un color hexadecimal
+  if (color.startsWith('#')) {
+    // Convertir hex a RGB
+    let hex = color.substring(1);
+    
+    // Normalizar formato (convertir #RGB a #RRGGBB)
+    if (hex.length === 3) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    
+    // Verificar que sea un formato hexadecimal válido
+    if (hex.length !== 6) {
+      return '0deg';
+    }
+    
+    // Convertir a RGB
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+    
+    // Calcular HSL
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h = 0;
+    
+    if (max === min) {
+      h = 0; // achromatic
+    } else {
+      const d = max - min;
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h = h * 60;
+    }
+    
+    return `${h}deg`;
+  }
+  
+  // Si no es un color reconocido, devolver 0deg
+  return '0deg';
 }
 
 // Generar srcset para imágenes responsivas
@@ -106,14 +172,24 @@ if (isWebP) {
   style={{
     ...(color === 'white' ? { filter: 'brightness(0) invert(1)' } : 
         color === 'black' ? { filter: 'brightness(0) invert(0)' } : 
-        color ? { filter: `brightness(0) saturate(100%) invert(${color === 'white' ? 1 : 0}) sepia(0) saturate(${color !== 'white' && color !== 'black' ? '7500%' : '100%'}) hue-rotate(${getHueRotate(color)})` } : {})
+        color && color.startsWith('#') && isSvgUrl(src) ? { 
+          filter: `
+            brightness(0) 
+            drop-shadow(0 0 0 ${color}) 
+            drop-shadow(0 0 0 ${color}) 
+            drop-shadow(0 0 0 ${color})
+          ` 
+        } :
+        color ? { filter: `brightness(0) saturate(100%) invert(0.5) sepia(1) saturate(3000%) hue-rotate(${getHueRotate(color)})` } : {})
   }}
-  {...(decorative ? { 'aria-hidden': 'true', 'role': 'presentation' } : {})}
-  loading={priority ? null : "lazy"}
+  aria-hidden={decorative ? 'true' : undefined}
+  role={decorative ? 'presentation' : undefined}
+  loading={priority ? undefined : "lazy"}
   decoding="async"
   fetchpriority={priority ? "high" : "auto"}
   width={width}
   height={height}
-  {...(srcset ? { srcset, sizes } : {})}
+  srcset={srcset || undefined}
+  sizes={sizes || undefined}
   {...rest}
 />

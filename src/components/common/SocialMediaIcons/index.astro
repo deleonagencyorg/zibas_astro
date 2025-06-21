@@ -1,0 +1,55 @@
+---
+import LazyImage from '../LazyImage.astro';
+import { t, type Locale } from '../../../i18n/i18n';
+
+export interface SocialMedia {
+  name: string;
+  url: string;
+  alt: string;
+  iconUrl: string;
+}
+
+export interface Props {
+  currentLang: Locale;
+  iconColor?: string;
+  centered?: boolean;
+  class?: string;
+}
+
+const { currentLang, iconColor = "white", centered = false, class: className = '' } = Astro.props;
+
+// Determinar las clases de alineación basadas en la propiedad centered
+const alignmentClasses = centered 
+  ? 'mx-auto justify-center' 
+  : 'md:mx-0 md:justify-start';
+
+// Obtener los datos de social media (url y alt) desde los archivos de traducción
+const socialMediaObj = t('social_media', { namespace: 'common', locale: currentLang });
+// Convertir el objeto de redes sociales en un array para poder iterarlo
+const socialMedia = socialMediaObj ? Object.values(socialMediaObj) as SocialMedia[] : [];
+---
+
+<div class={`flex flex-row space-x-4 ${alignmentClasses} ${className}`}>
+  {socialMedia.map((sm: SocialMedia) => (
+    <a 
+      href={sm.url} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      title={sm.name} 
+      class={`hover:text-gray-300 transition-colors`}
+    >
+      <span class="sr-only">{sm.name}</span>
+      {sm.iconUrl && (
+        <LazyImage
+          src={sm.iconUrl}
+          alt={sm.alt || sm.name}
+          class="h-6 w-6"
+          color={iconColor}
+          width={24}
+          height={24}
+          loading="lazy"
+        />
+      )}
+    </a>
+  ))}
+</div>

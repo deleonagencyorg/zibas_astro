@@ -6,6 +6,8 @@ import Carousel from '../../components/common/Carousel/index.astro';
 import OrbitalCarousel from '../../components/common/OrbitalCarousel/index.astro';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import RecipesCarousel from '../../components/recipes/RecipesCarousel.astro';
+import Newsletter from '../../components/common/Newsletter/index.astro';
+import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.astro';
 import './styles.css';
 
 // Obtener idioma actual
@@ -110,8 +112,34 @@ const slides = Array.isArray(commonAssets)
   </section>
 
   <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
+    
     <div class="container mx-auto px-4">
-      <LazyImage src={homeAssets.socialmedia.title} alt="Social Media" class="w-full h-full object-cover object-center"/>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <div class="flex items-center justify-center">
+          <h2 class="text-4xl font-bold text-center text-white mb-8">asdasd</h2>
+        </div>
+        <div class="flex flex-col items-center justify-center">
+          <LazyImage src={homeAssets.socialmedia.title} alt="Social Media" class="mx-auto w-full h-full object-cover object-center mb-4"/>
+          <Newsletter 
+            placeholder={homeAssets.newsletter.placeholder}
+            buttonText={homeAssets.newsletter.buttonText}
+            centered={true}
+            class="mt-4 w-full mb-4"
+          />
+          <SocialMediaIcons 
+            currentLang={currentLang} 
+            iconColor='#0A3D7E' 
+            centered={true}
+            class="mt-4 w-full" 
+          />
+
+        </div>
+        <div class="flex items-center justify-center">
+          <h2 class="text-4xl font-bold text-center text-white mb-8">asdasd</h2>
+        </div>
+      </div>
+      
+     
     </div>
 
   </section>

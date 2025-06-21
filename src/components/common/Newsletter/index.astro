@@ -1,0 +1,57 @@
+---
+export interface Props {
+  placeholder: string;
+  buttonText: string;
+  title?: string;
+  centered?: boolean;
+  class?: string;
+}
+
+const { placeholder, buttonText, title, centered = false, class: className = '' } = Astro.props;
+
+// Determinar las clases de alineación basadas en la propiedad centered
+const alignmentClasses = centered 
+  ? 'mx-auto text-center items-center' 
+  : 'md:mx-0 md:text-left md:items-start';
+---
+
+<div class={`newsletter-component w-full flex flex-col ${alignmentClasses} ${className}`}>
+
+  <input 
+    type="email" 
+    placeholder={placeholder} 
+    class={`w-full max-w-xs px-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-primary mb-2 ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
+  />
+  <button 
+    type="button" 
+    class={`w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-full transition-colors ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
+  >
+    {buttonText}
+  </button>
+</div>
+
+<script>
+  // Aquí puedes agregar la lógica para manejar la suscripción
+  // Por ejemplo, enviar el email a un servicio de newsletter
+  const newsletterForms = document.querySelectorAll('.newsletter-component');
+  
+  newsletterForms.forEach(form => {
+    const button = form.querySelector('button');
+    const input = form.querySelector('input');
+    
+    if (button && input) {
+      button.addEventListener('click', () => {
+        const email = input.value.trim();
+        if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          // Aquí puedes implementar la lógica para enviar el email
+          console.log('Suscripción con email:', email);
+          // Ejemplo: fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) })
+          alert('¡Gracias por suscribirte!');
+          input.value = '';
+        } else {
+          alert('Por favor ingresa un email válido');
+        }
+      });
+    }
+  });
+</script>

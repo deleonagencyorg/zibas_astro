@@ -5,25 +5,15 @@ import { logos, generalAssets } from '../../../config/assets';
 import './styles.css';
 import Skeleton from './Skeleton.astro';
 import LazyImage from '../LazyImage.astro';
+import Newsletter from '../Newsletter/index.astro';
+import SocialMediaIcons from '../SocialMediaIcons/index.astro';
 
 export interface Props {
   currentLang: Locale;
   loading?: boolean;
 }
 
-interface SocialMedia {
-  name: string;
-  url: string;
-  alt: string;
-  iconUrl: string;
-}
-
 const { currentLang, loading = false } = Astro.props;
-
-// Obtener los datos de social media (url y alt) desde los archivos de traducción
-const socialMediaObj = t('social_media', { namespace: 'common', locale: currentLang });
-// Convertir el objeto de redes sociales en un array para poder iterarlo
-const socialMedia = socialMediaObj ? Object.values(socialMediaObj) as SocialMedia[] : [];
 
 const currentYear = new Date().getFullYear();
 
@@ -99,37 +89,20 @@ const newsletterButton = t('footer.newsletter_button', { namespace: 'common', lo
         <!-- Columna 3: Newsletter y redes sociales (primero en mobile) -->
         <div class="flex flex-col items-center md:items-start w-full order-1 md:order-3">
           <!-- Redes Sociales -->
-          <div class="flex flex-row space-x-4 mb-4">
-            {socialMedia.map((sm: SocialMedia) => (
-              <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300 transition-colors">
-                <span class="sr-only">{sm.name}</span>
-                {sm.iconUrl && (
-                  <LazyImage
-                    src={sm.iconUrl}
-                    alt={sm.alt || sm.name}
-                    class="h-6 w-6"
-                    color="white"
-                    width={24}
-                    height={24}
-                    loading="lazy"
-                  />
-                )}
-              </a>
-            ))}
+          <div class="mb-4">
+            <SocialMediaIcons 
+              currentLang={currentLang} 
+              iconColor="white"
+              centered={false} 
+            />
           </div>
           <!-- Newsletter -->
-          <p class="text-sm mb-2 w-full text-center md:text-left">{newsletterTitle}</p>
-          <input 
-            type="email" 
+          <Newsletter 
+            title={newsletterTitle}
             placeholder={newsletterPlaceholder} 
-            class="w-full max-w-xs px-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-primary mb-2 mx-auto md:mx-0"
+            buttonText={newsletterButton}
+            centered={false}
           />
-          <button 
-            type="button" 
-            class="w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-full transition-colors mx-auto md:mx-0"
-          >
-            {newsletterButton}
-          </button>
         </div>
       </div>
       

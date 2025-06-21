@@ -217,6 +217,10 @@
     }
   ],
   "home": {
+    "newsletter":{
+      "placeholder":"tucorreo@email.com",
+      "buttonText":"Suscribirse"
+    },
     "socialmedia":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlesocialmedia.webp",
       "description":"Siguenos en nuestras redes sociales - Snacks Yummies"

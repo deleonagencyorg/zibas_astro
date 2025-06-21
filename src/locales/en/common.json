@@ -188,6 +188,14 @@
     }
   ],
   "home": {
+    "newsletter":{
+      "placeholder":"email@email.com",
+      "buttonText":"Suscribe"
+    },
+    "socialmedia":{
+      "title":"https://snack.yummiespromociones.com/snacksyummies/titlesocialmedia.webp",
+      "description":"Siguenos en nuestras redes sociales - Snacks Yummies"
+    },
     "quiz":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
       "description":"Descubre cómo hacer tus días más Yummies",
