@@ -4,10 +4,19 @@ import LazyImage from '../../components/common/LazyImage.astro';
 import { t } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
 import { getLocale } from '../../i18n/i18n';
+import BrandCardSkeleton from '../../components/brands/BrandCardSkeleton.astro';
+import SkeletonLoader from '../../components/common/SkeletonLoader.astro';
 import './styles.css';
 
+// Definir transiciones para elementos clave
+import { fade } from 'astro:transitions';
+const fadeTransition = fade({ duration: '300ms' });
+
 const currentLang = getLocale();
-console.log('Brands view - Current language:', currentLang);
+
+// Estado de carga para mostrar skeletons
+let isLoading = true;
+let loadError = false;
 
 // Intentar cargar datos con manejo de errores
 let brandsData = [];
@@ -16,29 +25,31 @@ let pageDescription = '';
 let homeAssets:any = [];
 
 try {
-  console.log('Intentando cargar datos de marcas desde namespace:', 'brands');
-  
   // Cargar datos de marcas
   brandsData = t('brands', { namespace: 'brands', locale: currentLang }) || [];
-  console.log('Datos de marcas cargados:', brandsData ? 'Éxito' : 'Fallo');
-  console.log('Número de marcas cargadas:', Array.isArray(brandsData) ? brandsData.length : 'No es un array');
   homeAssets = t('home', { namespace: 'brands', locale: currentLang }) || [];
+  
   // Cargar título y descripción
   pageTitle = t('home.title', { namespace: 'brands' }) || 'Marcas';
   pageDescription = t('home.description', { namespace: 'brands' }) || 'Nuestras marcas';
   
-  console.log('Título de la página:', pageTitle);
+  isLoading = false;
 } catch (error) {
   console.error('Error al cargar datos de marcas:', error);
   brandsData = [];
   pageTitle = currentLang === 'es' ? 'Marcas' : 'Brands';
   pageDescription = currentLang === 'es' ? 'Nuestras marcas' : 'Our brands';
+  loadError = true;
+  isLoading = false;
 }
+
+// Número de skeletons a mostrar durante la carga
+const skeletonCount = 3;
 ---
 
 <div class="brands-container">
-<header class="brands-header text-center py-8">
-    <h1 class="text-8xl font-bold mb-4 font-title text-white">{pageTitle}</h1>
+  <header class="brands-header text-center py-8" transition:animate={fadeTransition}>
+    <h1 class="text-8xl font-bold mb-4 font-title text-white" transition:name="brands-title">{pageTitle}</h1>
     
     <div class="brands-carousel-container relative w-full my-8">
       <!-- Botones de navegación -->
@@ -49,22 +60,33 @@ try {
       </button>
       
       <div class="brands-icons-carousel overflow-x-auto hide-scrollbar">
-        <div class="brands-icons-row flex items-center gap-4 py-4">
-          {brandsData.map((brand: any) => (
-            <a 
-              href={`#${brand.slug}`} 
-              class="brand-icon-circle flex-shrink-0" 
-              style={`background-color: ${brand.bgColor || '#ffffff'}`}
-              aria-label={`Ir a ${brand.title}`}
-            >
-              <LazyImage
-                src={brand.logo} 
-                alt={brand.title} 
-                class="w-16 md:w-32 h-16 md:h-32 object-contain"
-              />
-            </a>
-          ))}
-        </div>
+        {isLoading ? (
+          <div class="brands-icons-row flex items-center gap-4 py-4">
+            {Array(6).fill(0).map((_, i) => (
+              <div class="brand-icon-circle flex-shrink-0 bg-gray-100">
+                <SkeletonLoader width="64px" height="64px" circle={true} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="brands-icons-row flex items-center gap-4 py-4">
+            {brandsData.map((brand: any) => (
+              <a 
+                href={`#${brand.slug}`} 
+                class="brand-icon-circle flex-shrink-0" 
+                style={`background-color: ${brand.bgColor || '#ffffff'}`}
+                aria-label={`Ir a ${brand.title}`}
+              >
+                <LazyImage
+                  src={brand.logo} 
+                  alt={brand.title} 
+                  class="w-16 md:w-32 h-16 md:h-32 object-contain"
+                  transition:name={`brand-icon-${brand.id}`}
+                />
+              </a>
+            ))}
+          </div>
+        )}
       </div>
       
       <button class="carousel-nav carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md">
@@ -76,12 +98,24 @@ try {
   </header>
 </div>
 
-  <div class="container mx-auto px-4 mt-[-2rem]">
-    <div class="brands-list">
-      {brandsData.map((brand: any, index: number) => (
+<div class="container mx-auto px-4 mt-[-2rem]">
+  <div class="brands-list">
+    {isLoading ? (
+      // Mostrar skeletons durante la carga
+      Array(skeletonCount).fill(0).map(() => (
+        <BrandCardSkeleton />
+      ))
+    ) : loadError ? (
+      // Mostrar mensaje de error si falla la carga
+      <div class="error-message p-8 text-center bg-red-50 rounded-lg">
+        <p class="text-red-600 text-xl">No se pudieron cargar las marcas. Por favor, intenta de nuevo más tarde.</p>
+      </div>
+    ) : (
+      // Mostrar datos reales cuando estén disponibles
+      brandsData.map((brand: any, index: number) => (
         <div id={brand.slug} class="brand-card relative flex items-center mt-[-2rem]">
           <div class="brand-card-bg" style={`background-color: ${brand.bgColor || '#ffffff'}`}></div>
-          {/* Mobile chip images positioned at brand card corners */}
+          <!-- Mobile chip images positioned at brand card corners -->
           {brand.imageChip1 && (
             <div class="chip-image chip-top-left chip-mobile">
               <LazyImage
@@ -218,12 +252,38 @@ try {
           </div>
           
           <!-- Decorative elements like triangles and chips based on the reference image -->
-          
-          
         </div>
-      ))}
+      ))
+    )}
     </div> 
   </div>
 </div>
 
+<!-- Cargar scripts para la funcionalidad de la página -->
 <script src="./scripts.js"></script>
+
+<!-- Precargar imágenes críticas para mejorar el rendimiento -->
+<script>
+  // Función para precargar imágenes
+  function preloadImages(sources: string[]): void {
+    sources.forEach((src: string) => {
+      if (!src) return;
+      const img = new Image();
+      img.src = src;
+    });
+  }
+
+  // Precargar logos de marcas (solo los primeros 3 para no sobrecargar)
+  document.addEventListener('astro:page-load', () => {
+    // Obtener los primeros logos visibles
+    const visibleLogos = Array.from(document.querySelectorAll('.brand-icon-circle img'))
+      .slice(0, 3)
+      .map(img => img.getAttribute('src'))
+      .filter((src): src is string => Boolean(src));
+    
+    // Precargar imágenes
+    if (visibleLogos.length > 0) {
+      preloadImages(visibleLogos);
+    }
+  });
+</script>
