@@ -70,7 +70,7 @@
   "assets": {
     "logo": "/images/en/logo.svg",
     "hero": "/images/en/hero.jpg",
-    "slidermask": "https://snack.yummiespromociones.com/snacksyummies/bg-front.webp",
+    "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
@@ -120,23 +120,23 @@
     {
       "id": "recipes",
       "text": "Recipes",
-      "href": "/en/recipes"
+      "href": "#"
     },
     {
       "id": "blog",
       "text": "Blog",
-      "href": "https://www.snacksyummies.com/en/blog/"
+      "href": "#"
     },
     {
       "id": "contact",
       "text": "Contact",
-      "href": "https://www.snacksyummies.com/en/contact/"
+      "href": "#"
     }
     ,
     {
       "id": "find-us",
       "text": "Find Us",
-      "href": "https://www.snacksyummies.com/en/find-us/"
+      "href": "@"
     }
   ],
   "home": {

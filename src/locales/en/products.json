@@ -4,7 +4,7 @@
     "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
   },
   "home": {
-    "countries": "https://snack.yummiespromociones.com/snacksyummies/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+    "countries": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
     "presentations": "PRESENTATIONS",
     "text": "*Size per presentation varies by country.",
     "product_available": "PRODUCT AVAILABLE IN",
@@ -14,28 +14,28 @@
     {
       "id": "taqueritos-chile-toreado",
       "name": "Taqueritos Chile Toreado",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
       "background_color": "#007c34",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/13-Banner-Producto-960x559-1.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/1-Banner-Packs-Gramajes-1920x1118-1.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
           "value": "8",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/image-7-1-png.avif"
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
       ]
     },
     {
       "id": "taqueritos-dragon-de-hielo",
       "name": "Taqueritos Dragon Ice",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
       "background_color": "#091824",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/imagen2-2.avif",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/2-2.avif",
+      "image": "https://snack.yummiespromociones.com/taqueritos/imagen2-2.avif",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/2-2.avif",
       "sizes": [
         {
           "value": "8",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/image-7-1-png.avif"
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
       ]
     },
@@ -43,13 +43,13 @@
       "id": "taqueritos-dragon-de-fuego",
       "name": "Taqueritos Dragon Fire",
       "background_color": "#281211",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/20-Banderas-Web-1080x147-1-e1747237818134.avif",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/image-4-2.avif",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/1-3.avif",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
+      "image": "https://snack.yummiespromociones.com/taqueritos/image-4-2.avif",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-3.avif",
       "sizes": [
         {
           "value": "8",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/image-7-1-png.avif"
+          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
         }
       ]
     }

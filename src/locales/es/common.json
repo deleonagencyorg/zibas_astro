@@ -148,23 +148,23 @@
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/recetas"
+      "href": "#"
     },
     {
       "id": "blog",
       "text": "Blog",
-      "href": "https://www.snacksyummies.com/es/blog/"
+      "href": "#"
     },
     {
       "id": "contact",
       "text": "Contacto",
-      "href": "https://www.snacksyummies.com/es/contacto/"
+      "href": "#"
     }
     ,
     {
       "id": "find-us",
       "text": "Encontranos",
-      "href": "https://www.snacksyummies.com/es/encontranos/"
+      "href": "#"
     }
   ],
   "home": {

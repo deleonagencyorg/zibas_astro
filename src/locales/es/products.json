@@ -14,50 +14,50 @@
     {
       "id": "taqueritos-chile-toreado",
       "name": "Taqueritos Chile Toreado",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/13-Banner-Producto-960x559-1.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
       "background_color": "#007c34",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/banderas.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/1-Banner-Packs-Gramajes-1920x1118-1.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
   
         {
           "value": "34",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/gramaje34-taqueritos-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/gramaje34-taqueritos-1.webp"
         },
         {
           "value": "80",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/Gramajes-packs-3-200x300-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-3-200x300-1.webp"
         },
         {
           "value": "180",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/Gramajes-packs-2-200x300-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-2-200x300-1.webp"
         },
 
         {
           "value": "600",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos_600g.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/taqueritos_600g.webp"
         }
       ]
     },
     {
       "id": "taqueritos-queso-fusion",
       "name": "Taqueritos Queso Fusion",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/20-Banderas-Web-1080x147-1-300x41.webp",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/14-Banner-Producto-960x559-1.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-300x41.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/14-Banner-Producto-960x559-1.webp",
       "background_color": "#eba332",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/2-Banner-Packs-Gramajes-1920x1118-1.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/2-Banner-Packs-Gramajes-1920x1118-1.webp",
       "sizes": [
         {
           "value": "34",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/gramaje34-taqueritos-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/gramaje34-taqueritos-1.webp"
         },
         {
           "value": "80",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/Gramajes-packs-3-200x300-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-3-200x300-1.webp"
         },
         {
           "value": "180",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/Gramajes-packs-2-200x300-1.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/Gramajes-packs-2-200x300-1.webp"
         }
       ]
     },
@@ -65,21 +65,21 @@
       "id": "taqueritos-dragon-de-hielo",
       "name": "Taqueritos Dragón Hielo",
       "background_color": "#000000",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/banderas-taqueritos.webp",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/Preview-taqueritos-hielo.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-hielo-producto.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-hielo.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-hielo-producto.webp",
       "sizes": [
         {
           "value": "34",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/34-taqueritos_w.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/34-taqueritos_w.webp"
         },
         {
           "value": "36",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/36-taqueritos_2.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/36-taqueritos_2.webp"
         },
         {
           "value": "180",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/180-taqueritos_w.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/180-taqueritos_w.webp"
         }
       ]
     },
@@ -87,21 +87,21 @@
       "id": "taqueritos-dragon-de-fuego",
       "name": "Taqueritos Dragón Fuego",
       "background_color": "#000000",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/Preview-taqueritos-fuego.webp",
-      "available": "https://snack.yummiespromociones.com/snacksyummies/banderas-taqueritos.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-fuego-producto.webp",
+      "image": "https://snack.yummiespromociones.com/taqueritos/Preview-taqueritos-fuego.webp",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas-taqueritos.webp",
+      "background_image": "https://snack.yummiespromociones.com/taqueritos/taqueritos-fuego-producto.webp",
       "sizes": [
         {
           "value": "34",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/34-taqueritos_w.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/34-taqueritos_w.webp"
         },
         {
           "value": "36",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/36-taqueritos_2.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/36-taqueritos_2.webp"
         },
         {
           "value": "180",
-          "image": "https://snack.yummiespromociones.com/snacksyummies/180-taqueritos_w.webp"
+          "image": "https://snack.yummiespromociones.com/taqueritos/180-taqueritos_w.webp"
         }
       ]
     }
