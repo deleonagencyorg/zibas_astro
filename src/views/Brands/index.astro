@@ -162,7 +162,7 @@ try {
                   )}
                   
                   
-                  <div class="flex flex-col items-center z-10 relative">
+                  <div id="brand-logo"class="flex flex-col items-center z-10 relative">
                     <LazyImage
                       src={brand.logo}
                       alt={brand.title}
@@ -180,12 +180,39 @@ try {
                 </div>
               </div>
               <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex items-center justify-center product-preview-container">
-                <LazyImage 
-                  src={brand.imageProductPreview || brand.image} 
-                  alt={brand.title} 
-                  class="product-preview-image"
-                  transition:name={`brand-image-${brand.id}`}
-                />
+                <div class="products-carousel" id={`products-carousel-${brand.id}`}>
+                  <div class="products-carousel-inner">
+                    {brand.products && brand.products.length > 0 ? (
+                      brand.products.map((product: any, productIndex: number) => (
+                        <div class="product-slide" id={`${brand.id}-product-${productIndex}`} data-valid="true">
+                          <LazyImage 
+                          id={`product-${brand.id}-${productIndex}`}
+                            src={product.image} 
+                            alt={product.title} 
+                            class="product-preview-image"
+                            onload="this.parentNode.dataset.loaded = 'true'"
+                            onerror="this.parentNode.dataset.valid = 'false'; this.parentNode.style.display = 'none';"
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <div class="product-slide" data-valid="true">
+                        <LazyImage 
+                          src={brand.imageProductPreview || brand.image} 
+                          alt={brand.title} 
+                          class="product-preview-image"
+                          transition:name={`brand-image-${brand.id}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {brand.products && brand.products.length > 1 && (
+                    <div class="products-carousel-nav">
+                      <button class="prev-product" aria-label="Producto anterior">&lt;</button>
+                      <button class="next-product" aria-label="Siguiente producto">&gt;</button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

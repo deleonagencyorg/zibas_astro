@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Fix para las imágenes que no cargan
   const images = document.querySelectorAll('img');
+  const placeholderUrl = 'https://snack.yummiespromociones.com/snacksyummies/placeholder.webp';
+  
   images.forEach(img => {
+    // Evitar bucle infinito: solo aplicar el manejador de error si la imagen no es ya el placeholder
     img.addEventListener('error', function() {
-      this.src = '/images/brands/placeholder.jpg';
+      if (!this.src.includes('placeholder')) {
+        this.src = placeholderUrl;
+        this.classList.add('placeholder-image');
+      }
     });
   });
   
@@ -79,4 +85,119 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+  
+  // Funcionalidad para los carruseles de productos
+  initProductsCarousels();
 });
+
+// Función para inicializar todos los carruseles de productos
+function initProductsCarousels() {
+  const productCarousels = document.querySelectorAll('.products-carousel');
+  
+  productCarousels.forEach(carousel => {
+    const carouselId = carousel.id;
+    const slidesContainer = carousel.querySelector('.products-carousel-inner');
+    const slides = carousel.querySelectorAll('.product-slide');
+    const prevButton = carousel.querySelector('.prev-product');
+    const nextButton = carousel.querySelector('.next-product');
+    
+    // Filtrar slides válidos (con imágenes que se cargan correctamente)
+    const validSlides = Array.from(slides).filter(slide => slide.dataset.valid !== 'false');
+    
+    if (!slidesContainer || validSlides.length <= 1) {
+      // Si no hay slides válidos o solo hay uno, ocultar los botones de navegación
+      if (prevButton) prevButton.style.display = 'none';
+      if (nextButton) nextButton.style.display = 'none';
+      if (validSlides.length === 0) {
+        // Si no hay slides válidos, ocultar todo el carousel
+        carousel.style.display = 'none';
+      }
+      return;
+    }
+    
+    let currentIndex = 0;
+    const totalSlides = validSlides.length;
+    
+    // Función para actualizar la posición del carrusel
+    function updateCarouselPosition() {
+      slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+    
+    // Función para ir a la siguiente diapositiva
+    function goToNextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateCarouselPosition();
+    }
+    
+    // Función para ir a la diapositiva anterior
+    function goToPrevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateCarouselPosition();
+    }
+    
+    // Añadir event listeners a los botones
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        stopAutoplay(); // Detener autoplay al usar navegación manual
+        goToPrevSlide();
+      });
+    }
+    
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        stopAutoplay(); // Detener autoplay al usar navegación manual
+        goToNextSlide();
+      });
+    }
+    
+    // Hacer que las diapositivas sean accesibles con teclado
+    slides.forEach((slide, index) => {
+      slide.setAttribute('tabindex', '0');
+      slide.setAttribute('aria-label', `Producto ${index + 1} de ${totalSlides}`);
+      slide.setAttribute('role', 'group');
+      
+      // Permitir navegación con teclado
+      slide.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          goToNextSlide();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goToPrevSlide();
+        }
+      });
+    });
+    
+    // Configuración para cambiar automáticamente las diapositivas solo en hover
+    const autoplayInterval = 3000; // 3 segundos
+    let autoplayTimer = null;
+    
+    function startAutoplay() {
+      // Asegurarse de detener cualquier intervalo existente primero
+      stopAutoplay();
+      // Iniciar nuevo intervalo
+      autoplayTimer = setInterval(goToNextSlide, autoplayInterval);
+    }
+    
+    function stopAutoplay() {
+      // Verificar si el timer existe antes de limpiarlo
+      if (autoplayTimer !== null) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+    
+    // No iniciar autoplay por defecto
+    // Solo iniciar cuando el usuario hace hover
+    carousel.addEventListener('mouseenter', startAutoplay);
+    carousel.addEventListener('mouseleave', stopAutoplay);
+    
+    // Para dispositivos táctiles, iniciar autoplay al tocar y detener al soltar
+    carousel.addEventListener('touchstart', startAutoplay, { passive: true });
+    carousel.addEventListener('touchend', stopAutoplay);
+    
+    // Iniciar autoplay cuando se hace focus en algún elemento del carrusel
+    carousel.addEventListener('focusin', startAutoplay);
+    carousel.addEventListener('focusout', stopAutoplay);
+  });
+}
