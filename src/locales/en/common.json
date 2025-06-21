@@ -19,6 +19,10 @@
     "products": {
       "title": "Products",
       "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
+    },
+    "brands": {
+      "title": "Brands",
+      "description": "Explore our family of brands. Each with its own unique flavor and personality."
     }
   },
   "countries": {

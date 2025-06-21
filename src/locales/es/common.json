@@ -19,6 +19,10 @@
     "products": {
       "title": "Productos",
       "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
+    },
+    "brands": {
+      "title": "Marcas",
+      "description": "Explora nuestra familia de marcas. Cada una con su propio sabor y personalidad única."
     }
   },
   "social_media": {

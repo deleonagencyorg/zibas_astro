@@ -1,0 +1,96 @@
+---
+// src/views/Brands/Detail/index.astro
+import { t } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+import { getLocale } from '../../../i18n/i18n';
+import './styles.css';
+
+const { brandData, brandId } = Astro.props;
+const currentLang = getLocale();
+
+// Si no hay datos de marca, mostrar mensaje de error
+if (!brandData) {
+  return Astro.redirect(`/${currentLang}/404`);
+}
+---
+
+<div class="brand-detail-container">
+  <div class="brand-hero" style={`background-color: ${brandData.bgColor || '#ffffff'}`}>
+    <div class="container mx-auto px-4 py-12">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+          <img 
+            src={brandData.logo} 
+            alt={brandData.title} 
+            class="brand-logo mx-auto md:mx-0"
+            transition:name={`brand-image-${brandId}`}
+          />
+        </div>
+        <div class="md:w-1/2 text-center md:text-left">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">{brandData.title}</h1>
+          <p class="text-xl mb-6">{brandData.alt}</p>
+          <a 
+            href={brandData.url} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-md transition-colors duration-300"
+          >
+            {t('detail.visit_website', { namespace: 'brands' })}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12">
+    <div class="brand-chips-showcase mb-12">
+      <h2 class="text-3xl font-bold mb-6 text-center">{t('detail.product_showcase', { namespace: 'brands' })}</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {brandData.imageChip1 && (
+          <div class="brand-chip">
+            <img src={brandData.imageChip1} alt={`${brandData.title} - Chip 1`} class="w-full h-auto rounded-lg shadow-md" />
+          </div>
+        )}
+        {brandData.imageChip2 && (
+          <div class="brand-chip">
+            <img src={brandData.imageChip2} alt={`${brandData.title} - Chip 2`} class="w-full h-auto rounded-lg shadow-md" />
+          </div>
+        )}
+        {brandData.imageChip3 && (
+          <div class="brand-chip">
+            <img src={brandData.imageChip3} alt={`${brandData.title} - Chip 3`} class="w-full h-auto rounded-lg shadow-md" />
+          </div>
+        )}
+        {brandData.imageChip4 && (
+          <div class="brand-chip">
+            <img src={brandData.imageChip4} alt={`${brandData.title} - Chip 4`} class="w-full h-auto rounded-lg shadow-md" />
+          </div>
+        )}
+      </div>
+    </div>
+
+    {brandData.products && brandData.products.length > 0 && (
+      <div class="brand-products">
+        <h2 class="text-3xl font-bold mb-6 text-center">{t('detail.products', { namespace: 'brands' })}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {brandData.products.map((product: any) => (
+            <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div class="relative h-48 overflow-hidden">
+                <img 
+                  src={product.image || '/images/products/placeholder.jpg'} 
+                  alt={product.title} 
+                  class="w-full h-full object-contain p-4"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">{product.title}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+<script src="./scripts.js"></script>

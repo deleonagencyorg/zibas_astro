@@ -1,0 +1,130 @@
+---
+// src/views/Brands/index.astro
+import LazyImage from '../../components/common/LazyImage.astro';
+import { t } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import { getLocale } from '../../i18n/i18n';
+import './styles.css';
+
+const currentLang = getLocale();
+console.log('Brands view - Current language:', currentLang);
+
+// Intentar cargar datos con manejo de errores
+let brandsData = [];
+let pageTitle = '';
+let pageDescription = '';
+let homeAssets:any = [];
+
+try {
+  console.log('Intentando cargar datos de marcas desde namespace:', 'brands');
+  
+  // Cargar datos de marcas
+  brandsData = t('brands', { namespace: 'brands', locale: currentLang }) || [];
+  console.log('Datos de marcas cargados:', brandsData ? 'Éxito' : 'Fallo');
+  console.log('Número de marcas cargadas:', Array.isArray(brandsData) ? brandsData.length : 'No es un array');
+  homeAssets = t('home', { namespace: 'brands', locale: currentLang }) || [];
+  // Cargar título y descripción
+  pageTitle = t('home.title', { namespace: 'brands' }) || 'Marcas';
+  pageDescription = t('home.description', { namespace: 'brands' }) || 'Nuestras marcas';
+  
+  console.log('Título de la página:', pageTitle);
+} catch (error) {
+  console.error('Error al cargar datos de marcas:', error);
+  brandsData = [];
+  pageTitle = currentLang === 'es' ? 'Marcas' : 'Brands';
+  pageDescription = currentLang === 'es' ? 'Nuestras marcas' : 'Our brands';
+}
+---
+
+<div class="brands-container">
+  <header class="brands-header text-center py-8">
+    <h1 class="text-4xl font-bold mb-4">{pageTitle}</h1>
+    
+    <div class="brands-carousel-container relative w-full my-8">
+      <!-- Botones de navegación -->
+      <button class="carousel-nav carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar">
+        <div class="brands-icons-row flex items-center gap-4 py-4">
+          {brandsData.map((brand: any) => (
+            <a 
+              href={`#${brand.slug}`} 
+              class="brand-icon-circle flex-shrink-0" 
+              style={`background-color: ${brand.bgColor || '#ffffff'}`}
+              aria-label={`Ir a ${brand.title}`}
+            >
+              <LazyImage
+                src={brand.logo} 
+                alt={brand.title} 
+                class="w-16 md:w-24 h-16 md:h-24 object-contain"
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <button class="carousel-nav carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="brands-list">
+      {brandsData.map((brand: any, index: number) => (
+        <div id={brand.slug} class="brand-card" style={`background-color: ${brand.bgColor || '#ffffff'}`}>
+          <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+              <div class="md:w-1/2 order-2 md:order-1 flex items-center justify-center">
+                <div class="flex flex-col items-center">
+                  <LazyImage
+                    src={brand.logo}
+                    alt={brand.title}
+                    class="w-50 h-20 object-contain"
+                    transition:name={`brand-image-${brand.id}`}
+                  />
+                  {!brand.url || brand.url === '#' ? null : (
+                    <a 
+                      href={brand.url}
+                      class="inline-block bg-white text-gray-800 hover:bg-gray-100 py-2 px-6 rounded-md transition-colors duration-300 mt-6"
+                    >
+                      {homeAssets.textButton}
+                    </a>
+                  )}
+                </div>
+              </div>
+              <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex justify-center md:justify-end">
+                <LazyImage 
+                  src={brand.imageProductPreview || brand.image} 
+                  alt={brand.title} 
+                  class="max-w-full h-auto max-h-64 object-contain product-glow"
+                  transition:name={`brand-image-${brand.id}`}
+                />
+              </div>
+            </div>
+          </div>
+          
+          <!-- Decorative elements like triangles and chips based on the reference image -->
+          {index % 2 === 0 && (
+            <div class="absolute top-0 right-0 -mt-4 -mr-4">
+              <div class="w-8 h-8 transform rotate-45 bg-yellow-500"></div>
+            </div>
+          )}
+          {index % 2 === 1 && (
+            <div class="absolute bottom-0 left-0 -mb-4 -ml-4">
+              <div class="w-8 h-8 transform rotate-45 bg-red-500"></div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div> 
+  </div>
+</div>
+
+<script src="./scripts.js"></script>

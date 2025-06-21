@@ -1,7 +1,8 @@
 {
     "home": {
         "title": "Marcas",
-        "description": "Marcas"
+        "description": "Marcas",
+        "textButton": "Conoce más"
     },
     "brands": [
         {

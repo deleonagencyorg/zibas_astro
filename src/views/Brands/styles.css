@@ -1,0 +1,183 @@
+/* src/views/Brands/styles.css */
+
+/* Smooth scroll behavior for the entire page */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem; /* Ajusta según sea necesario para evitar que el contenido quede debajo del header */
+}
+
+/* Header styles */
+.brands-header {
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+}
+
+.brands-header h1 {
+  color: #333;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Carousel styles */
+.brands-carousel-container {
+  position: relative;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .brands-carousel-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.brands-icons-carousel {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.brands-icons-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+/* Brand icon circles in the header */
+.brand-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+
+.brand-icon-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Navigation buttons */
+.carousel-nav {
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-nav:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* Brand cards in the list */
+.brands-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.brand-card {
+  position: relative;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border-radius:3rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.brand-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Info grid styling */
+.brand-info-grid {
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+/* Product image styling */
+.brand-card img {
+  transition: transform 0.3s ease;
+}
+
+.brand-card:hover img {
+  transform: scale(1.05);
+}
+
+
+
+/* Decorative elements */
+.brand-card::before,
+.brand-card::after {
+  content: '';
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+
+/* Animation classes for intersection observer */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .brand-card {
+    padding: 1rem;
+  }
+  
+  .brand-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
