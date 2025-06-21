@@ -82,21 +82,61 @@ try {
           <div class="container mx-auto px-4 py-8">
             <div class="flex flex-col md:flex-row items-center justify-between">
               <div class="md:w-1/2 order-2 md:order-1 flex items-center justify-center">
-                <div class="flex flex-col items-center">
-                  <LazyImage
-                    src={brand.logo}
-                    alt={brand.title}
-                    class="w-50 h-20 object-contain"
-                    transition:name={`brand-image-${brand.id}`}
-                  />
-                  {!brand.url || brand.url === '#' ? null : (
-                    <a 
-                      href={brand.url}
-                      class="inline-block bg-white text-gray-800 hover:bg-gray-100 py-2 px-6 rounded-md transition-colors duration-300 mt-6"
-                    >
-                      {homeAssets.textButton}
-                    </a>
+                <div class="brand-logo-container relative">
+                  {/* Chip images positioned around the logo */}
+                  {brand.imageChip1 && (
+                    <div class="chip-image chip-top-left">
+                      <LazyImage
+                        src={brand.imageChip1}
+                        alt="Chip"
+                        class="w-24 h-24 object-contain"
+                      />
+                    </div>
                   )}
+                  {brand.imageChip2 && (
+                    <div class="chip-image chip-top-right">
+                      <LazyImage
+                        src={brand.imageChip2}
+                        alt="Chip"
+                        class="w-24 h-24 object-contain"
+                      />
+                    </div>
+                  )}
+                  {brand.imageChip3 && (
+                    <div class="chip-image chip-bottom-left">
+                      <LazyImage
+                        src={brand.imageChip3}
+                        alt="Chip"
+                        class="w-24 h-24 object-contain"
+                      />
+                    </div>
+                  )}
+                  {brand.imageChip4 && (
+                    <div class="chip-image chip-bottom-right">
+                      <LazyImage
+                        src={brand.imageChip4}
+                        alt="Chip"
+                        class="w-24 h-24 object-contain"
+                      />
+                    </div>
+                  )}
+                  
+                  <div class="flex flex-col items-center z-10 relative">
+                    <LazyImage
+                      src={brand.logo}
+                      alt={brand.title}
+                      class="w-50 h-20 object-contain"
+                      transition:name={`brand-image-${brand.id}`}
+                    />
+                    {!brand.url || brand.url === '#' ? null : (
+                      <a 
+                        href={brand.url}
+                        class="inline-block bg-white text-primary hover:bg-primary hover:text-white py-2 px-6 rounded-full transition-colors duration-300 mt-6"
+                      >
+                        {homeAssets.textButton}
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
               <div class="md:w-1/2 order-1 md:order-2 mb-6 md:mb-0 flex justify-center md:justify-end">
