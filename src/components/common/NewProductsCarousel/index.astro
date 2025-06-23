@@ -25,18 +25,14 @@ const {
   className = ''
 } = Astro.props;
 
-console.log('Props recibidos en NewProductsCarousel:', Astro.props);
-console.log('Valor inicial de products:', products);
 
 const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 
 // Asegurarse de que products es un array
 const productsItems = Array.isArray(products) ? products : [];
-console.log('Productos procesados:', productsItems);
 
 // Verificar estructura de cada producto
 productsItems.forEach((product, index) => {
-  console.log(`Producto ${index}:`, product);
   if (!product.image) console.warn(`Producto ${index} no tiene imagen`);
   if (!product.alt) console.warn(`Producto ${index} no tiene texto alternativo`);
 });
@@ -82,7 +78,7 @@ import './styles.css';
   <div id="base"class="w-full flex items-center justify-center">
     <div class="md:w-[60%] w-full z-0 mx-auto">
       <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/basenewproducts.webp" alt="Base de productos nuevos" 
-      class="z-0 w-full  translate-y-[-12rem] md:translate-y-[-18rem]" />
+      class="z-0 w-full  translate-y-[-12rem] md:translate-y-[-7rem]" />
     </div>
   </div>
 </div>

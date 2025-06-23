@@ -12,9 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
   margin: 0 auto;
-  max-width: 1200px;
   z-index: 10;
 }
 
@@ -24,7 +22,7 @@
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.5s ease;
-  min-height: 300px; /* Asegurar altura mínima */
+  min-height: 200px; /* Asegurar altura mínima */
 }
 
 .carousel-item {
@@ -74,9 +72,15 @@
 .carousel-controls {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 8rem;
   position: relative;
   z-index: 11;
+}
+
+@media (max-width: 768px) {
+  .carousel-controls {
+    margin-top: 0rem;
+  }
 }
 
 .controls-container {
