@@ -8,6 +8,7 @@ import BrandCardSkeleton from '../../components/brands/BrandCardSkeleton.astro';
 import SkeletonLoader from '../../components/common/SkeletonLoader.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
+import FloatingChip from '../../components/common/FloatingChip/index.astro';
 import './styles.css';
 
 // Definir transiciones para elementos clave
@@ -122,40 +123,44 @@ const skeletonCount = 3;
           <div class="brand-card-bg" style={`background-color: ${brand.bgColor || '#ffffff'}`}></div>
           <!-- Mobile chip images positioned at brand card corners -->
           {brand.imageChip1 && (
-            <div class="chip-image chip-top-left chip-mobile">
-              <LazyImage
-                src={brand.imageChip1}
-                alt="Chip"
-                class="w-24 h-24 object-contain"
-              />
-            </div>
+            <FloatingChip
+              src={brand.imageChip1}
+              alt="Chip"
+              size="lg"
+              position="top: 10%; left: 10%;"
+              animationDuration={10}
+              class="chip-mobile chip-top-left"
+            />
           )}
           {brand.imageChip2 && (
-            <div class="chip-image chip-top-right chip-mobile">
-              <LazyImage
-                src={brand.imageChip2}
-                alt="Chip"
-                class="w-24 h-24 object-contain"
-              />
-            </div>
+            <FloatingChip
+              src={brand.imageChip2}
+              alt="Chip"
+              size="xl"
+              position="top: 10%; right: 10%;"
+              animationDuration={12}
+              class="chip-mobile chip-top-right"
+            />
           )}
           {brand.imageChip3 && (
-            <div class="chip-image chip-bottom-left chip-mobile">
-              <LazyImage
-                src={brand.imageChip3}
-                alt="Chip"
-                class="w-16 h-16 object-contain"
-              />
-            </div>
+            <FloatingChip
+              src={brand.imageChip3}
+              alt="Chip"
+              size="lg"
+              position="bottom: 10%; left: 10%;"
+              animationDuration={9}
+              class="chip-mobile chip-bottom-left"
+            />
           )}
           {brand.imageChip4 && (
-            <div class="chip-image chip-bottom-right chip-mobile">
-              <LazyImage
-                src={brand.imageChip4}
-                alt="Chip"
-                class="w-16 h-16 object-contain"
-              />
-            </div>
+            <FloatingChip
+              src={brand.imageChip4}
+              alt="Chip"
+              size="xl"
+              position="bottom: 10%; right: 10%;"
+              animationDuration={11}
+              class="chip-mobile chip-bottom-right"
+            />
           )}
           
           <div class="container mx-auto px-4 py-8 relative">
@@ -164,40 +169,44 @@ const skeletonCount = 3;
                 <div class="brand-logo-container relative">
                   {/* Desktop chip images positioned around the logo */}
                   {brand.imageChip1 && (
-                    <div class="chip-image chip-desktop chip-top-left">
-                      <LazyImage
-                        src={brand.imageChip1}
-                        alt="Chip"
-                        class="w-24 h-24 mx-6 my-2 object-contain"
-                      />
-                    </div>
+                    <FloatingChip
+                      src={brand.imageChip1}
+                      alt="Chip"
+                      size="2xl"
+                      position="top: -5%; left: -5%;"
+                      animationDuration={15}
+                      class="chip-desktop chip-top-left"
+                    />
                   )}
                   {brand.imageChip2 && (
-                    <div class="chip-image chip-desktop chip-top-right">
-                      <LazyImage
-                        src={brand.imageChip2}
-                        alt="Chip"
-                        class="w-24 h-24 mx-6 my-2 object-contain"
-                      />
-                    </div>
+                    <FloatingChip
+                      src={brand.imageChip2}
+                      alt="Chip"
+                      size="xl"
+                      position="top: -5%; right: -5%;"
+                      animationDuration={17}
+                      class="chip-desktop chip-top-right"
+                    />
                   )}
                   {brand.imageChip3 && (
-                    <div class="chip-image chip-desktop chip-bottom-left">
-                      <LazyImage
-                        src={brand.imageChip3}
-                        alt="Chip"
-                        class="w-24 h-24 mx-6 my-2 object-contain"
-                      />
-                    </div>
+                    <FloatingChip
+                      src={brand.imageChip3}
+                      alt="Chip"
+                      size="xl"
+                      position="bottom: -5%; left: -5%;"
+                      animationDuration={16}
+                      class="chip-desktop chip-bottom-left"
+                    />
                   )}
                   {brand.imageChip4 && (
-                    <div class="chip-image chip-desktop chip-bottom-right">
-                      <LazyImage
-                        src={brand.imageChip4}
-                        alt="Chip"
-                        class="w-24 h-24 mx-6 my-2 object-contain"
-                      />
-                    </div>
+                    <FloatingChip
+                      src={brand.imageChip4}
+                      alt="Chip"
+                      size="2xl"
+                      position="bottom: -5%; right: -5%;"
+                      animationDuration={18}
+                      class="chip-desktop chip-bottom-right"
+                    />
                   )}
                   
                   <div id="brand-logo" class="flex flex-col items-center z-10 relative">

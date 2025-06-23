@@ -17,6 +17,10 @@ t('common', { locale: currentLang });
 t('recipes', { locale: currentLang });
 t('news', { locale: currentLang });
 t('products', { locale: currentLang });
+t('new-products', { locale: currentLang });
+t('brands', { locale: currentLang });
+t('contentN', { locale: currentLang });
+t('chips', { locale: currentLang });
 
 export interface Props {
   currentLang: string;
@@ -24,18 +28,21 @@ export interface Props {
 }
 
 const { loading = false } = Astro.props;
+const contentNewProducts = t('home', { namespace: 'new-products', locale: currentLang }) || [];
+const newProductsData = t('new-products', { namespace: 'new-products', locale: currentLang });
+const newProducts = Array.isArray(newProductsData) ? newProductsData : [];  
+const newProductsChipsData = t('chips', { namespace: 'new-products', locale: currentLang });
+const newProductsChips = Array.isArray(newProductsChipsData) ? newProductsChipsData : [];  
+const brandsData = t('brands', { namespace: 'brands', locale: currentLang }) || [];
 const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
-const spotifyAssets = t('home.spotify', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
-console.log('spotifyAssets', spotifyAssets)
 // Obtener las imágenes de máscara del slider desde los archivos de idioma (desktop y mobile)
 const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
 const sliderMaskMobile = t('assets.slidermaskmobile', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp';
 
 // Obtener productos para el ca rusel orbital
-const newProductsData = t('new_products', { namespace: 'new-products', locale: currentLang });
-const newProducts = Array.isArray(newProductsData) ? newProductsData : [];
+
 
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
 const slides = Array.isArray(commonAssets) 
@@ -86,20 +93,19 @@ const slides = Array.isArray(commonAssets)
     <!-- Sección de Carrusel Orbital de Productos -->
     <section class="w-full py-12 bg-gradient-to-b from-secondary to-blue-700">
       <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center text-white mb-8">Nuevos Productos</h2>
-        <OrbitalCarousel products={newProducts} class="mt-8" />
+        <h2 class="text-4xl font-bold text-center text-white mb-8">{ contentNewProducts.title}</h2>
       </div>
     </section>
 
     <!-- Sección de recetas con carrusel -->
-    <section id="recipes" class="w-full py-12" transition:animate="slide">
+    <!-- <section id="recipes" class="w-full py-12" transition:animate="slide">
      <div class="container mx-auto px-4">
         <h2 class="text-6xl  font-sans font-semibold text-center md:text-left text-white mb-8">{recipesAssets.title}</h2>
         <div class=" mx-auto md:w-[70%]">
           <RecipesCarousel recipes={recipeItems} textButton={recipesAssets.view_more} />
         </div>
       </div>
-    </section>
+    </section> -->
 
   
 

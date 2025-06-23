@@ -1,0 +1,82 @@
+.floating-chip {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  will-change: transform;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Animaciones de flotación para los chips - movimiento más sutil */
+@keyframes float1 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(20px, -15px) rotate(90deg); }
+  50% { transform: translate(30px, 0) rotate(180deg); }
+  75% { transform: translate(20px, 15px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes float2 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-25px, -20px) rotate(120deg); }
+  66% { transform: translate(25px, 20px) rotate(240deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes float3 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-30px, 0) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes float4 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-20px, 20px) rotate(90deg); }
+  50% { transform: translate(0, 30px) rotate(180deg); }
+  75% { transform: translate(20px, 20px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes float5 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(25px, -25px) rotate(120deg); }
+  66% { transform: translate(-25px, -25px) rotate(240deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Responsive: reducir el tamaño de la animación en móviles */
+@media (max-width: 768px) {
+  @keyframes float1 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(15px, -10px) rotate(90deg); }
+    50% { transform: translate(20px, 0) rotate(180deg); }
+    75% { transform: translate(15px, 10px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+
+  @keyframes float2 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-15px, -15px) rotate(120deg); }
+    66% { transform: translate(15px, 15px) rotate(240deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+
+  @keyframes float3 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-20px, 0) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+
+  @keyframes float4 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-15px, 15px) rotate(90deg); }
+    50% { transform: translate(0, 20px) rotate(180deg); }
+    75% { transform: translate(15px, 15px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+
+  @keyframes float5 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(15px, -15px) rotate(120deg); }
+    66% { transform: translate(-15px, -15px) rotate(240deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+}

@@ -1,21 +1,32 @@
 {
+  "home": {
+    "tagtitle": "New",
+    "title": "Products"
+  },
+  "chips":[
+    "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip1.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip2.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/zambos-chip4.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp"
+  ],
   "new_products": [
     {
       "id": "product1",
       "image": "https://snack.yummiespromociones.com/snacksyummies/zambo-tajin.webp",
-      "alt": "Zambo Tajín",
+      "alt": "Zambo Tajin",
       "link": "#"
     },
     {
       "id": "product2",
       "image": "https://snack.yummiespromociones.com/snacksyummies/Taqueritos-dragon-hielo.webp",
-      "alt": "Taqueritos Dragón de Hielo",
+      "alt": "Taqueritos Dragon Hielo",
       "link": "#"
     },
     {
       "id": "product3",
       "image": "https://snack.yummiespromociones.com/snacksyummies/Taqueritos-dragon-fuego.webp",
-      "alt": "Taqueritos Dragón de Fuego",
+      "alt": "Taqueritos Dragon Fuego",
       "link": "#"
     },
     {

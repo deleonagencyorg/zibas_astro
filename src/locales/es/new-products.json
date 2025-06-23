@@ -1,4 +1,15 @@
 {
+  "home": {
+    "tagtitle": "Nuevos",
+    "title": "Productos"
+  },
+  "chips":[
+    "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip1.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip2.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/zambos-chip4.webp",
+    "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp"
+  ],
   "new_products": [
     {
       "id": "product1",
