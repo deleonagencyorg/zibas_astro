@@ -1,4 +1,5 @@
 ---
+import GoogleTagManager from '../components/common/GoogleTagManager.astro';
 // import GoogleTagManager from './i18n/GoogleTagManager.astro';
 // import GoogleTagManagerNoScript from './i18n/GoogleTagManagerNoScript.astro';
 import { getLocale, type Locale } from '../i18n/i18n'; // t is not used, Locale type might be needed
@@ -24,6 +25,7 @@ const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUr
 ---
 <html lang={pageLocaleForKeysAndHtml}>
   <head>
+    <GoogleTagManager />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/webp" href="https://snack.yummiespromociones.com/snacksyummies/logo.webp" />
