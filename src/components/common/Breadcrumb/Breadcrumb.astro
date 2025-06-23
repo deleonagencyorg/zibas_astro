@@ -1,0 +1,97 @@
+---
+// Breadcrumb.astro - Component for showing navigation breadcrumbs
+import { t, getLocale } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+import './styles.css';
+
+// Props for the component
+interface Props {
+  currentPath?: string; // Optional override for current path
+}
+
+const { currentPath } = Astro.props;
+
+// Get current locale
+const currentLocale: Locale = getLocale();
+
+// Get current path from Astro.url or from props
+const pathname = currentPath || Astro.url.pathname;
+
+// Extract locale from path
+const localeMatch = pathname.match(/^\/([a-z]{2})\//); 
+const pathLocale = localeMatch ? localeMatch[1] as Locale : currentLocale;
+
+// Remove language prefix and trailing slash
+const cleanPath = pathname.replace(new RegExp(`^/(${pathLocale})?/?`), '').replace(/\/$/, '');
+
+// Split path into segments
+const segments = cleanPath ? cleanPath.split('/') : [];
+
+// Get section name (first segment)
+const section = segments.length > 0 ? segments[0] : '';
+
+// Get section title from translations - use the locale from the URL path
+let sectionTitle = '';
+if (section) {
+  // First try to get the title from the common namespace
+  sectionTitle = t(`meta.${section}.title`, { namespace: 'common', locale: pathLocale });
+  
+  // If not found, try the section-specific namespace (e.g., brands namespace for /brands)
+  if (sectionTitle === `meta.${section}.title`) {
+    sectionTitle = t('title', { namespace: section, locale: pathLocale });
+  }
+  
+  // If still not found, use the section name with capitalization
+  if (sectionTitle === 'title' || sectionTitle === `meta.${section}.title`) {
+    sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
+  }
+}
+
+// Home URL with locale
+const homeUrl = `/${currentLocale}`;
+---
+
+<nav class="breadcrumb-container pt-8 mt-[2rem]" aria-label="Breadcrumb">
+  <div class="breadcrumb-wrapper">
+    <ol class="breadcrumb-list">
+      <!-- Home link always present -->
+      <li class="breadcrumb-item">
+        <a href={homeUrl} class="breadcrumb-link home-link" aria-label={t('meta.home.title', { namespace: 'common' })}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="breadcrumb-home-icon">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </a>
+      </li>
+      
+      <!-- Current section if not home -->
+      {section && (
+        <li class="breadcrumb-item">
+          <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          <a href={`/${pathLocale}/${section}`} class="breadcrumb-link current">
+            {sectionTitle || section}
+          </a>
+        </li>
+      )}
+      
+      <!-- Additional segments if present -->
+      {segments.slice(1).map((segment, index) => {
+        const path = segments.slice(0, index + 2).join('/');
+        const segmentTitle = segment.replace(/-/g, ' ');
+        return (
+          <li class="breadcrumb-item">
+            <span class="breadcrumb-separator" aria-hidden="true">/</span>
+            <a 
+              href={`/${currentLocale}/${path}`} 
+              class={`breadcrumb-link ${index === segments.length - 2 ? 'current' : ''}`}
+            >
+              {segmentTitle}
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</nav>
+
+<script src="./script.js"></script>

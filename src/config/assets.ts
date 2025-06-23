@@ -17,6 +17,7 @@ export const generalAssets = {
   phoneIcon: `${S3_BASE_URL}/iconphone.svg`,
   emailIcon: `${S3_BASE_URL}/iconemail.svg`,
   timeIcon: `${S3_BASE_URL}/iconsizes.svg`,
+  coronaIcon: `${S3_BASE_URL}/corona.webp`,
 };
 
 // Interfaz para enlaces de redes sociales

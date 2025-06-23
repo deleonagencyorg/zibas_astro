@@ -44,20 +44,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollAmount = brandIcons[0].offsetWidth * 2 + 16; // Ancho de 2 íconos + gap
     
     // Función para desplazar a la izquierda
-    prevBtn.addEventListener('click', () => {
+    const scrollLeft = () => {
       carousel.scrollBy({
         left: -scrollAmount,
         behavior: 'smooth'
       });
-    });
+    };
     
     // Función para desplazar a la derecha
-    nextBtn.addEventListener('click', () => {
+    const scrollRight = () => {
       carousel.scrollBy({
         left: scrollAmount,
         behavior: 'smooth'
       });
-    });
+    };
+    
+    // Añadir eventos de click y touch para el botón previo
+    prevBtn.addEventListener('click', scrollLeft);
+    prevBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // Prevenir comportamiento por defecto
+      scrollLeft();
+    }, { passive: false });
+    
+    // Añadir eventos de click y touch para el botón siguiente
+    nextBtn.addEventListener('click', scrollRight);
+    nextBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // Prevenir comportamiento por defecto
+      scrollRight();
+    }, { passive: false });
     
     // Función para manejar la visibilidad de los botones de navegación
     function updateNavButtonsVisibility() {
@@ -84,6 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+    
+    // Asegurar que los botones de navegación tengan suficiente z-index y pointer-events
+    prevBtn.style.zIndex = '20';
+    nextBtn.style.zIndex = '20';
+    prevBtn.style.pointerEvents = 'auto';
+    nextBtn.style.pointerEvents = 'auto';
   }
   
   // Funcionalidad para los carruseles de productos
@@ -118,6 +138,11 @@ function initProductsCarousels() {
     let currentIndex = 0;
     const totalSlides = validSlides.length;
     
+    // Variables para el control de swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50; // Distancia mínima para considerar un swipe
+    
     // Función para actualizar la posición del carrusel
     function updateCarouselPosition() {
       slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -135,19 +160,67 @@ function initProductsCarousels() {
       updateCarouselPosition();
     }
     
-    // Añadir event listeners a los botones
+    // Añadir event listeners a los botones con soporte para touch
     if (prevButton) {
-      prevButton.addEventListener('click', () => {
+      const handlePrevClick = () => {
         stopAutoplay(); // Detener autoplay al usar navegación manual
         goToPrevSlide();
-      });
+      };
+      
+      prevButton.addEventListener('click', handlePrevClick);
+      prevButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handlePrevClick();
+      }, { passive: false });
+      
+      // Mejorar accesibilidad y visibilidad en mobile
+      prevButton.style.zIndex = '20';
+      prevButton.style.pointerEvents = 'auto';
     }
     
     if (nextButton) {
-      nextButton.addEventListener('click', () => {
+      const handleNextClick = () => {
         stopAutoplay(); // Detener autoplay al usar navegación manual
         goToNextSlide();
-      });
+      };
+      
+      nextButton.addEventListener('click', handleNextClick);
+      nextButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleNextClick();
+      }, { passive: false });
+      
+      // Mejorar accesibilidad y visibilidad en mobile
+      nextButton.style.zIndex = '20';
+      nextButton.style.pointerEvents = 'auto';
+    }
+    
+    // Implementar funcionalidad de swipe para mobile
+    slidesContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    slidesContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+    
+    // Función para manejar el swipe
+    function handleSwipe() {
+      // Calcular la distancia del swipe
+      const swipeDistance = touchEndX - touchStartX;
+      
+      // Si el swipe es suficientemente largo, cambiar slide
+      if (Math.abs(swipeDistance) > minSwipeDistance) {
+        stopAutoplay();
+        if (swipeDistance > 0) {
+          // Swipe a la derecha (previo)
+          goToPrevSlide();
+        } else {
+          // Swipe a la izquierda (siguiente)
+          goToNextSlide();
+        }
+      }
     }
     
     // Hacer que las diapositivas sean accesibles con teclado

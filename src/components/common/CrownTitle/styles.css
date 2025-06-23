@@ -1,0 +1,30 @@
+/* CrownTitle styles */
+.crown-title-container {
+  padding-top: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.crown-icon {
+  position: absolute;
+  top: 1rem;
+  left: -1.4rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 10;
+  transform: rotate(-15deg);
+  transition: transform 0.3s ease;
+}
+
+.crown-title-container:hover .crown-icon {
+  transform: rotate(-5deg) scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .crown-icon {
+    width: 3rem;
+    height: 3rem;
+    top: 0-5rem;
+    left: -1.8rem;
+  }
+}

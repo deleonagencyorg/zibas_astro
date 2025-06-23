@@ -31,12 +31,10 @@ html {
 /* Header styles */
 .brands-header {
   width: 100%;
-  background-color: #f8f9fa;
   padding: 2rem 0;
 }
 
 .brands-header h1 {
-  color: #333;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;

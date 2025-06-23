@@ -6,6 +6,8 @@ import type { Locale } from '../../i18n/i18n';
 import { getLocale } from '../../i18n/i18n';
 import BrandCardSkeleton from '../../components/brands/BrandCardSkeleton.astro';
 import SkeletonLoader from '../../components/common/SkeletonLoader.astro';
+import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import './styles.css';
 
 // Definir transiciones para elementos clave
@@ -47,9 +49,10 @@ try {
 const skeletonCount = 3;
 ---
 
-<div class="brands-container">
+<div class="brands-container bg-white">
+  <Breadcrumb />
   <header class="brands-header text-center py-8" transition:animate={fadeTransition}>
-    <h1 class="text-8xl font-bold mb-4 font-title text-white" transition:name="brands-title">{pageTitle}</h1>
+    <CrownTitle text={pageTitle} transition:name="brands-title" />
     
     <div class="brands-carousel-container relative w-full my-8">
       <!-- Botones de navegación -->
@@ -59,7 +62,7 @@ const skeletonCount = 3;
         </svg>
       </button>
       
-      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar">
+      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar bg-white">
         {isLoading ? (
           <div class="brands-icons-row flex items-center gap-4 py-4">
             {Array(6).fill(0).map((_, i) => (
