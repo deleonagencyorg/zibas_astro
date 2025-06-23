@@ -224,7 +224,12 @@ const slides = Array.isArray(commonAssets)
           <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/corazones1.webp" alt="Social Media" class="w-[90%]  mb-4"/>
         </div>
         <div class="flex flex-col items-center justify-center">
-          <LazyImage src={homeAssets.socialmedia.title} alt="Social Media" class="mx-auto w-[90%] mb-4"/>
+          <div class="text-center">
+         
+            <h2 class="md:text-[8rem] text-[4rem] font-title uppercase font-bold text-center text-primary">{homeAssets.socialmedia.title}</h2>
+            <span class="md:text-[3rem] text-[2rem]font-title uppercase font-semibold text-white mb-2 bg-red px-6 rounded-full mt-[-2rem]">
+              {homeAssets.socialmedia.tagtitle}</span>
+            </div>
           <SocialMediaIcons 
           currentLang={currentLang} 
           iconColor='#0A3D7E' 
