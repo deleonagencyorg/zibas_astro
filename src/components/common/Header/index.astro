@@ -31,20 +31,27 @@ const logosData = logos;
     </div>
 
     <!-- Navegación Móvil -->
-    <div class="md:hidden w-full py-3 px-4 flex justify-between items-center">
+    <nav class="mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center">
       <!-- Logo para Móvil -->
-      <a href={`/${currentLang}/`} class="block">
-        <LocalizedImage
-          assetKey={logosData.principal.url}
-          alt={logosData.principal.alt || 'Snacks Yummies Logo'}
-          class="h-10 w-auto"
-          loading="eager"
-        />
-      </a>
+      <div class="logo-container">
+        <a href={`/${currentLang}/`} class="flex-shrink-0">
+          <LocalizedImage
+            src={logosData.principal.url}
+            alt={logosData.principal.alt || 'Snacks Yummies Logo'}
+            class="h-12 w-auto object-contain"
+            loading="eager"
+            width="120"
+            height="48"
+            priority={true}
+          />
+        </a>
+      </div>
       
       <!-- Mobile Menu Button -->
-      <MobileMenuButton currentLang={currentLang} />
-    </div>
+      <div class="menu-button-container">
+        <MobileMenuButton currentLang={currentLang} />
+      </div>
+    </nav>
   </div>
 
 </header>
@@ -55,7 +62,7 @@ function initHeaderScrollBehavior() {
   const header = document.getElementById('site-header');
   
   function handleScroll() {
-    if (window.innerWidth < 768) return; // Solo aplicar en desktop (md y superior)
+    if (!header || window.innerWidth < 768) return; // Solo aplicar en desktop (md y superior)
     
     // Mantener fondo primary en desktop en todo momento
     header.classList.remove('bg-black', 'bg-opacity-90', 'backdrop-blur-md', 'bg-opacity-50', 'bg-transparent');
