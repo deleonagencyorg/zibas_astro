@@ -81,21 +81,31 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "alt": "Taqueritos",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
+        "alt": "Superman Participa y gana",
         "title": "",
         "description": "",
-        "link": "/en/products"
+        "link": "https://superman.yummiespromociones.com"
+      },
+
+      {
+        "id": "slide4",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
+        "alt": "",
+        "title": "",
+        "description": "",
+        "link": "https://taqueritos.com"
       },
       {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "alt": "Chile Toreado",
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": "/en/products/chile-toreado"
+        "link": "https://www.zambos.com"
       }
     ],
     "products": [

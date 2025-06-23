@@ -66,8 +66,8 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/TAQUERITOS-BANNER-1.webp",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
         "alt": "",
         "title": "",
         "description": "",
@@ -76,8 +76,8 @@
 
       {
         "id": "slide4",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner-taqueritos-2.webp",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
         "alt": "",
         "title": "",
         "description": "",
@@ -85,39 +85,12 @@
       },
       {
         "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-3.webp",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
         "alt": "",
         "title": "",
         "description": "",
         "link": "https://www.amazon.com/stores/page/7964A27A-5177-44C3-AAEC-6DA181502081?ingress=3"
-      },
-      {
-        "id": "slide33",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_home_taqueritos-4.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_home_taqueritos-4.webp",
-        "alt": "Ofertas Especiales",
-        "title": "",
-        "description": "",
-        "link": "https://www.amazon.com/stores/page/7964A27A-5177-44C3-AAEC-6DA181502081?ingress=3"
-      },
-      {
-        "id": "slide5",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "alt": "",
-        "title": "",
-        "description": "",
-        "link": "/es/productos/chile-toreado"
-      },
-      {
-        "id": "slide6",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/Banner_Queso_Fusion-6.webp",
-        "alt": "",
-        "title": "",
-        "description": "",
-        "link": "/es/productos/taqueritos-queso-fusion"
       }
     ],
     "products": [

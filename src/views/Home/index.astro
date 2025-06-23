@@ -164,9 +164,9 @@ const slides = Array.isArray(commonAssets)
         <div class="mb-8 p-4 relative">
           <div class="flex flex-col items-center">
             <div class="relative">
-              <span class="inline-block md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[8rem] md:-translate-x-[15rem] translate-y-[2rem] md:translate-y-[4rem]">
+              <span class="inline-block md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[3rem] md:-translate-x-[4rem] translate-y-[-1rem] md:translate-y-[-1rem]">
                 {homeAssets.new_products.tagtitle}</span>
-              <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center">{homeAssets.new_products.title}</h2>
+              <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center mt-[1rem] md:mt-0">{homeAssets.new_products.title}</h2>
             </div>
           </div>
         </div>
@@ -207,16 +207,17 @@ const slides = Array.isArray(commonAssets)
     <div class="container mx-auto my-8 px-6 md:mx-0 uppercase ">
       <CrownTitle text={homeAssets.brands.title} transition:name="brands-title" />
     </div>
-    <div class="md:flex md:items-center md:justify-between ">
-      <div id="logosbrands" class="md:w-1/2 flex flex-col items-center justify-center md:order-2 ">
+    <div class="md:flex md:items-center md:justify-between mt-[2rem]md:mt-[0rem] ">
+      <div id="logosbrands" class="md:w-1/2 flex flex-col px-4 md:px-0 items-center justify-center md:order-2 ">
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
               class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm hover:shadow-md"
               style={{ backgroundColor: brand.bgColor }}
               data-image={brand.image}
+              data-image-mobile={brand.imageMobile}
               data-title={brand.title}
-              onclick={`updateBrandPreview('${brand.image}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
+              onclick={`updateBrandPreview('${brand.image}', '${brand.imageMobile}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
             >
               <LazyImage
                 src={brand.logo}
@@ -226,7 +227,7 @@ const slides = Array.isArray(commonAssets)
           ))}
         </div>
       </div>
-      <div id="previewbrand" class="md:w-1/2 flex items-center justify-center md:order-1">
+      <div id="previewbrand" class="mt-6 md:mt-0  md:w-1/2 flex items-center justify-center md:order-1">
         <LazyImage
           id="brand-preview-img"
           src={brands[0].image}
@@ -243,7 +244,7 @@ const slides = Array.isArray(commonAssets)
     </div>
     <script is:inline>
       // Función global para actualizar la imagen de preview
-      function updateBrandPreview(imageUrl, title) {
+      function updateBrandPreview(imageUrl, mobileImageUrl, title) {
         const previewImg = document.getElementById('brand-preview-img');
         const previewImgMobile = document.getElementById('brand-preview-img-mobile');
         
@@ -253,8 +254,7 @@ const slides = Array.isArray(commonAssets)
         }
         
         if (previewImgMobile) {
-          // Get the mobile image URL by replacing 'grande' with 'peque' in the URL
-          const mobileImageUrl = imageUrl.replace('-grande.', '-peque.');
+          // Use the provided mobile image URL directly
           previewImgMobile.src = mobileImageUrl;
           previewImgMobile.alt = title || '';
         }
