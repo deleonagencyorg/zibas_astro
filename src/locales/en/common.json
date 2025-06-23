@@ -140,9 +140,16 @@
     }
   ],
   "home": {
+    "brands":{
+      "title":"Brands"
+    },
     "new_products":{
-      "tagtitle":"Nuevos",
-      "title":"Productos"
+      "tagtitle":"New",
+      "title":"Products"
+    },
+    "preview_brand":{
+      "button":"View brand",
+      "title":"Our brands"
     },
     "newsletter":{
       "placeholder":"email@email.com",

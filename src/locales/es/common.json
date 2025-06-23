@@ -168,9 +168,16 @@
     }
   ],
   "home": {
+    "brands":{
+      "title":"Marcas"
+    },
     "new_products":{
       "tagtitle":"Nuevos",
       "title":"Productos"
+    },
+    "preview_brand":{
+      "button":"Ver marca",
+      "title":"Nuestras marcas"
     },
     "newsletter":{
       "placeholder":"tucorreo@email.com",

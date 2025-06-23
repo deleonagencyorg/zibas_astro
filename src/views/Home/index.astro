@@ -10,6 +10,7 @@ import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.ast
 import './styles.css';
 import NewProductsCarousel from '../../components/common/NewProductsCarousel/index.astro';
 import FloatingChip from '../../components/common/FloatingChip/index.astro';
+import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 
 export interface Props {
   loading?: boolean;
@@ -37,7 +38,7 @@ export const newProducts = t('products', { namespace: 'newproducts', locale: cur
 export const validProducts = Array.isArray(newProducts) ? newProducts : [];
 
 export const chips = t('chips', { namespace: 'newproducts', locale: currentLang });
-
+export const brands = t('brands', { namespace: 'brands', locale: currentLang });
 
 
 export const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
@@ -169,9 +170,19 @@ const slides = Array.isArray(commonAssets)
     </section> -->
 
   
-
-  <section id="brands" class="w-full py-12 flex flex-col items-center justify-center">
-
+  <section id="brands" class="w-full py-12 flex flex-col md:flex-row items-center justify-center">
+    <div class="container mx-auto px-12 ">
+      <CrownTitle text={homeAssets.brands.title} transition:name="brands-title" />
+    <div id="previewbrand" class="md:w-1/2 flex items-center justify-center md:justify-start md:order-1">
+      
+      
+    </div>
+    <div id="logosbrands" class="md:w-1/2 flex flex-col items-center justify-center md:justify-center md:order-2">
+      <div class="flex flex-col items-center justify-center">
+    
+       
+      </div>
+    </div>
   </section>
 
   <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
