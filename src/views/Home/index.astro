@@ -1,7 +1,9 @@
 <!-- src/views/Home/index.astro -->
 ---
 import LazyImage from '../../components/common/LazyImage.astro';
-import { t, getLocale } from '../../i18n/i18n';
+import { t } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import { getLocale } from '../../i18n/i18n';
 import Carousel from '../../components/common/Carousel/index.astro';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import RecipesCarousel from '../../components/recipes/RecipesCarousel.astro';
@@ -15,35 +17,33 @@ import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 export interface Props {
   loading?: boolean;
 }
-
 const { loading = false } = Astro.props;
 
 // Obtener idioma actual y exportarlo para que esté disponible en el template
-export const currentLang = getLocale();
-// Precargar namespaces
-t('common', { locale: currentLang });
-t('recipes', { locale: currentLang });
-t('news', { locale: currentLang });
-t('products', { locale: currentLang });
-t('newproducts', { locale: currentLang });
-t('brands', { locale: currentLang });
-t('contentN', { locale: currentLang });
-t('chips', { locale: currentLang });
+const currentLang = getLocale();
 
-// Cargar productos nuevos
-export const newProducts = t('products', { namespace: 'newproducts', locale: currentLang });
+// Precargar namespaces con validación
+t('common', { locale: currentLang }) || {};
+t('recipes', { locale: currentLang }) || {};
+t('news', { locale: currentLang }) || {};
+t('products', { locale: currentLang }) || {};
+t('newproducts', { locale: currentLang }) || {};
+t('brands', { locale: currentLang }) || {};
+t('contentN', { locale: currentLang }) || {};
+t('chips', { locale: currentLang }) || {};
 
 
-// Validar que sea un array
-export const validProducts = Array.isArray(newProducts) ? newProducts : [];
+// Cargar productos nuevos con validación
+const newProducts = t('products', { namespace: 'newproducts', locale: currentLang }) || [];
 
-export const chips = t('chips', { namespace: 'newproducts', locale: currentLang });
-export const brands = t('brands', { namespace: 'brands', locale: currentLang });
+const validProducts = Array.isArray(newProducts) ? newProducts : [];
 
+const chips = t('chips', { namespace: 'newproducts', locale: currentLang }) || [];
+const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
 
-export const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
-export const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
-export const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
+const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
+const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
+const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
 
 // Obtener las imágenes de máscara del slider desde los archivos de idioma (desktop y mobile)
 const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
