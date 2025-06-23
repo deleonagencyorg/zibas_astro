@@ -18,21 +18,13 @@ export interface Props {
 const { slides = [], loading = false } = Astro.props;
 
 // Log de depuración
-console.log('Carousel Props:', {
-  slides: slides,
-  loading: loading,
-  slidesCount: slides.length
-});
+
 
 // Identificar la primera imagen para cargarla con prioridad
 const firstSlide = slides[0] || {};
 
 // Log del primer slide
-if (firstSlide.desktop) {
-  console.log('First Slide:', firstSlide);
-} else {
-  console.warn('No slides available or first slide is incomplete');
-}
+
 
 // Opcional: Precargar la primera imagen para mejorar el LCP
 const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;

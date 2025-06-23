@@ -5,10 +5,12 @@ import esRecipes from '../locales/es/recipes.json';
 import esNews from '../locales/es/news.json';
 import esProducts from '../locales/es/products.json';
 import esBrands from '../locales/es/brands.json';
+import esNewProducts from '../locales/es/newproducts.json';
 import enRecipes from '../locales/en/recipes.json';
 import enNews from '../locales/en/news.json';
 import enProducts from '../locales/en/products.json';
 import enBrands from '../locales/en/brands.json';
+import enNewProducts from '../locales/en/newproducts.json';
 
 // Tipos para las traducciones
 export type Locale = 'es' | 'en';
@@ -21,14 +23,16 @@ const translations = {
     recipes: esRecipes,
     news: esNews,
     products: esProducts,
-    brands: esBrands
+    brands: esBrands,
+    newproducts: esNewProducts
   },
   en: {
     common: enCommon,
     recipes: enRecipes,
     news: enNews,
     products: enProducts,
-    brands: enBrands
+    brands: enBrands,
+    newproducts: enNewProducts
   }
 };
 

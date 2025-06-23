@@ -140,6 +140,10 @@
     }
   ],
   "home": {
+    "new_products":{
+      "tagtitle":"Nuevos",
+      "title":"Productos"
+    },
     "newsletter":{
       "placeholder":"email@email.com",
       "buttonText":"Subscribe"

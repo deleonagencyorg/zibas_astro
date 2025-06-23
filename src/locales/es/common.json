@@ -168,6 +168,10 @@
     }
   ],
   "home": {
+    "new_products":{
+      "tagtitle":"Nuevos",
+      "title":"Productos"
+    },
     "newsletter":{
       "placeholder":"tucorreo@email.com",
       "buttonText":"Suscribirse"
