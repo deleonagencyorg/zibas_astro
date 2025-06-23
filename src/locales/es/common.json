@@ -28,26 +28,26 @@
   "social_media": {
     "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/taqueritoslatam/",
-      "alt": "Facebook de Taqueritos",
+      "url": "https://www.facebook.com/SnacksYummies",
+      "alt": "Facebook de Snacks Yummies",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/taqueritoslatam/",
+      "url": "https://www.instagram.com/snacksyummies/",
       "alt": "Instagram de Taqueritos",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@taqueritoslatam",
+      "url": "https://www.tiktok.com/@snacksyummies",
       "alt": "TikTok de Taqueritos",
-      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
+      "iconUrl": "https://www.tiktok.com/@snacksyummies"
     },
     "x": {
       "name": "X",
-      "url": "https://www.instagram.com/taqueritoslatam/",
-      "alt": "Instagram de Taqueritos",
+      "url": "https://x.com/SnacksYummies",
+      "alt": "X de Snacks Yummies",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/x.svg"
     }
   },
