@@ -1,0 +1,43 @@
+---
+import NewProductsCarousel3DReact from './index.jsx';
+
+export interface Props {
+  products: Array<{
+    title: string;
+    image: string;
+    description?: string;
+    price?: string;
+  }>;
+  autoplay?: boolean;
+  interval?: number;
+  arrows?: boolean;
+  class?: string;
+}
+
+const { 
+  products, 
+  autoplay = true, 
+  interval = 3000, 
+  arrows = true,
+  class: className = ''
+} = Astro.props;
+---
+
+<div class={className}>
+  <NewProductsCarousel3DReact 
+    client:only="react"
+    products={products} 
+    autoplay={autoplay} 
+    interval={interval} 
+    arrows={arrows}
+    onSlideChange={() => {}}
+  />
+</div>
+
+<!-- Font Awesome CSS for carousel arrows -->
+<link 
+  rel="stylesheet" 
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+  crossorigin="anonymous"
+/>

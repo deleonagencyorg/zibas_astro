@@ -7,6 +7,7 @@ export interface Props {
   alt?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl' | '10xl';
   position?: string;
+  mobilePosition?: string;
   animationDuration?: number;
   class?: string;
 }
@@ -16,9 +17,13 @@ const {
   alt = "Chip decorativo", 
   size = "md", 
   position = "random",
+  mobilePosition,
   animationDuration,
   class: className = "" 
 } = Astro.props;
+
+// Generate a unique ID for this chip instance
+const uniqueId = `chip-${Math.random().toString(36).substring(2, 9)}`;
 
 // Determinar el tamaño en clases de Tailwind
 const sizeClasses = {
@@ -53,7 +58,7 @@ const animationIndex = Math.floor(Math.random() * 5) + 1; // 1 a 5 para diferent
 ---
 
 <div 
-  class={`floating-chip absolute ${sizeClasses[size]} ${className}`} 
+  class={`floating-chip absolute ${sizeClasses[size]} ${className} ${uniqueId}`} 
   style={`${positionStyle} animation: float${animationIndex} ${duration}s infinite linear;`}
 >
   <LazyImage
@@ -64,3 +69,13 @@ const animationIndex = Math.floor(Math.random() * 5) + 1; // 1 a 5 para diferent
     loading="lazy"
   />
 </div>
+
+{mobilePosition && (
+  <style is:global>
+    @media (max-width: 768px) {
+      .{`${uniqueId}`} {
+        {mobilePosition};
+      }
+    }
+  </style>
+)}

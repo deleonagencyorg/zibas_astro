@@ -8,11 +8,21 @@ import Carousel from '../../components/common/Carousel/index.astro';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import RecipesCarousel from '../../components/recipes/RecipesCarousel.astro';
 import Newsletter from '../../components/common/Newsletter/index.astro';
+import FloatingChip from '../../components/common/FloatingChip/index.astro';
 import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.astro';
 import './styles.css';
 import NewProductsCarousel from '../../components/common/NewProductsCarousel/index.astro';
-import FloatingChip from '../../components/common/FloatingChip/index.astro';
+import SimpleProductCarousel from '../../components/common/SimpleProductCarousel/index.astro';
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
+
+// Add styles for active brand logo
+const activeLogoStyles = `
+  .active-brand {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 10;
+    border-width: 4px !important;
+  }
+`;
 
 export interface Props {
   loading?: boolean;
@@ -100,13 +110,14 @@ const slides = Array.isArray(commonAssets)
     </div>
     
     <!-- Sección de Carrusel Orbital de Productos -->
-    <section id="new-products" class="w-full  bg-gradient-to-b from-secondary to-blue-700 relative ">
+    <section id="new-products" class="w-full  bg-gradient-to-b from-secondary to-blue-700 relative pb-8 ">
       <div class="container mx-auto px-4">
         <FloatingChip
                       src={chips[0]}
                       alt="Chip"
                       size="2xl"
                       position="top: 25%; left: 15%;"
+                      mobilePosition="top: 25%; left: 15%;"
                       animationDuration={15}
                     />
                     <FloatingChip
@@ -120,7 +131,7 @@ const slides = Array.isArray(commonAssets)
                     src={chips[2]}
                     alt="Chip"
                     size="2xl"
-                    position="top: 25%; left: 75%;"
+                    position="top: 25%; left: 60%;"
                     animationDuration={15}
                   />
                   <FloatingChip
@@ -128,6 +139,7 @@ const slides = Array.isArray(commonAssets)
                   alt="Chip"
                   size="4xl"
                   position="top: 75%; right: 15%;"
+                  mobilePosition="top: 75%; right: 7%;"
                   animationDuration={15}
                 />
                 <FloatingChip
@@ -135,6 +147,7 @@ const slides = Array.isArray(commonAssets)
                 alt="Chip"
                 size="2xl"
                 position="top: 75%; right: 50%;"
+                mobilePosition="top: 95%; right: 75%;"
                 animationDuration={15}
               />
               <FloatingChip
@@ -142,20 +155,40 @@ const slides = Array.isArray(commonAssets)
                 alt="Chip"
                 size="xl"
                 position="top: 65%; right: 75%;"
+                mobilePosition="top: 95%; right: 75%;"
                 animationDuration={15}
               />
         <!-- Top floating chips -->
         
         
-        <div class="flex flex-col items-center justify-center mb-8 font-heading p-4">
-          <span class="position-absolute translate-y-[2rem] md:translate-y-[4rem] translate-x-[-8rem] md:translate-x-[-15rem] md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white mb-2 bg-red py-1 px-6 rounded-full">
-            {homeAssets.new_products.tagtitle}</span>
-          <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center">{homeAssets.new_products.title}</h2>
+        <div class="mb-8 p-4 relative">
+          <div class="flex flex-col items-center">
+            <div class="relative">
+              <span class="inline-block md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[8rem] md:-translate-x-[15rem] translate-y-[2rem] md:translate-y-[4rem]">
+                {homeAssets.new_products.tagtitle}</span>
+              <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center">{homeAssets.new_products.title}</h2>
+            </div>
+          </div>
         </div>
-        <NewProductsCarousel products={validProducts} className="z-1" />
         
+        <!-- Base image positioned behind carousel -->
+    
+        
+        <!-- Original Carousel -->
+        <!-- <NewProductsCarousel products={validProducts} className="z-1" /> -->
+        
+        <!-- Simple Product Carousel -->
+        <SimpleProductCarousel 
+          products={validProducts}
+          class="z-10 w-full max-w-5xl mx-auto my-8 relative md:mt-[-4rem]"
+        />
         <!-- Bottom floating chips -->
-      
+        <div id="base" class="w-full flex items-center justify-center absolute z-0">
+          <div class="md:w-[60%] w-full mx-auto">
+            <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/basenewproducts.webp" alt="Base de productos nuevos" 
+            class="w-full translate-y-[-12rem] md:translate-y-[-18rem]" />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -179,11 +212,11 @@ const slides = Array.isArray(commonAssets)
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
-              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm hover:shadow-md"
               style={{ backgroundColor: brand.bgColor }}
               data-image={brand.image}
               data-title={brand.title}
-              onclick={`updateBrandPreview('${brand.image}', '${brand.title}')`}
+              onclick={`updateBrandPreview('${brand.image}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
             >
               <LazyImage
                 src={brand.logo}
@@ -194,11 +227,17 @@ const slides = Array.isArray(commonAssets)
         </div>
       </div>
       <div id="previewbrand" class="md:w-1/2 flex items-center justify-center md:order-1">
-        <img
+        <LazyImage
           id="brand-preview-img"
           src={brands[0].image}
           alt={brands[0].title}
-          class="w-full h-auto object-contain transition-opacity duration-300"
+          class="hidden md:block w-full h-auto object-contain transition-opacity duration-300"
+        />
+        <LazyImage
+          id="brand-preview-img-mobile"
+          src={brands[0].imageMobile}
+          alt={brands[0].title}
+          class="md:hidden w-full h-auto object-contain transition-opacity duration-300"
         />
       </div>
     </div>
@@ -206,15 +245,50 @@ const slides = Array.isArray(commonAssets)
       // Función global para actualizar la imagen de preview
       function updateBrandPreview(imageUrl, title) {
         const previewImg = document.getElementById('brand-preview-img');
+        const previewImgMobile = document.getElementById('brand-preview-img-mobile');
+        
         if (previewImg) {
           previewImg.src = imageUrl;
           previewImg.alt = title || '';
-          console.log('Imagen actualizada a', imageUrl);
+        }
+        
+        if (previewImgMobile) {
+          // Get the mobile image URL by replacing 'grande' with 'peque' in the URL
+          const mobileImageUrl = imageUrl.replace('-grande.', '-peque.');
+          previewImgMobile.src = mobileImageUrl;
+          previewImgMobile.alt = title || '';
         }
       }
       
+      // Function to highlight the selected brand logo
+      function highlightSelectedBrand(element, bgColor) {
+        // Remove highlight from all logos
+        const allLogos = document.querySelectorAll('.logo-brand');
+        allLogos.forEach(logo => {
+          logo.style.borderColor = 'transparent';
+          logo.style.transform = 'scale(1)';
+          logo.classList.remove('active-brand');
+        });
+        
+        // Add highlight to the selected logo
+        element.style.borderColor = bgColor;
+        element.style.borderOpacity = '0.3';
+        element.style.transform = 'scale(1.1)';
+        element.classList.add('active-brand');
+      }
+      
+      // Initialize the first brand as selected when the page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        const firstBrand = document.querySelector('.logo-brand');
+        if (firstBrand) {
+          const bgColor = firstBrand.style.backgroundColor;
+          highlightSelectedBrand(firstBrand, bgColor);
+        }
+      });
+      
       // Asegurarse de que la función esté disponible globalmente
       window.updateBrandPreview = updateBrandPreview;
+      window.highlightSelectedBrand = highlightSelectedBrand;
     </script>
    
         
@@ -223,9 +297,9 @@ const slides = Array.isArray(commonAssets)
     </div>
   </section>
 
-  <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
+  <!-- <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
 
-  </section>
+  </section> -->
 
   <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
     
@@ -235,12 +309,10 @@ const slides = Array.isArray(commonAssets)
           <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/corazones1.webp" alt="Social Media" class="w-[90%]  mb-4"/>
         </div>
         <div class="flex flex-col items-center justify-center">
-          <div class="text-center">
-         
-            <h2 class="md:text-[8rem] text-[4rem] font-title uppercase font-bold text-center text-primary">{homeAssets.socialmedia.title}</h2>
-            <span class="md:text-[3rem] text-[2rem]font-title uppercase font-semibold text-white mb-2 bg-red px-6 rounded-full mt-[-2rem]">
-              {homeAssets.socialmedia.tagtitle}</span>
-            </div>
+        
+           
+            <p class="text-primary text-center pt-4 font-title uppercase font-bold md:text-[8rem] text-[6rem]">{homeAssets.socialmedia.title}</p>
+            <p class="text-white text-center font-title uppercase font-bold text-[3rem] md:mt-[-3rem] mt-[-2rem] bg-red  px-6 rounded-full">{homeAssets.socialmedia.tagtitle}</p>
           <SocialMediaIcons 
           currentLang={currentLang} 
           iconColor='#0A3D7E' 
@@ -283,10 +355,11 @@ const slides = Array.isArray(commonAssets)
           <div class="w-full md:w-1/2 md:p-8 p-0 flex items-center justify-center md:min-h-[300px] ">
             <div class="text-center">
               <LazyImage src={homeAssets.quiz.title} alt='Quiz' class="w-full h-full object-cover object-center"/>
-              <p class="text-white  text-xl py-4">{homeAssets.quiz.description}</p>
-              <button class="bg-white text-primary font-bold py-2 px-8 rounded-full ">{homeAssets.quiz.button}</button>
-              
+              <p class="text-white  text-xl py-4 mb-6">{homeAssets.quiz.description}</p>
+             
+              <p>  <a href={homeAssets.quiz.urlButton} class="bg-white text-primary font-bold py-2 px-8 rounded-full">{homeAssets.quiz.button}</a></p>
             </div>
+          
           </div>
         </div>
       </div>

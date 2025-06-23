@@ -42,7 +42,7 @@
       "name": "TikTok",
       "url": "https://www.tiktok.com/@snacksyummies",
       "alt": "TikTok de Taqueritos",
-      "iconUrl": "https://www.tiktok.com/@snacksyummies"
+        "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     },
     "x": {
       "name": "X",
@@ -192,7 +192,8 @@
     "quiz":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
       "description":"Descubre cómo hacer tus días más Yummies",
-      "button":"Hacer Quiz"
+      "button":"Hacer Quiz",
+      "urlButton":"/es/marcas"
     },
     "spotify":{
      "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-768x116.webp",
