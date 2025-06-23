@@ -179,17 +179,11 @@ const slides = Array.isArray(commonAssets)
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
-              key={index} 
-              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-transform" 
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
               style={{ backgroundColor: brand.bgColor }}
-              data-brand={brand.title}
-              onClick={() => {
-                const previewImg = document.querySelector('#previewbrand img');
-                if (previewImg) {
-                  previewImg.src = brand.image;
-                  previewImg.alt = brand.title;
-                }
-              }}
+              data-image={brand.image}
+              data-title={brand.title}
+              onclick={`updateBrandPreview('${brand.image}', '${brand.title}')`}
             >
               <LazyImage
                 src={brand.logo}
@@ -200,14 +194,28 @@ const slides = Array.isArray(commonAssets)
         </div>
       </div>
       <div id="previewbrand" class="md:w-1/2 flex items-center justify-center md:order-1">
-        <LazyImage
+        <img
+          id="brand-preview-img"
           src={brands[0].image}
           alt={brands[0].title}
           class="w-full h-auto object-contain transition-opacity duration-300"
-          onload="this.style.opacity = 1"
-          onerror="this.style.opacity = 0"
         />
       </div>
+    </div>
+    <script is:inline>
+      // Función global para actualizar la imagen de preview
+      function updateBrandPreview(imageUrl, title) {
+        const previewImg = document.getElementById('brand-preview-img');
+        if (previewImg) {
+          previewImg.src = imageUrl;
+          previewImg.alt = title || '';
+          console.log('Imagen actualizada a', imageUrl);
+        }
+      }
+      
+      // Asegurarse de que la función esté disponible globalmente
+      window.updateBrandPreview = updateBrandPreview;
+    </script>
    
         
        
