@@ -12,6 +12,7 @@ interface Props {
   textColor?: string;
   iconColor?: string;
   hoverImage?: string;
+  currentLang?: string;
 }
 
 const { 
@@ -21,12 +22,12 @@ const {
   slug,
   textColor = 'text-blue-900',
   iconColor = 'text-blue-900',
-  hoverImage = image
+  hoverImage = image,
+  currentLang = getLocale()
 } = Astro.props;
 
-const currentLocale = getLocale();
-const blogLink = `/${currentLocale}/blog/${slug || id}`;
-const viewBlogText = currentLocale === 'es' ? 'Leer más' : 'Read more';
+const blogLink = `/${currentLang}/blog/${slug || id}`;
+const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
 ---
 
 <a 

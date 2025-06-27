@@ -2,6 +2,7 @@
 import Layout from '../../layouts/MainLayout.astro';
 import { type Locale } from '../../i18n/i18n';
 import BlogCard from '../../components/blog/BlogCard.astro';
+import BlogCardSkeleton from '../../components/blog/BlogCardSkeleton.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import { fade } from 'astro:transitions';
 
@@ -15,9 +16,10 @@ interface Props {
     published_date: string;
   }>;
   currentLang: Locale;
+  isLoading?: boolean;
 }
 
-const { blogPosts, currentLang } = Astro.props;
+const { blogPosts, currentLang, isLoading = false } = Astro.props;
 ---
 
 <Layout title="Blog" class="bg-primary" description="Latest blog posts">
@@ -38,14 +40,18 @@ const { blogPosts, currentLang } = Astro.props;
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-6 mx-auto max-w-7xl">
-      {blogPosts.map((post) => (
-        <BlogCard 
-          image={post.image}
-          title={post.title}
-          id={post.id}
-          slug={post.slug || post.id}
-        />
-      ))}
+      {isLoading
+        ? [...Array(8)].map((_, i) => <BlogCardSkeleton key={i} />)
+        : blogPosts.map((post) => (
+            <BlogCard 
+              image={post.image}
+              title={post.title}
+              id={post.id}
+              slug={post.slug || post.id}
+              currentLang={currentLang}
+            />
+          ))
+      }
     </div>
   </div>
   
