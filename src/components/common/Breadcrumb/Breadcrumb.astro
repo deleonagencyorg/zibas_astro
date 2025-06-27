@@ -7,9 +7,36 @@ import './styles.css';
 // Props for the component
 interface Props {
   currentPath?: string; // Optional override for current path
+  bgColor?: string; // Optional background color class
+  textColor?: string; // Optional text color class
+  hoverColor?: string; // Optional hover color class
 }
 
-const { currentPath } = Astro.props;
+const { 
+  currentPath, 
+  bgColor = 'bg-white', 
+  textColor = 'text-gray-500', 
+  hoverColor = 'hover:text-gray-800' 
+} = Astro.props;
+
+// Convert Tailwind classes to actual colors for inline styles
+let backgroundColor = 'white';
+if (bgColor === 'bg-primary') backgroundColor = 'var(--color-primary)';
+else if (bgColor === 'bg-secondary') backgroundColor = 'var(--color-secondary)';
+else if (bgColor === 'bg-white') backgroundColor = 'white';
+else if (bgColor === 'bg-gray-100') backgroundColor = '#f3f4f6';
+
+// Convert text color classes to actual colors
+let textColorValue = '#6b7280'; // Default gray-500
+if (textColor === 'text-white') textColorValue = 'white';
+else if (textColor === 'text-gray-600') textColorValue = '#4b5563';
+else if (textColor === 'text-gray-500') textColorValue = '#6b7280';
+
+// Convert hover color classes to actual colors
+let hoverColorValue = '#1f2937'; // Default gray-800
+if (hoverColor === 'hover:text-white') hoverColorValue = 'white';
+else if (hoverColor === 'hover:text-gray-900') hoverColorValue = '#111827';
+else if (hoverColor === 'hover:text-gray-800') hoverColorValue = '#1f2937';
 
 // Get current locale
 const currentLocale: Locale = getLocale();
@@ -51,12 +78,12 @@ if (section) {
 const homeUrl = `/${currentLocale}`;
 ---
 
-<nav class="breadcrumb-container pt-8 mt-[2rem]" aria-label="Breadcrumb">
+<nav class="breadcrumb-container pt-8 mt-[2rem]" style={`background-color: ${backgroundColor};`} aria-label="Breadcrumb">
   <div class="breadcrumb-wrapper">
     <ol class="breadcrumb-list">
       <!-- Home link always present -->
-      <li class="breadcrumb-item">
-        <a href={homeUrl} class="breadcrumb-link home-link" aria-label={t('meta.home.title', { namespace: 'common' })}>
+      <li class="breadcrumb-item" style={`color: ${textColorValue};`}>
+        <a href={homeUrl} class="breadcrumb-link home-link" style={`color: ${textColorValue};`} aria-label={t('meta.home.title', { namespace: 'common' })}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="breadcrumb-home-icon">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -66,10 +93,10 @@ const homeUrl = `/${currentLocale}`;
       
       <!-- Current section if not home -->
       {section && (
-        <li class="breadcrumb-item">
+        <li class="breadcrumb-item" style={`color: ${textColorValue};`}>
           <span class="breadcrumb-separator" aria-hidden="true">/</span>
-          <a href={`/${pathLocale}/${section}`} class="breadcrumb-link current">
-            {sectionTitle || section}
+          <a href={`/${pathLocale}/${section}`} class="breadcrumb-link current" style={`color: ${textColorValue};`}>
+            {(sectionTitle || section).toUpperCase()}
           </a>
         </li>
       )}
@@ -79,13 +106,14 @@ const homeUrl = `/${currentLocale}`;
         const path = segments.slice(0, index + 2).join('/');
         const segmentTitle = segment.replace(/-/g, ' ');
         return (
-          <li class="breadcrumb-item">
+          <li class="breadcrumb-item" style={`color: ${textColorValue};`}>
             <span class="breadcrumb-separator" aria-hidden="true">/</span>
             <a 
               href={`/${currentLocale}/${path}`} 
               class={`breadcrumb-link ${index === segments.length - 2 ? 'current' : ''}`}
+              style={`color: ${textColorValue};`}
             >
-              {segmentTitle}
+              {segmentTitle.toUpperCase()}
             </a>
           </li>
         );

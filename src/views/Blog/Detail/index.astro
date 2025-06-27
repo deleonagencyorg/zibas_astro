@@ -35,7 +35,7 @@ const suggestedPosts = allBlogPosts
   .slice(0, 4);
 
 // Get the appropriate title based on language
-const readMoreTitle = currentLang === 'es' ? 'Leer más' : 'Read more';
+const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
 ---
 
 <Layout title="Blog Detail" class="bg-white" description="Blog post details">
@@ -47,7 +47,7 @@ const readMoreTitle = currentLang === 'es' ? 'Leer más' : 'Read more';
   </div>
   
   <div class="container mx-auto px-4 pt-6 my-6">
-    <Breadcrumb />
+    <Breadcrumb bgColor="bg-white" textColor="text-gray-600" hoverColor="hover:text-gray-900" />
     
     <div class="max-w-3xl mx-auto my-6">
       <div class="mb-8">
@@ -72,7 +72,7 @@ const readMoreTitle = currentLang === 'es' ? 'Leer más' : 'Read more';
     
     {suggestedPosts.length > 0 && (
       <section class="mt-16 mb-12">
-        <h2 class="font-sans text-3xl font-bold text-center mb-8">{readMoreTitle}</h2>
+        <h2 class="text-gray-700 font-title text-xl md:text-6xl font-bold text-left mb-8">{readMoreTitle}</h2>
         <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {suggestedPosts.map((post) => (
             <BlogCard 
