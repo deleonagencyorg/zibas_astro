@@ -1,0 +1,82 @@
+---
+import LazyImage from '../common/LazyImage.astro';
+import { getLocale } from '../../i18n/i18n';
+import { Image } from 'astro:assets';
+import { fade } from 'astro:transitions';
+
+interface Props {
+  image: string;
+  title: string;
+  id: string;
+  slug: string;
+  textColor?: string;
+  iconColor?: string;
+  hoverImage?: string;
+}
+
+const { 
+  image, 
+  title, 
+  id,
+  slug,
+  textColor = 'text-blue-900',
+  iconColor = 'text-blue-900',
+  hoverImage = image
+} = Astro.props;
+
+const currentLocale = getLocale();
+const blogLink = `/${currentLocale}/blog/${slug || id}`;
+const viewBlogText = currentLocale === 'es' ? 'Leer más' : 'Read more';
+---
+
+<a 
+  href={blogLink} 
+  class="block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out h-[350px] md:h-[450px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+  transition:animate="fade"
+>
+  <!-- Imagen de fondo (siempre visible) -->
+  <div class="absolute inset-0 w-full h-full">
+    <LazyImage
+      src={image}
+      alt={title}
+      class="w-full h-full object-cover"
+      transition:name={`blog-image-${id}`}
+    />
+  </div>
+  
+  <!-- Overlay con gradiente para el estado normal -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
+  
+  <!-- Información en estado normal -->
+  <div class="absolute bottom-0 left-0 right-0 p-4 bg-white bg-opacity-90 group-hover:opacity-0 transition-opacity duration-300">
+    <h3 class="font-sans text-lg font-bold text-primary text-center mb-3">{title}</h3>
+    <div class="flex justify-center">
+      <div class="border-2 border-primary bg-white text-primary py-2 px-8 rounded-full text-center text-sm font-medium">
+        {viewBlogText}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Overlay para hover -->
+  <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-blue-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <!-- Información en hover -->
+  <div class="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <!-- Toda la información en la parte inferior -->
+    <div class="p-5 flex flex-col gap-3">
+      <!-- Título en hover (al inicio de la información) -->
+      <h3 class="font-sans text-lg font-bold text-white text-center mb-3">{title}</h3>
+      
+      <!-- Botón de leer más -->
+      <div class="flex justify-center mt-4">
+        <div class="border-2 border-white bg-transparent text-white py-2 px-8 rounded-full text-center text-sm font-medium">
+          {viewBlogText}
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  /* Mantener los mismos estilos que RecipeCard */
+</style>

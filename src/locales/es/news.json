@@ -18,6 +18,7 @@
   "items": [
     {
       "id": "nueva-sucursal-tegucigalpa",
+      "slug": "nueva-sucursal-tegucigalpa",
       "title": "Nueva Sucursal en Tegucigalpa",
       "summary": "Estamos emocionados de anunciar la apertura de nuestra nueva sucursal en Tegucigalpa.",
       "content": "<p>Estamos emocionados de anunciar la apertura de nuestra nueva sucursal en Tegucigalpa. Ubicada en el corazón de la ciudad, nuestra nueva ubicación ofrecerá la misma calidad y sabor que has llegado a esperar de Taqueritos.</p><p>La gran inauguración está programada para el 15 de junio, y tendremos promociones especiales durante toda la semana. ¡No te lo pierdas!</p><p>Dirección: Avenida Principal #123, Colonia Palmira, Tegucigalpa.</p>",
@@ -28,6 +29,7 @@
     },
     {
       "id": "menu-temporada-verano",
+      "slug": "menu-temporada-verano",
       "title": "Nuevo Menú de Temporada: Sabores de Verano",
       "summary": "Descubre nuestro nuevo menú de temporada con sabores frescos y vibrantes para el verano.",
       "content": "<p>Con la llegada del verano, estamos emocionados de presentar nuestro nuevo menú de temporada: Sabores de Verano. Hemos creado una selección de platos que capturan la esencia de la temporada con ingredientes frescos y locales.</p><p>Desde nuestros nuevos tacos de pescado con mango hasta nuestras refrescantes bebidas de frutas, hay algo para todos. Nuestro chef ha trabajado arduamente para crear combinaciones de sabores que te transportarán a una playa tropical con cada bocado.</p><p>El menú estará disponible en todas nuestras ubicaciones a partir del 1 de junio. ¡Ven y prueba estos deliciosos sabores antes de que termine la temporada!</p>",
@@ -38,6 +40,7 @@
     },
     {
       "id": "concurso-recetas",
+      "slug": "concurso-recetas",
       "title": "Concurso de Recetas: Muestra tu Creatividad",
       "summary": "Participa en nuestro concurso de recetas y gana premios increíbles.",
       "content": "<p>¿Tienes una receta original usando productos Taqueritos? ¡Queremos verla! Estamos lanzando nuestro primer concurso de recetas donde puedes mostrar tu creatividad culinaria y ganar premios increíbles.</p><p>Para participar, simplemente crea una receta original usando al menos un producto Taqueritos, toma una foto de tu creación y compártela en Instagram con el hashtag #RecetasTaqueritos. Nuestro panel de jueces seleccionará las tres mejores recetas basadas en originalidad, presentación y uso de productos Taqueritos.</p><p>El ganador recibirá un año de productos Taqueritos gratis, mientras que el segundo y tercer lugar recibirán canastas de productos y certificados de regalo. El concurso está abierto desde el 1 de mayo hasta el 30 de junio de 2025.</p><p>¡No esperes más y muestra tu creatividad culinaria con Taqueritos!</p>",

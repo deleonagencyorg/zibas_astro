@@ -14,8 +14,9 @@ import "../styles/global.css";
 export interface Props {
   title?: string;
   description?: string;
+  class?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, class: className } = Astro.props;
 
 // Determine language for <html lang=...> and for key prop from the URL
 const pathSegments = Astro.url.pathname.split('/');
@@ -36,7 +37,7 @@ const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUr
     <slot name="head" />
     {/* <GoogleTagManager /> */}
   </head>
-  <body class="font-sans">
+  <body class={`font-sans ${className || ''}`}>
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
       <Header currentLang={pageLocaleForKeysAndHtml} />

@@ -1,0 +1,17 @@
+---
+import BlogListing from '../../../views/Blog/index.astro';
+import { type Locale } from '../../../i18n/i18n';
+
+export async function getStaticPaths() {
+  const locales = ['en', 'es'];
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: { currentLang: locale as Locale }
+  }));
+}
+
+const { currentLang } = Astro.props;
+const blogPosts = (await import(`../../../locales/${currentLang}/news.json`)).items || [];
+---
+
+<BlogListing blogPosts={blogPosts} currentLang={currentLang} />

@@ -2,7 +2,7 @@
 // src/pages/[lang]/news/[newsId].astro
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
-import NewsDetail from '../../../views/News/Detail/index.astro';
+import BlogDetail from '../../../views/Blog/Detail/index.astro';
 
 export function getStaticPaths() {
   // Obtener todos los idiomas y noticias disponibles
@@ -11,31 +11,31 @@ export function getStaticPaths() {
 
   for (const locale of locales) {
     // Obtener noticias para este idioma
-    const news = t('items', { namespace: 'news', locale: locale as Locale }) || [];
-    console.log(`Found ${news.length} news items for language ${locale}`);
+    const blogPosts = t('items', { namespace: 'news', locale: locale as Locale }) || [];
+    console.log(`Found ${blogPosts.length} blog posts for language ${locale}`);
     
     // Para cada noticia, crear una ruta
-    for (const newsItem of news) {
+    for (const blogPost of blogPosts) {
       paths.push({
-        params: { lang: locale, newsId: newsItem.id },
-        props: { newsItem, currentLang: locale }
+        params: { lang: locale, newsId: blogPost.id },
+        props: { blogPost, currentLang: locale as Locale }
       });
     }
   }
 
-  console.log(`Generated ${paths.length} news routes in English`);
+  console.log(`Generated ${paths.length} blog routes in English`);
   return paths;
 }
 
-const { newsItem, currentLang } = Astro.props;
+const { blogPost, currentLang } = Astro.props;
 const { lang, newsId } = Astro.params;
 
 // Establecer el idioma para las traducciones
-setLocale(lang as Locale);
+setLocale(currentLang);
 
-console.log(`Rendering news item: ${newsId} in language: ${lang}`);
+console.log(`Rendering blog: ${newsId} in language: ${lang}`);
 ---
 
-<MainLayout title={newsItem.title}>
-  <NewsDetail currentLang={currentLang} newsId={newsId} />
+<MainLayout title={blogPost.title}>
+  <BlogDetail blogPost={blogPost} currentLang={currentLang} />
 </MainLayout>

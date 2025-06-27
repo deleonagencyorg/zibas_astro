@@ -4,6 +4,7 @@
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   font-size: 0.875rem;
+  background-color: white;
 }
 
 .breadcrumb-wrapper {
@@ -75,26 +76,27 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .breadcrumb-container {
-    background-color: #212529;
+    background-color: white;
+    color: #7b7b7b;
   }
   
   .breadcrumb-item {
-    color: #ced4da;
+    color: #7b7b7b;
   }
   
   .breadcrumb-separator {
-    color: #6c757d;
+    color: #7b7b7b;
   }
   
   .breadcrumb-link {
-    color: #ced4da;
+    color: #7b7b7b;
   }
   
   .breadcrumb-link:hover {
-    color: #f8f9fa;
+    color: rgb(43, 43, 43);
   }
   
   .breadcrumb-link.current {
-    color: #f8f9fa;
+    color: rgb(43, 43, 43);
   }
 }

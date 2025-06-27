@@ -141,7 +141,7 @@
     {
       "id": "blog",
       "text": "Blog",
-      "href": "#"
+      "href": "/en/blog"
     },
     {
       "id": "contact",
@@ -217,12 +217,12 @@
   "messagetop":[
     {
       "id":"1",
-      "title":"Snacks Yummies! If you want a snack, you're in the right place 🎉",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
       "link":""
     },
     {
       "id":"2",
-      "title":"Snacks Yummies! If you want a snack, you're in the right place 🎉",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
       "link":""
     }
   ]
