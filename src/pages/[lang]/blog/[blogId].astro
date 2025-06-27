@@ -15,7 +15,8 @@ export async function getStaticPaths() {
         },
         props: { 
           blogPost,
-          currentLang: locale as Locale 
+          currentLang: locale as Locale,
+          allBlogPosts: blogPosts
         }
       });
     }
@@ -23,7 +24,7 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { blogPost, currentLang } = Astro.props;
+const { blogPost, currentLang, allBlogPosts } = Astro.props;
 ---
 
-<BlogDetail blogPost={blogPost} currentLang={currentLang} />
+<BlogDetail blogPost={blogPost} currentLang={currentLang} allBlogPosts={allBlogPosts} />

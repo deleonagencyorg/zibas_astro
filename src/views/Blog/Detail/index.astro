@@ -2,8 +2,9 @@
 import Layout from '../../../layouts/MainLayout.astro';
 import Header from '../../../components/common/Header/index.astro';
 import Footer from '../../../components/common/Footer/index.astro';
-import { type Locale } from '../../../i18n/i18n';
+import { type Locale, t } from '../../../i18n/i18n';
 import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
+import BlogCard from '../../../components/blog/BlogCard.astro';
 
 interface Props {
   blogPost: {
@@ -16,9 +17,25 @@ interface Props {
     published_date: string;
   };
   currentLang: Locale;
+  allBlogPosts?: Array<{
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    image: string;
+    published_date: string;
+  }>;
 }
 
-const { blogPost, currentLang } = Astro.props;
+const { blogPost, currentLang, allBlogPosts = [] } = Astro.props;
+
+// Filter out the current blog post and get up to 4 suggested posts
+const suggestedPosts = allBlogPosts
+  .filter(post => post.id !== blogPost.id)
+  .slice(0, 4);
+
+// Get the appropriate title based on language
+const readMoreTitle = currentLang === 'es' ? 'Leer más' : 'Read more';
 ---
 
 <Layout title="Blog Detail" class="bg-white" description="Blog post details">
@@ -37,7 +54,6 @@ const { blogPost, currentLang } = Astro.props;
       
    
         <h1 class="font-sans text-3xl font-bold mb-4">{blogPost.title}</h1>
-        <p class="text-gray-600 mb-6">By {blogPost.author}</p>
       </div>
       
       <div class="relative h-96 mb-8 rounded-lg overflow-hidden my-6">
@@ -53,6 +69,22 @@ const { blogPost, currentLang } = Astro.props;
         <Fragment set:html={blogPost.content} />
       </div>
     </div>
+    
+    {suggestedPosts.length > 0 && (
+      <section class="mt-16 mb-12">
+        <h2 class="font-sans text-3xl font-bold text-center mb-8">{readMoreTitle}</h2>
+        <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {suggestedPosts.map((post) => (
+            <BlogCard 
+              image={post.image}
+              title={post.title}
+              id={post.id}
+              slug={post.slug || post.id}
+            />
+          ))}
+        </div>
+      </section>
+    )}
   </div>
   
 </Layout>

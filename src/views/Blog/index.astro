@@ -30,13 +30,13 @@ const { blogPosts, currentLang } = Astro.props;
     <Breadcrumb />
     
     <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold mb-4 text-white">Blog</h1>
+      <h1 class="font-sans text-4xl font-bold mb-4 text-white">Blog</h1>
       <p class="text-xl text-gray-600 max-w-2xl mx-auto text-white">
         Stay updated with our latest news and articles
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-6">
+    <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 gap-8 py-6">
       {blogPosts.map((post) => (
         <BlogCard 
           image={post.image}
