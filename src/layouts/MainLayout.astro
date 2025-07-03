@@ -1,5 +1,6 @@
 ---
 import GoogleTagManager from '../components/common/GoogleTagManager.astro';
+import Favicon from '../components/Favicon.astro';
 // import GoogleTagManager from './i18n/GoogleTagManager.astro';
 // import GoogleTagManagerNoScript from './i18n/GoogleTagManagerNoScript.astro';
 import { getLocale, type Locale } from '../i18n/i18n'; // t is not used, Locale type might be needed
@@ -23,14 +24,14 @@ const pathSegments = Astro.url.pathname.split('/');
 const langFromUrl = pathSegments[1] as Locale;
 const validLocales: Locale[] = ['es', 'en'];
 const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUrl : 'es'; // Default to 'es'
+const currentLang = getLocale(Astro);
 ---
-<html lang={pageLocaleForKeysAndHtml}>
+<html lang={currentLang}>
   <head>
     <GoogleTagManager />
+    <Favicon />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/webp" href="https://snack.yummiespromociones.com/snacksyummies/logo.webp" />
-    <link rel="icon" type="image/png" href="https://snack.yummiespromociones.com/snacksyummies/logo.png" />
     {title && <title> Snacks Yummies -  {title}</title>}
     {description && <meta name="description" content={description} />}
     <ViewTransitions />
@@ -40,14 +41,14 @@ const pageLocaleForKeysAndHtml = validLocales.includes(langFromUrl) ? langFromUr
   <body class={`font-sans ${className || ''}`}>
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
-      <Header currentLang={pageLocaleForKeysAndHtml} />
+      <Header currentLang={currentLang} />
       <main transition:animate="slide">
         <slot />
       </main>
-      <Footer currentLang={pageLocaleForKeysAndHtml} />
+      <Footer currentLang={currentLang} />
     </I18nProvider>
     
     <!-- Menú móvil al final del body para máximo z-index -->
-    <MobileMenu currentLang={pageLocaleForKeysAndHtml} />
+    <MobileMenu currentLang={currentLang} />
   </body>
 </html>

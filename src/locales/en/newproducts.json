@@ -14,19 +14,19 @@
   "products": [
     {
       "id": "product1",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/zambo-tajin.webp",
+      "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-tajin-2.webp",
       "alt": "Zambo Tajín",
       "link": "#"
     },
     {
       "id": "product2",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-hielo.webp",
+      "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-hielo-2.webp",
       "alt": "Taqueritos Dragón de Hielo",
       "link": "#"
     },
     {
       "id": "product3",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/Taqueritos-dragon-fuego.webp",
+      "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-fuego-2.webp",
       "alt": "Taqueritos Dragón de Fuego",
       "link": "#"
     }

@@ -1,0 +1,63 @@
+---
+import { t, type Locale } from '../../i18n/i18n';
+import config from '../../i18n/config';
+
+export interface Props {
+  currentLang: Locale;
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  imageUrl?: string;
+}
+
+const { currentLang, title, description, canonicalUrl, imageUrl } = Astro.props;
+
+// Get translations for meta tags
+const meta = t('meta', { namespace: 'common', locale: currentLang }) as any;
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
+
+// Default values
+const pageTitle = title || meta.home.title;
+const pageDescription = description || meta.home.description;
+const pageImage = imageUrl || 'https://snack.yummiespromociones.com/snacksyummies/graphqlsocial.webp';
+const pageUrl = canonicalUrl || `https://snacksyummies.com/${currentLang}`;
+
+// Social media URLs
+const facebookUrl = socialMedia?.facebook?.url || '';
+const instagramUrl = socialMedia?.instagram?.url || '';
+const twitterUrl = socialMedia?.twitter?.url || '';
+
+<!-- Primary Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={pageUrl} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={pageImage} />
+<meta property="og:locale" content={currentLang} />
+{config.supportedLocales.map(lang => (
+  <meta property="og:locale:alternate" content={lang} />
+))}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={pageUrl} />
+<meta property="twitter:title" content={pageTitle} />
+<meta property="twitter:description" content={pageDescription} />
+<meta property="twitter:image" content={pageImage} />
+
+<!-- Social Media Links -->
+{facebookUrl && <link rel="me" href={facebookUrl} />}
+{instagramUrl && <link rel="me" href={instagramUrl} />}
+{twitterUrl && <link rel="me" href={twitterUrl} />}
+
+<!-- Additional Tags -->
+<meta name="theme-color" content="#00601b" />
+<meta name="msapplication-TileColor" content="#00601b" />
