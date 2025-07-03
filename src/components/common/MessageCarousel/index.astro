@@ -56,6 +56,10 @@ const messages = t('messagetop', { namespace: 'common', locale: currentLang }) a
     const totalSlides = slides.length;
     let currentSlide = 0;
     let interval: ReturnType<typeof setInterval> | null = null;
+    
+    // Define button references at the top level
+    const prevButton: HTMLElement | null = document.getElementById('prev-message');
+    const nextButton: HTMLElement | null = document.getElementById('next-message');
 
     function showSlide(index: number) {
       slides.forEach((slide: HTMLElement, i: number) => {
@@ -74,9 +78,6 @@ const messages = t('messagetop', { namespace: 'common', locale: currentLang }) a
       });
       
       // Añadir un efecto visual a los botones
-      const prevButton: HTMLElement | null = document.getElementById('prev-message');
-      const nextButton: HTMLElement | null = document.getElementById('next-message');
-      
       if (prevButton && nextButton) {
         prevButton.classList.add('pulse-animation');
         nextButton.classList.add('pulse-animation');

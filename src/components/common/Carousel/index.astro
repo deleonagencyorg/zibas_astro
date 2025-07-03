@@ -61,6 +61,12 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
           }
         });
         
+        const prevButton = document.querySelector('.swiper-button-prev');
+        const nextButton = document.querySelector('.swiper-button-next');
+        
+        if (prevButton) prevButton.addEventListener('click', () => swiper.slidePrev());
+        if (nextButton) nextButton.addEventListener('click', () => swiper.slideNext());
+        
         window.addEventListener('load', () => swiper.update());
       } catch (error) {
         console.error('Error al inicializar Swiper:', error);
