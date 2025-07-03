@@ -1,0 +1,348 @@
+---
+import LazyImage from '../LazyImage.astro';
+
+// ChipsFromBag.astro - Componente que simula chips saliendo de una bolsa
+// Con animación interactiva al pasar el mouse
+
+interface Props {
+  imageUrl: string;       // URL de la imagen del chip
+  count: number;          // Cantidad de chips a mostrar
+  baseSize: number;       // Tamaño base de los chips en px
+  sizeVariation: number;  // Variación de tamaño en porcentaje (0-100)
+  containerWidth: string; // Ancho del contenedor (ej: "100%", "300px")
+  containerHeight: string;// Alto del contenedor (ej: "100%", "300px")
+  alt: string;            // Texto alternativo para accesibilidad
+  burstOnHover: boolean;  // Si es true, emite más chips al pasar el mouse
+  burstCount: number;     // Cantidad adicional de chips al pasar el mouse
+  mobileCount?: number;   // Cantidad de chips en dispositivos móviles
+  mobileBaseSize?: number;// Tamaño base de los chips en móviles
+  mobileContainerWidth?: string; // Ancho del contenedor en móviles
+  mobileContainerHeight?: string;// Alto del contenedor en móviles
+}
+
+// Props con valores predeterminados
+const {
+  imageUrl,
+  count = 10,
+  baseSize = 50,
+  sizeVariation = 30,
+  containerWidth = "100%",
+  containerHeight = "100%",
+  alt = "Chip animado",
+  burstOnHover = true,
+  burstCount = 5,
+  mobileCount,
+  mobileBaseSize,
+  mobileContainerWidth,
+  mobileContainerHeight
+} = Astro.props;
+
+// Generar un número aleatorio entre min y max
+function random(min: number, max: number) {
+  return Math.random() * (max - min) + min;
+}
+
+// Estas variables se usarán en el script del cliente para aplicar los valores móviles cuando corresponda
+const desktopCount = count;
+const desktopBaseSize = baseSize;
+const desktopContainerWidth = containerWidth;
+const desktopContainerHeight = containerHeight;
+
+const mobileCountValue = mobileCount !== undefined ? mobileCount : Math.max(Math.floor(count * 0.6), 3); // 60% de chips en móvil o mínimo 3
+const mobileBaseSizeValue = mobileBaseSize !== undefined ? mobileBaseSize : Math.max(Math.floor(baseSize * 0.7), 30); // 70% del tamaño en móvil o mínimo 30px
+const mobileContainerWidthValue = mobileContainerWidth || containerWidth;
+const mobileContainerHeightValue = mobileContainerHeight || containerHeight;
+
+// Crear array para los chips iniciales (usamos el count para desktop por defecto)
+const chips = Array.from({ length: desktopCount }).map((_, i) => {
+  const size = desktopBaseSize * (1 - sizeVariation / 100 * random(0, 1));
+  const xPos = random(10, 90); // Posición horizontal (%)
+  const delay = random(0, 3); // Retraso aleatorio para la animación
+  const duration = random(2, 5); // Duración de la animación
+  const rotation = random(-30, 30); // Rotación inicial
+  
+  return {
+    id: `chip-${i}`,
+    size,
+    xPos,
+    delay,
+    duration,
+    rotation
+  };
+});
+
+// Crear array para los chips que aparecen al pasar el mouse (burst)
+const burstChips = Array.from({ length: burstCount }).map((_, i) => {
+  const size = desktopBaseSize * (1 - sizeVariation / 100 * random(0, 1));
+  const xPos = random(10, 90);
+  const delay = random(0, 1);
+  const duration = random(1.5, 3);
+  const rotation = random(-45, 45);
+  
+  return {
+    id: `burst-chip-${i}`,
+    size,
+    xPos,
+    delay,
+    duration,
+    rotation
+  };
+});
+---
+
+<div 
+  class="chips-container"
+  style={`width: ${containerWidth}; height: ${containerHeight};`}
+>
+  <!-- Chips iniciales -->
+  {chips.map(chip => (
+    <div 
+      class="chip"
+      style={`
+        --size: ${chip.size}px;
+        --x-pos: ${chip.xPos}%;
+        --delay: ${chip.delay}s;
+        --duration: ${chip.duration}s;
+        --rotation: ${chip.rotation}deg;
+      `}
+    >
+      <LazyImage
+        src={imageUrl} 
+        alt={alt} 
+        width={chip.size} 
+        height={chip.size} 
+        loading="lazy"
+      />
+    </div>
+  ))}
+  
+  <!-- Chips que aparecen al pasar el mouse (ocultos inicialmente) -->
+  {burstOnHover && burstChips.map(chip => (
+    <div 
+      class="chip burst-chip"
+      style={`
+        --size: ${chip.size}px;
+        --x-pos: ${chip.xPos}%;
+        --delay: ${chip.delay}s;
+        --duration: ${chip.duration}s;
+        --rotation: ${chip.rotation}deg;
+      `}
+    >
+      <LazyImage 
+        src={imageUrl} 
+        alt={alt} 
+        width={chip.size} 
+        height={chip.size} 
+        loading="lazy"
+      />
+    </div>
+  ))}
+</div>
+
+<script>
+  // Obtener referencias a los elementos
+  const chipsContainer = document.getElementById('chips-container');
+  const chips = document.querySelectorAll('.chip');
+  const burstChips = document.querySelectorAll('.burst-chip');
+  
+  // Valores de configuración para responsive
+  const desktopCount = {desktopCount};
+  const mobileCount = {mobileCountValue};
+  const desktopBaseSize = {desktopBaseSize};
+  const mobileBaseSize = {mobileBaseSizeValue};
+  const desktopContainerWidth = '{desktopContainerWidth}';
+  const mobileContainerWidth = '{mobileContainerWidthValue}';
+  const desktopContainerHeight = '{desktopContainerHeight}';
+  const mobileContainerHeight = '{mobileContainerHeightValue}';
+  
+  // Función para verificar si es dispositivo móvil (ancho < 768px)
+  function isMobile() {
+    return window.innerWidth < 768;
+  }
+  
+  // Función para aplicar configuración responsive
+  function applyResponsiveSettings() {
+    if (!chipsContainer) return;
+    
+    if (isMobile()) {
+      // Aplicar configuración móvil
+      chipsContainer.style.width = mobileContainerWidth;
+      chipsContainer.style.height = mobileContainerHeight;
+      
+      // Ajustar tamaño de los chips
+      document.querySelectorAll('.chip').forEach((chip, index) => {
+        if (index >= mobileCount) {
+          chip.style.display = 'none'; // Ocultar chips extras en móvil
+        } else {
+          chip.style.display = 'block';
+          const img = chip.querySelector('img');
+          if (img) {
+            // Usar el tamaño base móvil directamente
+            img.style.width = mobileBaseSizeValue + 'px';
+            img.style.height = mobileBaseSizeValue + 'px';
+          }
+        }
+      });
+    } else {
+      // Aplicar configuración desktop
+      chipsContainer.style.width = desktopContainerWidth;
+      chipsContainer.style.height = desktopContainerHeight;
+      
+      // Mostrar todos los chips en desktop y restaurar tamaño
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.style.display = 'block';
+        const img = chip.querySelector('img');
+        if (img) {
+          const baseSize = parseFloat(img.dataset.baseSize || desktopBaseSize);
+          img.style.width = baseSize + 'px';
+          img.style.height = baseSize + 'px';
+        }
+      });
+    }
+  }
+  
+  // Función para actualizar la imagen de los chips
+  window.updateChipsImage = function(newImageUrl) {
+    if (!newImageUrl) return;
+    
+    // Actualizar todas las imágenes de chips
+    document.querySelectorAll('.chip img, .burst-chip img').forEach(img => {
+      img.src = newImageUrl;
+    });
+  };
+  
+  // Usar IntersectionObserver para detectar cuando el contenedor está visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // Si el contenedor está visible, activar las animaciones
+      if (entry.isIntersecting) {
+        chips.forEach(chip => {
+          chip.classList.add('animate');
+        });
+      } else {
+        // Si no está visible, pausar las animaciones para ahorrar recursos
+        chips.forEach(chip => {
+          chip.classList.remove('animate');
+        });
+      }
+    });
+  });
+  
+  // Observar el contenedor de chips
+  if (chipsContainer) {
+    observer.observe(chipsContainer);
+    
+    // Agregar evento para activar el efecto burst al pasar el mouse
+    chipsContainer.addEventListener('mouseenter', () => {
+      burstChips.forEach(chip => {
+        // Resetear la animación para que se active nuevamente
+        chip.style.animation = 'none';
+        setTimeout(() => {
+          chip.style.animation = '';
+          chip.classList.add('animate');
+        }, 10);
+      });
+    });
+    
+    // Aplicar configuración responsive inicial
+    applyResponsiveSettings();
+    
+    // Actualizar cuando cambie el tamaño de la ventana
+    window.addEventListener('resize', applyResponsiveSettings);
+  }
+  
+  // Guardar el tamaño base de cada chip para referencia
+  document.querySelectorAll('.chip img').forEach(img => {
+    const width = img.style.width;
+    if (width) {
+      img.dataset.baseSize = parseFloat(width);
+    }
+  });
+</script>
+
+<style>
+  .chips-container {
+    position: relative;
+    overflow: hidden;
+    pointer-events: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .chip {
+    position: absolute;
+    bottom: 0; /* Empezar desde el fondo */
+    left: var(--x-pos);
+    width: var(--size);
+    height: var(--size);
+    transform: rotate(var(--rotation));
+    opacity: 1; /* Visible desde el inicio */
+    will-change: transform, opacity;
+    pointer-events: none;
+    animation: floatUp var(--duration) ease-out var(--delay) infinite;
+  }
+  
+  .chip img,
+  .chip :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+  
+  /* Chips que aparecen al pasar el mouse */
+  .burst-chip {
+    opacity: 0;
+    animation: none; /* Sin animación hasta que se active */
+  }
+  
+  /* Activar chips burst al pasar el mouse */
+  .hover .burst-chip.active {
+    animation: burstUp var(--duration) ease-out var(--delay) forwards;
+  }
+  
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) rotate(var(--rotation));
+      opacity: 0.2;
+      bottom: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 0.9;
+    }
+    75% {
+      opacity: 0.6;
+    }
+    85% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(-100%) rotate(calc(var(--rotation) * 1.5));
+      opacity: 0;
+      bottom: 100%;
+    }
+  }
+  
+  @keyframes burstUp {
+    0% {
+      transform: translateY(50px) rotate(var(--rotation));
+      opacity: 0;
+      bottom: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-150px) rotate(calc(var(--rotation) * 2));
+      opacity: 0;
+      bottom: 100%;
+    }
+  }
+</style>

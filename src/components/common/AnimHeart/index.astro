@@ -1,4 +1,6 @@
 ---
+import LazyImage from '../LazyImage.astro';
+
 // AnimHeart component - Creates floating heart particles animation
 interface Props {
   count?: number; // Number of heart particles (keep this low for performance)
@@ -44,7 +46,7 @@ const hearts = Array.from({ length: count }).map((_, i) => {
         transform: translateX(${heart.horizontalMovement}px);
       `}
     >
-      <img 
+      <LazyImage 
         src="https://snack.yummiespromociones.com/snacksyummies/heart-icon.webp" 
         alt="Heart" 
         width="${heart.size}" 

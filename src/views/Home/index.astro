@@ -15,6 +15,7 @@ import NewProductsCarousel from '../../components/common/NewProductsCarousel/ind
 import SimpleProductCarousel from '../../components/common/SimpleProductCarousel/index.astro';
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import AnimHeart from '../../components/common/AnimHeart/index.astro';
+import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -46,6 +47,8 @@ t('chips', { locale: currentLang }) || {};
 
 // Cargar productos nuevos con validación
 const newProducts = t('products', { namespace: 'newproducts', locale: currentLang }) || [];
+
+// Los datos de marcas ya están definidos más abajo
 
 const validProducts = Array.isArray(newProducts) ? newProducts : [];
 
@@ -232,7 +235,24 @@ const slides = Array.isArray(commonAssets)
           ))}
         </div>
       </div>
-      <div id="previewbrand" class="mt-6 md:mt-0  md:w-1/2 flex items-center justify-center md:order-1">
+      <div id="previewbrand" class="mt-6 md:mt-0 md:w-1/2 flex items-center justify-center md:order-1 relative">
+        <div id="floating-images-container" class="absolute inset-0 z-10 pointer-events-none overflow-visible">
+          <ChipsFromBag 
+            imageUrl={brands[0].imageChip1}
+            count={20}
+            baseSize={100}
+            sizeVariation={40}
+            containerWidth="80%"
+            containerHeight="60%"
+            alt="Chip flotante"
+            burstOnHover={true}
+            burstCount={8}
+            mobileCount={10}
+            mobileBaseSize={3}
+            mobileContainerWidth="90vw"
+            mobileContainerHeight="50vh"
+          />
+        </div>
         <LazyImage
           id="brand-preview-img"
           src={brands[0].image}
@@ -247,11 +267,27 @@ const slides = Array.isArray(commonAssets)
         />
       </div>
     </div>
-    <script is:inline>
-      // Función global para actualizar la imagen de preview
+    <script define:vars={{brands}}>
+      // Exponer los datos de las marcas para JavaScript
+      window.brandsData = brands.map(brand => ({
+        title: brand.title,
+        image: brand.image,
+        imageMobile: brand.imageMobile,
+        imageChip1: brand.imageChip1,
+        imageChip2: brand.imageChip2,
+        imageChip3: brand.imageChip3,
+        imageChip4: brand.imageChip4
+      }));
+
+      // Función global para actualizar la imagen de preview y los chips
       function updateBrandPreview(imageUrl, mobileImageUrl, title) {
         const previewImg = document.getElementById('brand-preview-img');
         const previewImgMobile = document.getElementById('brand-preview-img-mobile');
+        
+        // Obtener la marca seleccionada por su imagen
+        const selectedBrand = Array.from(document.querySelectorAll('.logo-brand')).find(logo => {
+          return logo.getAttribute('data-image') === imageUrl;
+        });
         
         if (previewImg) {
           previewImg.src = imageUrl;
@@ -259,9 +295,28 @@ const slides = Array.isArray(commonAssets)
         }
         
         if (previewImgMobile) {
-          // Use the provided mobile image URL directly
           previewImgMobile.src = mobileImageUrl;
           previewImgMobile.alt = title || '';
+        }
+        
+        // Actualizar la imagen de los chips
+        if (selectedBrand) {
+          // Encontrar el índice de la marca seleccionada
+          const brandIndex = Array.from(document.querySelectorAll('.logo-brand')).indexOf(selectedBrand);
+          
+          // Actualizar el componente ChipsFromBag con la nueva imagen
+          const chipsContainer = document.getElementById('floating-images-container');
+          if (chipsContainer && brandIndex !== -1 && window.brandsData && window.brandsData[brandIndex]) {
+            const brandData = window.brandsData[brandIndex];
+            if (brandData && brandData.imageChip1) {
+              // Actualizar todas las imágenes de chips
+              const chipImages = chipsContainer.querySelectorAll('.chip img');
+              chipImages.forEach(img => {
+                img.src = brandData.imageChip1;
+                img.alt = brandData.title || 'Chip flotante';
+              });
+            }
+          }
         }
       }
       
