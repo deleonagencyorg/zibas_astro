@@ -12,11 +12,12 @@ export interface SocialMedia {
 export interface Props {
   currentLang: Locale;
   iconColor?: string;
+  iconSize?: number; // New prop for icon size
   centered?: boolean;
   class?: string;
 }
 
-const { currentLang, iconColor = "white", centered = false, class: className = '' } = Astro.props;
+const { currentLang, iconColor = "white", iconSize = 24, centered = false, class: className = '' } = Astro.props;
 
 // Determinar las clases de alineación basadas en la propiedad centered
 const alignmentClasses = centered 
@@ -43,10 +44,10 @@ const socialMedia = socialMediaObj ? Object.values(socialMediaObj) as SocialMedi
         <LazyImage
           src={sm.iconUrl}
           alt={sm.alt || sm.name}
-          class="h-6 w-6"
+          style={`height: ${iconSize}px; width: ${iconSize}px;`}
           color={iconColor}
-          width={24}
-          height={24}
+          width={iconSize}
+          height={iconSize}
           loading="lazy"
         />
       )}

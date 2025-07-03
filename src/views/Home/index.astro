@@ -14,6 +14,7 @@ import './styles.css';
 import NewProductsCarousel from '../../components/common/NewProductsCarousel/index.astro';
 import SimpleProductCarousel from '../../components/common/SimpleProductCarousel/index.astro';
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
+import AnimHeart from '../../components/common/AnimHeart/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -309,32 +310,35 @@ const slides = Array.isArray(commonAssets)
     
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-        <div class="hidden md:flex items-center justify-center">
-          <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/corazones1.webp" alt="Social Media" class="w-[90%]  mb-4"/>
+        <div class="flex items-center justify-center ">
+          
         </div>
-        <div class="flex flex-col items-center justify-center">
-        
-           
-            <p class="text-primary text-center pt-4 font-title uppercase font-bold md:text-[8rem] text-[6rem]">{homeAssets.socialmedia.title}</p>
-            <p class="text-white text-center font-title uppercase font-bold text-[3rem] md:mt-[-3rem] mt-[-2rem] bg-red  px-6 rounded-full">{homeAssets.socialmedia.tagtitle}</p>
+        <div class="flex flex-col items-center justify-center relative">
+        <div class="absolute inset-0 z-0 mt-[-2rem]">
+          <AnimHeart count={20} containerClass="h-[50vh] w-full " />
+        </div>
+          
+        <p class="text-primary text-center pt-4 font-title uppercase font-bold md:text-[8rem] text-[6rem] z-10">{homeAssets.socialmedia.title}</p>
+        <p class="text-white text-center font-title uppercase font-bold text-[3rem] md:mt-[-3rem] mt-[-2rem] bg-red  px-6 rounded-full z-10">{homeAssets.socialmedia.tagtitle}</p>
+
           <SocialMediaIcons 
           currentLang={currentLang} 
           iconColor='#0A3D7E' 
+          iconSize={42} 
           centered={true}
-          class="mt-4 w-full" 
+          class="mt-4 w-full z-10" 
         />
-        <p class="text-primary text-center pt-4">{homeAssets.socialmedia.newsletter}</p>
+        <p class="text-primary text-center pt-4 z-10">{homeAssets.socialmedia.newsletter}</p>
           <Newsletter 
             placeholder={homeAssets.newsletter.placeholder}
             buttonText={homeAssets.newsletter.buttonText}
             centered={true}
-            class="mt-4 w-full mb-4"
+            class="mt-4 w-full mb-4 z-10"
           />
-         
-
+           
         </div>
         <div class="hidden md:flex items-center justify-center">
-          <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/corazone2.webp" alt="Social Media" class="w-[90%] mb-4"/>
+         
         </div>
       </div>
       
