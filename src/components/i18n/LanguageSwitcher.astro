@@ -14,7 +14,8 @@ const routeTranslations = {
   'recetas': 'recipes',
   'productos': 'products',
   'noticias': 'news',
-  'contacto': 'contact'
+  'contacto': 'contact',
+  'marcas': 'brands'
   // Agregar más rutas según sea necesario
 };
 
@@ -25,7 +26,11 @@ const currentRoute = pathParts.slice(1).join('/');
 
 // Función para obtener la ruta traducida
 const getTranslatedPath = (targetLocale: Locale) => {
-  if (currentRoute === '') return `/${targetLocale}`;
+  const pathParts = currentPath.split('/').filter(Boolean);
+  const currentRoute = pathParts.slice(1).join('/');
+  
+  // Para la ruta raíz (/es o /en)
+  if (pathParts.length <= 1) return `/${targetLocale}`;
   
   // Si estamos en una ruta mapeada, traducirla
   const translatedRoute = Object.entries(routeTranslations).reduce(

@@ -1,0 +1,134 @@
+.new-products-carousel-3d {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.product-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 280px;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #0A3D7E;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 10px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #E63946;
+  margin-top: auto;
+}
+
+.no-products {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .product-card {
+    width: 240px;
+    height: 340px;
+  }
+  
+  .product-image-container {
+    height: 180px;
+  }
+  
+  .product-title {
+    font-size: 1rem;
+  }
+  
+  .product-description {
+    font-size: 0.8rem;
+  }
+}
+
+/* Override 3d-react-carousal styles for better integration */
+.react-3d-carousel .slider-container .slider-content .slider-single {
+  opacity: 0.5;
+  transition: opacity 0.4s ease;
+}
+
+.react-3d-carousel .slider-container .slider-content .slider-single.active {
+  opacity: 1;
+}
+
+.react-3d-carousel .slider-container .slider-left div,
+.react-3d-carousel .slider-container .slider-right div {
+  background-color: rgba(10, 61, 126, 0.7) !important;
+  color: white !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-3d-carousel .slider-container .slider-left div:hover,
+.react-3d-carousel .slider-container .slider-right div:hover {
+  background-color: rgba(10, 61, 126, 1) !important;
+}

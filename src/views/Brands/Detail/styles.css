@@ -1,0 +1,35 @@
+.brand-detail-container {
+  min-height: 100vh;
+}
+
+.brand-hero {
+  padding: 3rem 0;
+}
+
+.brand-logo {
+  max-width: 300px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.05);
+}
+
+.brand-chip {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.brand-chip:hover {
+  transform: translateY(-5px);
+}
+
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

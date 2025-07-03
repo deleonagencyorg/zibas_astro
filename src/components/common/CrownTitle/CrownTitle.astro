@@ -1,0 +1,28 @@
+---
+// CrownTitle.astro - Component for titles with crown decoration
+import { generalAssets } from '../../../config/assets';
+import LazyImage from '../LazyImage.astro';
+import './styles.css';
+
+interface Props {
+  text: string;
+  className?: string;
+}
+
+const { text, className = '' } = Astro.props;
+---
+
+<div class="crown-title-container">
+  <LazyImage
+    src={generalAssets.coronaIcon} 
+    alt="Crown decoration" 
+    class="crown-icon"
+    width="34"
+    height="34"
+  />
+  <h1 class={`text-8xl font-bold mb-4 font-title text-primary ${className}`}>
+    {text}
+  </h1>
+</div>
+
+<script src="./script.js"></script>

@@ -8,6 +8,28 @@
 /* Estilos para el header fijo */
 #site-header {
   transition: background-color 0.3s ease;
+  z-index: 50;
+}
+
+/* Estilos para el header móvil */
+@media (max-width: 768px) {
+  #site-header .mobile-nav {
+    position: relative;
+    z-index: 60;
+  }
+
+  #site-header .logo-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  #site-header .menu-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 1rem;
+  }
 }
 
 /* Estilos para los enlaces del menú */
@@ -40,11 +62,20 @@
 /* Animación para el menú móvil */
 #mobile-menu {
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
 }
 
 #mobile-menu:not(.hidden) {
   opacity: 1;
   visibility: visible;
+  display: block;
 }
 
 #mobile-menu.hidden {

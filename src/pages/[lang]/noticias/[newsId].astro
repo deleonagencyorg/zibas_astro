@@ -2,40 +2,40 @@
 // src/pages/[lang]/noticias/[newsId].astro
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
-import NewsDetail from '../../../views/News/Detail/index.astro';
+import BlogDetail from '../../../views/Blog/Detail/index.astro';
 
 export function getStaticPaths() {
-  // Obtener todos los idiomas y noticias disponibles
+  // Obtener todos los idiomas y entradas de blog disponibles
   const locales = ['es'];
   const paths = [];
 
   for (const locale of locales) {
-    // Obtener noticias para este idioma
-    const news = t('items', { namespace: 'news', locale: locale as Locale }) || [];
-    console.log(`Encontradas ${news.length} noticias para idioma ${locale}`);
+    // Obtener entradas de blog para este idioma
+    const blogPosts = t('items', { namespace: 'news', locale: locale as Locale }) || [];
+    console.log(`Encontradas ${blogPosts.length} entradas de blog para idioma ${locale}`);
     
-    // Para cada noticia, crear una ruta
-    for (const newsItem of news) {
+    // Para cada entrada de blog, crear una ruta
+    for (const blogPost of blogPosts) {
       paths.push({
-        params: { lang: locale, newsId: newsItem.id },
-        props: { newsItem, currentLang: locale }
+        params: { lang: locale, newsId: blogPost.id },
+        props: { blogPost, currentLang: locale as Locale }
       });
     }
   }
 
-  console.log(`Generadas ${paths.length} rutas de noticias en español`);
+  console.log(`Generadas ${paths.length} rutas de blog en español`);
   return paths;
 }
 
-const { newsItem, currentLang } = Astro.props;
+const { blogPost, currentLang } = Astro.props;
 const { lang, newsId } = Astro.params;
 
 // Establecer el idioma para las traducciones
-setLocale(lang as Locale);
+setLocale(currentLang);
 
-console.log(`Renderizando noticia: ${newsId} en idioma: ${lang}`);
+console.log(`Renderizando blog: ${newsId} en idioma: ${lang}`);
 ---
 
-<MainLayout title={newsItem.title}>
-  <NewsDetail currentLang={currentLang} newsId={newsId} />
+<MainLayout title={blogPost.title}>
+  <BlogDetail blogPost={blogPost} currentLang={currentLang} />
 </MainLayout>

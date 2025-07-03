@@ -1,0 +1,117 @@
+---
+import LazyImage from '../LazyImage.astro';
+
+// AnimHeart component - Creates floating heart particles animation
+interface Props {
+  count?: number; // Number of heart particles (keep this low for performance)
+  duration?: number; // Animation duration in seconds
+  minSize?: number; // Minimum starting size in pixels
+  maxSize?: number; // Maximum ending size in pixels
+  containerClass?: string; // Additional classes for container
+}
+
+const { 
+  count = 8, // Reduced default count for better performance
+  duration = 6, // Increased duration for smoother appearance
+  minSize = 10,
+  maxSize = 40,
+  containerClass = ""
+} = Astro.props;
+
+// Generate optimized set of hearts with staggered delays
+const hearts = Array.from({ length: count }).map((_, i) => {
+  // Stagger delays evenly across hearts for continuous effect
+  const delay = (i / count) * duration;
+  // Distribute horizontally with some randomness
+  const left = 10 + (Math.random() * 80); // Keep away from edges (10%-90%)
+  // Vary sizes slightly
+  const size = minSize + Math.floor(Math.random() * 8);
+  // Add slight horizontal movement
+  const horizontalMovement = -5 + (Math.random() * 10); // -5px to +5px
+  
+  return { delay, left, size, horizontalMovement };
+});
+---
+
+<div class={`anim-heart-container relative overflow-hidden ${containerClass}`}>
+  {hearts.map((heart) => (
+    <div 
+      class="anim-heart absolute bottom-0 pointer-events-none will-change-transform"
+      style={`
+        left: ${heart.left}%; 
+        width: ${heart.size}px; 
+        height: ${heart.size}px;
+        animation-delay: ${heart.delay}s;
+        animation-duration: ${duration}s;
+        transform: translateX(${heart.horizontalMovement}px);
+      `}
+    >
+      <LazyImage 
+        src="https://snack.yummiespromociones.com/snacksyummies/heart-icon.webp" 
+        alt="Heart" 
+        width="${heart.size}" 
+        height="${heart.size}" 
+        loading="lazy"
+        class="w-full h-full object-contain"
+      />
+    </div>
+  ))}
+</div>
+
+<style>
+  .anim-heart-container {
+    min-height: 200px;
+    contain: strict; /* Improve performance by isolating the animation */
+  }
+  
+  .anim-heart {
+    animation: float-up-fade-out linear infinite;
+    will-change: transform, opacity;
+    /* Use hardware acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  @keyframes float-up-fade-out {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1; /* Increased opacity */
+    }
+    30% {
+      opacity: 0.9;
+    }
+    60% {
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-200px) scale(2.5);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Use requestAnimationFrame for smoother animation
+  // This helps optimize the animation performance
+  document.addEventListener('DOMContentLoaded', () => {
+    const hearts = document.querySelectorAll('.anim-heart');
+    
+    // Check if the browser supports Intersection Observer
+    if ('IntersectionObserver' in window) {
+      // Only animate hearts when they're visible in viewport
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+          } else {
+            entry.target.style.animationPlayState = 'paused';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      hearts.forEach(heart => {
+        observer.observe(heart);
+      });
+    }
+  });
+</script>

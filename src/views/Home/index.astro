@@ -1,30 +1,72 @@
 <!-- src/views/Home/index.astro -->
 ---
 import LazyImage from '../../components/common/LazyImage.astro';
-import { t, getLocale } from '../../i18n/i18n';
+import { t } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import { getLocale } from '../../i18n/i18n';
 import Carousel from '../../components/common/Carousel/index.astro';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
+import RecipesCarousel from '../../components/recipes/RecipesCarousel.astro';
+import Newsletter from '../../components/common/Newsletter/index.astro';
+import FloatingChip from '../../components/common/FloatingChip/index.astro';
+import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.astro';
 import './styles.css';
+import NewProductsCarousel from '../../components/common/NewProductsCarousel/index.astro';
+import SimpleProductCarousel from '../../components/common/SimpleProductCarousel/index.astro';
+import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
+import AnimHeart from '../../components/common/AnimHeart/index.astro';
+import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
+import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
 
-// Obtener idioma actual
-const currentLang = getLocale();
-// Precargar namespaces
-t('common', { locale: currentLang });
-t('recipes', { locale: currentLang });
-t('news', { locale: currentLang });
-t('products', { locale: currentLang });
+// Add styles for active brand logo
+const activeLogoStyles = `
+  .active-brand {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 10;
+    border-width: 4px !important;
+  }
+`;
 
 export interface Props {
-  currentLang: string;
   loading?: boolean;
 }
-
 const { loading = false } = Astro.props;
-const spotifyAssets = t('home.spotify', { namespace: 'common', locale: currentLang }) || {};
+
+// Obtener idioma actual y exportarlo para que esté disponible en el template
+const currentLang = getLocale();
+
+// Precargar namespaces con validación
+t('common', { locale: currentLang }) || {};
+t('recipes', { locale: currentLang }) || {};
+t('news', { locale: currentLang }) || {};
+t('products', { locale: currentLang }) || {};
+t('newproducts', { locale: currentLang }) || {};
+t('brands', { locale: currentLang }) || {};
+t('contentN', { locale: currentLang }) || {};
+t('chips', { locale: currentLang }) || {};
+
+
+// Cargar productos nuevos con validación
+const newProducts = t('products', { namespace: 'newproducts', locale: currentLang }) || [];
+
+// Los datos de marcas ya están definidos más abajo
+
+const validProducts = Array.isArray(newProducts) ? newProducts : [];
+
+const chips = t('chips', { namespace: 'newproducts', locale: currentLang }) || [];
+const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
+
+const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
-const deliveryAssets = t('home.delivery', { namespace: 'common', locale: currentLang }) || {};
-console.log('spotifyAssets', spotifyAssets)
+
+// Obtener las imágenes de máscara del slider desde los archivos de idioma (desktop y mobile)
+const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
+const sliderMaskMobile = t('assets.slidermaskmobile', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp';
+
+// Obtener productos para el ca rusel orbital
+
+
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
 const slides = Array.isArray(commonAssets) 
   ? commonAssets
@@ -32,7 +74,7 @@ const slides = Array.isArray(commonAssets)
     .map(asset => ({
       desktop: asset.desktop,
       mobile: asset.mobile,
-      alt: asset.alt || 'Taqueritos',
+      alt: asset.alt || 'Snacks Yummies',
       title: asset.title || '',
       subtitle: asset.description || '',
       link: asset.url || asset.link || ''
@@ -43,117 +85,368 @@ const slides = Array.isArray(commonAssets)
 
 ---
 
-  <main class="w-full flex flex-col items-center justify-center">
-    <!-- Slider Section -->
-    <div class="w-full flex justify-center">
-      <Carousel slides={slides} />
-    </div>
-    
-    <!-- Preconnect to Spotify for faster loading -->
-    <link rel="preconnect" href="https://open.spotify.com" />
-    
-    <!-- Spotify Section -->
-    <section id="spotify" class="w-full py-12 flex flex-col items-center justify-center" style="margin-top: -1rem;" transition:animate="fade">
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
-        <div class="w-full md:w-1/2 flex justify-center items-center gap-8">
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/notamusical1.webp" alt="Spotify Listen In" class="w-8 object-cover object-center"/>
-          <h2 class="text-4xl font-normal text-center text-white">TAQUE MUSIC</h2>
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/notamusical2.webp" alt="Spotify Listen In" class="w-8 object-cover object-center"/>
-        </div>
-        <div class="w-full md:w-1/2 flex justify-center items-center">
-          <LazyImage src={spotifyAssets.listen_in_spotify} alt="Spotify Listen In" class="w-64 object-cover object-center"/>
-        </div>
+  <main class="w-full flex flex-col items-center justify-center mt-0">
+    <!-- Slider Section con máscara -->
+    <div class="relative w-full overflow-hidden max-w-[100vw]">
+      <!-- Título superpuesto posicionado a la izquierda y centrado verticalmente -->
+      <div class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
+        <LazyImage 
+          src="https://snack.yummiespromociones.com/snacksyummies/Header-Title.webp" 
+          alt="Título decorativo" 
+          class="md:w-40 lg:w-80 object-cover object-center" 
+        />
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-6 md:gap-20 px-8">
-        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
-          <div class="spotify-skeleton w-[295px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
-          <iframe loading="lazy" data-src="https://open.spotify.com/embed/show/74U81Bi7EbCWN7AOtVvTaU?si=dd28c5c6af7f4258" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" class="hidden"></iframe>
-          <p class="py-6" >
-            <a href="https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1" target="_blank" rel="noopener noreferrer">
-              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
-            </a>
-          </p>
+      
+      <!-- Máscara PNG superpuesta (cambia según el idioma y dispositivo) -->
+      <div class="absolute inset-0 z-10 pointer-events-none w-screen left-0 right-0">
+        <!-- Imágen para desktop -->
+        <img src={sliderMask} alt="Máscara decorativa" class="hidden md:block w-full h-full object-cover object-center" />
+        <!-- Imágen para móvil -->
+        <img src={sliderMaskMobile} alt="Máscara decorativa" class="md:hidden w-full h-full object-cover object-center" />
+      </div>
+      
+      <!-- Slider posicionado más a la derecha en desktop, full width en móvil -->
+      <div class="relative z-0 w-full md:w-[80%] md:ml-auto">
+        <Carousel slides={slides} />
+       
+      </div>
+
+      
+    </div>
+  
+    <!-- Sección de Carrusel Orbital de Productos -->
+    <section id="new-products" class="w-full  bg-gradient-to-b from-secondary to-blue-700 relative pb-8 ">
+      <div class="container mx-auto px-4">
+        <FloatingChip
+                      src={chips[0]}
+                      alt="Chip"
+                      size="2xl"
+                      position="top: 25%; left: 15%;"
+                      mobilePosition="top: 25%; left: 15%;"
+                      animationDuration={15}
+                    />
+                    <FloatingChip
+                    src={chips[1]}
+                    alt="Chip"
+                    size="2xl"
+                    position="top: 25%; left: 25%;"
+                    animationDuration={15}
+                  />
+                  <FloatingChip
+                    src={chips[2]}
+                    alt="Chip"
+                    size="2xl"
+                    position="top: 25%; left: 60%;"
+                    animationDuration={15}
+                  />
+                  <FloatingChip
+                  src={chips[3]}
+                  alt="Chip"
+                  size="4xl"
+                  position="top: 75%; right: 15%;"
+                  mobilePosition="top: 75%; right: 7%;"
+                  animationDuration={15}
+                />
+                <FloatingChip
+                src={chips[4]}
+                alt="Chip"
+                size="2xl"
+                position="top: 75%; right: 50%;"
+                mobilePosition="top: 95%; right: 75%;"
+                animationDuration={15}
+              />
+              <FloatingChip
+                src={chips[5]}
+                alt="Chip"
+                size="xl"
+                position="top: 65%; right: 75%;"
+                mobilePosition="top: 95%; right: 75%;"
+                animationDuration={15}
+              />
+        <!-- Top floating chips -->
+        
+        
+        <div class="mb-8 p-4 relative">
+          <div class="flex flex-col items-center">
+            <div class="relative">
+              <span class="inline-block md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[3rem] md:-translate-x-[4rem] translate-y-[-1rem] md:translate-y-[-1rem]">
+                {homeAssets.new_products.tagtitle}</span>
+              <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center mt-[1rem] md:mt-0">{homeAssets.new_products.title}</h2>
+            </div>
+          </div>
         </div>
-        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
-          <div class="spotify-skeleton w-full max-w-[295px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
-          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/1ol88nHjokvzBvWgCkBDi9?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
-          <p class="py-6" >
-            <a href="https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9" target="_blank" rel="noopener noreferrer">
-              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
-            </a>
-          </p>
-        </div>
-        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
-          <div class="spotify-skeleton w-full max-w-[300px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
-          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/3EkdIhlaXStL5aYJPn0lmY?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
-          <p class="py-6">
-            <a href="https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY" target="_blank" rel="noopener noreferrer">
-              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
-            </a>
-          </p>
-        </div>
-        <div class="flex-1 min-w-[250px] w-[250px] md:w-[295px] flex flex-col items-center justify-center">
-          <div class="spotify-skeleton w-full max-w-[300px] h-[380px] bg-gray-200 rounded-lg mb-4"></div>
-          <iframe loading="lazy" data-src="https://open.spotify.com/embed/playlist/0LkNti3jTDqdFODqfI6F3j?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="hidden"></iframe>
-          <p class="py-6">
-            <a href="https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j" target="_blank" rel="noopener noreferrer">
-              <LazyImage src={spotifyAssets.button_listen_now} alt="Spotify Logo" class="md:w-56 w-48" />
-            </a>
-          </p>
+        
+        <!-- Base image positioned behind carousel -->
+    
+        
+        <!-- Original Carousel -->
+        <!-- <NewProductsCarousel products={validProducts} className="z-1" /> -->
+        
+        <!-- Simple Product Carousel -->
+        <SimpleProductCarousel 
+          products={validProducts}
+          class="z-10 w-full max-w-5xl mx-auto my-8 relative md:mt-[-4rem]"
+        />
+        <!-- Bottom floating chips -->
+        <div id="base" class="w-full flex items-center justify-center absolute z-0">
+          <div class="md:w-[60%] w-full mx-auto">
+            <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/basenewproducts.webp" alt="Base de productos nuevos" 
+            class="w-full translate-y-[-12rem] md:translate-y-[-18rem]" />
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Delivery Section -->
-    <!-- {getLocale() === 'es' && (
-      <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
-        <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
-          <div class="w-full md:w-1/2 flex justify-center items-center gap-8">
-            <LazyImage src={deliveryAssets.delivery_icon_left} alt="Taqueritos Delivery" class="md:w-90 w-90 object-cover object-center"/>
+    <!-- Sección de recetas con carrusel -->
+    <!-- <section id="recipes" class="w-full py-12" transition:animate="slide">
+     <div class="container mx-auto px-4">
+        <h2 class="text-6xl  font-sans font-semibold text-center md:text-left text-white mb-8">{recipesAssets.title}</h2>
+        <div class=" mx-auto md:w-[70%]">
+          <RecipesCarousel recipes={recipeItems} textButton={recipesAssets.view_more} />
+        </div>
+      </div>
+    </section> -->
+
+    <div class="w-full  bg-blue-700">
+      <svg width="100vw" height="57" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1442 57H0C99.3333 38 380 0 708 0C1036 0 1334 38 1442 57Z"/>
+      </svg> 
+    </div>
+  <section id="brands" class="w-full mt-[-2rem] ">
+    <div class="container mx-auto my-8 px-6 md:mx-0 uppercase ">
+      <CrownTitle text={homeAssets.brands.title} transition:name="brands-title" />
+    </div>
+    <div class="md:flex md:items-center md:justify-between mt-[2rem]md:mt-[0rem] ">
+      <div id="logosbrands" class="md:w-1/2 flex flex-col px-4 md:px-0 items-center justify-center md:order-2 ">
+        <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
+          {brands.map((brand, index) => (
+            <div 
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm hover:shadow-md"
+              style={{ backgroundColor: brand.bgColor }}
+              data-image={brand.image}
+              data-image-mobile={brand.imageMobile}
+              data-title={brand.title}
+              onclick={`updateBrandPreview('${brand.image}', '${brand.imageMobile}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
+            >
+              <LazyImage
+                src={brand.logo}
+                alt={brand.title}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div id="previewbrand" class="mt-6 md:mt-0 md:w-1/2 flex items-center justify-center md:order-1 relative">
+        <div id="floating-images-container" class="absolute inset-0 z-10 pointer-events-none overflow-visible">
+          <ChipsFromBag 
+            imageUrl={brands[0].imageChip1}
+            count={20}
+            baseSize={100}
+            sizeVariation={40}
+            containerWidth="80%"
+            containerHeight="60%"
+            alt="Chip flotante"
+            burstOnHover={true}
+            burstCount={8}
+            mobileCount={10}
+            mobileBaseSize={3}
+            mobileContainerWidth="90vw"
+            mobileContainerHeight="50vh"
+          />
+        </div>
+        <LazyImage
+          id="brand-preview-img"
+          src={brands[0].image}
+          alt={brands[0].title}
+          class="hidden md:block w-full h-auto object-contain transition-opacity duration-300"
+        />
+        <LazyImage
+          id="brand-preview-img-mobile"
+          src={brands[0].imageMobile}
+          alt={brands[0].title}
+          class="md:hidden w-full h-auto object-contain transition-opacity duration-300"
+        />
+      </div>
+    </div>
+    <script define:vars={{brands}}>
+      // Exponer los datos de las marcas para JavaScript
+      window.brandsData = brands.map(brand => ({
+        title: brand.title,
+        image: brand.image,
+        imageMobile: brand.imageMobile,
+        imageChip1: brand.imageChip1,
+        imageChip2: brand.imageChip2,
+        imageChip3: brand.imageChip3,
+        imageChip4: brand.imageChip4
+      }));
+
+      // Función global para actualizar la imagen de preview y los chips
+      function updateBrandPreview(imageUrl, mobileImageUrl, title) {
+        const previewImg = document.getElementById('brand-preview-img');
+        const previewImgMobile = document.getElementById('brand-preview-img-mobile');
+        
+        // Obtener la marca seleccionada por su imagen
+        const selectedBrand = Array.from(document.querySelectorAll('.logo-brand')).find(logo => {
+          return logo.getAttribute('data-image') === imageUrl;
+        });
+        
+        if (previewImg) {
+          previewImg.src = imageUrl;
+          previewImg.alt = title || '';
+        }
+        
+        if (previewImgMobile) {
+          previewImgMobile.src = mobileImageUrl;
+          previewImgMobile.alt = title || '';
+        }
+        
+        // Actualizar la imagen de los chips
+        if (selectedBrand) {
+          // Encontrar el índice de la marca seleccionada
+          const brandIndex = Array.from(document.querySelectorAll('.logo-brand')).indexOf(selectedBrand);
+          
+          // Actualizar el componente ChipsFromBag con la nueva imagen
+          const chipsContainer = document.getElementById('floating-images-container');
+          if (chipsContainer && brandIndex !== -1 && window.brandsData && window.brandsData[brandIndex]) {
+            const brandData = window.brandsData[brandIndex];
+            if (brandData && brandData.imageChip1) {
+              // Actualizar todas las imágenes de chips
+              const chipImages = chipsContainer.querySelectorAll('.chip img');
+              chipImages.forEach(img => {
+                img.src = brandData.imageChip1;
+                img.alt = brandData.title || 'Chip flotante';
+              });
+            }
+          }
+        }
+      }
+      
+      // Function to highlight the selected brand logo
+      function highlightSelectedBrand(element, bgColor) {
+        // Remove highlight from all logos
+        const allLogos = document.querySelectorAll('.logo-brand');
+        allLogos.forEach(logo => {
+          logo.style.borderColor = 'transparent';
+          logo.style.transform = 'scale(1)';
+          logo.classList.remove('active-brand');
+        });
+        
+        // Add highlight to the selected logo
+        element.style.borderColor = bgColor;
+        element.style.borderOpacity = '0.3';
+        element.style.transform = 'scale(1.1)';
+        element.classList.add('active-brand');
+      }
+      
+      // Initialize the first brand as selected when the page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        const firstBrand = document.querySelector('.logo-brand');
+        if (firstBrand) {
+          const bgColor = firstBrand.style.backgroundColor;
+          highlightSelectedBrand(firstBrand, bgColor);
+        }
+      });
+      
+      // Asegurarse de que la función esté disponible globalmente
+      window.updateBrandPreview = updateBrandPreview;
+      window.highlightSelectedBrand = highlightSelectedBrand;
+    </script>
+   
+        
+       
+      </div>
+    </div>
+  </section>
+
+  <!-- <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
+
+  </section> -->
+
+  <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
+    
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <div class="hidden md:flex flex-col items-center justify-center ">
+          <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[0].url}   width="250px"
+          height="250px"
+          className="z-0 mb-4" />
+
+          <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[1].url}   width="250px"
+          height="250px"
+          className="z-10 mt-4 translate-y-[-6rem] translate-x-[2rem]" />
+        </div>
+        <div class="flex flex-col items-center justify-center relative md:w-full w-11/12 md:mx-auto">
+        <div class="absolute inset-0 z-0 mt-[-2rem]">
+          <AnimHeart count={20} containerClass="h-[50vh] w-full " />
+        </div>
+          
+        <p class="text-primary text-center pt-4 font-title uppercase font-bold md:text-[8rem] text-[6rem] z-10">{homeAssets.socialmedia.title}</p>
+        <p class="text-white text-center font-title uppercase font-bold text-[3rem] md:mt-[-3rem] mt-[-2rem] bg-red  px-6 rounded-full z-10">{homeAssets.socialmedia.tagtitle}</p>
+
+          <SocialMediaIcons 
+          currentLang={currentLang} 
+          iconColor='#0A3D7E' 
+          iconSize={42} 
+          centered={true}
+          class="mt-4 w-full z-10" 
+        />
+        <p class="text-primary text-center pt-4 z-10">{homeAssets.socialmedia.newsletter}</p>
+          <Newsletter 
+            placeholder={homeAssets.newsletter.placeholder}
+            buttonText={homeAssets.newsletter.buttonText}
+            centered={true}
+            class="mt-4 w-full mb-4 z-10"
+          />
+           
+        </div>
+        <div class="hidden md:flex flex-col items-center justify-center ">
+          <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[2].url}   width="250px"
+          height="250px"
+          className="z-0 mb-4" />
+
+          <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[3].url}   width="250px"
+          height="250px"
+          className="z-10 mt-4 translate-y-[-6rem] translate-x-[-2rem]" />
+        </div>
+      </div>
+      
+     
+    </div>
+
+  </section>
+  <div class=" bg-tertiary">
+    <svg width="100vw" height="150" viewBox="0 0 100vw 150" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1442 0H0C99.3333 16.6667 380 50 708 50C1036 50 1334 16.6667 1442 0Z" fill="#91CAE9"/>
+    </svg>
+  </div>
+
+    <section id="quiz" class="mt-[-100px] w-full h-auto flex flex-col items-center justify-center bg-tertiary py-12" transition:animate="slide">
+      <div class="container mx-auto px-4">
+        
+        
+        <div class="flex flex-col md:flex-row w-full gap-4 md:gap-8">
+          <!-- Primer contenedor - Izquierda en desktop, arriba en mobile -->
+          <div class="w-full md:w-1/2  p-8 flex items-center justify-center md:min-h-[300px]">
+            <div class="text-center">
+              <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/quizilustration.webp" alt='Quiz' class="w-full h-full object-cover object-center"/>
+            </div>
+          </div>
+          
+          <!-- Segundo contenedor - Derecha en desktop, abajo en mobile -->
+          <div class="w-full md:w-1/2 md:p-8 p-0 flex items-center justify-center md:min-h-[300px] ">
+            <div class="text-center">
+              <LazyImage src={homeAssets.quiz.title} alt='Quiz' class="w-full h-full object-cover object-center"/>
+              <p class="text-white  text-xl py-4 mb-6">{homeAssets.quiz.description}</p>
+             
+              <p>  <a href={homeAssets.quiz.urlButton} class="bg-white text-primary font-bold py-2 px-8 rounded-full">{homeAssets.quiz.button}</a></p>
+            </div>
           
           </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
-            <div class="flex flex-col md:flex-row items-center md:items-end gap-4 mb-2">
-              <div class="flex flex-col items-center md:hidden">
-                <LazyImage src={deliveryAssets.delivery_icon_right} alt="Taqueritos Delivery" class="w-20 object-cover object-center"/>
-                <h2 class="text-4xl font-normal text-center text-white">TAQUERITOS</h2>
-              </div>
-              <div class="hidden md:flex items-end gap-4">
-                <h2 class="text-4xl font-normal text-left text-white">TAQUERITOS</h2>
-                <LazyImage src={deliveryAssets.delivery_icon_right} alt="Taqueritos Delivery" class="w-20 object-cover object-center"/>
-              </div>
-            </div>
-            <h2 class="text-4xl font-normal text-center md:text-left text-white">A LA PUERTA DE TU CASA</h2>
-            <p class="w-full md:w-[80%] text-lg font-normal text-center text-white py-6">El servicio de delivery de PedidosYa se encuentra disponible únicamente para el área de Tegucigalpa</p>
-            <div class="flex flex-row items-center gap-4 mb-2">
-              <a href="https://hugoapp.app.link/tsGW7qeq55?_p=c11c36dc990560eee31d88e3e9b4b8" target="_blank" rel="noopener noreferrer">
-                <LazyImage src={deliveryAssets.hugo_app_icon} alt="Taqueritos por Hugo App" class="w-20 object-cover object-center"/>
-              </a>
-              <a href="https://hugoapp.app.link/tsGW7qeq55?_p=c11c36dc990560eee31d88e3e9b4b8" target="_blank" rel="noopener noreferrer" class="px-6 py-2 bg-white text-purple-600 font-medium rounded-full shadow-md hover:bg-blue-100 transition-colors duration-300 flex items-center justify-center">
-                <span class="mr-2">Comprar ahora</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
-            <div class="flex flex-row items-center gap-4 mb-2">
-              <a href="https://play.google.com/store/apps/details?id=io.beanar.ocho&hl=es_GT&gl=US" target="_blank" rel="noopener noreferrer">
-                <LazyImage src={deliveryAssets.ocho_app_icon} alt="Taqueritos por Ocho App" class="w-20 object-cover object-center"/>
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=io.beanar.ocho&hl=es_GT&gl=US" target="_blank" rel="noopener noreferrer" class="px-6 py-2 bg-white text-orange-600 font-medium rounded-full shadow-md hover:bg-blue-100 transition-colors duration-300 flex items-center justify-center">
-                <span class="mr-2">Comprar ahora</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
-            
-          </div>
         </div>
-      </section>
-    )} -->
+      </div>
+    </section>
 
-  <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
+  <!-- <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-4">
         <div class="flex flex-row items-center gap-8">
@@ -204,7 +497,7 @@ const slides = Array.isArray(commonAssets)
         
     
     </div>
-  </section>
+  </section> -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
         const observer = new IntersectionObserver((entries) => {

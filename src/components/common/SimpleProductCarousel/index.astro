@@ -1,0 +1,35 @@
+---
+import SimpleProductCarouselReact from './index.jsx';
+
+export interface Props {
+  products: Array<{
+    id?: string;
+    title?: string;
+    image: string;
+    alt?: string;
+    description?: string;
+    link?: string;
+  }>;
+  class?: string;
+}
+
+const { 
+  products, 
+  class: className = ''
+} = Astro.props;
+---
+
+<div class={className}>
+  <SimpleProductCarouselReact 
+    client:only="react"
+    products={products} 
+  />
+</div>
+
+<!-- Font Awesome CSS for carousel arrows -->
+<link 
+  rel="stylesheet" 
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+  crossorigin="anonymous"
+/>

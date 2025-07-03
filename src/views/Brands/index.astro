@@ -1,0 +1,303 @@
+---
+// src/views/Brands/index.astro
+import LazyImage from '../../components/common/LazyImage.astro';
+import { t } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import { getLocale } from '../../i18n/i18n';
+import BrandCardSkeleton from '../../components/brands/BrandCardSkeleton.astro';
+import SkeletonLoader from '../../components/common/SkeletonLoader.astro';
+import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
+import FloatingChip from '../../components/common/FloatingChip/index.astro';
+import './styles.css';
+
+// Definir transiciones para elementos clave
+import { fade } from 'astro:transitions';
+const fadeTransition = fade({ duration: '300ms' });
+
+const currentLang = getLocale();
+
+// Estado de carga para mostrar skeletons
+let isLoading = true;
+let loadError = false;
+
+// Intentar cargar datos con manejo de errores
+let brandsData = [];
+let pageTitle = '';
+let pageDescription = '';
+let homeAssets:any = [];
+
+try {
+  // Cargar datos de marcas
+  brandsData = t('brands', { namespace: 'brands', locale: currentLang }) || [];
+  homeAssets = t('home', { namespace: 'brands', locale: currentLang }) || [];
+  
+  // Cargar título y descripción
+  pageTitle = t('home.title', { namespace: 'brands' }) || 'Marcas';
+  pageDescription = t('home.description', { namespace: 'brands' }) || 'Nuestras marcas';
+  
+  isLoading = false;
+} catch (error) {
+  console.error('Error al cargar datos de marcas:', error);
+  brandsData = [];
+  pageTitle = currentLang === 'es' ? 'Marcas' : 'Brands';
+  pageDescription = currentLang === 'es' ? 'Nuestras marcas' : 'Our brands';
+  loadError = true;
+  isLoading = false;
+}
+
+// Número de skeletons a mostrar durante la carga
+const skeletonCount = 3;
+---
+
+<div class="brands-container bg-white">
+  <div class="container mx-auto px-4 md:py-8 py-0">
+    <Breadcrumb bgColor="bg-primary" textColor="text-gray-900" hoverColor="hover:text-gray-900" />
+  </div>
+  <header class="brands-header text-center md:py-8 py-0" transition:animate={fadeTransition}>
+    <CrownTitle text={pageTitle} transition:name="brands-title" />
+    
+    <div class="brands-carousel-container relative w-full my-8">
+      <!-- Botones de navegación -->
+      <button class="carousel-nav carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar bg-white">
+        {isLoading ? (
+          <div class="brands-icons-row flex items-center gap-4 py-4">
+            {Array(6).fill(0).map((_, i) => (
+              <div class="brand-icon-circle flex-shrink-0 bg-gray-100">
+                <SkeletonLoader width="64px" height="64px" circle={true} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="brands-icons-row flex items-center gap-4 py-4">
+            {brandsData.map((brand: any) => (
+              <a 
+                href={`#${brand.slug}`} 
+                class="brand-icon-circle flex-shrink-0" 
+                style={`background-color: ${brand.bgColor || '#ffffff'}`}
+                aria-label={`Ir a ${brand.title}`}
+              >
+                <LazyImage
+                  src={brand.logo} 
+                  alt={brand.title} 
+                  class="w-16 md:w-32 h-16 md:h-32 object-contain"
+                  transition:name={`brand-icon-${brand.id}`}
+                />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      
+      <button class="carousel-nav carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </header>
+</div>
+
+<div class="container mx-auto px-4 mt-[-2rem]">
+  <div class="brands-list">
+    {isLoading ? (
+      // Mostrar skeletons durante la carga
+      Array(skeletonCount).fill(0).map(() => (
+        <BrandCardSkeleton />
+      ))
+    ) : loadError ? (
+      // Mostrar mensaje de error si falla la carga
+      <div class="error-message p-8 text-center bg-red-50 rounded-lg">
+        <p class="text-red-600 text-xl">No se pudieron cargar las marcas. Por favor, intenta de nuevo más tarde.</p>
+      </div>
+    ) : (
+      // Mostrar datos reales cuando estén disponibles
+      brandsData.map((brand: any, index: number) => (
+        <div id={brand.slug} class="brand-card relative flex items-center mt-[-2rem]">
+          <div class="brand-card-bg" style={`background-color: ${brand.bgColor || '#ffffff'}`}></div>
+          <!-- Mobile chip images positioned at brand card corners -->
+          {brand.imageChip1 && (
+            <FloatingChip
+              src={brand.imageChip1}
+              alt="Chip"
+              size="lg"
+              position="top: 10%; left: 10%;"
+              animationDuration={10}
+              class="chip-mobile chip-top-left"
+            />
+          )}
+          {brand.imageChip2 && (
+            <FloatingChip
+              src={brand.imageChip2}
+              alt="Chip"
+              size="xl"
+              position="top: 10%; right: 10%;"
+              animationDuration={12}
+              class="chip-mobile chip-top-right"
+            />
+          )}
+          {brand.imageChip3 && (
+            <FloatingChip
+              src={brand.imageChip3}
+              alt="Chip"
+              size="lg"
+              position="bottom: 10%; left: 10%;"
+              animationDuration={9}
+              class="chip-mobile chip-bottom-left"
+            />
+          )}
+          {brand.imageChip4 && (
+            <FloatingChip
+              src={brand.imageChip4}
+              alt="Chip"
+              size="xl"
+              position="bottom: 10%; right: 10%;"
+              animationDuration={11}
+              class="chip-mobile chip-bottom-right"
+            />
+          )}
+          
+          <div class="container mx-auto px-4 py-8 relative">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+              <div id="info-brand" class={`md:w-1/2 order-2 md:order-${index % 2 === 0 ? '1' : '2'} flex items-center justify-center`}>
+                <div class="brand-logo-container relative">
+                  {/* Desktop chip images positioned around the logo */}
+                  {brand.imageChip1 && (
+                    <FloatingChip
+                      src={brand.imageChip1}
+                      alt="Chip"
+                      size="2xl"
+                      position="top: -5%; left: -5%;"
+                      animationDuration={15}
+                      class="chip-desktop chip-top-left"
+                    />
+                  )}
+                  {brand.imageChip2 && (
+                    <FloatingChip
+                      src={brand.imageChip2}
+                      alt="Chip"
+                      size="xl"
+                      position="top: -5%; right: -5%;"
+                      animationDuration={17}
+                      class="chip-desktop chip-top-right"
+                    />
+                  )}
+                  {brand.imageChip3 && (
+                    <FloatingChip
+                      src={brand.imageChip3}
+                      alt="Chip"
+                      size="xl"
+                      position="bottom: -5%; left: -5%;"
+                      animationDuration={16}
+                      class="chip-desktop chip-bottom-left"
+                    />
+                  )}
+                  {brand.imageChip4 && (
+                    <FloatingChip
+                      src={brand.imageChip4}
+                      alt="Chip"
+                      size="2xl"
+                      position="bottom: -5%; right: -5%;"
+                      animationDuration={18}
+                      class="chip-desktop chip-bottom-right"
+                    />
+                  )}
+                  
+                  <div id="brand-logo" class="flex flex-col items-center z-10 relative">
+                    <LazyImage
+                      src={brand.logo}
+                      alt={brand.title}
+                      transition:name={`brand-image-${brand.id}`}
+                    />
+                    {!brand.url || brand.url === '#' ? null : (
+                      <a 
+                        href={brand.url}
+                        class="inline-block bg-white border border-primary text-primary hover:bg-primary hover:text-white py-2 px-6 rounded-full transition-colors duration-300 mt-6"
+                      >
+                        {homeAssets.textButton}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <div id="product-image-brand" class={`md:w-1/2 order-1 md:order-${index % 2 === 0 ? '2' : '1'} mb-6 md:mb-0 flex items-center justify-center product-preview-container`}>
+                <div class="products-carousel" id={`products-carousel-${brand.id}`}>
+                  <div class="products-carousel-inner">
+                    {brand.products && brand.products.length > 0 ? (
+                      brand.products.map((product: any, productIndex: number) => (
+                        <div class="product-slide" id={`${brand.id}-product-${productIndex}`} data-valid="true">
+                          <LazyImage 
+                          id={`product-${brand.id}-${productIndex}`}
+                            src={product.image} 
+                            alt={product.title} 
+                            class="product-preview-image"
+                            onload="this.parentNode.dataset.loaded = 'true'"
+                            onerror="this.parentNode.dataset.valid = 'false'; this.parentNode.style.display = 'none';"
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <div class="product-slide" data-valid="true">
+                        <LazyImage 
+                          src={brand.imageProductPreview || brand.image} 
+                          alt={brand.title} 
+                          class="product-preview-image"
+                          transition:name={`brand-image-${brand.id}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {brand.products && brand.products.length > 1 && (
+                    <div class="products-carousel-nav">
+                      <button class="prev-product" aria-label="Producto anterior">&lt;</button>
+                      <button class="next-product" aria-label="Siguiente producto">&gt;</button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Decorative elements like triangles and chips based on the reference image -->
+        </div>
+      ))
+    )}
+    </div> 
+  </div>
+</div>
+
+<!-- Cargar scripts para la funcionalidad de la página -->
+<script src="./scripts.js"></script>
+
+<!-- Precargar imágenes críticas para mejorar el rendimiento -->
+<script>
+  // Función para precargar imágenes
+  function preloadImages(sources: string[]): void {
+    sources.forEach((src: string) => {
+      if (!src) return;
+      const img = new Image();
+      img.src = src;
+    });
+  }
+
+  // Precargar logos de marcas (solo los primeros 3 para no sobrecargar)
+  document.addEventListener('astro:page-load', () => {
+    // Obtener los primeros logos visibles
+    const visibleLogos = Array.from(document.querySelectorAll('.brand-icon-circle img'))
+      .slice(0, 3)
+      .map(img => img.getAttribute('src'))
+      .filter((src): src is string => Boolean(src));
+    
+    // Precargar imágenes
+    if (visibleLogos.length > 0) {
+      preloadImages(visibleLogos);
+    }
+  });
+</script>

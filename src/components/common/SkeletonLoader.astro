@@ -1,0 +1,28 @@
+---
+interface Props {
+  width?: string;
+  height?: string;
+  className?: string;
+  rounded?: boolean;
+  circle?: boolean;
+}
+
+const { 
+  width = '100%', 
+  height = '100%', 
+  className = '', 
+  rounded = false,
+  circle = false
+} = Astro.props;
+
+const baseClasses = "animate-pulse bg-gradient-to-r from-gray-200 to-gray-300";
+const roundedClasses = rounded ? "rounded-lg" : "";
+const circleClasses = circle ? "rounded-full" : "";
+---
+
+<div 
+  class:list={[baseClasses, roundedClasses, circleClasses, className]} 
+  style={`width: ${width}; height: ${height};`}
+  aria-hidden="true"
+>
+</div>

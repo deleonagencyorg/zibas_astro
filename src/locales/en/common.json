@@ -2,7 +2,7 @@
   "meta": {
     "home": {
       "title": "Home",
-      "description": "Live your wildest moments and enjoy the intense flavor experience that Taqueritos offers you. Click to learn more about our events."
+      "description": "Snacks Yummies, the leading snack brand in Central America. Enjoy the unmatched quality and flavor of our products. Learn more here!"
     },
     "contact": {
       "title": "Contact",
@@ -19,6 +19,10 @@
     "products": {
       "title": "Products",
       "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
+    },
+    "brands": {
+      "title": "Brands",
+      "description": "Explore our family of brands. Each with its own unique flavor and personality."
     }
   },
   "countries": {
@@ -38,21 +42,27 @@
   "social_media": {
     "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/taqueritosusa/",
-      "alt": "Taqueritos Facebook",
-      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-facebook.svg"
+      "url": "https://www.facebook.com/SnacksYummies",
+      "alt": "Facebook de Snacks Yummies",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/taqueritosusa/",
-      "alt": "Taqueritos Instagram",
-      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-instagram.svg"
+      "url": "https://www.instagram.com/snacksyummies/",
+      "alt": "Instagram de Taqueritos",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@taqueritosusa",
-      "alt": "Taqueritos TikTok",
-      "iconUrl": "https://snack.yummiespromociones.com/taqueritos/icons8-tiktok.svg"
+      "url": "https://www.tiktok.com/@snacksyummies",
+      "alt": "TikTok de Taqueritos",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
+    },
+    "x": {
+      "name": "X",
+      "url": "https://x.com/SnacksYummies",
+      "alt": "X de Snacks Yummies",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/x.svg"
     }
   },
   
@@ -66,24 +76,36 @@
   "assets": {
     "logo": "/images/en/logo.svg",
     "hero": "/images/en/hero.jpg",
+    "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
+    "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner-home-en.webp",
-        "alt": "Taqueritos",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": "/en/products"
+        "link": "http://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies"
+      },
+
+      {
+        "id": "slide4",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
+        "alt": "",
+        "title": "",
+        "description": "",
+        "link": "https://taqueritos.com"
       },
       {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "mobile": "https://snack.yummiespromociones.com/taqueritos/banner_chile_toreado_en.webp",
-        "alt": "Chile Toreado",
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
+        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
+        "alt": "",
         "title": "",
         "description": "",
-        "link": "/en/products/chile-toreado"
+        "link": "https://www.zambos.com"
       }
     ],
     "products": [
@@ -107,90 +129,80 @@
   },
   "menu_items": [
     {
-      "id": "recipes",
-      "text": "Recipes",
-      "href": "/en/recipes"
-    },
-    {
-      "id": "products",
-      "text": "Products",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "taqueritoschiletoreado",
-          "text": "Taqueritos Chile Toreado",
-          "href": "/en/products/taqueritos-chile-toreado"
-        },
-        {
-          "id": "taqueritosdragondehielo",
-          "text": "Taqueritos Dragon Ice",
-          "href": "/en/products/taqueritos-dragon-de-hielo"
-        },
-        {
-          "id": "taqueritosdragondelfuego",
-          "text": "Taqueritos Dragon Fire",
-          "href": "/en/products/taqueritos-dragon-de-fuego"
-        }
-      ]
-    },
-    {
-      "id": "entertainment",
-      "text": "Entertainment",
-      "href": "#",
-      "submenu": [
-        {
-          "id": "music",
-          "text": "Music",
-          "href": "",
-          "submenu": [
-            {
-              "id": "nochegaming",
-              "text": "Gaming Night",
-              "href": "https://open.spotify.com/playlist/1ol88nHjokvzBvWgCkBDi9?si=7f3173d8d90e49f5&nd=1"
-            },
-            {
-              "id": "palosintensos",
-              "text": "For The Intense Ones",
-              "href": "https://open.spotify.com/playlist/0LkNti3jTDqdFODqfI6F3j?si=5adf77b78f744a6b&nd=1"
-            },
-            {
-              "id": "aexplorar",
-              "text": "To Explore",
-              "href": "https://open.spotify.com/playlist/3EkdIhlaXStL5aYJPn0lmY?si=d00dc827295345c1&nd=1"
-            }
-          ]
-        },
-        {
-          "id": "podcast",
-          "text": "Podcast",
-         "href": "",
-          "submenu": [
-            {
-              "id": "compartetupasionbytaqueritos",
-              "text": "Share Your Passion for Taqueritos",
-              "href": "https://open.spotify.com/show/74U81Bi7EbCWN7AOtVvTaU?si=421241783ab142e4&nd=1"
-            }
-          ]
-        }
-      ]
+      "id": "brands",
+      "text": "Brands",
+      "href": "/en/brands"
     },
     {
       "id": "recipes",
       "text": "Recipes",
-      "href": "/en/recipes"
+      "href": "#"
+    },
+    {
+      "id": "blog",
+      "text": "Blog",
+      "href": "/en/blog"
     },
     {
       "id": "contact",
       "text": "Contact",
-      "href": "https://www.snacksyummies.com/en/contact/"
+      "href": "#"
+    }
+    ,
+    {
+      "id": "find-us",
+      "text": "Find Us",
+      "href": "@"
     }
   ],
   "home": {
+    "brands":{
+      "title":"Brands"
+    },
+    "new_products":{
+      "tagtitle":"New",
+      "title":"Products"
+    },
+    "preview_brand":{
+      "button":"View brand",
+      "title":"Our brands"
+    },
+    "newsletter":{
+      "placeholder":"email@email.com",
+      "buttonText":"Subscribe"
+    },
+    "socialmedia":{
+      "title":"Follow us",
+      "tagtitle":"on social media",
+      "description":"Follow us on our social media - Snacks Yummies",
+      "newsletter":"Subscribe to our newsletter full of flavor",
+      "instagramLinks":[
+        {
+          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
+        },
+        {
+          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
+        }
+      ]
+    },
+    "quiz":{
+      "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
+      "description":"Discover how to make your days more Yummies",
+      "button":"Make Quiz",
+        "urlButton":"/es/marcas"
+      
+    },
     "spotify":{
       "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-_1_2-2-768x116.avif",
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
     },
-    "title": "Taqueritos - Authentic Mexican Food",
+    "title": " Snacks Yummies -  Authentic Mexican Food",
     "subtitle": "Enjoy the best tacos and Mexican dishes",
     "cta_text": "View Menu",
     "cta_link": "menu",
@@ -208,6 +220,24 @@
   "footer": {
     "privacy_policy_text": "Privacy Policy",
     "privacy_policy_url": "/en/privacy-policy",
-    "copyright": "Taqueritos {year}. All Rights Reserved"
-  }
+    "copyright": "Yummies {year}. All Rights Reserved",
+    "address": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa, Tegucigalpa, Honduras",
+    "phone": "(504) 2275-3370",
+    "hours": "8:00 a.m. - 5:00 p.m.",
+    "newsletter_title": "Get the crunchiest news with our newsletter",
+    "newsletter_placeholder": "youremail@email.com",
+    "newsletter_button": "Subscribe"
+  },
+  "messagetop":[
+    {
+      "id":"1",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
+      "link":""
+    },
+    {
+      "id":"2",
+      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
+      "link":""
+    }
+  ]
 }

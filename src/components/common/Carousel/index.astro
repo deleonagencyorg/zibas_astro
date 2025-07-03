@@ -18,21 +18,13 @@ export interface Props {
 const { slides = [], loading = false } = Astro.props;
 
 // Log de depuración
-console.log('Carousel Props:', {
-  slides: slides,
-  loading: loading,
-  slidesCount: slides.length
-});
+
 
 // Identificar la primera imagen para cargarla con prioridad
 const firstSlide = slides[0] || {};
 
 // Log del primer slide
-if (firstSlide.desktop) {
-  console.log('First Slide:', firstSlide);
-} else {
-  console.warn('No slides available or first slide is incomplete');
-}
+
 
 // Opcional: Precargar la primera imagen para mejorar el LCP
 const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
@@ -69,6 +61,12 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
           }
         });
         
+        const prevButton = document.querySelector('.swiper-button-prev');
+        const nextButton = document.querySelector('.swiper-button-next');
+        
+        if (prevButton) prevButton.addEventListener('click', () => swiper.slidePrev());
+        if (nextButton) nextButton.addEventListener('click', () => swiper.slideNext());
+        
         window.addEventListener('load', () => swiper.update());
       } catch (error) {
         console.error('Error al inicializar Swiper:', error);
@@ -98,7 +96,7 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
             slide={{
               desktop: slide.desktop,
               mobile: slide.mobile,
-              alt: slide.alt || 'Taqueritos',
+              alt: slide.alt || 'Snacks Yummies',
               title: slide.title || '',
               subtitle: slide.subtitle || '',
               link: slide.link || ''

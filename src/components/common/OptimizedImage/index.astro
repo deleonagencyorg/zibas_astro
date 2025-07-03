@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import SkeletonLoader from '../SkeletonLoader/index.astro';
+
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  decoding?: 'sync' | 'async' | 'auto';
+}
+
+const { 
+  src, 
+  alt, 
+  width = 800, 
+  height = 600, 
+  class: className = '',
+  sizes = '(max-width: 768px) 100vw, 800px',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  decoding = 'async'
+} = Astro.props;
+
+// Check if the image is remote (starts with http or https)
+const isRemoteImage = src.startsWith('http');
+---
+
+<div class="optimized-image-container relative">
+  <!-- Skeleton loader that will be hidden when image loads -->
+  <div class="skeleton-wrapper absolute inset-0 z-10 transition-opacity duration-300">
+    <SkeletonLoader 
+      width="100%" 
+      height="100%" 
+      animation="shimmer" 
+      className="rounded-md"
+    />
+  </div>
+
+  {isRemoteImage ? (
+    <!-- For remote images, use standard img tag with loading optimization -->
+    <img 
+      src={src} 
+      alt={alt}
+      width={width}
+      height={height}
+      class:list={["w-full h-auto transition-opacity duration-300 opacity-0", className]}
+      sizes={sizes}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding={decoding}
+      onload="this.classList.remove('opacity-0'); this.previousElementSibling.classList.add('opacity-0');"
+    />
+  ) : (
+    <!-- For local images, use Astro's Image component -->
+    <Image 
+      src={src} 
+      alt={alt}
+      width={width}
+      height={height}
+      class:list={["w-full h-auto transition-opacity duration-300 opacity-0", className]}
+      sizes={sizes}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding={decoding}
+      onload="this.classList.remove('opacity-0'); this.previousElementSibling.classList.add('opacity-0');"
+    />
+  )}
+</div>
+
+<style>
+  .optimized-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .skeleton-wrapper.opacity-0 {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>

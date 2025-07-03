@@ -43,6 +43,13 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.products.title',
     metaDescriptionKey: 'meta.products.description',
   },
+  {
+    id: 'brands',
+    slugs: { es: 'marcas', en: 'brands' },
+    contentComponent: '@/views/Brands/index.astro',
+    metaTitleKey: 'meta.brands.title',
+    metaDescriptionKey: 'meta.brands.description',
+  },
   // ... Agrega más rutas aquí
 ];
 

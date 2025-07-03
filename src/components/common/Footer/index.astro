@@ -1,10 +1,12 @@
 ---
 // src/components/common/Footer/index.astro
 import { t, type Locale } from '../../../i18n/i18n';
-import { logos} from '../../../config/assets';
-import LocalizedImage from '../LazyImage.astro';
+import { logos, generalAssets } from '../../../config/assets';
 import './styles.css';
 import Skeleton from './Skeleton.astro';
+import LazyImage from '../LazyImage.astro';
+import Newsletter from '../Newsletter/index.astro';
+import SocialMediaIcons from '../SocialMediaIcons/index.astro';
 
 export interface Props {
   currentLang: Locale;
@@ -13,84 +15,104 @@ export interface Props {
 
 const { currentLang, loading = false } = Astro.props;
 
-// Obtener los datos de social media (url y alt) desde los archivos de traducción
-const socialMedia = t('social_media', { namespace: 'common', locale: currentLang });
-
 const currentYear = new Date().getFullYear();
 
-interface MenuItem {
-  id: string;
-  text: string;
-  href: string;
-  submenu?: MenuItem[]; // Aunque no lo usemos para renderizar, la estructura lo tiene
-}
-
-const itemsFromT = t('menu_items', { namespace: 'common', locale: currentLang });
-const footerNavLinks: MenuItem[] = Array.isArray(itemsFromT) ? itemsFromT : [];
-
-// Obtener la etiqueta 'Explorar' de las nuevas menu_labels
-const exploreLabel = t('menu_labels.explore', { namespace: 'common', locale: currentLang }) || 'Explore';
-
+// Obtener textos del footer desde los archivos de traducción
 const privacyPolicyText = t('footer.privacy_policy_text', { namespace: 'common', locale: currentLang });
 const privacyPolicyUrl = t('footer.privacy_policy_url', { namespace: 'common', locale: currentLang });
 const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang }).replace('{year}', currentYear.toString());
+const address = t('footer.address', { namespace: 'common', locale: currentLang });
+const phone = t('footer.phone', { namespace: 'common', locale: currentLang });
+const hours = t('footer.hours', { namespace: 'common', locale: currentLang });
+const newsletterTitle = t('footer.newsletter_title', { namespace: 'common', locale: currentLang });
+const newsletterPlaceholder = t('footer.newsletter_placeholder', { namespace: 'common', locale: currentLang });
+const newsletterButton = t('footer.newsletter_button', { namespace: 'common', locale: currentLang });
 ---
 
 {loading ? (
   <Skeleton />
 ) : (
-  <footer class="bg-black text-white pt-12 pb-8 px-4 sm:px-6 lg:px-8 font-sans">
+  <footer class="bg-cuaternary text-white py-8 px-4 sm:px-6 lg:px-8 font-sans">
     <div class="container mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
-        <!-- Logo -->
-        <div class="flex justify-center md:justify-start mb-8 md:mb-0">
-          <a href={`/${currentLang}/`} class="font-sans">
-            <img src={logos.principal.url} alt={logos.principal.alt || 'Taqueritos Logo'} class="h-12 lg:h-14 w-auto" />
-          </a>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Orden de columnas en mobile controlado con order-* -->
+        <!-- Columna 1: Información de contacto (segundo en mobile) -->
+        <div class="flex flex-col items-start md:items-start items-center space-y-4 order-2 md:order-1">
+          <div class="flex items-center md:items-start space-x-2 justify-center md:justify-start">
+            <LazyImage
+              src={generalAssets.locationIcon}
+              alt="Ubicación"
+              class="h-5 w-5 flex-shrink-0 mt-0.5"
+              color="white"
+              width={20}
+              height={20}
+            />
+            <span>{address}</span>
+          </div>
+          <div class="flex items-center space-x-2 justify-center md:justify-start">
+            <LazyImage
+              src={generalAssets.phoneIcon}
+              alt="Teléfono"
+              class="h-5 w-5 flex-shrink-0"
+              color="white"
+              width={20}
+              height={20}
+            />
+            <span>{phone}</span>
+          </div>
+          <div class="flex items-center space-x-2 justify-center md:justify-start">
+            <LazyImage
+              src={generalAssets.timeIcon}
+              alt="Horario"
+              class="h-5 w-5 flex-shrink-0"
+              color="white"
+              width={20}
+              height={20}
+            />
+            <span>{hours}</span>
+          </div>
         </div>
 
-        <!-- Navegación del Footer -->
-        <nav class="col-span-1 md:col-span-1 flex flex-col items-center mb-8 md:mb-0">
-          <h3 class="text-lg font-sans font-semibold mb-3 uppercase text-center">{exploreLabel}</h3>
-          <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center md:gap-x-6">
-            {footerNavLinks.map(item => (
-              <a href={item.href} class="text-sm font-sans hover:text-gray-300 transition-colors mb-2 md:mb-0 text-center">{item.text}</a>
-            ))}
+        <!-- Columna 2: Logo, política de privacidad y copyright (tercero en mobile) -->
+        <div class="flex flex-col items-center space-y-4 order-3 md:order-2">
+          <a href={`/${currentLang}/`} class="mb-2">
+            <img src={logos.principal.url} alt={logos.principal.alt || 'Yummies Logo'} class="h-16 w-auto mx-auto" />
+          </a>
+          <div>
+            <a href={privacyPolicyUrl} class="text-sm hover:underline">{privacyPolicyText}</a>
           </div>
-        </nav>
+          <div class="text-xs opacity-80">
+            {copyrightText}
+          </div>
+        </div>
 
-        <!-- Redes Sociales -->
-        <div class="col-span-1 md:col-span-1 flex flex-col items-center md:items-end space-y-4">
-          <div class="flex space-x-4 mb-4 social-links">
-            {socialMedia && Array.isArray(socialMedia) && socialMedia.map((sm) => {
-              return (
-                <a href={sm.url} target="_blank" rel="noopener noreferrer" title={sm.name} class="text-white hover:text-gray-300">
-                  <span class="sr-only">{sm.name}</span>
-                  {sm.iconUrl && (
-                    <img
-                      src={sm.iconUrl}
-                      alt={sm.alt || sm.name}
-                      class="h-5 w-5 filter invert"
-                      width={20}
-                      height={20}
-                      loading="lazy"
-                    />
-                  )}
-                </a>
-              );
-            })}
+        <!-- Columna 3: Newsletter y redes sociales (primero en mobile) -->
+        <div class="flex flex-col items-center md:items-start w-full order-1 md:order-3">
+          <!-- Redes Sociales -->
+          <div class="mb-4">
+            <SocialMediaIcons 
+              currentLang={currentLang} 
+              iconColor="white"
+              centered={false} 
+            />
           </div>
+          <!-- Newsletter -->
+          <Newsletter 
+            title={newsletterTitle}
+            placeholder={newsletterPlaceholder} 
+            buttonText={newsletterButton}
+            centered={false}
+          />
         </div>
       </div>
-
-      <!-- Sección inferior centrada -->
-      <div class="border-t border-gray-700 pt-8 flex flex-col items-center text-sm text-center">
-        <div class="mb-2">
-          <a href={privacyPolicyUrl} class="font-sans hover:text-gray-300 transition-colors">{privacyPolicyText}</a>
+      
+      <!-- Sección inferior: Política de privacidad (mobile) y copyright -->
+      <div class="flex flex-col items-center text-center text-sm pt-4  border-opacity-20">
+        <!-- Política de privacidad (solo visible en mobile) -->
+        <div class="md:hidden mb-2">
+          <a href={privacyPolicyUrl} class="hover:underline">{privacyPolicyText}</a>
         </div>
-        <div class="text-gray-400 font-sans copyright">
-          {copyrightText}
-        </div>
+        
       </div>
     </div>
   </footer>

@@ -1,0 +1,205 @@
+---
+import Layout from '../../../layouts/MainLayout.astro';
+import Header from '../../../components/common/Header/index.astro';
+import Footer from '../../../components/common/Footer/index.astro';
+import { type Locale, t } from '../../../i18n/i18n';
+import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+import BlogDetailSkeleton from '../../../components/blog/BlogDetailSkeleton.astro';
+import { fade, slide } from 'astro:transitions';
+import LazyImage from '../../../components/common/LazyImage.astro';
+
+interface Props {
+  blogPost: {
+    id: string;
+    slug: string;
+    title: string;
+    content: string;
+    image: string;
+    author: string;
+    published_date: string;
+  };
+  currentLang: Locale;
+  allBlogPosts?: Array<{
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    image: string;
+    published_date: string;
+  }>;
+  isLoading?: boolean;
+}
+
+const { blogPost, currentLang, allBlogPosts = [], isLoading = false } = Astro.props;
+
+// Filter out the current blog post and get up to 4 suggested posts
+const suggestedPosts = allBlogPosts
+  .filter(post => post.id !== blogPost.id)
+  .slice(0, 4);
+
+// Get the appropriate title based on language
+const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
+---
+
+<Layout title="Blog Detail" class="bg-white" description="Blog post details">
+  <slot />
+  
+  <!-- Hero Image -->
+  <div class="hero-container">
+    <div class="hero-image"></div>
+  </div>
+  
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    {isLoading
+      ? <BlogDetailSkeleton />
+      : <>
+          <Breadcrumb bgColor="bg-white" textColor="text-gray-500" hoverColor="hover:text-primary" />
+          <div class="w-full mx-auto my-6">
+            <div class="mb-8">
+            
+         
+              <h1 class="font-sans text-3xl font-bold mb-4" transition:name={`blog-title-${blogPost.id}`}>{blogPost.title}</h1>
+            </div>
+            
+            <div class="blog-image-container w-full mb-8 rounded-lg overflow-hidden text-center" transition:animate={slide({ duration: '0.3s' })}>
+              <LazyImage
+                src={blogPost.image} 
+                alt={blogPost.title}
+                class="md:w-[500px] w-[100%] object-cover" 
+                transition:name={`blog-image-${blogPost.id}`}
+                loading="lazy"
+              />
+            </div>
+            
+            <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg " transition:animate={fade({ duration: '0.5s' })}>
+              <Fragment set:html={blogPost.content} />
+            </div>
+          </div>
+          
+          {suggestedPosts.length > 0 && (
+            <section class="mt-16 mb-12" transition:animate={fade({ duration: '0.7s' })}>
+              <h2 class="text-gray-700 font-title text-4xl md:text-6xl font-bold text-left mb-8">{readMoreTitle}</h2>
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-7xl">
+                {suggestedPosts.map((post) => (
+                  <BlogCard 
+                    image={post.image}
+                    title={post.title}
+                    id={post.id}
+                    slug={post.slug || post.id}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
+    }
+  </div>
+  
+</Layout>
+
+<style>
+  .hero-container {
+    width: 100%;
+    max-height: 300px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 300px;
+    background-image: url('https://snack.yummiespromociones.com/snacksyummies/bgondas.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-image {
+      height: 200px;
+    }
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .max-w-3xl {
+    max-width: 800px;
+  }
+  
+  .mb-8 {
+    margin-bottom: 2rem;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .text-gray-500 {
+    color: #64748b;
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .text-gray-600 {
+    color: #4b5563;
+  }
+  
+  .mb-6 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .relative {
+    position: relative;
+  }
+  
+  .h-96 {
+    height: 24rem;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .h-full {
+    height: 100%;
+  }
+  
+  .object-cover {
+    object-fit: cover;
+  }
+  
+  .prose {
+    line-height: 1.6;
+  }
+  
+  .max-w-none {
+    max-width: none;
+  }
+</style>

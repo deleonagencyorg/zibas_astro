@@ -10,7 +10,9 @@
     "read_more": "Read more"
   },
   "home": {
+    "title": "RECIPES",
     "related_recipes": "Related recipes",
+    "view_more": "View All",
     "recipes": "Ingredients",
     "preparation": "Preparation",
     "explore_more": {

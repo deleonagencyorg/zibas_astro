@@ -10,9 +10,11 @@
     "read_more": "Leer más"
   },
   "home": {
+    "title": "RECETAS",
     "related_recipes": "Recetas relacionadas",
     "recipes": "Ingredientes",
     "preparation" : "Preparación",
+    "view_more": "Ver Todas",
     "explore_more": {
       "title": "Explora más recetas aquí",
       "link": "/es/recetas"

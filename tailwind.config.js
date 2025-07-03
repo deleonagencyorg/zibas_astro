@@ -2,37 +2,28 @@ module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   safelist: [
     'bg-primary', 'text-primary', 'border-primary',
-    'bg-purple', 'text-purple', 'border-purple',
-    'bg-yellow', 'text-yellow', 'border-yellow',
-    'bg-green', 'text-green', 'border-green',
+    'bg-secondary', 'text-secondary', 'border-secondary',
+    'bg-tertiary', 'text-tertiary', 'border-tertiary',
     'bg-red', 'text-red', 'border-red',
-    'bg-blue', 'text-blue', 'border-blue',
-    'bg-brown', 'text-brown', 'border-brown',
-    'bg-pink', 'text-pink', 'border-pink',
-    'bg-celeste', 'text-celeste', 'border-celeste',
     'bg-white', 'text-white', 'border-white',
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#231D45',
-        purple: '#231D45',
-        yellow: '#FFE1B5',
-        green: '#9CB895',
-        red: '#E30000',
-        blue: '#082A39',
-        brown: '#513629',
-        pink: '#F4ACBE',
-        celeste: '#7AA2D6',
+        primary: '#0A3D7E',
+        secondary: '#008DDD',
+        tertiary: '#4895CE',
+        cuaternary: '#0073C1',
+        quinary: '#91CAE9',
+        red: '#D23627',
         white: '#FFFFFF',
-        secondary: '#A6A3D1',
-        tertiary: '#FFFBF2z',
+    
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        title: ['FontdinerSwanky', 'serif'],
-        heading: ['Poppins', 'sans-serif'],
-        text: ['Poppins', 'sans-serif']
+        sans: ['TroisMille', 'sans-serif'],
+        title: ['TroisMille Bold', 'serif'],
+        heading: ['TroisMille', 'sans-serif'],
+        text: ['TroisMille', 'sans-serif']
       }
     }
   },

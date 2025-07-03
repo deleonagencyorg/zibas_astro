@@ -68,8 +68,8 @@ Los metadatos (títulos, descripciones) están organizados en una sección `meta
 {
   "meta": {
     "home": {
-      "title": "Taqueritos - Los mejores tacos de Honduras",
-      "description": "Disfruta de auténticos tacos mexicanos con un toque hondureño."
+      "title": "Snacksyummies",
+      "description": "Disfruta de los mejores snacks para ti y tu familia."
     }
   }
 }

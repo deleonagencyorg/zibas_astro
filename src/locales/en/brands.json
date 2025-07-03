@@ -1,0 +1,588 @@
+{
+    "home": {
+        "title": "Brands",
+        "description": "Brands",
+        "textButton": "Conoce más"
+    },
+    "brands": [
+        {
+            "id": "taqueritos",
+            "slug": "taqueritos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-logo.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip1.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-peque.webp",
+            "bgColor": "#3D4852",
+            "title": "Taqueritos",
+            "url": "https://taqueritos.com",
+            "alt": "Taqueritos",
+            "products": [
+                {
+                    "id": "taqueritos-chile-toreado",
+                    "slug": "taqueritos-chile-toreado",
+                    "title": "Taqueritos Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chile-toreado-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chile-toreado-2.webp"
+                },
+                {
+                    "id": "taqueritos-queso-fusion",
+                    "slug": "taqueritos-queso-fusion",
+                    "title": "Taqueritos Queso Fusion",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-queso-fusion-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-queso-fusion-2.webp"
+                }
+                ,
+                {
+                    "id": "taqueritos-dragon-de-hielo",
+                    "slug": "taqueritos-dragon-de-hielo",
+                    "title": "Taqueritos Dragón de Hielo",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-hielo-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-hielo-2.webp"
+                },
+                {
+                    "id": "taqueritos-dragon-de-fuego",
+                    "slug": "taqueritos-dragon-de-fuego",
+                    "title": "Taqueritos Dragón de Fuego",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-fuego-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-fuego-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "zambos",
+            "slug": "zambos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/zambos-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/zambos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/zambos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-peque.webp",
+            "bgColor": "#64A70B",
+            "title": "Zambos",
+            "url": "https://zambos.com",
+            "alt": "Zambos",
+            "products": [
+                {
+                    "id": "zambos-picositas-con-chile-limon-y-sal",
+                    "slug": "zambos-picositas-con-chile-limon-y-sal",
+                    "title": "Zambos Picositas Con Chile Limón Y Sal",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-picositas-con-chile-limon-y-sal-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-picositas-con-chile-limon-y-sal-2.webp"
+                },
+                {
+                    "id": "zambos-ceviche",
+                    "slug": "zambos-ceviche",
+                    "title": "Zambos Ceviche",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-ceviche-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-ceviche-2.webp"
+                },
+                {
+                    "id": "zambos-con-chicharron-del-rancho",
+                    "slug": "zambos-con-chicharron-del-rancho",
+                    "title": "Zambos Con Chicharron Del Rancho",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-con-chicharron-del-rancho-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-con-chicharron-del-rancho-2.webp"
+                },
+                {
+                    "id": "zambos-maduritos",
+                    "slug": "zambos-maduritos",
+                    "title": "Zambos Maduritos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-maduritos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-maduritos-2.webp"
+                },
+                {
+                    "id": "zambos-originales-onduladas",
+                    "slug": "zambos-originales-onduladas",
+                    "title": "Zambos Originales Onduladas",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-originales-onduladas-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-originales-onduladas-2.webp"
+                },
+                
+                {
+                    "id": "zambos-tajin",
+                    "slug": "zambos-tajin",
+                    "title": "Zambos Tajin",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-tajin-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-tajin-2.webp"
+                },{
+                    "id": "zambos-yuquitas-chile-toreado",
+                    "slug": "zambos-yuquitas-chile-toreado",
+                    "title": "Zambos Yuquitas Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-chile-toreado-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-chile-toreado-2.webp"
+                },{
+                    "id": "zambos-yuquitas-originales",
+                    "slug": "zambos-yuquitas-originales",
+                    "title": "Zambos Yuquitas Originales",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-originales-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-originales-2.webp"
+                },{
+                    "id": "zambos-yuquitas-tostones",
+                    "slug": "zambos-yuquitas-tostones",
+                    "title": "Zambos Yuquitas Tostones",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-tostones.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zambos-yuquitas-tostones.webp"
+                }
+            ]
+        },
+        {
+            "id": "zibas",
+            "slug": "zibas",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/zibas-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/zibas-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/zibas-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-peque.webp",
+            "bgColor": "#F08C00",
+            "title": "Zibas",
+            "url": "https://zibaspapas.com",
+            "alt": "Zibas",
+            "products": [
+               {
+                    "id": "zibas-clasicas",
+                    "slug": "zibas-clasicas",
+                    "title": "Zibas Clasicas",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-clasicas-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-clasicas-2.webp"
+                },
+                {
+                    "id": "zibas-crema-y-especias",
+                    "slug": "zibas-crema-y-especias",
+                    "title": "Zibas Crema y Especias",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-crema-y-especias-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-crema-y-especias-2.webp"
+                },
+                {
+                    "id": "zibas-miel-mostasa",
+                    "slug": "zibas-miel-mostasa",
+                    "title": "Zibas Miel Mostasa",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-miel-mostasa-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-miel-mostasa-2.webp"
+                },
+                {
+                    "id": "zibas-queso",
+                    "slug": "zibas-queso",
+                    "title": "Zibas Queso",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/zibas-queso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/zibas-queso-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "delrancho",
+            "slug": "delrancho",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/delrancho-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/delrancho-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/delrancho-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/delrancho-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/delrancho-peque.webp",
+            "bgColor": "#E59400",
+            "title": "Del Rancho",
+            "url": "#",
+            "alt": "Del Rancho",
+            "products": [
+                {
+                    "id": "delrancho-autenticos",
+                    "slug": "delrancho-autenticos",
+                    "title": "Del Rancho Autenticos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/delrancho-autenticos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/delrancho-autenticos-2.webp"
+                },
+                {
+                    "id": "delrancho-picositos",
+                    "slug": "delrancho-picositos",
+                    "title": "Del Rancho Picositos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/delrancho-picositos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/delrancho-picositos-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "ranchitas",
+            "slug": "ranchitas",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-peque.webp",
+            "bgColor": "#C6474B",
+            "title": "Ranchitas",
+            "url": "https://ranchitas.com",
+            "alt": "Ranchitas",
+            "products": [
+                {
+                    "id": "ranchitas-nacho-exitante",
+                    "slug": "ranchitas-nacho-exitante",
+                    "title": "Ranchitas Nacho Exitante",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-exitante-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-exitante-2.webp"
+                },
+                {
+                    "id": "ranchitas-nacho-extremo",
+                    "slug": "ranchitas-nacho-extremo",
+                    "title": "Ranchitas Nacho Extremo",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-extremo-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-extremo-2.webp"
+                },
+                {
+                    "id": "ranchitas-nacho-guacamole",
+                    "slug": "ranchitas-nacho-guacamole",
+                    "title": "Ranchitas Nacho Guacamole",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-guacamole-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-guacamole-2.webp"
+                },
+                {
+                    "id": "ranchitas-nacho-pizza",
+                    "slug": "ranchitas-nacho-pizza",
+                    "title": "Ranchitas Nacho Pizza",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-pizza-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-pizza-2.webp"
+                },
+                {
+                    "id": "ranchitas-nacho-queso",
+                    "slug": "ranchitas-nacho-queso",
+                    "title": "Ranchitas Nacho Queso",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-queso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-nacho-queso-2.webp"
+                }
+                
+            ]
+        },
+        {
+            "id": "taco",
+            "slug": "taco",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/taco-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taco-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taco-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taco-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/taco-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/taco-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/taco-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/taco-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-peque.webp",
+            "bgColor": "#E59400",
+            "title": "Taco",
+            "url": "#",
+            "alt": "Taco",
+            "products": [
+                {
+                    "id": "taco-3-quesos",
+                    "title": "Taco 3 Quesos",
+                    "slug": "taco-3-quesos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-3-quesos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-3-quesos-2.webp"
+                },
+                {
+                    "id": "taco-barbacoa",
+                    "title": "Taco Barbacoa",
+                    "slug": "taco-barbacoa",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-barbacoa-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-barbacoa-2.webp"
+                },
+                {
+                    "id": "taco-limon",
+                    "title": "Taco Limón",
+                    "slug": "taco-limon",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-limon-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-limon-2.webp"
+                },
+                {
+                    "id": "taco-picante",
+                    "title": "Taco Picante",
+                    "slug": "taco-picante",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-picante-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-picante-2.webp"
+                }
+                ,
+                {
+                    "id": "taco-tornitos-chile-toreado",
+                    "title": "Taco Tornitos Chile Toreado",
+                    "slug": "taco-tornitos-chile-toreado",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-tornitos-chile-toreado-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-tornitos-chile-toreado-2.webp"
+                },
+                {
+                    "id": "taco-tornitos-queso",
+                    "title": "Taco Tornitos Queso",
+                    "slug": "taco-tornitos-queso",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/taco-tornitos-queso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/taco-tornitos-queso-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "xixi",
+            "slug": "xixi",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/xixi-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/xixi-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-peque.webp",
+            "bgColor": "#91CAE9",
+            "title": "Xixi",
+            "url": "#",
+            "alt": "Xixi",
+            "products": [
+                {
+                    "id": "xixi-leche-de-burra",
+                    "title": "Xixi Leche de Burra",
+                    "slug": "xixi-leche-de-burra",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/xixi-leche-de-burra-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-leche-de-burra-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "yummimix",
+            "slug": "yummimix",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummimix-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip2.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip1.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yummimix-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yummimix-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yummimix-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummimix-peque.webp",
+            "bgColor": "#C6D000",
+            "title": "Yumm Mix",
+            "url": "https://yummimix.com",
+            "alt": "Yumm Mix",
+            "products": [
+                {
+                    "id": "yummimix-tropical",
+                    "title": "Yumm Mix Tropical",
+                    "slug": "yummimix-tropical",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummimix-tropical-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummimix-tropical-2.webp"
+                },
+                {
+                    "id": "yummimix-tropical-picositos",
+                    "title": "Yumm Mix Tropical Picositos",
+                    "slug": "yummimix-tropical-picositos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummimix-tropical-picositos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummimix-tropical-picositos-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "yummipops",
+            "slug": "yummipops",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummipops-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yummipops-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yummipops-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yummipops-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-peque.webp",
+            "bgColor": "#ffffff",
+            "title": "Yummi Pops",
+            "url": "#",
+            "alt": "Yummi Pops",
+            "products": [
+                {
+                    "id": "yummipops-nacho-jalapeno-cream",
+                    "slug": "yummipops-nacho-jalapeno-cream",
+                    "title": "Yummipops Nacho Jalapeño Cream",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummipops-nacho-jalapeno-cream-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-nacho-jalapeno-cream-2.webp"
+                },
+                {
+                    "id": "yummipops-palomitas-de-maiz-sal-marina",
+                    "slug": "yummipops-palomitas-de-maiz-sal-marina",
+                    "title": "Yummipops Palomitas de Maíz Sal Marina",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummipops-palomitas-de-maiz-sal-marina-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-palomitas-de-maiz-sal-marina-2.webp"
+                },
+                {
+                    "id": "yummipops-palomitas-de-maiz-queso",
+                    "slug": "yummipops-palomitas-de-maiz-queso",
+                    "title": "Yummipops Palomitas de Maíz Queso",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummipops-palomitas-de-maiz-queso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummipops-palomitas-de-maiz-queso-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "yumminuts",
+            "slug": "yumminuts",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip3.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip1.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-peque.webp",
+            "bgColor": "#0073C1",
+            "title": "Yumminuts",
+            "url": "https://yumminuts.com",
+            "alt": "Yumminuts",
+            "products": [
+                {
+                    "id": "yummi-nut-mani-con-sal",
+                    "slug": "yummi-nut-mani-con-sal",
+                    "title": "Yummi Nut Maní con Sal",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-con-sal-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-con-sal-2.webp"
+                },
+                {
+                    "id": "yummi-nut-mani-con-limon",
+                    "slug": "yummi-nut-mani-con-limon",
+                    "title": "Yummi Nut Maní con Limón",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-con-limon-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-con-limon-2.webp"
+                },
+                {
+                    "id": "yummi-nut-mani-japones",
+                    "slug": "yummi-nut-mani-japones",
+                    "title": "Yummi Nut Maní Japones",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-japones-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mani-japones-2.webp"
+                },
+                {
+                    "id": "yummi-nut-maranon-con-sal",
+                    "slug": "yummi-nut-maranon-con-sal",
+                    "title": "Yummi Nut Marañón con Sal",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-maranon-con-sal-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-maranon-con-sal-2.webp"
+                },
+                {
+                    "id": "yummi-nut-mix-almendras",
+                    "slug": "yummi-nut-mix-almendras",
+                    "title": "Yummi Nut Mix Almendras",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mix-almendras-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-mix-almendras-2.webp"
+                },
+                {
+                    "id": "yummi-nut-omega-mix",
+                    "slug": "yummi-nut-omega-mix",
+                    "title": "Yummi Nut Omega Mix",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-omega-mix-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/yummi-nut-omega-mix-2.webp"
+                }
+                
+            ]
+        },
+        {
+            "id": "cappy",
+            "slug": "cappy",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/cappy-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/cappy-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/cappy-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-peque.webp",
+            "bgColor": "#84B3DA",
+            "title": "Cappy",
+            "url": "#",
+            "alt": "Cappy", 
+            "products": [
+                {
+                    "id": "cappy-queso-intenso",
+                    "title": "Cappy Queso Intenso",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-gorditos-queso-intenso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-gorditos-queso-intenso-2.webp"
+                },
+                {
+                    "id": "cappy-infladitos-picositos",
+                    "slug": "cappy-infladitos-picositos",
+                    "title": "Cappy Infladitos Picositos",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-infladitos-picositos-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-infladitos-picositos-2.webp"
+                },
+                {
+                    "id": "cappy-queso-y-mantequilla",
+                    "slug": "cappy-queso-y-mantequilla",
+                    "title": "Cappy Queso y Mantequilla",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-infladitos-queso-y-mantequilla-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-infladitos-queso-y-mantequilla-2.webp"
+                },
+                {
+                    "id": "cappy-palitos-de-papa",
+                    "slug": "cappy-palitos-de-papa",
+                    "title": "Cappy Palitos de Papa",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-palitos-de-papa-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-palitos-de-papa-2.webp"
+                },
+                {
+                    "id": "cappy-tornitos-chile-toreado",
+                    "slug": "cappy-tornitos-chile-toreado",
+                    "title": "Cappy Tornitos Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-tornitos-chile-toreado-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-tornitos-chile-toreado-2.webp"
+                },
+                {
+                    "id": "cappy-tornitos-queso-y-mantequilla",
+                    "slug": "cappy-tornitos-queso-y-mantequilla",
+                    "title": "Cappy Tornitos Queso y Mantequilla",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/cappy-tornitos-queso-y-mantequilla-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/cappy-tornitos-queso-y-mantequilla-2.webp"
+                }
+            ]
+        },
+        {
+            "id": "anillitos",
+            "slug": "anillitos",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/anillitos-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/anillitos-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/anillitos-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/anillitos-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-peque.webp",
+            "bgColor": "#4895CE",
+            "title": "Anillitos de Papa",
+            "url": "#",
+            "alt": "Anillitos de Papa", 
+            "products": [
+                {
+                    "id": "anillitos-de-papa-barbacoa",
+                    "slug": "anillitos-de-papa-barbacoa",
+                    "title": "Anillitos de Papa Barbacoa",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/anillitos-barbacoa-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-barbacoa-2.webp"
+                },
+                {
+                    "id": "anillitos-de-papa-jalapeno",
+                    "slug": "anillitos-de-papa-jalapeno",
+                    "title": "Anillitos de Papa Jalapeño",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/anillitos-jalapeno-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-jalapeno-2.webp"
+                }
+            ]
+        }
+    ]
+}
