@@ -46,6 +46,11 @@ const twitterUrl = socialMedia?.twitter?.url || '';
   <meta property="og:locale:alternate" content={lang} />
 ))}
 
+<!-- Image Optimization -->
+<meta name="og:image:width" content="1200" />
+<meta name="og:image:height" content="630" />
+<meta name="og:image:alt" content="Snacks Yummies - ${title || 'Delicious snacks from Central America'}" />
+
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={pageUrl} />
@@ -58,6 +63,44 @@ const twitterUrl = socialMedia?.twitter?.url || '';
 {instagramUrl && <link rel="me" href={instagramUrl} />}
 {twitterUrl && <link rel="me" href={twitterUrl} />}
 
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Snacks Yummies",
+  "url": "https://snacksyummies.com",
+  "logo": "https://snack.yummiespromociones.com/snacksyummies/logo.webp",
+  "sameAs": [
+    socialMedia.facebook?.url,
+    socialMedia.instagram?.url,
+    socialMedia.tiktok?.url
+  ]
+}
+</script>
+
+<!-- Breadcrumbs Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://snacksyummies.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "${title || 'Current Page'}",
+      "item": "${canonicalUrl || 'https://snacksyummies.com' + Astro.url.pathname}"
+    }
+  ]
+}
+</script>
+
 <!-- Additional Tags -->
-<meta name="theme-color" content="#00601b" />
-<meta name="msapplication-TileColor" content="#00601b" />
+<meta name="theme-color" content="#0A3D7E" />
+<meta name="msapplication-TileColor" content="#0A3D7E" />
