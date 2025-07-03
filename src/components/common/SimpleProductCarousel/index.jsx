@@ -1,21 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './styles.css';
 
 /**
- * A simple 3D-like carousel for products
+ * A simple 3D-like carousel for products with enhanced mobile touch support
  */
 export default function SimpleProductCarousel({ products = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const carouselRef = useRef(null);
   
-  // Auto-rotate the carousel
+  // Auto-rotate the carousel, but pause on touch
   useEffect(() => {
     const interval = setInterval(() => {
-      nextSlide();
+      if (!touchStart) { // Solo avanza automáticamente si no hay un toque activo
+        nextSlide();
+      }
     }, 3000);
     
     return () => clearInterval(interval);
-  }, [activeIndex]);
+  }, [activeIndex, touchStart]);
+  
+  // Funciones para manejar eventos táctiles
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(null); // Reiniciar touchEnd
+  };
+  
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isSignificantSwipe = Math.abs(distance) > 30; // Umbral mínimo para considerar un swipe
+    
+    if (isSignificantSwipe) {
+      if (distance > 0) {
+        // Swipe hacia la izquierda - siguiente slide
+        nextSlide();
+      } else {
+        // Swipe hacia la derecha - slide anterior
+        prevSlide();
+      }
+    }
+    
+    // Reiniciar valores
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
   
   const nextSlide = () => {
     if (isAnimating) return;
@@ -36,7 +72,13 @@ export default function SimpleProductCarousel({ products = [] }) {
   }
   
   return (
-    <div className="simple-carousel-container">
+    <div 
+      className="simple-carousel-container"
+      ref={carouselRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="carousel-viewport">
         {products.map((product, index) => {
           // Calculate position: -1 = left, 0 = center, 1 = right
@@ -59,7 +101,15 @@ export default function SimpleProductCarousel({ products = [] }) {
                 opacity: Math.abs(position) > 1 ? 0 : 1
               }}
             >
-              <div className="product-card">
+              <div 
+                className="product-card"
+                onClick={() => {
+                  // Si hay un enlace, navegar a él al hacer clic/tap en el producto
+                  if (product.link) {
+                    window.location.href = product.link;
+                  }
+                }}
+              >
                 <div className="product-image-container">
                   <img 
                     src={product.image} 

@@ -227,6 +227,7 @@ const slides = Array.isArray(commonAssets)
               data-image-mobile={brand.imageMobile}
               data-title={brand.title}
               onclick={`updateBrandPreview('${brand.image}', '${brand.imageMobile}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
+              ontouchstart={`updateBrandPreview('${brand.image}', '${brand.imageMobile}', '${brand.title}'); highlightSelectedBrand(this, '${brand.bgColor}')`}
             >
               <LazyImage
                 src={brand.logo}

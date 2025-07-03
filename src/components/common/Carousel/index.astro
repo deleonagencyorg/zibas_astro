@@ -54,6 +54,13 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
             el: '.swiper-pagination',
             clickable: true,
           },
+          // Mejorar la respuesta táctil en móviles
+          touchRatio: 1.5,
+          touchAngle: 45,
+          touchMoveStopPropagation: true,
+          touchStartPreventDefault: false,
+          touchStartForcePreventDefault: false,
+          threshold: 5, // Umbral más bajo para detectar deslizamientos
           on: {
             init: function() {
               console.log('Swiper inicializado correctamente');
@@ -61,13 +68,15 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
           }
         });
         
-        const prevButton = document.querySelector('.swiper-button-prev');
-        const nextButton = document.querySelector('.swiper-button-next');
-        
-        if (prevButton) prevButton.addEventListener('click', () => swiper.slidePrev());
-        if (nextButton) nextButton.addEventListener('click', () => swiper.slideNext());
+        // Eliminar los event listeners adicionales para evitar conflictos
+        // y dejar que Swiper maneje directamente los eventos táctiles
         
         window.addEventListener('load', () => swiper.update());
+        
+        // Asegurar que el swiper se actualice cuando cambie la orientación del dispositivo
+        window.addEventListener('orientationchange', () => {
+          setTimeout(() => swiper.update(), 200);
+        });
       } catch (error) {
         console.error('Error al inicializar Swiper:', error);
       }
