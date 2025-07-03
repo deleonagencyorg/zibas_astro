@@ -160,7 +160,21 @@
       "title":"Siguenos",
       "tagtitle":"en redes",
       "description":"Siguenos en nuestras redes sociales - Snacks Yummies",
-      "newsletter":"Suscríbete a nuestro newsletter lleno de sabor"
+      "newsletter":"Suscríbete a nuestro newsletter lleno de sabor",
+      "instagramLinks":[
+        {
+          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
+        },
+        {
+          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
+        }
+      ]
     },
     "quiz":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",

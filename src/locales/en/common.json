@@ -175,7 +175,21 @@
       "title":"Follow us",
       "tagtitle":"on social media",
       "description":"Follow us on our social media - Snacks Yummies",
-      "newsletter":"Subscribe to our newsletter full of flavor"
+      "newsletter":"Subscribe to our newsletter full of flavor",
+      "instagramLinks":[
+        {
+          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
+        },
+        {
+          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
+        }
+      ]
     },
     "quiz":{
       "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
