@@ -16,6 +16,7 @@ import SimpleProductCarousel from '../../components/common/SimpleProductCarousel
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import AnimHeart from '../../components/common/AnimHeart/index.astro';
 import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
+import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -365,10 +366,16 @@ const slides = Array.isArray(commonAssets)
     
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-        <div class="flex items-center justify-center ">
-          
+        <div class="hidden md:flex flex-col items-center justify-center ">
+          <InstagramEmbed postUrl="https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="   width="250px"
+          height="250px"
+          className="z-0 mb-4" />
+
+          <InstagramEmbed postUrl="https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="   width="250px"
+          height="250px"
+          className="z-10 mt-4 translate-y-[-6rem] translate-x-[2rem]" />
         </div>
-        <div class="flex flex-col items-center justify-center relative">
+        <div class="flex flex-col items-center justify-center relative md:w-full w-11/12 md:mx-auto">
         <div class="absolute inset-0 z-0 mt-[-2rem]">
           <AnimHeart count={20} containerClass="h-[50vh] w-full " />
         </div>
@@ -392,8 +399,14 @@ const slides = Array.isArray(commonAssets)
           />
            
         </div>
-        <div class="hidden md:flex items-center justify-center">
-         
+        <div class="hidden md:flex flex-col items-center justify-center ">
+          <InstagramEmbed postUrl="https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="   width="250px"
+          height="250px"
+          className="z-0 mb-4" />
+
+          <InstagramEmbed postUrl="https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="   width="250px"
+          height="250px"
+          className="z-10 mt-4 translate-y-[-6rem] translate-x-[-2rem]" />
         </div>
       </div>
       
