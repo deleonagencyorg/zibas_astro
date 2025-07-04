@@ -119,25 +119,9 @@
       "href": "/es/marcas"
     },
     {
-      "id": "recipes",
-      "text": "Recetas",
-      "href": "#"
-    },
-    {
       "id": "blog",
       "text": "Blog",
       "href": "/es/blog"
-    },
-    {
-      "id": "contact",
-      "text": "Contacto",
-      "href": "#"
-    }
-    ,
-    {
-      "id": "find-us",
-      "text": "Encontranos",
-      "href": "#"
     }
   ],
   "home": {
