@@ -133,26 +133,11 @@
       "text": "Brands",
       "href": "/en/brands"
     },
-    {
-      "id": "recipes",
-      "text": "Recipes",
-      "href": "#"
-    },
+    
     {
       "id": "blog",
       "text": "Blog",
       "href": "/en/blog"
-    },
-    {
-      "id": "contact",
-      "text": "Contact",
-      "href": "#"
-    }
-    ,
-    {
-      "id": "find-us",
-      "text": "Find Us",
-      "href": "@"
     }
   ],
   "home": {

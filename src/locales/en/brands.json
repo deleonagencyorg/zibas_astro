@@ -583,6 +583,32 @@
                     "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/anillitos-jalapeno-2.webp"
                 }
             ]
+        },
+        {
+            "id": "xixi",
+            "slug": "xixi",
+            "logo": "https://snack.yummiespromociones.com/snacksyummies/xixi-logo.webp",
+            "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip1.webp",
+            "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip2.webp",
+            "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip3.webp",
+            "imageChip4": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip4.webp",
+            "imagePreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-marca.webp",
+            "imageProductPreview": "https://snack.yummiespromociones.com/snacksyummies/xixi-producto.webp",
+            "image": "https://snack.yummiespromociones.com/snacksyummies/xixi-grande2.webp",
+            "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-peque.webp",
+            "bgColor": "#91CAE9",
+            "title": "Xixi",
+            "url": "#",
+            "alt": "Xixi",
+            "products": [
+                {
+                    "id": "xixi-leche-de-burra",
+                    "title": "Xixi Leche de Burra",
+                    "slug": "xixi-leche-de-burra",
+                    "image": "https://snack.yummiespromociones.com/snacksyummies/xixi-leche-de-burra-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/snacksyummies/xixi-leche-de-burra-2.webp"
+                }
+            ]
         }
     ]
 }

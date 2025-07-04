@@ -21,9 +21,12 @@ import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
 // Add styles for active brand logo
 const activeLogoStyles = `
   .active-brand {
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    opacity: 0.5;
     z-index: 10;
     border-width: 4px !important;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
   }
 `;
 
@@ -221,7 +224,7 @@ const slides = Array.isArray(commonAssets)
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
-              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm hover:shadow-md"
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-130 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm shadow-md hover:shadow-xl"
               style={{ backgroundColor: brand.bgColor }}
               data-image={brand.image}
               data-image-mobile={brand.imageMobile}
@@ -367,7 +370,7 @@ const slides = Array.isArray(commonAssets)
     
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-        <div class="hidden md:flex flex-col items-center justify-center ">
+        <div id="instagram1" class="hidden md:flex flex-col items-center justify-center ">
           <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[0].url}   width="250px"
           height="250px"
           className="z-0 mb-4" />
@@ -376,8 +379,8 @@ const slides = Array.isArray(commonAssets)
           height="250px"
           className="z-10 mt-4 translate-y-[-6rem] translate-x-[2rem]" />
         </div>
-        <div class="flex flex-col items-center justify-center relative md:w-full w-11/12 md:mx-auto">
-        <div class="absolute inset-0 z-0 mt-[-2rem]">
+        <div id="socialmedia-title"  class="flex flex-col items-center justify-center relative w-full mx-auto">
+        <div class="absolute inset-0 z-0 mt-[-16rem] md:mt-[-2rem]">
           <AnimHeart count={20} containerClass="h-[50vh] w-full " />
         </div>
           
@@ -400,7 +403,7 @@ const slides = Array.isArray(commonAssets)
           />
            
         </div>
-        <div class="hidden md:flex flex-col items-center justify-center ">
+        <div id="instagram2" class="hidden md:flex flex-col items-center justify-center ">
           <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[2].url}   width="250px"
           height="250px"
           className="z-0 mb-4" />
@@ -415,25 +418,23 @@ const slides = Array.isArray(commonAssets)
     </div>
 
   </section>
-  <div class=" bg-tertiary">
+  <!-- <div class=" bg-tertiary">
     <svg width="100vw" height="150" viewBox="0 0 100vw 150" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1442 0H0C99.3333 16.6667 380 50 708 50C1036 50 1334 16.6667 1442 0Z" fill="#91CAE9"/>
     </svg>
-  </div>
+  </div> -->
 
-    <section id="quiz" class="mt-[-100px] w-full h-auto flex flex-col items-center justify-center bg-tertiary py-12" transition:animate="slide">
+    <!-- <section id="quiz" class="mt-[-100px] w-full h-auto flex flex-col items-center justify-center bg-tertiary py-12" transition:animate="slide">
       <div class="container mx-auto px-4">
         
         
         <div class="flex flex-col md:flex-row w-full gap-4 md:gap-8">
-          <!-- Primer contenedor - Izquierda en desktop, arriba en mobile -->
           <div class="w-full md:w-1/2  p-8 flex items-center justify-center md:min-h-[300px]">
             <div class="text-center">
               <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/quizilustration.webp" alt='Quiz' class="w-full h-full object-cover object-center"/>
             </div>
           </div>
           
-          <!-- Segundo contenedor - Derecha en desktop, abajo en mobile -->
           <div class="w-full md:w-1/2 md:p-8 p-0 flex items-center justify-center md:min-h-[300px] ">
             <div class="text-center">
               <LazyImage src={homeAssets.quiz.title} alt='Quiz' class="w-full h-full object-cover object-center"/>
@@ -445,7 +446,7 @@ const slides = Array.isArray(commonAssets)
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
   <!-- <section id="recipes" class="w-full py-12 flex flex-col items-center justify-center" transition:animate="slide">
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
