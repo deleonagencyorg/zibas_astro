@@ -11,10 +11,6 @@ import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import FloatingChip from '../../components/common/FloatingChip/index.astro';
 import './styles.css';
 
-// Definir transiciones para elementos clave
-import { fade } from 'astro:transitions';
-const fadeTransition = fade({ duration: '300ms' });
-
 const currentLang = getLocale();
 
 // Estado de carga para mostrar skeletons
@@ -54,8 +50,8 @@ const skeletonCount = 3;
   <div class="container mx-auto px-4 md:py-8 py-0">
     <Breadcrumb bgColor="bg-primary" textColor="text-gray-900" hoverColor="hover:text-gray-900" />
   </div>
-  <header class="brands-header text-center md:py-8 py-0" transition:animate={fadeTransition}>
-    <CrownTitle text={pageTitle} transition:name="brands-title" />
+  <header class="brands-header text-center md:py-8 py-0">
+    <CrownTitle text={pageTitle} />
     
     <div class="brands-carousel-container relative w-full my-8">
       <!-- Botones de navegación -->
@@ -87,7 +83,6 @@ const skeletonCount = 3;
                   src={brand.logo} 
                   alt={brand.title} 
                   class="w-16 md:w-32 h-16 md:h-32 object-contain"
-                  transition:name={`brand-icon-${brand.id}`}
                 />
               </a>
             ))}
@@ -269,35 +264,9 @@ const skeletonCount = 3;
         </div>
       ))
     )}
-    </div> 
-  </div>
+  </div> 
+</div>
 </div>
 
 <!-- Cargar scripts para la funcionalidad de la página -->
 <script src="./scripts.js"></script>
-
-<!-- Precargar imágenes críticas para mejorar el rendimiento -->
-<script>
-  // Función para precargar imágenes
-  function preloadImages(sources: string[]): void {
-    sources.forEach((src: string) => {
-      if (!src) return;
-      const img = new Image();
-      img.src = src;
-    });
-  }
-
-  // Precargar logos de marcas (solo los primeros 3 para no sobrecargar)
-  document.addEventListener('astro:page-load', () => {
-    // Obtener los primeros logos visibles
-    const visibleLogos = Array.from(document.querySelectorAll('.brand-icon-circle img'))
-      .slice(0, 3)
-      .map(img => img.getAttribute('src'))
-      .filter((src): src is string => Boolean(src));
-    
-    // Precargar imágenes
-    if (visibleLogos.length > 0) {
-      preloadImages(visibleLogos);
-    }
-  });
-</script>

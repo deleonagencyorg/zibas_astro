@@ -3,12 +3,14 @@ import LanguageSwitcher from '../../i18n/LanguageSwitcher.astro';
 import LocalizedImage from '../LazyImage.astro';
 import { t, type Locale } from '../../../i18n/i18n';
 import { socialMediaIconUrls, logos } from '../../../config/assets';
+import type { HeaderColorConfig } from '../../../config/headerColors';
 
 export interface Props {
   currentLang: Locale;
+  headerColorConfig: HeaderColorConfig;
 }
 
-const { currentLang } = Astro.props;
+const { currentLang, headerColorConfig } = Astro.props;
 
 // Obtener los datos de social media y menú desde las traducciones
 const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
@@ -16,7 +18,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 ---
 
 <!-- Desktop Navigation -->
-<nav class="hidden md:flex items-center justify-between w-full py-3 px-6 bg-blue-900">
+<nav class={`hidden md:flex items-center justify-between w-full py-3 px-6 ${headerColorConfig.backgroundColor}`} data-current-lang={currentLang}>
   <!-- Logo -->
   <div class="flex-shrink-0">
     <a href={`/${currentLang}/`} class="block">
@@ -31,10 +33,10 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 
   <!-- Right Side - Language Switcher and Yummies One -->
   <div class="flex items-center space-x-5">
-    <div class="flex space-x-10">
+    <div class="flex space-x-10" id="desktop-menu-items">
       {menuItems && menuItems.map((item: any) => (
         <div class="relative group">
-          <a href={item.href} class="text-white font-sans text-sm uppercase font-medium hover:text-gray-300 transition-colors py-2 flex items-center">
+          <a href={item.href} class={`${headerColorConfig.textColor} font-sans text-sm uppercase font-medium ${headerColorConfig.hoverTextColor} transition-colors py-2 flex items-center`}>
             {item.text}
             {item.submenu && (
               <svg class="w-4 h-4 ml-1 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
@@ -65,7 +67,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
       ))}
     </div>
     <!-- Language Switcher -->
-    <LanguageSwitcher activeLocale={currentLang} />
+    <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
     
     <!-- Yummies One -->
     <!-- <a href="/yummies-one" class="flex items-center text-white hover:text-gray-300 uppercase text-sm font-medium">

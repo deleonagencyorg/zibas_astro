@@ -107,22 +107,15 @@ export function setLocale(locale: Locale): void {
   if (locale in translations) {
     if (locale !== currentLocale) {
       currentLocale = locale;
+      // Guardar preferencia en localStorage si estamos en el navegador
       if (typeof window !== 'undefined') {
         localStorage.setItem('locale', locale);
+        // Disparar un evento personalizado para notificar el cambio de idioma
         window.dispatchEvent(new CustomEvent('localeChanged', { detail: { locale } }));
       }
     }
   }
-
-    currentLocale = locale;
-    // Guardar preferencia en localStorage si estamos en el navegador
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('locale', locale);
-      // Disparar un evento personalizado para notificar el cambio de idioma
-      window.dispatchEvent(new CustomEvent('localeChanged', { detail: { locale } }));
-    }
-  }
-
+}
 
 /**
  * Obtiene el idioma actual
