@@ -9,6 +9,7 @@ import SkeletonLoader from '../../components/common/SkeletonLoader.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import FloatingChip from '../../components/common/FloatingChip/index.astro';
+import { fade } from 'astro:transitions';
 import './styles.css';
 
 const currentLang = getLocale();
@@ -46,14 +47,14 @@ try {
 const skeletonCount = 3;
 ---
 
-<div class="brands-container bg-white">
+<div class="brands-container bg-white" transition:name="brands-container" transition:animate={fade({ duration: '0.5s' })}>
   <div class="container mx-auto px-4 md:py-8 py-0">
     <Breadcrumb bgColor="bg-primary" textColor="text-gray-900" hoverColor="hover:text-gray-900" />
   </div>
-  <header class="brands-header text-center md:py-8 py-0">
-    <CrownTitle text={pageTitle} />
+  <header class="brands-header text-center md:py-8 py-0" transition:name="brands-header" transition:animate={fade({ duration: '0.7s' })}>
+    <CrownTitle text={pageTitle} transition:name="brands-title" transition:animate={fade({ duration: '0.8s' })} />
     
-    <div class="brands-carousel-container relative w-full my-8">
+    <div class="brands-carousel-container relative w-full my-8" transition:name="brands-carousel" transition:animate={fade({ duration: '0.8s' })}>
       <!-- Botones de navegación -->
       <button class="carousel-nav carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md">
         <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,7 +62,7 @@ const skeletonCount = 3;
         </svg>
       </button>
       
-      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar bg-white">
+      <div class="brands-icons-carousel overflow-x-auto hide-scrollbar bg-white" transition:name="brands-icons" transition:animate={fade({ duration: '0.6s' })}>
         {isLoading ? (
           <div class="brands-icons-row flex items-center gap-4 py-4">
             {Array(6).fill(0).map((_, i) => (
@@ -72,12 +73,14 @@ const skeletonCount = 3;
           </div>
         ) : (
           <div class="brands-icons-row flex items-center gap-4 py-4">
-            {brandsData.map((brand: any) => (
+            {brandsData.map((brand: any, index: number) => (
               <a 
                 href={`#${brand.slug}`} 
                 class="brand-icon-circle flex-shrink-0" 
                 style={`background-color: ${brand.bgColor || '#ffffff'}`}
                 aria-label={`Ir a ${brand.title}`}
+                transition:name={`brand-icon-${brand.id}`}
+                transition:animate={fade({ duration: '0.5s' })}
               >
                 <LazyImage
                   src={brand.logo} 
@@ -100,21 +103,28 @@ const skeletonCount = 3;
 </div>
 
 <div class="container mx-auto px-4 mt-[-2rem]">
-  <div class="brands-list">
+  <div class="brands-list" transition:name="brands-list" transition:animate={fade({ duration: '0.6s' })}>
     {isLoading ? (
       // Mostrar skeletons durante la carga
-      Array(skeletonCount).fill(0).map(() => (
-        <BrandCardSkeleton />
+      Array(skeletonCount).fill(0).map((_, i) => (
+        <div transition:name={`brand-skeleton-${i}`} transition:animate={fade({ duration: '0.4s' })}>
+          <BrandCardSkeleton />
+        </div>
       ))
     ) : loadError ? (
       // Mostrar mensaje de error si falla la carga
-      <div class="error-message p-8 text-center bg-red-50 rounded-lg">
+      <div class="error-message p-8 text-center bg-red-50 rounded-lg" transition:name="brands-error" transition:animate={fade({ duration: '0.5s' })}>
         <p class="text-red-600 text-xl">No se pudieron cargar las marcas. Por favor, intenta de nuevo más tarde.</p>
       </div>
     ) : (
       // Mostrar datos reales cuando estén disponibles
       brandsData.map((brand: any, index: number) => (
-        <div id={brand.slug} class="brand-card relative flex items-center mt-[-2rem]">
+        <div 
+          id={brand.slug} 
+          class="brand-card relative flex items-center mt-[-2rem]"
+          transition:name={`brand-card-${brand.id}`}
+          transition:animate={fade({ duration: '0.6s' })}
+        >
           <div class="brand-card-bg" style={`background-color: ${brand.bgColor || '#ffffff'}`}></div>
           <!-- Mobile chip images positioned at brand card corners -->
           {brand.imageChip1 && (
@@ -209,6 +219,7 @@ const skeletonCount = 3;
                       src={brand.logo}
                       alt={brand.title}
                       transition:name={`brand-image-${brand.id}`}
+                      transition:animate={fade({ duration: '0.5s' })}
                     />
                     {!brand.url || brand.url === '#' ? null : (
                       <a 
@@ -245,6 +256,7 @@ const skeletonCount = 3;
                           alt={brand.title} 
                           class="product-preview-image"
                           transition:name={`brand-image-${brand.id}`}
+                          transition:animate={fade({ duration: '0.5s' })}
                         />
                       </div>
                     )}
