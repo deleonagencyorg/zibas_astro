@@ -5,6 +5,7 @@ import BlogCard from '../../components/blog/BlogCard.astro';
 import BlogCardSkeleton from '../../components/blog/BlogCardSkeleton.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import { fade } from 'astro:transitions';
+import BlogCarouselHero from '../../components/blog/BlogCarouselHero.astro';
 
 interface Props {
   blogPosts: Array<{
@@ -24,10 +25,8 @@ const { blogPosts, currentLang, isLoading = false } = Astro.props;
 
 <Layout title="Blog" class="bg-primary" description="Latest blog posts">
   
-  <!-- Hero Image -->
-  <div class="hero-container">
-    <div class="hero-image"></div>
-  </div>
+  <!-- Hero Carousel -->
+  <BlogCarouselHero news={blogPosts} currentLang={currentLang} />
   
   <div class="container mx-auto px-4 pt-6">
     <Breadcrumb bgColor="bg-primary" textColor="text-white" hoverColor="hover:text-white" />
@@ -42,13 +41,15 @@ const { blogPosts, currentLang, isLoading = false } = Astro.props;
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-6 mx-auto max-w-7xl">
       {isLoading
         ? [...Array(8)].map((_, i) => <BlogCardSkeleton key={i} />)
-        : blogPosts.map((post) => (
+        : blogPosts.map((post, index) => (
             <BlogCard 
               image={post.image}
               title={post.title}
-              id={post.id}
+              summary={post.summary}
+              date={post.published_date}
               slug={post.slug || post.id}
-              currentLang={currentLang}
+              class="transition-all duration-500 ease-out"
+              style={`opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease-out forwards ${index * 0.1}s`}
             />
           ))
       }
@@ -83,6 +84,17 @@ const { blogPosts, currentLang, isLoading = false } = Astro.props;
   @media (max-width: 768px) {
     .hero-image {
       height: 200px;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 </style>
