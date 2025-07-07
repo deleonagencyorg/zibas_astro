@@ -6,6 +6,7 @@ import LocalizedImage from '../LazyImage.astro';
 import MessageCarousel from '../MessageCarousel/index.astro';
 import { t, type Locale } from '../../../i18n/i18n';
 import { logos } from '../../../config/assets';
+import { getHeaderColors } from '../../../config/headerColors';
 import './styles.css';
 
 export interface Props {
@@ -17,21 +18,25 @@ const { currentLang } = Astro.props;
 // Configuraciones
 const logosData = logos;
 
+// Obtener configuración de colores basada en la ruta actual
+const { pathname } = Astro.url;
+const headerColorConfig = getHeaderColors(pathname);
+
 ---
 
-<header id="site-header" class="relative w-full transition-all duration-300 text-white font-sans flex flex-col">
+<header id="site-header" class={`relative w-full transition-all duration-300 font-sans flex flex-col ${headerColorConfig.textColor}`} data-header-config={JSON.stringify(headerColorConfig)}>
   <!-- Banner superior azul claro con mensaje -->
-<MessageCarousel currentLang={currentLang} />
+  {headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   
   <!-- Navbar principal - ocupa el 100% del ancho -->
-  <div class="w-full bg-blue-900">
+  <div class={`w-full ${headerColorConfig.backgroundColor}`}>
     <!-- Navbar de Desktop -->
     <div class="hidden md:block">
-      <DesktopNavbar currentLang={currentLang} />
+      <DesktopNavbar currentLang={currentLang} headerColorConfig={headerColorConfig} />
     </div>
 
     <!-- Navegación Móvil -->
-    <nav class="mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center">
+    <nav class={`mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center ${headerColorConfig.backgroundColor}`}>
       <!-- Logo para Móvil -->
       <div class="logo-container">
         <a href={`/${currentLang}/`} class="flex-shrink-0">
@@ -49,7 +54,7 @@ const logosData = logos;
       
       <!-- Mobile Menu Button -->
       <div class="menu-button-container">
-        <MobileMenuButton currentLang={currentLang} />
+        <MobileMenuButton currentLang={currentLang} headerColorConfig={headerColorConfig} />
       </div>
     </nav>
   </div>
@@ -64,9 +69,15 @@ function initHeaderScrollBehavior() {
   function handleScroll() {
     if (!header || window.innerWidth < 768) return; // Solo aplicar en desktop (md y superior)
     
-    // Mantener fondo primary en desktop en todo momento
-    header.classList.remove('bg-black', 'bg-opacity-90', 'backdrop-blur-md', 'bg-opacity-50', 'bg-transparent');
-    header.classList.add('bg-primary');
+    // Obtener la configuración de colores del header
+    const headerConfig = header.getAttribute('data-header-config');
+    if (headerConfig) {
+      const config = JSON.parse(headerConfig);
+      
+      // Mantener el fondo configurado en desktop
+      header.classList.remove('bg-black', 'bg-opacity-90', 'backdrop-blur-md', 'bg-opacity-50', 'bg-transparent', 'bg-blue-900');
+      header.classList.add(config.backgroundColor);
+    }
   }
   
   window.addEventListener('scroll', handleScroll);
@@ -79,11 +90,13 @@ function initHeaderScrollBehavior() {
 // Ensure the script runs after the DOM is fully loaded
 if (typeof window !== 'undefined') {
   if (document.readyState === 'loading') { // Still loading
-    document.addEventListener('DOMContentLoaded', () => {
-      initHeaderScrollBehavior();
-    });
+    document.addEventListener('DOMContentLoaded', initHeaderScrollBehavior);
   } else { // `DOMContentLoaded` has already fired
     initHeaderScrollBehavior();
   }
 }
+
+// Reinicializar cuando Astro navega a una nueva página
+document.addEventListener('astro:page-load', initHeaderScrollBehavior);
+document.addEventListener('astro:after-swap', initHeaderScrollBehavior);
 </script>

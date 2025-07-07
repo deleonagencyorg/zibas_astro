@@ -17,10 +17,10 @@ export interface Props {
 const { slide, priority = false } = Astro.props;
 ---
 
-<div class="swiper-slide relative">
+<div class="swiper-slide relative h-full">
   {slide.link ? (
     <a href={slide.link} class="block w-full h-full">
-      <div class="w-full overflow-hidden">
+      <div class="w-full h-full overflow-hidden">
         <LazyImage 
           src={slide.mobile} 
           alt={slide.alt}
@@ -30,7 +30,7 @@ const { slide, priority = false } = Astro.props;
         <LazyImage 
           src={slide.desktop} 
           alt={slide.alt}
-          class="w-full object-contain object-center hidden md:block"
+          class="w-full h-full object-cover object-center hidden md:block"
           priority={priority}
         />
       </div>
@@ -41,7 +41,7 @@ const { slide, priority = false } = Astro.props;
     </a>
   ) : (
     <>
-      <div class="w-full overflow-hidden">
+      <div class="w-full h-full overflow-hidden">
         <LazyImage 
           src={slide.mobile} 
           alt={slide.alt}
@@ -51,7 +51,7 @@ const { slide, priority = false } = Astro.props;
         <LazyImage 
           src={slide.desktop} 
           alt={slide.alt}
-          class="w-full object-contain object-center hidden md:block"
+          class="w-full h-full object-cover object-center hidden md:block"
           priority={priority}
         />
       </div>

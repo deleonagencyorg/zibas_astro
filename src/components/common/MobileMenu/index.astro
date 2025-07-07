@@ -3,12 +3,14 @@ import LanguageSwitcher from '../../i18n/LanguageSwitcher.astro';
 import LocalizedImage from '../LazyImage.astro';
 import { t, type Locale } from '../../../i18n/i18n';
 import { socialMediaIconUrls, logos } from '../../../config/assets';
+import type { HeaderColorConfig } from '../../../config/headerColors';
 
 export interface Props {
   currentLang: Locale;
+  headerColorConfig?: HeaderColorConfig;
 }
 
-const { currentLang } = Astro.props;
+const { currentLang, headerColorConfig } = Astro.props;
 
 // Obtener los datos de social media y menú desde las traducciones
 const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
@@ -21,7 +23,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
 ---
 
 <!-- Menú Móvil Global -->
-<div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-screen h-screen z-[2147483647] bg-primary overflow-y-auto">
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-screen h-screen z-[2147483647] bg-primary overflow-y-auto" data-current-lang={currentLang}>
   <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
       <a href={`/${currentLang}/`} class="block">
@@ -34,7 +36,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
         </svg>
       </button>
     </div>
-    <nav class="flex flex-col items-center space-y-3 text-center w-full text-white">
+    <nav class="flex flex-col items-center space-y-3 text-center w-full text-white" id="mobile-menu-items">
       {menuItems && menuItems.map((item: any) => (
         <div class="w-full">
           <div class="flex items-center justify-center text-white">
@@ -90,7 +92,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
 
     <!-- Selector de Idioma Móvil -->
     <div class="mt-6 mb-6 flex justify-center">
-      <LanguageSwitcher activeLocale={currentLang} />
+      <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
     </div>
 
     <div class="mt-auto flex space-x-4">
@@ -202,19 +204,10 @@ function handleSubmenuParentClick(e: Event): void {
   }
 }
 
-// Función principal para inicializar el menú móvil
+// Función para inicializar el menú móvil
 function initMobileMenu() {
-  // Función para eliminar listeners existentes para evitar duplicados
-  function removeEventListeners(handler: EventListener, eventType: string, elements: NodeListOf<Element> | Element[]): void {
-    elements.forEach(element => {
-      element.removeEventListener(eventType, handler);
-    });
-  }
-
-  const mobileMenu = document.getElementById('mobile-menu');
-  const closeButton = document.getElementById('mobile-menu-close');
-
   // Botón de cierre
+  const closeButton = document.getElementById('mobile-menu-close');
   if (closeButton) {
     closeButton.removeEventListener('click', handleCloseButtonClick);
     closeButton.addEventListener('click', handleCloseButtonClick);
@@ -249,15 +242,10 @@ function initMobileMenu() {
   });
 }
 
-// Inicializar cuando el DOM esté listo
+// Ejecutar cuando se carga la página
 document.addEventListener('DOMContentLoaded', initMobileMenu);
 
-// Volver a inicializar cuando cambie el contenido de la página (navegación entre secciones)
+// Ejecutar cuando Astro navega a una nueva página
 document.addEventListener('astro:page-load', initMobileMenu);
 document.addEventListener('astro:after-swap', initMobileMenu);
-
-// Asegurarse de que el menú funcione incluso si se carga dinámicamente
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  setTimeout(initMobileMenu, 100);
-}
 </script>

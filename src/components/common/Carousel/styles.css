@@ -8,6 +8,7 @@
 
 .swiper-container.main-carousel {
   width: 100vw;
+  height: 70vh;
   overflow: hidden;
   position: relative;
   margin: 0;
@@ -16,6 +17,9 @@
 
 /* Media query para dispositivos móviles */
 @media (max-width: 767px) {
+  .swiper-container.main-carousel {
+    height: 70vh;
+  }
   
   /* Controles más pequeños para móvil */
   .swiper-button-next,
