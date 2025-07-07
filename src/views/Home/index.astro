@@ -92,7 +92,7 @@ const slides = Array.isArray(commonAssets)
     <!-- Slider Section con máscara -->
     <div class="relative w-full overflow-hidden max-w-[100vw]">
       <!-- Título superpuesto posicionado a la izquierda y centrado verticalmente -->
-      <div class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
+      <!-- div class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
         <LazyImage 
           src="https://snack.yummiespromociones.com/snacksyummies/Header-Title.webp" 
           alt="Título decorativo" 
@@ -101,20 +101,21 @@ const slides = Array.isArray(commonAssets)
       </div>
       
       <!-- Máscara PNG superpuesta (cambia según el idioma y dispositivo) -->
-      <div class="absolute inset-0 z-10 pointer-events-none w-screen left-0 right-0">
-        <!-- Imágen para desktop -->
+      <!-- <div class="absolute inset-0 z-10 pointer-events-none w-screen left-0 right-0">
         <img src={sliderMask} alt="Máscara decorativa" class="hidden md:block w-full h-full object-cover object-center" />
-        <!-- Imágen para móvil -->
         <img src={sliderMaskMobile} alt="Máscara decorativa" class="md:hidden w-full h-full object-cover object-center" />
-      </div>
+      </div> -->
       
-      <!-- Slider posicionado más a la derecha en desktop, full width en móvil -->
+      <!-- Slider posicionado más a la derecha en desktop, full width en móvil 
       <div class="relative z-0 w-full md:w-[80%] md:ml-auto">
         <Carousel slides={slides} />
        
-      </div>
+      </div>-->
 
-      
+      <div class="relative z-0 w-full md:w-[100%] md:ml-auto">
+        <Carousel slides={slides} />
+       
+      </div>
     </div>
   
     <!-- Sección de Carrusel Orbital de Productos -->
