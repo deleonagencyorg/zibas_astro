@@ -1,0 +1,195 @@
+---
+import { getLocale } from '../../i18n/i18n';
+import LazyImage from '../common/LazyImage.astro';
+
+interface BlogNews {
+  id: string;
+  title: string;
+  image: string;
+  slug: string;
+  excerpt?: string;
+  published_date?: string;
+}
+
+interface Props {
+  news: BlogNews[];
+  currentLang?: string;
+}
+
+const { news = [], currentLang = getLocale() } = Astro.props;
+
+// Normalize and get the 3 most recent news items
+const latestNews = [...news]
+  .map(item => {
+    let date = item.published_date;
+    if (typeof date === 'string') date = new Date(date);
+    return { ...item, date };
+  })
+  .filter(item => item.date instanceof Date && !isNaN(item.date.getTime()))
+  .sort((a, b) => (b.date as Date).getTime() - (a.date as Date).getTime())
+  .slice(0, 3);
+
+const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
+---
+
+{latestNews.length === 0 ? (
+  <div class="w-full h-[60vh] flex items-center justify-center bg-primary text-white text-2xl font-bold">
+    No hay noticias disponibles
+  </div>
+) : (
+  <div class="relative w-full h-[60vh] overflow-hidden blog-hero-carousel">
+    <div class="relative w-full h-full">
+      {latestNews.map((item, index) => (
+        <div
+          class={"absolute inset-0 transition-opacity duration-700 " + (index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0')}
+          data-slide={index}
+          aria-hidden={index !== 0}
+        >
+          <div class="absolute inset-0 w-full h-full">
+            <LazyImage
+              src={item.image}
+              alt={item.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8 font-sans">
+            <div class="max-w-4xl mx-auto">
+              <h2 class="text-2xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight font-sans">
+                {item.title}
+              </h2>
+              {item.excerpt && (
+                <p class="text-lg md:text-xl text-white mb-8 max-w-2xl mx-auto opacity-90">
+                  {item.excerpt}
+                </p>
+              )}
+              <a
+                href={`/${currentLang}/blog/${item.slug || item.id}`}
+                class="inline-block bg-white text-primary font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl"
+              >
+                {viewBlogText}
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+      {latestNews.map((_, idx) => (
+        <button
+          class="w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition-all duration-300"
+          data-indicator={idx}
+          aria-label={`Go to slide ${idx + 1}`}
+        ></button>
+      ))}
+    </div>
+    <button
+      class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-2 rounded-full transition-all duration-300"
+      id="prev-slide"
+      aria-label="Previous slide"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <button
+      class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-2 rounded-full transition-all duration-300"
+      id="next-slide"
+      aria-label="Next slide"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+)}
+
+<script>
+class BlogCarouselHero {
+  constructor(container) {
+    this.container = container;
+    this.slides = container.querySelectorAll('[data-slide]');
+    this.indicators = container.querySelectorAll('[data-indicator]');
+    this.prevButton = container.querySelector('#prev-slide');
+    this.nextButton = container.querySelector('#next-slide');
+    this.currentSlide = 0;
+    this.autoPlayInterval = null;
+    this.init();
+  }
+  init() {
+    this.showSlide(0);
+    this.bindEvents();
+    this.startAutoPlay();
+  }
+  showSlide(idx) {
+    this.slides.forEach((slide, i) => {
+      slide.classList.toggle('opacity-100', i === idx);
+      slide.classList.toggle('opacity-0', i !== idx);
+      slide.classList.toggle('z-10', i === idx);
+      slide.classList.toggle('z-0', i !== idx);
+      slide.setAttribute('aria-hidden', i !== idx);
+    });
+    this.indicators.forEach((ind, i) => {
+      ind.classList.toggle('bg-opacity-100', i === idx);
+      ind.classList.toggle('bg-opacity-50', i !== idx);
+    });
+    this.currentSlide = idx;
+  }
+  nextSlide() {
+    this.showSlide((this.currentSlide + 1) % this.slides.length);
+  }
+  prevSlide() {
+    this.showSlide((this.currentSlide - 1 + this.slides.length) % this.slides.length);
+  }
+  bindEvents() {
+    this.prevButton?.addEventListener('click', () => this.prevSlide());
+    this.nextButton?.addEventListener('click', () => this.nextSlide());
+    this.indicators.forEach((btn, idx) => {
+      btn.addEventListener('click', () => this.showSlide(idx));
+    });
+    this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+    this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+  }
+  startAutoPlay() {
+    if (this.autoPlayInterval) return;
+    this.autoPlayInterval = setInterval(() => this.nextSlide(), 5000);
+  }
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+  }
+}
+
+function initAllCarousels() {
+  document.querySelectorAll('.blog-hero-carousel').forEach(container => {
+    if (container.__carouselInstance) {
+      container.__carouselInstance.stopAutoPlay();
+      container.__carouselInstance = null;
+    }
+    container.__carouselInstance = new BlogCarouselHero(container);
+  });
+}
+
+document.addEventListener('astro:after-swap', () => {
+  setTimeout(initAllCarousels, 0);
+});
+document.addEventListener('DOMContentLoaded', () => {
+  initAllCarousels();
+});
+</script>
+
+<style>
+.blog-hero-carousel [data-slide] {
+  transition: opacity 0.7s;
+}
+.blog-hero-carousel [data-slide].opacity-0 {
+  opacity: 0;
+  pointer-events: none;
+}
+.blog-hero-carousel [data-slide].opacity-100 {
+  opacity: 1;
+  pointer-events: auto;
+}
+</style>

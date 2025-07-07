@@ -5,6 +5,7 @@ import BlogCard from '../../components/blog/BlogCard.astro';
 import BlogCardSkeleton from '../../components/blog/BlogCardSkeleton.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import { fade } from 'astro:transitions';
+import BlogCarouselHero from '../../components/blog/BlogCarouselHero.astro';
 
 interface Props {
   blogPosts: Array<{
@@ -24,10 +25,8 @@ const { blogPosts, currentLang, isLoading = false } = Astro.props;
 
 <Layout title="Blog" class="bg-primary" description="Latest blog posts">
   
-  <!-- Hero Image -->
-  <div class="hero-container">
-    <div class="hero-image"></div>
-  </div>
+  <!-- Hero Carousel -->
+  <BlogCarouselHero news={blogPosts} currentLang={currentLang} />
   
   <div class="container mx-auto px-4 pt-6">
     <Breadcrumb bgColor="bg-primary" textColor="text-white" hoverColor="hover:text-white" />
