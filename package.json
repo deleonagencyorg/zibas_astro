@@ -18,6 +18,7 @@
     "3d-react-carousal": "^5.0.0",
     "aos": "^2.3.4",
     "astro": "^5.8.0",
+    "framer-motion": "^12.23.0",
     "geoip-lite": "^1.4.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

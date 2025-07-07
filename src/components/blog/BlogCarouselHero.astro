@@ -45,11 +45,11 @@ const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
           data-slide={index}
           aria-hidden={index !== 0}
         >
-          <div class="absolute inset-0 w-full h-full">
+          <div class="absolute inset-0 w-full h-full overflow-hidden">
             <LazyImage
               src={item.image}
               alt={item.title}
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover animate-zoom"
             />
           </div>
           <div class="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -191,5 +191,19 @@ document.addEventListener('DOMContentLoaded', () => {
 .blog-hero-carousel [data-slide].opacity-100 {
   opacity: 1;
   pointer-events: auto;
+}
+.animate-zoom {
+  animation: zoom 15s linear infinite;
+}
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
