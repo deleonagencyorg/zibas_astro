@@ -16,9 +16,9 @@ const { currentLang } = Astro.props;
 const messages = t('messagetop', { namespace: 'common', locale: currentLang }) as Message[] || [];
 ---
 
-<div id="message-carousel" class="w-full bg-tertiary text-white py-6 md:py-3 relative overflow-hidden z-10">
+<div id="message-carousel" class="w-full bg-tertiary text-white py-4 md:py-3 relative overflow-hidden z-10">
   <div class="container mx-auto px-4">
-    <div class="message-slider flex items-center justify-center h-6 md:h-8 relative">
+    <div class="message-slider flex items-center justify-center min-h-[1.5rem] md:min-h-[2rem] relative">
       {messages.map((message: Message, index: number) => (
         <div class="message-slide absolute w-full text-center transition-all duration-700 transform" 
              data-index={index} 
@@ -62,18 +62,19 @@ const messages = t('messagetop', { namespace: 'common', locale: currentLang }) a
     const nextButton: HTMLElement | null = document.getElementById('next-message');
 
     function showSlide(index: number) {
-      slides.forEach((slide: HTMLElement, i: number) => {
+      slides.forEach((slide, i: number) => {
+        const slideElement = slide as HTMLElement;
         if (i === index) {
-          slide.style.opacity = '1';
-          slide.style.transform = 'translateY(0)';
-          slide.style.zIndex = '1';
+          slideElement.style.opacity = '1';
+          slideElement.style.transform = 'translateY(0)';
+          slideElement.style.zIndex = '1';
           // Añadir un efecto visual al botón activo
-          slide.classList.add('active-slide');
+          slideElement.classList.add('active-slide');
         } else {
-          slide.style.opacity = '0';
-          slide.style.transform = 'translateY(20px)';
-          slide.style.zIndex = '0';
-          slide.classList.remove('active-slide');
+          slideElement.style.opacity = '0';
+          slideElement.style.transform = 'translateY(20px)';
+          slideElement.style.zIndex = '0';
+          slideElement.classList.remove('active-slide');
         }
       });
       

@@ -214,8 +214,9 @@ const skeletonCount = 3;
                     />
                   )}
                   
-                  <div id="brand-logo" class="flex flex-col items-center z-10 relative">
+                  <div id="brand-logo" class="flex flex-col items-center z-10 relative ">
                     <LazyImage
+                    class="mt-[-6rem] md:mt-0"  
                       src={brand.logo}
                       alt={brand.title}
                       transition:name={`brand-image-${brand.id}`}
