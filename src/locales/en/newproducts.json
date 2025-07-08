@@ -11,22 +11,27 @@
     "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
     "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip1.webp"
   ],
-  "products": [
+  "products": [{
+    "id": "product1",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
+    "alt": "Ranchitas Buffalo Ranch",
+    "link": "#"
+  },
     {
-      "id": "product1",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/zambos-tajin-2.webp",
+      "id": "product2",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-tajin-2.webp",
       "alt": "Zambo Tajín",
       "link": "#"
     },
     {
-      "id": "product2",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-hielo-2.webp",
+      "id": "product3",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-hielo-2.webp",
       "alt": "Taqueritos Dragón de Hielo",
       "link": "#"
     },
     {
-      "id": "product3",
-      "image": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-dragon-de-fuego-2.webp",
+      "id": "product4",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-fuego-2.webp",
       "alt": "Taqueritos Dragón de Fuego",
       "link": "#"
     }

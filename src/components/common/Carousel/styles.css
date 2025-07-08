@@ -7,8 +7,7 @@
 }
 
 .swiper-container.main-carousel {
-  width: 100vw;
-  height: 73vh;
+  width: 100%;
   overflow: hidden;
   position: relative;
   margin: 0;
@@ -18,7 +17,20 @@
 /* Media query para dispositivos móviles */
 @media (max-width: 767px) {
   .swiper-container.main-carousel {
-    height: 73vh;
+    height: auto;
+    aspect-ratio: 16/9; /* Proporción más adecuada para imágenes horizontales */
+  }
+}
+
+/* Media query para tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .swiper-container.main-carousel {
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+  
+  .swiper-slide {
+    height: auto !important;
   }
   
   /* Controles más pequeños para móvil */

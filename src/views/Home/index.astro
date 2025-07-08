@@ -90,7 +90,7 @@ const slides = Array.isArray(commonAssets)
 
   <main class="w-full flex flex-col items-center justify-center mt-0">
     <!-- Slider Section con máscara -->
-    <div class="relative w-full overflow-hidden max-w-[100vw] h-[72vh]">
+    <div class="relative w-full overflow-hidden max-w-[100vw] h-auto aspect-[16/9] md:aspect-[21/9] lg:h-[72vh]">
       <!-- Título superpuesto posicionado a la izquierda y centrado verticalmente -->
       <!-- div class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 hidden md:block">
         <LazyImage 
@@ -112,9 +112,10 @@ const slides = Array.isArray(commonAssets)
        
       </div>-->
 
-      <div class="relative z-0 w-full md:w-[100%] md:ml-auto h-full">
-        <Carousel slides={slides} />
-       
+      <div class="relative z-0 w-full h-full flex items-center justify-center">
+        <div class="w-full max-w-[1920px] mx-auto">
+          <Carousel slides={slides} />
+        </div>
       </div>
     </div>
   
