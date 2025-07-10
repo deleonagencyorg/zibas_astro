@@ -236,13 +236,14 @@ const slides = Array.isArray(commonAssets)
               <LazyImage
                 src={brand.logo}
                 alt={brand.title}
+                
               />
             </div>
           ))}
         </div>
       </div>
-      <div id="previewbrand" class="mt-6 md:mt-0 md:w-1/2 flex items-center justify-center md:order-1 relative">
-        <div id="floating-images-container" class="absolute inset-0 z-10 pointer-events-none overflow-visible">
+      <div id="previewbrand" class="mt-6 md:mt-0 md:w-1/2 flex items-center justify-center md:order-1 relative md:mt-[2rem]">
+        <div id="floating-images-container" class="absolute inset-0 z-10 pointer-events-none overflow-visible md:mt-[-4rem]">
           <ChipsFromBag 
             imageUrl={brands[0].imageChip1}
             count={20}
@@ -263,7 +264,7 @@ const slides = Array.isArray(commonAssets)
           id="brand-preview-img"
           src={brands[0].image}
           alt={brands[0].title}
-          class="hidden md:block w-full h-auto object-contain transition-opacity duration-300"
+          class="hidden md:block w-full h-auto object-contain transition-opacity duration-300 md:mt-[2rem]"
         />
         <LazyImage
           id="brand-preview-img-mobile"
