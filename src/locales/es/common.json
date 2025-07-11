@@ -23,6 +23,10 @@
     "brands": {
       "title": "Marcas",
       "description": "Explora nuestra familia de marcas. Cada una con su propio sabor y personalidad única."
+    },
+    "yummiesone": {
+      "title": "Yummies One",
+      "description": "Descubre Yummies One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
     }
   },
   "social_media": {
@@ -66,28 +70,37 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
-        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_1.webp",
-        "alt": "",
+        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman.webp",
+        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman-m.webp",
+        "alt": "Superman",
         "title": "",
         "description": "",
         "link": "http://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies"
       },
+      {
+        "id": "slide2",
+        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas.webp",
+        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-m.webp",
+        "alt": "Ranchitas Buffalo Ranch",
+        "title": "",
+        "description": "",
+        "link": "https://ranchitas.com"
+      },
 
       {
-        "id": "slide4",
-        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
-        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_2.webp",
-        "alt": "",
+        "id": "slide3",
+        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos.webp",
+        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-m.webp",
+        "alt": "Taqueritos",
         "title": "",
         "description": "",
         "link": "https://taqueritos.com"
       },
       {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
-        "mobile": "https://snack.yummiespromociones.com/snacksyummies/banner_3.webp",
-        "alt": "",
+        "id": "slide4",
+        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos.webp",
+        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-m.webp",
+        "alt": "Zambos",
         "title": "",
         "description": "",
         "link": "https://www.zambos.com"
