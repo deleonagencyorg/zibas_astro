@@ -1,0 +1,35 @@
+---
+// src/views/YummiesOne/index.astro
+---
+
+<style>
+  @import './styles.css';
+  
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh ); /* Adjust based on footer height */
+    overflow: hidden;
+  }
+  
+  .iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<main class="yummiesone-page">
+  <div class="iframe-container">
+    <iframe 
+      src="https://yummies-one-snacks-yummies.vercel.app/" 
+      allowfullscreen
+    >
+    </iframe>
+  </div>
+</main>
+
+<script src="./scripts.js"></script>
