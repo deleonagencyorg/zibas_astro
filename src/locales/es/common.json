@@ -127,6 +127,12 @@
   },
   "menu_items": [
     {
+      "text": "Superman",
+      "href": "https://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies",
+      "target": "_blank",
+      "special": true
+    },
+    {
       "id": "brands",
       "text": "Marcas",
       "href": "/es/marcas"
