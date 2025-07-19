@@ -31,7 +31,7 @@ export const routesConfig: RouteConfig[] = [
   },
   {
     id: 'news',
-    slugs: { es: 'noticias', en: 'news' },
+    slugs: { es: 'blog', en: 'blog' },
     contentComponent: '@/views/News/index.astro',
     metaTitleKey: 'meta.news.title',
     metaDescriptionKey: 'meta.news.description',
