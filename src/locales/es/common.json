@@ -24,6 +24,10 @@
       "title": "Marcas",
       "description": "Explora nuestra familia de marcas. Cada una con su propio sabor y personalidad única."
     },
+    "about_us": {
+      "title": "Nosotros",
+      "description": "Conoce más sobre Snacks Yummies, nuestra historia, misión y valores que nos definen como empresa líder en snacks."
+    },
     "yummiesone": {
       "title": "Yummies One",
       "description": "Descubre Yummies One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
@@ -141,8 +145,23 @@
       "id": "blog",
       "text": "Blog",
       "href": "/es/blog"
+    },
+    {
+      "id": "about_us",
+      "text": "Nosotros",
+      "href": "/es/nosotros"
     }
   ],
+  "about_us": {
+    "title": "Nosotros",
+    "subtitle": "Conoce más sobre Snacks Yummies",
+    "content": [
+      "Snacks Yummies es la marca líder de snacks en Centroamérica, dedicada a ofrecer productos de la más alta calidad y sabor inigualable. Desde nuestros inicios, nos hemos comprometido con la innovación y excelencia en cada uno de nuestros productos.",
+      "Nuestra misión es crear momentos de felicidad a través de snacks deliciosos que unen a las personas. Creemos en la importancia de los pequeños momentos de disfrute que hacen la vida más sabrosa.",
+      "Con una amplia variedad de marcas reconocidas como Superman, Zambos, Taqueritos y Ranchitas, ofrecemos opciones para todos los gustos y ocasiones. Cada producto es elaborado con ingredientes cuidadosamente seleccionados y procesos que garantizan la mejor experiencia para nuestros consumidores.",
+      "En Snacks Yummies, también nos preocupamos por nuestra comunidad y el medio ambiente. Trabajamos constantemente en iniciativas sostenibles y programas de responsabilidad social que generan un impacto positivo en las comunidades donde operamos."
+    ]
+  },
   "home": {
     "brands":{
       "title":"Marcas"
