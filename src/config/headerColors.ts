@@ -29,6 +29,15 @@ export const headerColors: HeaderColors = {
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
   },
+
+  // Configuración para la página de nosotros
+  nosotros: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-white',
+    hoverBackgroundColor: 'hover:bg-primary',
+    showMessageCarousel: true,
+  },
   
   // Configuración para la página de brands
   brands: {

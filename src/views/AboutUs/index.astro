@@ -5,6 +5,10 @@ import type { Locale } from '../../i18n/i18n';
 import type { HeaderColorConfig } from '../../config/headerColors';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import { fade } from 'astro:transitions';
+import VideoHero from '../../components/common/VideoHero/VideoHero.astro';
+
+// Importar estilos separados
+import './styles.css';
 
 export interface Props {
   currentLang: Locale;
@@ -13,96 +17,88 @@ export interface Props {
 
 const { currentLang, headerColorConfig } = Astro.props;
 
-// Get translations
+// Get translations from common.json
 const title = t('about_us.title', { namespace: 'common', locale: currentLang });
-const subtitle = t('about_us.subtitle', { namespace: 'common', locale: currentLang });
-const content = t('about_us.content', { namespace: 'common', locale: currentLang });
 const metaDescription = t('meta.about_us.description', { namespace: 'common', locale: currentLang });
+
+// Importar contenido específico de aboutus.json
+const aboutUsContent = await import(`../../locales/${currentLang}/aboutus.json`);
+const historyTitle = aboutUsContent.title;
+const historySubtitle = aboutUsContent.subtitle;
+const historyIntro = aboutUsContent.intro;
+const historyItems = aboutUsContent.items;
+const historyConclusion = aboutUsContent.conclusion;
+
+// Video and image URLs for hero section
+const videoUrl = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/YUMMIES_INSTITUCIONAL_1920X1080.webm';
+const fallbackImageUrl = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/portada_video.webp';
 ---
 
 <Layout title={title} class="bg-white" description={metaDescription}>
-  <!-- Hero section with background image -->
-  <div class="hero-image relative">
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-white text-center px-4">{title}</h1>
-    </div>
-  </div>
+  <!-- Hero section with video background -->
+  <VideoHero
+    videoUrl={videoUrl}
+    fallbackImageUrl={fallbackImageUrl}
+    height="500px"
+    title={historyTitle}
+    subtitle={historySubtitle}
+    overlayOpacity="30"
+    textColor="text-white"
+    showOverlay={false}
+  />
   
   <div class="container mx-auto px-4 pt-6">
     <Breadcrumb bgColor="bg-white" textColor="text-gray-600" hoverColor="hover:text-primary" />
     
     <div class="text-center mb-12" transition:animate={fade({ duration: '0.5s' })}>
-      <h2 class="font-sans text-3xl font-bold mb-4 text-primary">{subtitle}</h2>
+      <h2 class="font-sans text-3xl font-bold mb-4 text-primary">{historySubtitle}</h2>
       <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
     </div>
 
     <div class="about-us-content max-w-4xl mx-auto mb-16">
-      {Array.isArray(content) ? (
-        content.map((paragraph) => (
-          <p class="mb-6 text-lg text-gray-700 leading-relaxed">{paragraph}</p>
-        ))
-      ) : (
-        <p class="mb-6 text-lg text-gray-700 leading-relaxed">{content}</p>
-      )}
-    </div>
-
-    <div class="about-us-team mb-16">
-      <!-- Team section can be added here in the future -->
+      <p class="mb-8 text-lg text-gray-700 leading-relaxed text-center">{historyIntro}</p>
+      
+      <div class="history-timeline">
+        {historyItems.map((item: { year: string; image: string; text: string }) => (
+          <div class="history-item" transition:animate={fade({ duration: '0.6s' })}>
+            <div class="timeline-left">
+              <div class="year-marker">
+                <span class="year">{item.year}</span>
+              </div>
+            </div>
+            
+            <div class="timeline-center">
+              <div class="timeline-line"></div>
+              <div class="timeline-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 8v8"></path>
+                  <path d="M8 12h8"></path>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="timeline-right">
+              <div class="history-content">
+                <div class="history-text">
+                  <p>{item.text}</p>
+                </div>
+                <div class="history-image">
+                  <img src={item.image} alt={`Snacks Yummies en ${item.year}`} width="300" height="300" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="conclusion mt-16 text-center">
+        <p class="text-lg text-gray-700 leading-relaxed">{historyConclusion}</p>
+      </div>
     </div>
   </div>
 </Layout>
 
-<style>
-  .about-us-header {
-    padding: 4rem 1rem;
-    background-color: var(--color-white);
-    color: var(--color-primary);
-  }
 
-  .about-us-content {
-    padding: 2rem 1rem 4rem;
-  }
 
-  @media (max-width: 768px) {
-    .about-us-header {
-      padding: 3rem 1rem;
-    }
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-  
-  .hero-image {
-    width: 100%;
-    height: 400px;
-    background-image: url('https://snack.yummiespromociones.com/snacksyummies/about-us-hero.webp'), url('https://snack.yummiespromociones.com/snacksyummies/bgondas.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-bottom: 2rem;
-  }
-  
-  @media (max-width: 768px) {
-    .hero-image {
-      height: 300px;
-    }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
-
-<script>
-  // JavaScript functionality can be added here if needed
-</script>
+<script src="./scripts.js"></script>

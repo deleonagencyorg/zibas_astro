@@ -13,14 +13,8 @@ export async function getStaticPaths() {
 
 const { currentLang } = Astro.props;
 
-// Set header color config for white background and primary color text
-const headerColorConfig = {
-  backgroundColor: 'bg-white',
-  textColor: 'text-primary',
-  hoverTextColor: 'hover:text-primary-dark',
-  hoverBackgroundColor: 'hover:bg-gray-100',
-  showMessageCarousel: false
-};
+// Set header color config for white background and primary color text using the getHeaderColors function
+const headerColorConfig = getHeaderColors('about_us');
 ---
 
 <AboutUsView currentLang={currentLang} headerColorConfig={headerColorConfig} />
