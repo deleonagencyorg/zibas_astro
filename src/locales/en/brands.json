@@ -8,7 +8,7 @@
         {
             "id": "taqueritos",
             "slug": "taqueritos",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-logo.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip1.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taqueritos-chip3.webp",
@@ -56,7 +56,7 @@
         {
             "id": "zambos",
             "slug": "zambos",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/zambos-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zambos-chip3.webp",
@@ -136,7 +136,7 @@
         {
             "id": "zibas",
             "slug": "zibas",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/zibas-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp",
@@ -183,7 +183,7 @@
         {
             "id": "delrancho",
             "slug": "delrancho",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/delrancho-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/delrancho-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/delrancho-chip3.webp",
@@ -216,7 +216,7 @@
         {
             "id": "ranchitas",
             "slug": "ranchitas",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-chip3.webp",
@@ -285,7 +285,7 @@
         {
             "id": "taco",
             "slug": "taco",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/taco-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taco-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/taco-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/taco-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/taco-chip3.webp",
@@ -348,7 +348,7 @@
         {
             "id": "yummimix",
             "slug": "yummimix",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummimix-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummimix-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip2.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip1.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummimix-chip3.webp",
@@ -381,7 +381,7 @@
         {
             "id": "yummipops",
             "slug": "yummipops",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/yummipops-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummipops-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yummipops-chip3.webp",
@@ -421,7 +421,7 @@
         {
             "id": "yumminuts",
             "slug": "yumminuts",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yumminuts-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip3.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/yumminuts-chip1.webp",
@@ -483,7 +483,7 @@
         {
             "id": "cappy",
             "slug": "cappy",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/cappy-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/cappy-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/cappy-chip3.webp",
@@ -543,7 +543,7 @@
         {
             "id": "anillitos",
             "slug": "anillitos",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/anillitos-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/anillitos-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/anillitos-chip3.webp",
@@ -576,7 +576,7 @@
         {
             "id": "xixi",
             "slug": "xixi",
-            "logo": "https://snack.yummiespromociones.com/snacksyummies/xixi-logo.webp",
+            "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/xixi-logo.webp",
             "imageChip1": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip1.webp",
             "imageChip2": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip2.webp",
             "imageChip3": "https://snack.yummiespromociones.com/snacksyummies/xixi-chip3.webp",

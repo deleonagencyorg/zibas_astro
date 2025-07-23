@@ -50,6 +50,13 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.brands.title',
     metaDescriptionKey: 'meta.brands.description',
   },
+  {
+    id: 'yummiesone',
+    slugs: { es: 'yummiesone', en: 'yummiesone' },
+    contentComponent: '@/views/YummiesOne/index.astro',
+    metaTitleKey: 'meta.yummiesone.title',
+    metaDescriptionKey: 'meta.yummiesone.description',
+  },
   // ... Agrega más rutas aquí
 ];
 
