@@ -101,6 +101,15 @@ export const headerColors: HeaderColors = {
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
   },
+
+  // Configuración para la página de nosotros
+  about: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-brown',
+    hoverTextColor: 'hover:text-white',
+    hoverBackgroundColor: 'hover:bg-secondary',
+    showMessageCarousel: false
+  },
 };
 
 // Función para obtener la configuración de colores basada en la ruta actual
@@ -130,6 +139,11 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
   
   if (path.includes('/news')) {
     return headerColors.news;
+  }
+
+   
+  if (path.includes('/about') || path.includes('/nosotros')) {
+    return headerColors.about;
   }
   
   // Para la página de inicio (ruta raíz)

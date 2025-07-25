@@ -17,6 +17,7 @@ module.exports = {
         quinary: '#91CAE9',
         red: '#D23627',
         white: '#FFFFFF',
+        brown: '#FAF1E9',
     
       },
       fontFamily: {

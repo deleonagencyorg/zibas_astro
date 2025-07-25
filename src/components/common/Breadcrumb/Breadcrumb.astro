@@ -14,13 +14,13 @@ interface Props {
 
 const { 
   currentPath, 
-  bgColor = 'bg-white', 
+  bgColor, 
   textColor = 'text-gray-500', 
   hoverColor = 'hover:text-gray-800' 
 } = Astro.props;
 
 // Convert Tailwind classes to actual colors for inline styles
-let backgroundColor = 'white';
+let backgroundColor = 'transparent';
 if (bgColor === 'bg-primary') backgroundColor = 'var(--color-primary)';
 else if (bgColor === 'bg-secondary') backgroundColor = 'var(--color-secondary)';
 else if (bgColor === 'bg-white') backgroundColor = 'white';
