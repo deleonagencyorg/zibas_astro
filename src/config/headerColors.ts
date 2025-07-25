@@ -68,19 +68,19 @@ export const headerColors: HeaderColors = {
   
   // Configuración para la página de recetas
   recipes: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-green-800',
-    hoverTextColor: 'hover:text-green-200',
-    hoverBackgroundColor: 'hover:bg-green-700',
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-primary',
+    hoverBackgroundColor: 'hover:bg-primary',
     showMessageCarousel: false,
   },
   
   // Configuración para la página de contacto
   contact: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-gray-800',
-    hoverTextColor: 'hover:text-gray-300',
-    hoverBackgroundColor: 'hover:bg-gray-700',
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-primary',
+    hoverBackgroundColor: 'hover:bg-primary',
     showMessageCarousel: false,
   },
   

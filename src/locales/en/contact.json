@@ -1,0 +1,91 @@
+{
+  "title": "Contact Us",
+  "subtitle": "Get in Touch",
+  "description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+  "email": "info@yummies.com",
+  "phone": "+504 2275-3370",
+  "form": {
+    "title": "Send us a message",
+    "contactReason": {
+      "label": "Reason for contact",
+      "placeholder": "I want to be a client",
+      "required": true,
+      "options": [
+        "I am a client",
+        "I want to be a client",
+        "Exports",
+        "I want to be a supplier",
+        "Send Resume",
+        "I am a University Student",
+        "I am a Journalist/Media",
+        "YUMMIES Ethics Line",
+        "Others"
+      ]
+    },
+    "fullName": {
+      "label": "Full Name",
+      "placeholder": "Enter your full name",
+      "required": true
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "your@email.com",
+      "required": true
+    },
+    "phone": {
+      "label": "Mobile Number",
+      "placeholder": "XXXXXXXX",
+      "required": false
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Write your message here...",
+      "required": true
+    },
+    "submit": "Send"
+  },
+  "offices": {
+    "title": "Our ffices",
+    "locations": {
+      "+504": {
+        "name": "Yummies Honduras",
+        "address": "Barrio Morazán, In front of Tropical Plants, Suyapa Boulevard, Tegucigalpa, Honduras",
+        "phone": "(504) 2275-3370",
+        "email": "contacto.honduras@yummies.com",
+        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-honduras.webp"
+      },
+      "+502": {
+        "name": "Yummies Guatemala",
+        "address": "Zone 10, Guatemala City, Guatemala",
+        "phone": "(502) 2275-3370",
+        "email": "contacto.guatemala@yummies.com",
+        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-guatemala.webp"
+      },
+      "+503": {
+        "name": "Yummies El Salvador",
+        "address": "San Salvador, El Salvador",
+        "phone": "(503) 2275-3370",
+        "email": "contacto.elsalvador@yummies.com",
+        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-elsalvador.webp"
+      },
+      "+506": {
+        "name": "Yummies Costa Rica",
+        "address": "San José, Costa Rica",
+        "phone": "(506) 2275-3370",
+        "email": "contacto.costarica@yummies.com",
+        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-costarica.webp"
+      },
+      "+1809": {
+        "name": "Yummies Dominican Republic",
+        "address": "Santo Domingo, Dominican Republic",
+        "phone": "(1809) 275-3370",
+        "email": "contacto.dominicana@yummies.com",
+        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-dominicana.webp"
+      }
+    }
+  },
+  "map": {
+    "title": "Find Us",
+    "description": "Visit our main offices in Central America"
+  }
+}

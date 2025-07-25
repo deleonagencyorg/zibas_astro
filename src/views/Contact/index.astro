@@ -1,12 +1,291 @@
 ---
-// src/components/pages/ContactPage.astro
-import { t } from '../../i18n/i18n';
+// src/views/Contact/index.astro
+import { t, getLocale } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+import LazyImage from '../../components/common/LazyImage.astro';
+import { fade } from 'astro:transitions';
+
+// Import locale files statically
+import contactEs from '../../locales/es/contact.json';
+import contactEn from '../../locales/en/contact.json';
+
+// Importar estilos separados
 import './styles.css';
-import './scripts.js';
+
+interface Props {
+  currentLang: Locale;
+  headerColorConfig?: any;
+}
+
+const { currentLang, headerColorConfig } = Astro.props;
+
+// Get current locale if not provided
+const locale = currentLang || getLocale();
+
+// Get contact data from locale
+const contact = locale === 'es' ? contactEs : contactEn;
+
+// Meta information
+const title = contact.title;
+const metaDescription = contact.description;
 ---
-<section class="container mx-auto py-12">
-  <h1 class="text-3xl font-bold mb-6">{t('contact.title')}</h1>
-  <p>{t('contact.content')}</p>
-  <!-- Aquí puedes agregar un formulario de contacto, información, etc. -->
-</section>
+
+<MainLayout title={title} class="bg-white" description={metaDescription} headerColorConfig={headerColorConfig}>
+  <div class="container mx-auto px-4 pt-6">
+    <Breadcrumb textColor="text-gray-600" hoverColor="hover:text-primary" />
+
+    <!-- Main Contact Section -->
+    <div class="flex flex-col justify-center items-start lg:flex-row gap-12 py-12">
+      
+      <!-- Left Column - Contact Info -->
+      <div class="flex flex-col justify-center" transition:name="contact-info">
+        <h1 class="text-primary font-title text-5xl lg:text-6xl font-bold mb-6">
+          {contact.title}
+        </h1>
+        
+        <p class="text-gray-700 text-lg mb-8 leading-relaxed">
+          {contact.description}
+        </p>
+        
+        <!-- Contact Details -->
+        <div class="space-y-4">
+          <div class="flex items-center space-x-3">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <a href={`mailto:${contact.email}`} class="text-primary hover:text-secondary transition-colors">
+              {contact.email}
+            </a>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            <a href={`tel:${contact.phone}`} class="text-primary hover:text-secondary transition-colors">
+              {contact.phone}
+            </a>
+          </div>
+        </div>
+        
+        <!-- Contact Illustration -->
+        <div class="mt-8 lg:mt-12">
+          <LazyImage 
+            src="https://snack.yummiespromociones.com/SnacksyummiesAssets/contactimage.webp"
+            alt="Contact illustration"
+            class="w-80 h-auto mx-auto lg:mx-0"
+          />
+        </div>
+      </div>
+      
+      <!-- Right Column - Contact Form -->
+      <div class="bg-white rounded-2x p-8" transition:name="contact-form">
+        <h2 class="text-primary font-sans text-2xl font-bold mb-6">
+          {contact.form.title}
+        </h2>
+        
+        <form class="space-y-6" id="contactForm">
+          <!-- Contact Reason Dropdown -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">
+              {contact.form.contactReason.label} *
+            </label>
+            <select 
+              name="contactReason" 
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            >
+              <option value="">{contact.form.contactReason.placeholder}</option>
+              {contact.form.contactReason.options.map((option: string) => (
+                <option value={option}>{option}</option>
+              ))}
+            </select>
+          </div>
+          
+          <!-- Full Name -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">
+              {contact.form.fullName.label} *
+            </label>
+            <input 
+              type="text" 
+              name="fullName" 
+              required
+              placeholder={contact.form.fullName.placeholder}
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            />
+          </div>
+          
+          <!-- Email -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">
+              {contact.form.email.label} *
+            </label>
+            <input 
+              type="email" 
+              name="email" 
+              required
+              placeholder={contact.form.email.placeholder}
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            />
+          </div>
+          
+          <!-- Phone -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">
+              {contact.form.phone.label}
+            </label>
+            <div class="flex">
   
+              <select 
+                name="countryCode" 
+                id="countryCode"
+                class="w-1/2 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              >
+                <option value="+504">🇭🇳 +504</option>
+                <option value="+502">🇬🇹 +502</option>
+                <option value="+503">🇸🇻 +503</option>
+                <option value="+506">🇨🇷 +506</option>
+                <option value="+1809">🇩🇴 +1809</option>
+              </select>
+              <input type="tel" name="phone" placeholder="XXXXXXXX"  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"/>
+            </div>
+          </div>
+          
+          <!-- Message -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">
+              {contact.form.message.label} *
+            </label>
+            <textarea 
+              name="message" 
+              required
+              rows="4"
+              placeholder={contact.form.message.placeholder}
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+            ></textarea>
+          </div>
+          
+          <!-- Submit Button -->
+          <button 
+            type="submit"
+            class="w-full bg-primary hover:bg-secondary text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 transform hover:scale-105"
+          >
+            {contact.form.submit}
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Offices Section -->
+  
+      </div>
+
+      <h2 class="text-primary font-title text-4xl font-bold mb-4 flex items-center justify-center gap-1">
+        <span class="font-title">{contact.offices.title.split(' ')[0]}</span>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M39.2251 72.2894C34.3914 72.2894 29.8246 71.0982 26.0145 68.847C22.1257 66.5476 19.2211 63.2453 17.6113 59.286C15.3454 53.7106 15.8135 47.4169 18.9324 41.5612C22.0295 35.7493 27.3793 31.063 33.9934 28.3695C37.786 26.8234 41.7098 26.0394 45.6642 26.0394C50.4979 26.0394 55.0648 27.2307 58.8792 29.4819C62.768 31.7813 65.6726 35.0836 67.2824 39.0429C69.5483 44.6183 69.0803 50.912 65.9613 56.7677C62.8643 62.5796 57.5144 67.2659 50.9004 69.9594C47.1078 71.5055 43.1796 72.2894 39.2251 72.2894Z" fill="#FAF1E9"/>
+          <path d="M55.4026 41.642L57.0669 41.5618C57.2674 41.5518 57.4409 41.6972 57.4463 41.8826C57.4734 44.1331 56.4977 45.9727 55.1966 46.0378C53.8306 46.103 52.5946 44.1883 52.4591 41.7874C52.3236 39.3865 53.3318 37.3565 54.6925 37.2913C55.6628 37.2412 56.6007 38.1985 57.0885 39.7073C57.1536 39.9027 57.0723 40.1183 56.8988 40.2436L55.3051 41.4064C55.1912 41.4866 55.2617 41.652 55.4026 41.647V41.642Z" fill="#003278"/>
+          <path d="M39.4434 46.0565C38.3701 46.1486 36.8656 46.6135 35.9344 47.9068C34.5492 49.8307 35.0262 50.8709 35.0262 50.8709C35.0262 50.8709 35.0537 50.9538 35.0904 50.9952C35.1913 51.1149 35.3519 50.9538 35.3519 50.9538C35.6684 50.6592 35.7922 50.3738 36.017 50.0885C36.3885 49.6144 38.0123 46.9495 42.2277 47.29C42.3194 47.2993 42.402 47.244 42.4341 47.1612C42.4616 47.0921 42.4433 47.0185 42.3928 46.9633C42.1589 46.7055 40.8149 45.9323 39.4434 46.0519V46.0565Z" fill="#003278"/>
+          <path d="M58.6969 51.2992C58.6876 51.1816 58.6369 51.0815 58.54 51.0511C58.4154 51.0075 58.2723 51.0902 58.1847 51.2339C58.1847 51.2339 58.1801 51.2426 58.1754 51.2469C58.1201 51.334 58.0693 51.408 58.0324 51.4559C57.9909 51.5124 57.9401 51.5821 57.834 51.7214C57.834 51.7214 57.8248 51.7344 57.8155 51.7475C57.511 52.1218 57.1926 52.5789 56.7635 53.0446C56.2974 53.5669 55.7944 54.0632 55.2592 54.5289C53.4688 56.0872 51.3324 57.2885 49.0298 57.9676C46.0443 58.8729 42.8281 58.9034 39.8242 58.1199C39.8242 58.1199 39.7688 58.1069 39.6673 58.0851C39.5704 58.0546 39.4274 58.0111 39.2612 57.9589C39.0951 57.9066 38.9059 57.85 38.6983 57.7848L38.6706 57.7761C38.4676 57.7021 38.2507 57.6194 38.0338 57.541C37.8077 57.4627 37.5955 57.3625 37.3924 57.2755C37.1894 57.1841 36.9956 57.1101 36.8387 57.0274C36.5203 56.8707 36.3081 56.7619 36.3081 56.7619C35.0945 56.1046 34.6561 55.8217 34.4992 55.7041C34.4531 55.6737 34.4531 55.6084 34.4992 55.5779C35.339 54.9859 36.2435 54.7378 36.7972 54.4375C36.8433 54.4114 36.871 54.3678 36.8802 54.3156C36.8849 54.2634 36.8618 54.2111 36.8202 54.1763C36.6311 54.0283 36.1143 53.8803 34.6976 54.0632C33.9594 54.1589 33.2303 54.4157 32.6166 54.8031C31.6614 55.3472 30.9416 56.1699 30.3694 57.0361C30.2171 57.2755 29.991 57.5454 29.9495 57.8588C29.9356 57.9545 29.9772 58.0503 30.0602 58.1112C30.1387 58.1678 30.2402 58.1809 30.3325 58.1504C30.637 58.0503 30.8677 57.8152 31.0985 57.6716C31.3707 57.4888 31.6476 57.3147 31.9244 57.1493L32.2428 56.9621C32.4643 56.8315 32.755 56.8663 32.935 57.0448C33.0596 57.1623 33.9686 57.9153 34.4946 58.2766C34.8822 58.5421 35.0991 58.9774 35.0714 59.4301C35.0391 60.0482 35.1129 60.7229 35.3344 61.3932C35.9435 63.2083 37.577 64.7143 39.0075 65.3847C39.8657 65.7851 40.7055 65.9374 40.7055 65.9374C41.6376 66.1072 42.3529 66.0245 42.7266 65.9766C44.9323 65.6937 46.7549 64.8362 47.9916 63.6261C49.6666 61.9808 50.3772 60.3616 50.6033 59.7391C50.6679 59.565 50.7971 59.4214 50.9678 59.33C52.0061 58.7728 52.9797 58.1112 53.8472 57.3582C54.1656 57.0796 54.4701 56.788 54.7654 56.4876C54.7793 56.4746 54.7977 56.4615 54.8116 56.4485C55.8129 55.5736 56.6989 54.5942 57.4556 53.5365C57.8663 52.9967 58.1478 52.4788 58.4062 52.0478L58.42 52.0174C58.5031 51.852 58.6507 51.5516 58.6646 51.5081C58.6646 51.495 58.6876 51.4254 58.6969 51.3688C58.6969 51.347 58.6969 51.3209 58.6969 51.2992ZM58.4615 51.7301C58.4615 51.7301 58.4754 51.7257 58.4846 51.7214C58.4754 51.7214 58.4708 51.7257 58.4615 51.7301Z" fill="#003278"/>
+          <path d="M39.3918 61.2688C41.0282 60.3947 43.2695 62.2278 43.6267 63.2675C43.6558 63.3566 43.7323 63.573 43.6777 63.8191C43.572 64.2774 43.08 64.4853 42.8577 64.5787C42.1142 64.8927 40.8824 64.9479 39.8547 64.0907C39.3627 63.6791 38.5135 62.7243 38.7322 61.9562C38.8451 61.5658 39.1877 61.3749 39.3882 61.2688H39.3918Z" fill="#D23627"/>
+          <path d="M41.0986 41.8888C40.3989 41.4105 39.3665 41.1614 38.5901 41.0767C37.6217 40.9621 36.5722 41.1016 35.6379 41.6347C34.9383 42.0233 34.3197 42.6112 33.8419 43.2937C33.3556 43.9762 33.0313 44.7634 32.7754 45.5456C32.7028 45.8146 32.609 46.0687 32.5578 46.3377C32.5322 46.4872 32.4469 46.816 32.4469 46.9704C32.4469 47.0999 32.5151 47.2145 32.6175 47.2643C32.7199 47.3142 32.8393 47.2892 32.9161 47.1946C33.0057 47.085 33.1508 46.791 33.2148 46.6715C33.3428 46.4523 33.4622 46.253 33.5859 46.0388C33.8419 45.6303 34.1149 45.2516 34.4093 44.9128C35.5867 43.5428 36.9519 42.8105 38.62 42.4816C39.2855 42.3272 40.2454 42.387 41.0261 42.3073C41.1242 42.2973 41.201 42.1977 41.1967 42.0781C41.1967 42.0034 41.154 41.9336 41.0986 41.8938V41.8888Z" fill="#003278"/>
+          <path d="M57.0703 35.4262C56.8122 34.8961 56.401 34.4163 55.9723 34.101C55.6749 33.8771 55.3206 33.7126 54.9487 33.6258C54.765 33.5755 54.5725 33.5526 54.3757 33.5435C54.2794 33.5344 54.1832 33.5435 54.087 33.5435H54.0738C53.9688 33.5572 53.8945 33.5572 53.737 33.5983L53.7939 33.5846C53.5795 33.6395 53.3652 33.6989 53.1508 33.7628L53.1246 33.772C52.919 33.8588 52.7221 33.9685 52.5296 34.0736C51.7597 34.5397 51.2086 35.2434 50.828 35.9699C50.4474 36.7056 50.2112 37.4779 50.0668 38.2502C49.9881 38.6843 49.905 39.1047 49.9706 39.5845C49.9793 39.6622 50.0318 39.7307 50.0975 39.7627C50.2024 39.8175 50.3337 39.7855 50.3905 39.6896C50.6355 39.2738 50.7711 38.9356 50.9548 38.57C51.1692 38.1405 51.3923 37.7247 51.6504 37.3454C52.0047 36.8245 52.3853 36.3538 52.7965 35.9837C53.2077 35.6135 53.6451 35.3485 54.1307 35.1885L54.1876 35.1748C54.1876 35.1748 54.2313 35.1566 54.2707 35.1474H54.2882C54.3319 35.1337 54.3757 35.1246 54.4238 35.12C54.5244 35.1063 54.6294 35.0972 54.7344 35.1017C54.9443 35.1063 55.1631 35.1429 55.3774 35.2251C55.688 35.3302 56.0423 35.5907 56.3617 35.9425C56.6548 36.2441 56.8997 36.6143 57.1578 36.9296C57.2059 36.989 57.2847 37.0027 57.3503 36.9707C57.4115 36.9387 57.4509 36.8747 57.4465 36.8016C57.4203 36.3766 57.3109 35.8831 57.0747 35.4216L57.0703 35.4262Z" fill="#003278"/>
+          <path d="M53.63 49.479C53.5351 49.038 53.3411 48.6059 53.0478 48.2593C52.4614 47.5572 51.6119 47.2602 50.8357 47.2917C50.3614 47.3142 49.8094 47.4357 49.4989 47.8318C49.4601 47.8813 49.4515 47.9578 49.486 48.0118C49.5119 48.0613 49.5636 48.0883 49.6154 48.0928C49.818 48.0928 50.0336 48.0883 50.2061 48.0838C50.9694 48.0703 51.4998 48.3989 51.7499 48.6464C52.2544 49.1325 52.3751 49.8076 52.2587 50.5232C52.2285 50.6987 52.1811 50.8742 52.1207 51.0453C52.0905 51.1308 52.056 51.2118 52.0172 51.2973C51.9741 51.3648 51.9396 51.4368 51.9008 51.5088C51.7283 51.7879 51.4567 52.0444 51.1246 52.2649C50.8357 52.4585 50.426 52.6385 49.9905 52.7645C49.7749 52.8275 49.5507 52.8905 49.3394 52.94C49.1885 52.976 48.9556 53.0075 48.8219 53.03C48.7529 53.0436 48.7012 53.1021 48.6969 53.1741C48.6969 53.2371 48.7271 53.2956 48.7831 53.3226C48.9384 53.4036 49.1669 53.4396 49.3437 53.4801C49.5852 53.5296 49.8396 53.5431 50.0983 53.5386C50.6115 53.5296 51.1332 53.4216 51.5645 53.2776C52.0474 53.1066 52.5433 52.823 52.9314 52.3639C53.022 52.2424 53.1082 52.1209 53.1945 51.9949C53.2635 51.8689 53.3324 51.7474 53.3885 51.6123C53.5049 51.3513 53.5869 51.0723 53.6386 50.7887C53.7162 50.3612 53.7205 49.9111 53.6257 49.47L53.63 49.479Z" fill="#003278"/>
+          <path d="M39.1751 73.5394C29.0351 73.5394 19.971 68.4729 16.4458 59.7849C14.0497 53.8754 14.5387 47.2166 17.8238 41.0351C21.0601 34.9472 26.6435 30.0412 33.5427 27.2225C47.8791 21.3665 63.5358 26.4465 68.448 38.5419C70.844 44.4514 70.3551 51.1102 67.0699 57.2917C63.8337 63.3796 58.2502 68.2856 51.351 71.1043C47.3101 72.7545 43.1581 73.535 39.1795 73.5394H39.1751ZM45.7498 27.78C42.1357 27.78 38.3571 28.4936 34.6719 29.9966C28.4172 32.5522 23.3717 36.972 20.46 42.4444C17.5971 47.8276 17.1526 53.581 19.2108 58.652C23.5006 69.2177 37.4102 73.5617 50.2219 68.3257C56.4765 65.7701 61.5221 61.3503 64.4338 55.8779C67.2966 50.4947 67.7412 44.7413 65.6829 39.6703C62.629 32.1419 54.6939 27.7755 45.7498 27.7755V27.78Z" fill="#003278"/>
+          <path d="M46.1485 29.2613L46.0815 28.9724L42.7229 12.8386C42.714 12.7852 42.7006 12.7364 42.6827 12.6741C42.4683 11.6563 42.254 10.6385 42.0351 9.6207C41.7582 8.32288 41.4858 7.02951 41.2178 5.75836C41.1195 5.20723 40.6416 4.78944 40.1012 4.78944C39.6993 4.78944 39.3509 5.02945 39.1857 5.42057C38.9311 6.02059 38.6586 6.69172 38.3907 7.34952C38.0244 8.24288 37.6805 9.08291 37.417 9.69181C37.3456 9.84293 37.2786 9.99404 37.2116 10.1452C37.0642 10.4741 36.9079 10.8163 36.7516 11.1185L36.7382 11.1496L36.7069 11.2385C36.6712 11.3141 36.4746 11.763 36.1977 12.3897C35.6841 13.5453 34.6435 15.8964 34.1343 17.0343C32.9553 16.1676 32.0084 15.3187 30.7623 14.2075C30.0745 13.5942 29.293 12.8964 28.3461 12.0786C27.7968 11.6119 27.2519 11.1185 26.6177 10.5541C25.845 9.86071 24.9652 9.06957 23.862 8.12732C23.6119 7.90954 23.3082 7.79398 23.0045 7.79398C22.7008 7.79398 22.3882 7.91843 22.1693 8.1451C21.9326 8.38955 21.812 8.72734 21.8254 9.09179C21.8522 9.81182 21.879 10.523 21.9103 11.2296C21.9281 11.8252 21.9594 12.3986 21.9862 12.9719C22.0085 13.443 22.0353 13.9186 22.0532 14.3897V14.4697C22.0532 14.5008 22.214 18.3987 22.214 18.4387C22.281 19.8966 22.3435 21.2833 22.2988 22.6167L16.917 21.1011C14.3758 20.4255 12.5178 19.9277 9.98546 19.221C9.8872 19.1899 9.78448 19.1765 9.68622 19.1765C9.30659 19.1765 8.96716 19.3943 8.80191 19.7455C8.61433 20.141 8.68132 20.6299 8.97609 20.9899C10.0837 22.3455 11.1958 23.6922 12.3079 25.0389L13.4557 26.4301L13.4736 26.4568C13.5093 26.5101 13.545 26.559 13.5852 26.6079L21.486 36.2571C23.737 38.7549 24.791 39.8661 25.3582 40.3505C25.8674 40.7861 26.8231 41.0394 28.3595 41.0394C30.606 41.0394 33.6475 40.5461 35.2822 39.915L35.3492 39.8883C36.7114 39.3638 38.1182 38.8172 39.4179 38.0616C42.3343 36.3726 44.7729 33.6214 45.9431 30.6969L46.0681 30.3769C46.2066 30.0213 46.2334 29.6391 46.1485 29.2702V29.2613Z" fill="#003278"/>
+          <path d="M39.2986 14.0065C39.2259 13.5571 38.6525 13.3301 38.4642 13.7974C37.8951 15.2081 37.219 16.9972 36.7654 18.092C35.9267 19.9789 35.2035 22.1641 32.8971 20.5397C30.4837 18.804 29.247 17.3888 26.0805 14.5628C25.6398 14.1623 25.0664 14.4471 25.0878 15.0524C25.1134 15.7778 25.1391 16.4854 25.1691 17.2019C25.2375 19.3781 25.4001 21.5188 25.3017 23.6861C25.2119 25.2927 24.908 26.6501 23.0338 26.3741C20.8087 26.0048 19.0457 25.2437 16.6879 24.5584C16.2728 24.4293 16.0289 24.9812 16.3327 25.3684C18.7633 28.4703 25.1177 36.343 26.4613 37.9585C26.5512 38.0653 26.6539 38.1587 26.7694 38.221C26.855 38.27 26.9492 38.3056 27.0433 38.3278C32.2339 39.4449 39.9448 36.0226 42.2855 30.8112C42.3796 30.602 42.4352 30.375 42.4438 30.1436C42.4523 29.9923 42.4438 29.841 42.4095 29.6897C41.3697 24.4649 40.3299 19.2357 39.2901 14.011L39.2986 14.0065Z" fill="#D23627"/>
+        </svg>
+        <span class="font-title">{contact.offices.title.split(' ').slice(1).join(' ')}</span>
+      </h2>
+      
+      <!-- Map and Office Info -->
+      <div class="container mx-auto">
+        
+        <!-- Map -->
+        <div class="order-2 lg:order-1">
+          <div class="bg-gradient-to-br bg-white rounded-2xl p-8 shadow-lg">
+            <LazyImage 
+              src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Map.webp"
+              alt="Honduras Map"
+              class="w-full h-auto rounded-xl"
+            />
+          </div>
+        </div>
+        
+        <!-- Office Details -->
+        <div class="order-1 lg:order-2">
+          <div id="officeInfo" class="bg-white rounded-2xl p-8 border border-gray-100">
+            <div class="flex flex-col lg:flex-row justify-between items-center">
+            
+              <div class="space-y-4">
+                <h3 id="officeName" class="text-primary font-sans text-2xl font-bold mb-4">
+                  {contact.offices.locations["+504"].name}
+                </h3>
+                
+                <div class="flex items-start space-x-3">
+                  <svg class="w-6 h-6 text-primary mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  <p id="officeAddress" class="text-gray-700 leading-relaxed">{contact.offices.locations["+504"].address}</p>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                  <a id="officePhone" href={`tel:${contact.offices.locations["+504"].phone}`} class="text-primary hover:text-secondary transition-colors">
+                    {contact.offices.locations["+504"].phone}
+                  </a>
+                </div>
+                
+                <div class="flex items-center space-x-3">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  <a id="officeEmail" href={`mailto:${contact.offices.locations["+504"].email}`} class="text-primary hover:text-secondary transition-colors">
+                    {contact.offices.locations["+504"].email}
+                  </a>
+                </div>
+              </div>
+              <div class="mt-6">
+                <LazyImage 
+                  id="officeImage"
+                  src="https://snack.yummiespromociones.com/SnacksyummiesAssets/oficinas.webp"
+                  alt="Yummies Honduras"
+                  class="w-full h-48 object-cover rounded-xl"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  const countryCodeSelect = document.getElementById('countryCode');
+  const officeInfo = document.getElementById('officeInfo');
+  const officeName = document.getElementById('officeName');
+  const officeAddress = document.getElementById('officeAddress');
+  const officePhone = document.getElementById('officePhone');
+  const officeEmail = document.getElementById('officeEmail');
+  const officeImage = document.getElementById('officeImage');
+
+  countryCodeSelect.addEventListener('change', (e) => {
+    const selectedCountryCode = e.target.value;
+    const office = contact.offices.locations[selectedCountryCode];
+
+    officeName.textContent = office.name;
+    officeAddress.textContent = office.address;
+    officePhone.href = `tel:${office.phone}`;
+    officePhone.textContent = office.phone;
+    officeEmail.href = `mailto:${office.email}`;
+    officeEmail.textContent = office.email;
+    officeImage.src = office.image;
+  });
+</script>
