@@ -1,5 +1,5 @@
 // Intersection Observer para efectos interactivos en la timeline
-document.addEventListener('DOMContentLoaded', function() {
+function initializeTimelineObserver() {
   // Configuración del Intersection Observer
   const observerOptions = {
     root: null, // viewport
@@ -28,17 +28,43 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
+  // Verificar que los elementos existen antes de crear el observer
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  
+  if (timelineItems.length === 0) {
+    console.log('Timeline items not found, retrying in 100ms...');
+    setTimeout(initializeTimelineObserver, 100);
+    return;
+  }
+
   // Crear el observer
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
   // Observar todos los elementos de la timeline
-  const timelineItems = document.querySelectorAll('.timeline-item');
   timelineItems.forEach(item => {
     observer.observe(item);
   });
+
+  console.log(`Timeline observer initialized with ${timelineItems.length} items`);
 
   // Cleanup cuando se navega fuera de la página
   window.addEventListener('beforeunload', () => {
     observer.disconnect();
   });
+}
+
+// Múltiples puntos de inicialización para garantizar funcionamiento
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeTimelineObserver);
+} else {
+  // DOM ya está cargado
+  initializeTimelineObserver();
+}
+
+// Backup: inicializar después de que la ventana esté completamente cargada
+window.addEventListener('load', () => {
+  // Solo reinicializar si no hay elementos activos
+  if (!document.querySelector('.timeline-item.active')) {
+    setTimeout(initializeTimelineObserver, 200);
+  }
 });
