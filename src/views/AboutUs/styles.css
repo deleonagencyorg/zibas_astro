@@ -101,6 +101,51 @@
   align-items: center;
 }
 
+/* Estilos para el efecto interactivo de scroll */
+.timeline-item.active .timeline-year {
+  color: #0A3D7E !important; /* primary color */
+  transform: scale(1.1);
+}
+
+.timeline-item.active .timeline-text {
+  color: #0A3D7E !important; /* primary color */
+  transform: scale(1.05);
+}
+
+.timeline-item.active .timeline-image {
+  transform: rotate(2deg) scale(1);
+  opacity: 1.0; /* 100% opacidad cuando está activo */
+}
+
+/* Solo cambio de color del gradiente para la línea */
+.timeline-item.active #line {
+  background: linear-gradient(to bottom, #FAF1E9, #0A3D7E, #FAF1E9) !important;
+}
+
+/* Opacidad por defecto de la imagen */
+.timeline-image {
+  opacity: 0.5; /* 80% opacidad por defecto */
+}
+
+/* Transiciones suaves para todos los elementos */
+.timeline-year,
+.timeline-text,
+.timeline-image {
+  transition: all 0.4s ease-in-out;
+}
+
+
+/* Cambio de color del SVG cuando esté activo */
+.timeline-item.active .timeline-svg path {
+  fill: #D23627 !important; /* primary color cuando activo */
+}
+
+/* Color por defecto del SVG */
+.timeline-svg path {
+  fill: #91CAE9; /* brown color por defecto */
+  transition: fill 0.4s ease-in-out;
+}
+
 .timeline-line {
   position: absolute;
   top: 0;

@@ -54,6 +54,9 @@ const {
     </video>
   </div>
   
+  <!-- Mobile overlay with bg-primary (always visible on mobile) -->
+  <div class="mobile-overlay"></div>
+  
   <!-- Overlay with text (conditional) -->
   {showOverlay && (
     <div class={`overlay bg-black bg-opacity-${overlayOpacity}`}>
@@ -116,6 +119,25 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+  
+  .mobile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 61, 126, 0.6); /* primary color with 60% opacity - more visible */
+    z-index: 10; /* Higher z-index to ensure visibility */
+    pointer-events: none;
+    display: none; /* Hidden by default */
+  }
+  
+  /* Show overlay only on mobile */
+  @media (max-width: 768px) {
+    .mobile-overlay {
+      display: block !important;
+    }
   }
   
   .overlay {

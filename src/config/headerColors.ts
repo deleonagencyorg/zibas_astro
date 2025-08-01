@@ -29,7 +29,13 @@ export const headerColors: HeaderColors = {
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
   },
-
+  yummiesone: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-brown',
+    hoverTextColor: 'hover:text-secondary',
+    hoverBackgroundColor: 'hover:bg-primary',
+    showMessageCarousel: false,
+  },
   // Configuración para la página de nosotros
   nosotros: {
     textColor: 'text-primary',
@@ -139,6 +145,9 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
   
   if (path.includes('/news')) {
     return headerColors.news;
+  }
+  if (path.includes('/yummiesone')) {
+    return headerColors.yummiesone;
   }
 
    
