@@ -1,0 +1,259 @@
+---
+// src/views/Contact/components/FormContact.astro
+import { t, getLocale } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+
+// Import locale files statically
+import contactEs from '../../../locales/es/contact.json';
+import contactEn from '../../../locales/en/contact.json';
+
+interface Props {
+  currentLang?: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+// Get current locale if not provided
+const locale = currentLang || getLocale();
+
+// Get contact data from locale
+const contact = locale === 'es' ? contactEs : contactEn;
+
+// Define countries and their departments
+const countriesData = {
+  'Guatemala': [
+    'Guatemala', 'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula',
+    'El Progreso', 'Escuintla', 'Huehuetenango', 'Izabal', 'Jalapa',
+    'Jutiapa', 'Petén', 'Quetzaltenango', 'Quiché', 'Retalhuleu',
+    'Sacatepéquez', 'San Marcos', 'Santa Rosa', 'Sololá', 'Suchitepéquez',
+    'Totonicapán', 'Zacapa'
+  ],
+  'El Salvador': [
+    'Ahuachapán', 'Cabañas', 'Chalatenango', 'Cuscatlán', 'La Libertad',
+    'La Paz', 'La Unión', 'Morazán', 'San Miguel', 'San Salvador',
+    'San Vicente', 'Santa Ana', 'Sonsonate', 'Usulután'
+  ],
+  'Honduras': [
+    'Atlántida', 'Choluteca', 'Colón', 'Comayagua', 'Copán', 'Cortés',
+    'El Paraíso', 'Francisco Morazán', 'Gracias a Dios', 'Intibucá',
+    'Islas de la Bahía', 'La Paz', 'Lempira', 'Ocotepeque', 'Olancho',
+    'Santa Bárbara', 'Valle', 'Yoro'
+  ],
+  'Nicaragua': [
+    'Boaco', 'Carazo', 'Chinandega', 'Chontales', 'Estelí', 'Granada',
+    'Jinotega', 'León', 'Madriz', 'Managua', 'Masaya', 'Matagalpa',
+    'Nueva Segovia', 'Río San Juan', 'Rivas', 'Región Autónoma del Atlántico Norte',
+    'Región Autónoma del Atlántico Sur'
+  ],
+  'Costa Rica': [
+    'San José', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limón'
+  ],
+  'República Dominicana': [
+    'Distrito Nacional', 'Azua', 'Baoruco', 'Barahona', 'Dajabón', 'Duarte',
+    'Elías Piña', 'El Seibo', 'Espaillat', 'Hato Mayor', 'Hermanas Mirabal',
+    'Independencia', 'La Altagracia', 'La Romana', 'La Vega', 'María Trinidad Sánchez',
+    'Monseñor Nouel', 'Monte Cristi', 'Monte Plata', 'Pedernales', 'Peravia',
+    'Puerto Plata', 'Samaná', 'San Cristóbal', 'San José de Ocoa', 'San Juan',
+    'San Pedro de Macorís', 'Sánchez Ramírez', 'Santiago', 'Santiago Rodríguez',
+    'Santo Domingo', 'Valverde'
+  ]
+};
+
+// Contact reasons
+const contactReasons = [
+  'Soy cliente',
+  'Quiero ser cliente', 
+  'Exportaciones',
+  'Quiero ser proveedor',
+  'Enviar Hoja de vida',
+  'Soy Estudiante Universitario',
+  'Soy Periodista/ Medio de comunicación',
+  'Línea Ética'
+];
+---
+
+<div class="bg-white rounded-2xl p-8" transition:name="contact-form">
+  <h2 class="text-primary font-sans text-2xl font-bold mb-6">
+    {contact.form.title}
+  </h2>
+  
+  <form class="space-y-6" id="contactForm">
+    <!-- Contact Reason Dropdown -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        Tipo de consulta *
+      </label>
+      <select 
+        name="contactReason" 
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      >
+        <option value="">Selecciona el tipo de consulta</option>
+        {contactReasons.map((reason) => (
+          <option value={reason}>{reason}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Country Selector -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        País *
+      </label>
+      <select 
+        name="country" 
+        id="countrySelect"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      >
+        <option value="">Selecciona tu país</option>
+        {Object.keys(countriesData).map((country) => (
+          <option value={country}>{country}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Department Selector -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        Departamento/Estado *
+      </label>
+      <select 
+        name="department" 
+        id="departmentSelect"
+        required
+        disabled
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+      >
+        <option value="">Primero selecciona un país</option>
+      </select>
+    </div>
+    
+    <!-- Full Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.fullName.label} *
+      </label>
+      <input 
+        type="text" 
+        name="fullName" 
+        required
+        placeholder={contact.form.fullName.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+    
+    <!-- Email -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.email.label} *
+      </label>
+      <input 
+        type="email" 
+        name="email" 
+        required
+        placeholder={contact.form.email.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+    
+    <!-- Phone (without country code selector) -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.phone.label}
+      </label>
+      <input 
+        type="tel" 
+        name="phone" 
+        placeholder="Número de teléfono"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+    
+    <!-- Message -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.message.label} *
+      </label>
+      <textarea 
+        name="message" 
+        required
+        rows="4"
+        placeholder={contact.form.message.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+      ></textarea>
+    </div>
+    
+    <!-- Submit Button -->
+    <button 
+      type="submit"
+      class="w-full bg-primary hover:bg-secondary text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 transform hover:scale-105"
+    >
+      {contact.form.submit}
+    </button>
+  </form>
+</div>
+
+<script define:vars={{ countriesData }}>
+  // Dynamic department loading based on country selection
+  document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('countrySelect');
+    const departmentSelect = document.getElementById('departmentSelect');
+    
+    if (countrySelect && departmentSelect) {
+      countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        
+        // Clear department options
+        departmentSelect.innerHTML = '<option value="">Selecciona un departamento/estado</option>';
+        
+        if (selectedCountry && countriesData[selectedCountry]) {
+          // Enable department select
+          departmentSelect.disabled = false;
+          departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+          
+          // Add departments for selected country
+          countriesData[selectedCountry].forEach(department => {
+            const option = document.createElement('option');
+            option.value = department;
+            option.textContent = department;
+            departmentSelect.appendChild(option);
+          });
+        } else {
+          // Disable department select if no country selected
+          departmentSelect.disabled = true;
+          departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+          departmentSelect.innerHTML = '<option value="">Primero selecciona un país</option>';
+        }
+      });
+    }
+    
+    // Form submission handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Basic validation
+        if (!data.contactReason || !data.country || !data.department || !data.fullName || !data.email || !data.message) {
+          alert('Por favor completa todos los campos requeridos.');
+          return;
+        }
+        
+        // Here you would typically send the data to your backend
+        console.log('Form data:', data);
+        alert('Formulario enviado correctamente. Te contactaremos pronto.');
+        
+        // Reset form
+        this.reset();
+        departmentSelect.disabled = true;
+        departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+        departmentSelect.innerHTML = '<option value="">Primero selecciona un país</option>';
+      });
+    }
+  });
+</script>
