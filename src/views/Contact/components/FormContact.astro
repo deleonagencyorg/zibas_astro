@@ -59,17 +59,13 @@ const countriesData = {
   ]
 };
 
-// Contact reasons
-const contactReasons = [
-  'Soy cliente',
-  'Quiero ser cliente', 
-  'Exportaciones',
-  'Quiero ser proveedor',
-  'Enviar Hoja de vida',
-  'Soy Estudiante Universitario',
-  'Soy Periodista/ Medio de comunicación',
-  'Línea Ética'
-];
+// Get localized labels for fields not in contact.json
+const countryLabel = locale === 'es' ? 'País' : 'Country';
+const departmentLabel = locale === 'es' ? 'Departamento/Estado' : 'Department/State';
+const countryPlaceholder = locale === 'es' ? 'Selecciona tu país' : 'Select your country';
+const departmentPlaceholder = locale === 'es' ? 'Primero selecciona un país' : 'First select a country';
+const contactReasonPlaceholder = locale === 'es' ? 'Selecciona el tipo de consulta' : 'Select the type of inquiry';
+
 ---
 
 <div class="bg-white rounded-2xl p-8" transition:name="contact-form">
@@ -81,15 +77,15 @@ const contactReasons = [
     <!-- Contact Reason Dropdown -->
     <div>
       <label class="block text-gray-700 font-medium mb-2">
-        Tipo de consulta *
+        {contact.form.contactReason.label} *
       </label>
       <select 
         name="contactReason" 
         required
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
-        <option value="">Selecciona el tipo de consulta</option>
-        {contactReasons.map((reason) => (
+        <option value="">{contactReasonPlaceholder}</option>
+        {contact.form.contactReason.options.map((reason) => (
           <option value={reason}>{reason}</option>
         ))}
       </select>
@@ -98,7 +94,7 @@ const contactReasons = [
     <!-- Country Selector -->
     <div>
       <label class="block text-gray-700 font-medium mb-2">
-        País *
+        {countryLabel} *
       </label>
       <select 
         name="country" 
@@ -106,7 +102,7 @@ const contactReasons = [
         required
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
-        <option value="">Selecciona tu país</option>
+        <option value="">{countryPlaceholder}</option>
         {Object.keys(countriesData).map((country) => (
           <option value={country}>{country}</option>
         ))}
@@ -116,7 +112,7 @@ const contactReasons = [
     <!-- Department Selector -->
     <div>
       <label class="block text-gray-700 font-medium mb-2">
-        Departamento/Estado *
+        {departmentLabel} *
       </label>
       <select 
         name="department" 
@@ -125,7 +121,7 @@ const contactReasons = [
         disabled
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
       >
-        <option value="">Primero selecciona un país</option>
+        <option value="">{departmentPlaceholder}</option>
       </select>
     </div>
     
@@ -165,7 +161,7 @@ const contactReasons = [
       <input 
         type="tel" 
         name="phone" 
-        placeholder="Número de teléfono"
+        placeholder={contact.form.phone.placeholder}
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
@@ -194,7 +190,7 @@ const contactReasons = [
   </form>
 </div>
 
-<script define:vars={{ countriesData }}>
+<script define:vars={{ countriesData, departmentPlaceholder }}>
   // Dynamic department loading based on country selection
   document.addEventListener('DOMContentLoaded', function() {
     const countrySelect = document.getElementById('countrySelect');
@@ -205,7 +201,7 @@ const contactReasons = [
         const selectedCountry = this.value;
         
         // Clear department options
-        departmentSelect.innerHTML = '<option value="">Selecciona un departamento/estado</option>';
+        departmentSelect.innerHTML = '<option value="">'+departmentPlaceholder+'</option>';
         
         if (selectedCountry && countriesData[selectedCountry]) {
           // Enable department select
@@ -213,7 +209,7 @@ const contactReasons = [
           departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
           
           // Add departments for selected country
-          countriesData[selectedCountry].forEach(department => {
+          countriesData[selectedCountry].forEach(function(department) {
             const option = document.createElement('option');
             option.value = department;
             option.textContent = department;
@@ -223,36 +219,32 @@ const contactReasons = [
           // Disable department select if no country selected
           departmentSelect.disabled = true;
           departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-          departmentSelect.innerHTML = '<option value="">Primero selecciona un país</option>';
+          departmentSelect.innerHTML = '<option value="">'+departmentPlaceholder+'</option>';
         }
       });
     }
     
     // Form submission handler
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-      contactForm.addEventListener('submit', function(e) {
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
         e.preventDefault();
         
         // Get form data
         const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-        
-        // Basic validation
-        if (!data.contactReason || !data.country || !data.department || !data.fullName || !data.email || !data.message) {
-          alert('Por favor completa todos los campos requeridos.');
-          return;
-        }
+        const data = Object.fromEntries(formData);
         
         // Here you would typically send the data to your backend
-        console.log('Form data:', data);
-        alert('Formulario enviado correctamente. Te contactaremos pronto.');
+        console.log('Form submitted:', data);
+        
+        // Show success message (you can customize this)
+        alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
         
         // Reset form
         this.reset();
         departmentSelect.disabled = true;
         departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-        departmentSelect.innerHTML = '<option value="">Primero selecciona un país</option>';
+        departmentSelect.innerHTML = '<option value="">'+departmentPlaceholder+'</option>';
       });
     }
   });
