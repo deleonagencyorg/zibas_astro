@@ -156,10 +156,16 @@
       "text": "Blog",
       "href": "/en/blog"
     },
+  
     {
       "id": "about_us",
       "text": "About Us",
       "href": "/en/about-us"
+    },
+    {
+      "id": "contact",
+      "text": "Contact",
+      "href": "/en/contact"
     }
   ],
   "about_us": {
