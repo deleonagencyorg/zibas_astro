@@ -103,7 +103,7 @@ const metaDescription = contact.description;
       <!-- Tabs and Office Info -->
       <div class="flex flex-col mb-4">
         <!-- Office Details -->
-        <div class="order-1 lg:order-2">
+        <div class="order-2">
           <div id="officeInfo" class="bg-white rounded-2xl p-8 border border-gray-100">
             <div class="flex flex-col lg:flex-row justify-between items-center">
               <div class="space-y-4">
@@ -153,7 +153,7 @@ const metaDescription = contact.description;
         </div>
         
         <!-- Map and Tabs -->
-        <div class="order-2 lg:order-1 mt-4">
+        <div class="order-1 mt-4">
           <!-- Country Tabs -->
           <div class="mb-6 flex flex-wrap justify-center gap-2">
             {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (

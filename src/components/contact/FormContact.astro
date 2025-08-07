@@ -351,8 +351,8 @@ const options = dynamicOptions[locale];
     }
   }
 
-  // Initialize form when DOM is loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the form functionality
+  function initFormFunctionality() {
     const contactReasonSelect = document.getElementById('contactReasonSelect');
     const countrySelect = document.getElementById('countrySelect');
     const citySelect = document.getElementById('departmentSelect');
@@ -371,315 +371,327 @@ const options = dynamicOptions[locale];
     // Debug: Check if variables are passed correctly
     console.log('Script variables:', { labels, options, locale, apiHost, apiToken, contactFormPath });
 
+    // If any of the required elements are missing, exit early
+    if (!contactReasonSelect || !countrySelect || !citySelect || !dynamicFields || !form) {
+      console.error('Required form elements not found');
+      return;
+    }
+
     // Populate countries
     if (countrySelect) {
-      Object.keys(countriesData).forEach(country => {
-        const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
-      });
+      // Make sure we don't add duplicates
+      if (countrySelect.options.length <= 1) {
+        Object.keys(countriesData).forEach(country => {
+          const option = document.createElement('option');
+          option.value = country;
+          option.textContent = country;
+          countrySelect.appendChild(option);
+        });
+      }
     }
 
     // Handle contact reason change
-    if (contactReasonSelect) {
-      contactReasonSelect.addEventListener('change', function() {
-        const selectedReason = this.value;
-        console.log('Contact reason changed to:', selectedReason);
-        updateDynamicFields(selectedReason);
-      });
-    }
+    contactReasonSelect.onchange = function() {
+      const selectedReason = this.value;
+      console.log('Contact reason changed to:', selectedReason);
+      updateDynamicFields(selectedReason);
+    };
 
     // Handle country change
-    if (countrySelect) {
-      countrySelect.addEventListener('change', function() {
-        const selectedCountry = this.value;
+    countrySelect.onchange = function() {
+      const selectedCountry = this.value;
+      
+      // Clear city options
+      citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+      
+      if (selectedCountry && countriesData[selectedCountry]) {
+        // Enable city select
+        citySelect.disabled = false;
+        citySelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
         
-        // Clear city options
-        if (citySelect) {
-          citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
-          
-          if (selectedCountry && countriesData[selectedCountry]) {
-            // Enable city select
-            citySelect.disabled = false;
-            citySelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-            
-            // Add cities for selected country
-            countriesData[selectedCountry].forEach(function(city) {
-              const option = document.createElement('option');
-              option.value = city;
-              option.textContent = city;
-              citySelect.appendChild(option);
-            });
-          } else {
-            // Disable city select if no country selected
-            citySelect.disabled = true;
-            citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-          }
-        }
-      });
-    }
+        // Add cities for selected country
+        countriesData[selectedCountry].forEach(function(city) {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
+        });
+      } else {
+        // Disable city select if no country selected
+        citySelect.disabled = true;
+        citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+      }
+    };
 
     // Handle form submission
-    if (form) {
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const submitButton = document.getElementById('submitButton');
-        const originalText = submitButton ? submitButton.textContent : '';
-        
-        try {
-          // Show loading state
-          if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.textContent = locale === 'es' ? 'Enviando...' : 'Sending...';
-          }
-          
-          // Get form data
-          const formData = new FormData(this);
-          const data = Object.fromEntries(formData.entries());
-          
-          // Convert phone to number if present
-          if (data.phone && data.phone !== '') {
-            data.phone = Number(data.phone);
-          }
-          
-          // Handle file upload
-          const fileInput = document.querySelector('input[type="file"]');
-          if (fileInput && fileInput.files[0]) {
-            data.file = fileInput.files[0];
-          }
-          
-          console.log('Form data to submit:', data);
-          
-          // Submit form
-          const result = await submitContactForm(data);
-          
-          if (result.success) {
-            // Show success message
-            alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
-            
-            // Reset form
-            this.reset();
-            if (citySelect) {
-              citySelect.disabled = true;
-              citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-              citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
-            }
-            if (dynamicFields) {
-              dynamicFields.innerHTML = '';
-            }
-          } else {
-            // Show error message
-            alert(result.message);
-          }
-          
-        } catch (error) {
-          console.error('Form submission error:', error);
-          alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
-        } finally {
-          // Restore button state
-          if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.textContent = originalText;
-          }
+    form.onsubmit = async function(e) {
+      e.preventDefault();
+      
+      const submitButton = document.getElementById('submitButton');
+      const originalText = submitButton ? submitButton.textContent : '';
+      
+      try {
+        // Show loading state
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = locale === 'es' ? 'Enviando...' : 'Sending...';
         }
-      });
-    }
-
-    // Function to update dynamic fields based on contact reason
-    function updateDynamicFields(contactReason) {
-      if (!dynamicFields) {
-        console.error('Dynamic fields container not found');
-        return;
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Convert phone to number if present
+        if (data.phone && data.phone !== '') {
+          data.phone = Number(data.phone);
+        }
+        
+        // Handle file upload
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files[0]) {
+          data.file = fileInput.files[0];
+        }
+        
+        console.log('Form data to submit:', data);
+        
+        // Submit form
+        const result = await submitContactForm(data);
+        
+        if (result.success) {
+          // Show success message
+          alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+          
+          // Reset form
+          this.reset();
+          if (citySelect) {
+            citySelect.disabled = true;
+            citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+            citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+          }
+          if (dynamicFields) {
+            dynamicFields.innerHTML = '';
+          }
+        } else {
+          // Show error message
+          alert(result.message);
+        }
+        
+      } catch (error) {
+        console.error('Form submission error:', error);
+        alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
+      } finally {
+        // Restore button state
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalText;
+        }
       }
-      
-      console.log('Updating dynamic fields for reason:', contactReason);
-      
-      // Clear existing dynamic fields
-      dynamicFields.innerHTML = '';
-      
-      // Handle redirect case
-      if (contactReason === 'Enviar Hoja de vida') {
-        window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
-        return;
-      }
-      
-      // Create dynamic fields based on contact reason
-      switch (contactReason) {
-        case 'Soy cliente':
-          createClientFields();
-          break;
-        case 'Quiero ser cliente':
-          createProspectiveClientFields();
-          break;
-        case 'Exportaciones':
-          createExportsFields();
-          break;
-        case 'Quiero ser proveedor':
-          createSupplierFields();
-          break;
-        case 'Soy Estudiante Universitario':
-          createStudentFields();
-          break;
-        case 'Soy Periodista/ Medio de comunicación':
-          createJournalistFields();
-          break;
-        case 'Línea Ética YUMMIES':
-          createEthicsLineFields();
-          break;
-        case 'Otros':
-          createOthersFields();
-          break;
-        default:
-          console.log('No specific fields for reason:', contactReason);
-      }
+    };
+    
+    // Initialize dynamic fields with default contact reason if selected
+    if (contactReasonSelect.value) {
+      updateDynamicFields(contactReasonSelect.value);
     }
+  }
 
-    // Field creation functions
-    function createClientFields() {
-      if (!labels || !options) {
-        console.error('Labels or options not available');
-        return;
-      }
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.clientCode}</label>
-          <input type="text" name="clientCode" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
-          <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
-            ${options.clientAreaOfInterest.map(option => `<option value="${option}">${option}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
-          <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
-    }
+  // Initialize on DOMContentLoaded (initial page load)
+  document.addEventListener('DOMContentLoaded', initFormFunctionality);
+  
+  // Also initialize on astro:page-load (for client-side navigation)
+  document.addEventListener('astro:page-load', initFormFunctionality);
 
-    function createProspectiveClientFields() {
-      if (!labels || !options) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.requestType} *</label>
-          <select name="requestType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
-            ${options.requestTypes.map(option => `<option value="${option}">${option}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
+  // Function to update dynamic fields based on contact reason
+  function updateDynamicFields(contactReason) {
+    if (!dynamicFields) {
+      console.error('Dynamic fields container not found');
+      return;
     }
+    
+    console.log('Updating dynamic fields for reason:', contactReason);
+    
+    // Clear existing dynamic fields
+    dynamicFields.innerHTML = '';
+    
+    // Handle redirect case
+    if (contactReason === 'Enviar Hoja de vida') {
+      window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
+      return;
+    }
+    
+    // Create dynamic fields based on contact reason
+    switch (contactReason) {
+      case 'Soy cliente':
+        createClientFields();
+        break;
+      case 'Quiero ser cliente':
+        createProspectiveClientFields();
+        break;
+      case 'Exportaciones':
+        createExportsFields();
+        break;
+      case 'Quiero ser proveedor':
+        createSupplierFields();
+        break;
+      case 'Soy Estudiante Universitario':
+        createStudentFields();
+        break;
+      case 'Soy Periodista/ Medio de comunicación':
+        createJournalistFields();
+        break;
+      case 'Línea Ética YUMMIES':
+        createEthicsLineFields();
+        break;
+      case 'Otros':
+        createOthersFields();
+        break;
+      default:
+        console.log('No specific fields for reason:', contactReason);
+    }
+  }
 
-    function createExportsFields() {
-      if (!labels || !options) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.interest} *</label>
-          <select name="interest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
-            ${options.exportInterests.map(option => `<option value="${option}">${option}</option>`).join('')}
-          </select>
-        </div>
-      `;
+  // Field creation functions
+  function createClientFields() {
+    if (!labels || !options) {
+      console.error('Labels or options not available');
+      return;
     }
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.clientCode}</label>
+        <input type="text" name="clientCode" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
+        <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+          <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
+          ${options.clientAreaOfInterest.map(option => `<option value="${option}">${option}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
+        <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
 
-    function createSupplierFields() {
-      if (!labels) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterestSupplier} *</label>
-          <input type="text" name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
-    }
+  function createProspectiveClientFields() {
+    if (!labels || !options) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.requestType} *</label>
+        <select name="requestType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+          <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
+          ${options.requestTypes.map(option => `<option value="${option}">${option}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
 
-    function createStudentFields() {
-      if (!labels) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
-          <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
-    }
+  function createExportsFields() {
+    if (!labels || !options) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.interest} *</label>
+        <select name="interest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+          <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
+          ${options.exportInterests.map(option => `<option value="${option}">${option}</option>`).join('')}
+        </select>
+      </div>
+    `;
+  }
 
-    function createJournalistFields() {
-      if (!labels || !options) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
-          <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
-            ${options.journalistAreas.map(option => `<option value="${option}">${option}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
-          <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
-        </div>
-      `;
-    }
+  function createSupplierFields() {
+    if (!labels) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterestSupplier} *</label>
+        <input type="text" name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
 
-    function createEthicsLineFields() {
-      if (!labels) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.commentsEthics}</label>
-          <textarea name="comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
-    }
+  function createStudentFields() {
+    if (!labels) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
+        <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
 
-    function createOthersFields() {
-      if (!labels) return;
-      
-      dynamicFields.innerHTML = `
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
-          <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
-          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
-        </div>
-      `;
-    }
-  });
+  function createJournalistFields() {
+    if (!labels || !options) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
+        <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+          <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
+          ${options.journalistAreas.map(option => `<option value="${option}">${option}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
+        <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+      </div>
+    `;
+  }
+
+  function createEthicsLineFields() {
+    if (!labels) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.commentsEthics}</label>
+        <textarea name="comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
+
+  function createOthersFields() {
+    if (!labels) return;
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
+        <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+      </div>
+    `;
+  }
 </script>
