@@ -26,6 +26,11 @@ const countryPlaceholder = locale === 'es' ? 'Selecciona tu país' : 'Select you
 const departmentPlaceholder = locale === 'es' ? 'Primero selecciona un país' : 'First select a country';
 const contactReasonPlaceholder = locale === 'es' ? 'Selecciona el tipo de consulta' : 'Select the type of inquiry';
 
+// Get API configuration from environment variables
+const apiHost = import.meta.env.PUBLIC_CONTACT_API_HOST || 'https://api-crm.yummiespromociones.com/api';
+const apiToken = import.meta.env.PUBLIC_CONTACT_API_TOKEN || '';
+const contactFormPath = import.meta.env.PUBLIC_CONTACT_FORM_PATH || '/api/v1/auth/email/custom';
+
 // Dynamic field labels based on language
 const dynamicLabels = {
   es: {
@@ -189,7 +194,7 @@ const options = dynamicOptions[locale];
   </form>
 </div>
 
-<script define:vars={{ departmentPlaceholder, countryPlaceholder, labels, options, locale }}>
+<script define:vars={{ departmentPlaceholder, countryPlaceholder, labels, options, locale, apiHost, apiToken, contactFormPath }}>
   // Countries data
   const countriesData = {
     'Guatemala': [
@@ -233,24 +238,41 @@ const options = dynamicOptions[locale];
   // Simple file validation function
   function validateFile(file) {
     if (file.size > 10 * 1024 * 1024) {
-      return { valid: false, error: 'El archivo debe ser menor a 10MB' };
+      return { valid: false, error: locale === 'es' ? 'El archivo debe ser menor a 10MB' : 'File must be smaller than 10MB' };
     }
     
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
     if (!allowedTypes.includes(file.type)) {
-      return { valid: false, error: 'Solo se permiten archivos PDF, JPG y PNG' };
+      return { valid: false, error: locale === 'es' ? 'Solo se permiten archivos PDF, JPG y PNG' : 'Only PDF, JPG and PNG files are allowed' };
     }
     
     return { valid: true };
   }
 
-  // Simple form submission function
+  // Form submission function using the new API
   async function submitContactForm(formData) {
     try {
       // Handle "Enviar Hoja de vida" redirect case
       if (formData.contactReason === 'Enviar Hoja de vida') {
         window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
         return { success: true, message: 'Redirecting to careers page...' };
+      }
+
+      // Map contact reason to template
+      function getTemplateByContactReason(contactReason) {
+        const templateMap = {
+          'Soy cliente': 'client',
+          'Quiero ser cliente': 'ser_cliente',
+          'Exportaciones': 'exportaciones',
+          'Quiero ser proveedor': 'ser_proveedor',
+          'Soy Estudiante Universitario': 'estudiante_universitario',
+          'Soy Periodista/ Medio de comunicación': 'periodista_medio',
+          'Línea Ética YUMMIES': 'linea_etica',
+          'Otros': 'otros'
+          // 'ganador' would be for a different form/context
+        };
+        
+        return templateMap[contactReason] || 'otros';
       }
 
       // Validate file if present
@@ -267,32 +289,56 @@ const options = dynamicOptions[locale];
       // Create FormData for multipart submission
       const multipartData = new FormData();
 
-      // Add all form fields
+      // Add template field based on contact reason
+      const template = getTemplateByContactReason(formData.contactReason);
+      multipartData.append('template', template);
+
+      // Add all form fields according to the API structure
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
+        if (value !== undefined && value !== null && value !== '') {
           if (key === 'file' && value instanceof File) {
-            multipartData.append('file', value);
+            // Add file with proper field name for attachments
+            multipartData.append('attachments', value);
           } else {
+            // Convert all other fields to string
             multipartData.append(key, String(value));
           }
         }
       });
 
-      // Submit to API (you can customize this endpoint)
-      const response = await fetch('/api/contact', {
+      // Build full API URL
+      const apiUrl = `${apiHost}${contactFormPath}`;
+
+      console.log('Submitting contact form to:', apiUrl);
+      console.log('Template for contact reason "' + formData.contactReason + '":', template);
+
+      // Submit to API
+      const response = await fetch(apiUrl, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': apiToken
+        },
         body: multipartData,
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError);
+        }
+
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
       return {
         success: true,
-        message: result.message || 'Formulario enviado exitosamente',
+        message: result.message || (locale === 'es' ? 'Formulario enviado exitosamente' : 'Form submitted successfully'),
         data: result.data
       };
 
@@ -300,7 +346,7 @@ const options = dynamicOptions[locale];
       console.error('Contact form submission error:', error);
       return {
         success: false,
-        message: error instanceof Error ? error.message : 'Error al enviar el formulario'
+        message: error instanceof Error ? error.message : (locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form')
       };
     }
   }
@@ -313,99 +359,137 @@ const options = dynamicOptions[locale];
     const dynamicFields = document.getElementById('dynamicFields');
     const form = document.getElementById('contactForm');
 
-    // Populate countries
-    Object.keys(countriesData).forEach(country => {
-      const option = document.createElement('option');
-      option.value = country;
-      option.textContent = country;
-      countrySelect.appendChild(option);
+    // Debug: Check if elements exist
+    console.log('Form elements found:', {
+      contactReasonSelect: !!contactReasonSelect,
+      countrySelect: !!countrySelect,
+      departmentSelect: !!departmentSelect,
+      dynamicFields: !!dynamicFields,
+      form: !!form
     });
+
+    // Debug: Check if variables are passed correctly
+    console.log('Script variables:', { labels, options, locale, apiHost, apiToken, contactFormPath });
+
+    // Populate countries
+    if (countrySelect) {
+      Object.keys(countriesData).forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+    }
 
     // Handle contact reason change
-    contactReasonSelect.addEventListener('change', function() {
-      const selectedReason = this.value;
-      updateDynamicFields(selectedReason);
-    });
+    if (contactReasonSelect) {
+      contactReasonSelect.addEventListener('change', function() {
+        const selectedReason = this.value;
+        console.log('Contact reason changed to:', selectedReason);
+        updateDynamicFields(selectedReason);
+      });
+    }
 
     // Handle country change
-    countrySelect.addEventListener('change', function() {
-      const selectedCountry = this.value;
-      
-      // Clear department options
-      departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
-      
-      if (selectedCountry && countriesData[selectedCountry]) {
-        // Enable department select
-        departmentSelect.disabled = false;
-        departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+    if (countrySelect) {
+      countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
         
-        // Add departments for selected country
-        countriesData[selectedCountry].forEach(function(department) {
-          const option = document.createElement('option');
-          option.value = department;
-          option.textContent = department;
-          departmentSelect.appendChild(option);
-        });
-      } else {
-        // Disable department select if no country selected
-        departmentSelect.disabled = true;
-        departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-      }
-    });
+        // Clear department options
+        if (departmentSelect) {
+          departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+          
+          if (selectedCountry && countriesData[selectedCountry]) {
+            // Enable department select
+            departmentSelect.disabled = false;
+            departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+            
+            // Add departments for selected country
+            countriesData[selectedCountry].forEach(function(department) {
+              const option = document.createElement('option');
+              option.value = department;
+              option.textContent = department;
+              departmentSelect.appendChild(option);
+            });
+          } else {
+            // Disable department select if no country selected
+            departmentSelect.disabled = true;
+            departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+          }
+        }
+      });
+    }
 
     // Handle form submission
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const submitButton = document.getElementById('submitButton');
-      const originalText = submitButton.textContent;
-      
-      try {
-        // Show loading state
-        submitButton.disabled = true;
-        submitButton.textContent = locale === 'es' ? 'Enviando...' : 'Sending...';
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        // Get form data
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+        const submitButton = document.getElementById('submitButton');
+        const originalText = submitButton ? submitButton.textContent : '';
         
-        // Handle file upload
-        const fileInput = document.querySelector('input[type="file"]');
-        if (fileInput && fileInput.files[0]) {
-          data.file = fileInput.files[0];
-        }
-        
-        // Submit form
-        const result = await submitContactForm(data);
-        
-        if (result.success) {
-          // Show success message
-          alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+        try {
+          // Show loading state
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = locale === 'es' ? 'Enviando...' : 'Sending...';
+          }
           
-          // Reset form
-          this.reset();
-          departmentSelect.disabled = true;
-          departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-          departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
-          dynamicFields.innerHTML = '';
-        } else {
-          // Show error message
-          alert(result.message);
+          // Get form data
+          const formData = new FormData(this);
+          const data = Object.fromEntries(formData.entries());
+          
+          // Handle file upload
+          const fileInput = document.querySelector('input[type="file"]');
+          if (fileInput && fileInput.files[0]) {
+            data.file = fileInput.files[0];
+          }
+          
+          console.log('Form data to submit:', data);
+          
+          // Submit form
+          const result = await submitContactForm(data);
+          
+          if (result.success) {
+            // Show success message
+            alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+            
+            // Reset form
+            this.reset();
+            if (departmentSelect) {
+              departmentSelect.disabled = true;
+              departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+              departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+            }
+            if (dynamicFields) {
+              dynamicFields.innerHTML = '';
+            }
+          } else {
+            // Show error message
+            alert(result.message);
+          }
+          
+        } catch (error) {
+          console.error('Form submission error:', error);
+          alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
+        } finally {
+          // Restore button state
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+          }
         }
-        
-      } catch (error) {
-        console.error('Form submission error:', error);
-        alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
-      } finally {
-        // Restore button state
-        submitButton.disabled = false;
-        submitButton.textContent = originalText;
-      }
-    });
+      });
+    }
 
     // Function to update dynamic fields based on contact reason
     function updateDynamicFields(contactReason) {
-      if (!dynamicFields) return;
+      if (!dynamicFields) {
+        console.error('Dynamic fields container not found');
+        return;
+      }
+      
+      console.log('Updating dynamic fields for reason:', contactReason);
       
       // Clear existing dynamic fields
       dynamicFields.innerHTML = '';
@@ -442,11 +526,18 @@ const options = dynamicOptions[locale];
         case 'Otros':
           createOthersFields();
           break;
+        default:
+          console.log('No specific fields for reason:', contactReason);
       }
     }
 
     // Field creation functions
     function createClientFields() {
+      if (!labels || !options) {
+        console.error('Labels or options not available');
+        return;
+      }
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.clientCode}</label>
@@ -455,7 +546,7 @@ const options = dynamicOptions[locale];
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
           <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">Selecciona una opción</option>
+            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
             ${options.clientAreaOfInterest.map(option => `<option value="${option}">${option}</option>`).join('')}
           </select>
         </div>
@@ -472,11 +563,13 @@ const options = dynamicOptions[locale];
     }
 
     function createProspectiveClientFields() {
+      if (!labels || !options) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.requestType} *</label>
           <select name="requestType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">Selecciona una opción</option>
+            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
             ${options.requestTypes.map(option => `<option value="${option}">${option}</option>`).join('')}
           </select>
         </div>
@@ -489,11 +582,13 @@ const options = dynamicOptions[locale];
     }
 
     function createExportsFields() {
+      if (!labels || !options) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.interest} *</label>
           <select name="interest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">Selecciona una opción</option>
+            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
             ${options.exportInterests.map(option => `<option value="${option}">${option}</option>`).join('')}
           </select>
         </div>
@@ -501,6 +596,8 @@ const options = dynamicOptions[locale];
     }
 
     function createSupplierFields() {
+      if (!labels) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterestSupplier} *</label>
@@ -515,6 +612,8 @@ const options = dynamicOptions[locale];
     }
 
     function createStudentFields() {
+      if (!labels) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
@@ -529,11 +628,13 @@ const options = dynamicOptions[locale];
     }
 
     function createJournalistFields() {
+      if (!labels || !options) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
           <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
-            <option value="">Selecciona una opción</option>
+            <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
             ${options.journalistAreas.map(option => `<option value="${option}">${option}</option>`).join('')}
           </select>
         </div>
@@ -545,6 +646,8 @@ const options = dynamicOptions[locale];
     }
 
     function createEthicsLineFields() {
+      if (!labels) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.commentsEthics}</label>
@@ -559,6 +662,8 @@ const options = dynamicOptions[locale];
     }
 
     function createOthersFields() {
+      if (!labels) return;
+      
       dynamicFields.innerHTML = `
         <div>
           <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>

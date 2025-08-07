@@ -1,68 +1,51 @@
-import type { ContactFormData, ContactFormResponse } from '../types';
-import { validateFile } from '../validations';
+import type { ContactFormData, ContactFormResponse } from '../types/index';
 
-// Countries and their departments data
-export const countriesData = {
-  'Guatemala': [
-    'Guatemala', 'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula',
-    'El Progreso', 'Escuintla', 'Huehuetenango', 'Izabal', 'Jalapa',
-    'Jutiapa', 'Petén', 'Quetzaltenango', 'Quiché', 'Retalhuleu',
-    'Sacatepéquez', 'San Marcos', 'Santa Rosa', 'Sololá', 'Suchitepéquez',
-    'Totonicapán', 'Zacapa'
-  ],
-  'El Salvador': [
-    'Ahuachapán', 'Cabañas', 'Chalatenango', 'Cuscatlán', 'La Libertad',
-    'La Paz', 'La Unión', 'Morazán', 'San Miguel', 'San Salvador',
-    'San Vicente', 'Santa Ana', 'Sonsonate', 'Usulután'
-  ],
-  'Honduras': [
-    'Atlántida', 'Choluteca', 'Colón', 'Comayagua', 'Copán', 'Cortés',
-    'El Paraíso', 'Francisco Morazán', 'Gracias a Dios', 'Intibucá',
-    'Islas de la Bahía', 'La Paz', 'Lempira', 'Ocotepeque', 'Olancho',
-    'Santa Bárbara', 'Valle', 'Yoro'
-  ],
-  'Nicaragua': [
-    'Boaco', 'Carazo', 'Chinandega', 'Chontales', 'Estelí', 'Granada',
-    'Jinotega', 'León', 'Madriz', 'Managua', 'Masaya', 'Matagalpa',
-    'Nueva Segovia', 'Río San Juan', 'Rivas', 'Región Autónoma del Atlántico Norte',
-    'Región Autónoma del Atlántico Sur'
-  ],
-  'Costa Rica': [
-    'San José', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limón'
-  ],
-  'República Dominicana': [
-    'Distrito Nacional', 'Azua', 'Baoruco', 'Barahona', 'Dajabón', 'Duarte',
-    'Elías Piña', 'El Seibo', 'Espaillat', 'Hato Mayor', 'Hermanas Mirabal',
-    'Independencia', 'La Altagracia', 'La Romana', 'La Vega', 'María Trinidad Sánchez',
-    'Monseñor Nouel', 'Monte Cristi', 'Monte Plata', 'Pedernales', 'Peravia',
-    'Puerto Plata', 'Samaná', 'San Cristóbal', 'San José de Ocoa', 'San Juan',
-    'San Pedro de Macorís', 'Sánchez Ramírez', 'Santiago', 'Santiago Rodríguez',
-    'Santo Domingo', 'Valverde'
-  ]
-};
-
-class ContactService {
-  private baseUrl: string;
+export class ContactService {
+  private readonly apiHost: string;
+  private readonly apiToken: string;
+  private readonly contactFormPath: string;
 
   constructor() {
-    // Get API base URL from environment or use default
-    this.baseUrl = import.meta.env.PUBLIC_API_BASE_URL || '/api';
+    this.apiHost = import.meta.env.PUBLIC_CONTACT_API_HOST || 'https://api-crm.yummiespromociones.com/api';
+    this.apiToken = import.meta.env.PUBLIC_CONTACT_API_TOKEN || '';
+    this.contactFormPath = import.meta.env.PUBLIC_CONTACT_FORM_PATH || '/api/v1/auth/email/custom';
   }
 
-  /**
-   * Submit contact form with multipart/form-data support
-   */
+  private validateFile(file: File): { valid: boolean; error?: string } {
+    // Check file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      return {
+        valid: false,
+        error: 'El archivo debe ser menor a 10MB / File must be smaller than 10MB'
+      };
+    }
+
+    // Check file type
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.type)) {
+      return {
+        valid: false,
+        error: 'Solo se permiten archivos PDF, JPG y PNG / Only PDF, JPG and PNG files are allowed'
+      };
+    }
+
+    return { valid: true };
+  }
+
   async submitContactForm(formData: ContactFormData): Promise<ContactFormResponse> {
     try {
-      // Handle "Enviar Hoja de vida" redirect case
+      // Handle redirect case for "Enviar Hoja de vida"
       if (formData.contactReason === 'Enviar Hoja de vida') {
         window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
-        return { success: true, message: 'Redirecting to careers page...' };
+        return {
+          success: true,
+          message: 'Redirecting to careers page...'
+        };
       }
 
       // Validate file if present
-      if ('file' in formData && formData.file) {
-        const fileValidation = validateFile(formData.file);
+      if (formData.file) {
+        const fileValidation = this.validateFile(formData.file);
         if (!fileValidation.valid) {
           return {
             success: false,
@@ -71,97 +54,83 @@ class ContactService {
         }
       }
 
+      // Check if API token is configured
+      if (!this.apiToken) {
+        console.error('API token not configured');
+        return {
+          success: false,
+          message: 'API configuration error. Please contact support.'
+        };
+      }
+
       // Create FormData for multipart submission
       const multipartData = new FormData();
 
-      // Add all form fields
+      // Add all form fields according to the API structure
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
+        if (value !== undefined && value !== null && value !== '') {
           if (key === 'file' && value instanceof File) {
-            multipartData.append('file', value);
+            // Add file with proper field name for attachments
+            multipartData.append('attachments', value);
           } else {
+            // Convert all other fields to string
             multipartData.append(key, String(value));
           }
         }
       });
 
+      // Build full API URL
+      const apiUrl = `${this.apiHost}${this.contactFormPath}`;
+
+      console.log('Submitting contact form to:', apiUrl);
+
       // Submit to API
-      const response = await fetch(`${this.baseUrl}/contact`, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiToken}`,
+          // Don't set Content-Type header - let browser set it with boundary for multipart
+        },
         body: multipartData,
-        // Don't set Content-Type header, let browser set it with boundary
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError);
+        }
+
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
+      
       return {
         success: true,
-        message: result.message || 'Formulario enviado exitosamente',
+        message: result.message || 'Formulario enviado exitosamente / Form submitted successfully',
         data: result.data
       };
 
     } catch (error) {
       console.error('Contact form submission error:', error);
+      
+      let errorMessage = 'Error al enviar el formulario / Error sending form';
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       return {
         success: false,
-        message: error instanceof Error ? error.message : 'Error al enviar el formulario'
+        message: errorMessage
       };
     }
-  }
-
-  /**
-   * Get departments for a specific country
-   */
-  getDepartmentsByCountry(country: string): string[] {
-    return countriesData[country as keyof typeof countriesData] || [];
-  }
-
-  /**
-   * Get all available countries
-   */
-  getAvailableCountries(): string[] {
-    return Object.keys(countriesData);
-  }
-
-  /**
-   * Validate form data before submission
-   */
-  validateFormData(formData: Partial<ContactFormData>): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
-
-    // Basic validation
-    if (!formData.contactReason) errors.push('Contact reason is required');
-    if (!formData.country) errors.push('Country is required');
-    if (!formData.department) errors.push('Department is required');
-    if (!formData.fullName) errors.push('Full name is required');
-    if (!formData.email) errors.push('Email is required');
-
-    // Email format validation
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.push('Invalid email format');
-    }
-
-    // File validation if present
-    if ('file' in formData && formData.file) {
-      const fileValidation = validateFile(formData.file);
-      if (!fileValidation.valid) {
-        errors.push(fileValidation.error || 'Invalid file');
-      }
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors
-    };
   }
 }
 
 // Export singleton instance
 export const contactService = new ContactService();
-
-// Export class for testing
-export { ContactService };
