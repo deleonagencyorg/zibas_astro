@@ -70,13 +70,15 @@ const dynamicOptions = {
     clientAreaOfInterest: ['Sugerencias', 'Consultas', 'Reclamo'],
     requestTypes: ['Para consumo propio', 'Pulpería', 'Mini Mercado', 'Abastecedor', 'Otros'],
     exportInterests: ['Quiero ser distribuidor', 'Deseo producto para consumo personal'],
-    journalistAreas: ['Presidencia Ejecutiva', 'Mercadeo', 'Relaciones Corporativas']
+    journalistAreas: ['Presidencia Ejecutiva', 'Mercadeo', 'Relaciones Corporativas'],
+    contactReason: ['Soy cliente', 'Quiero ser cliente', 'Exportaciones', 'Quiero ser proveedor', 'Enviar Hoja de vida', 'Soy Estudiante Universitario', 'Soy Periodista/ Medio de comunicación', 'Línea Ética YUMMIES', 'Soy un ganador', 'Otros']
   },
   en: {
     clientAreaOfInterest: ['Suggestions', 'Inquiries', 'Complaint'],
     requestTypes: ['For personal consumption', 'Small store', 'Mini Market', 'Supplier', 'Others'],
     exportInterests: ['I want to be a distributor', 'I want product for personal consumption'],
-    journalistAreas: ['Executive Presidency', 'Marketing', 'Corporate Relations']
+    journalistAreas: ['Executive Presidency', 'Marketing', 'Corporate Relations'],
+    contactReason: ['I am a client', 'I want to be a client', 'Exports', 'I want to be a supplier', 'Send Resume', 'I am a University Student', 'I am a Journalist/Media', 'YUMMIES Ethics Line', '', 'Others']
   }
 };
 
@@ -102,9 +104,20 @@ const options = dynamicOptions[locale];
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{contactReasonPlaceholder}</option>
-        {contact.form.contactReason.options.map((reason) => (
-          <option value={reason}>{reason}</option>
-        ))}
+        {locale === 'es' ? (
+          // En español, mostrar todas las opciones incluido "Soy un ganador"
+          dynamicOptions.es.contactReason.map((reason) => (
+            <option value={reason}>{reason}</option>
+          ))
+        ) : (
+          // En inglés, mostrar solo las opciones que tienen texto (filtrar vacías)
+          dynamicOptions.en.contactReason.map((reason, index) => {
+            if (reason) { // Solo mostrar si tiene texto
+              return <option value={dynamicOptions.es.contactReason[index]}>{reason}</option>;
+            }
+            return null;
+          })
+        )}
       </select>
     </div>
 
@@ -513,69 +526,39 @@ const options = dynamicOptions[locale];
     // Clear existing dynamic fields
     dynamicFields.innerHTML = '';
     
-    // Mapping between English and Spanish contact reasons
-    const reasonMapping = {
-      // Spanish values
-      'Soy cliente': 'client',
-      'Quiero ser cliente': 'ser_cliente ',
-      'Exportaciones': 'exportaciones',
-      'Quiero ser proveedor': 'ser_proveedor',
-      'Enviar Hoja de vida': 'resume',
-      'Soy Estudiante Universitario':'estudiante_universitario',
-      'Soy Periodista/ Medio de comunicación': 'periodista_medio',
-      'Línea Ética YUMMIES': 'linea_etica',
-      'Soy un ganador': 'ganador',
-      'Otros': 'otros',
-      
-      // English values
-      'I am a client': 'client',
-      'I want to be a client': 'ser_cliente ',
-      'Exports': 'exportaciones',
-      'I want to be a supplier': 'ser_proveedor',
-      'Send Resume': 'resume',
-      'I am a University Student': 'estudiante_universitario',
-      'I am a Journalist/Media': 'periodista_medio',
-      'YUMMIES Ethics Line': 'linea_etica',
-      'Others': 'otros'
-    };
-    
-    // Get normalized reason type
-    const reasonType = reasonMapping[contactReason] || '';
-    console.log('Normalized reason type:', reasonType);
-    
     // Handle redirect case
-    if (reasonType === 'resume') {
+    if (contactReason === 'Enviar Hoja de vida') {
       window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
       return;
     }
     
-    // Create dynamic fields based on normalized reason type
-    switch (reasonType) {
-      case 'client':
+    // Create dynamic fields based on contact reason
+    switch (contactReason) {
+      case 'Soy cliente':
         createClientFields();
         break;
-      case 'ser_cliente ':
+      case 'Quiero ser cliente':
         createProspectiveClientFields();
         break;
-      case 'exportaciones':
+      case 'Exportaciones':
         createExportsFields();
         break;
-      case 'ser_proveedor':
+      case 'Quiero ser proveedor':
         createSupplierFields();
         break;
-      case 'estudiante_universitario':
+      case 'Soy Estudiante Universitario':
         createStudentFields();
         break;
-      case 'periodista_medio':
+      case 'Soy Periodista/ Medio de comunicación':
         createJournalistFields();
         break;
-      case 'linea_etica':
+      case 'Línea Ética YUMMIES':
         createEthicsLineFields();
         break;
-      case 'ganador':
+      case 'Soy un ganador':
         createWinnerFields();
         break;
-      case 'otros':
+      case 'Otros':
         createOthersFields();
         break;
       default:
