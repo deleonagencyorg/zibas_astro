@@ -22,10 +22,10 @@ export type Country =
 export interface BaseContactForm {
   contactReason: ContactReason;
   country: Country;
-  department: string;
-  fullName: string;
+  city: string;
+  name: string;
   email: string;
-  phone?: string;
+  phone?: number;
 }
 
 // Additional fields for specific contact reasons

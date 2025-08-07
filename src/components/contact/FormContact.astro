@@ -22,6 +22,7 @@ const contact = locale === 'es' ? contactEs : contactEn;
 // Get localized labels for fields not in contact.json
 const countryLabel = locale === 'es' ? 'País' : 'Country';
 const departmentLabel = locale === 'es' ? 'Departamento/Estado' : 'Department/State';
+const cityLabel = locale === 'es' ? 'Ciudad' : 'City';
 const countryPlaceholder = locale === 'es' ? 'Selecciona tu país' : 'Select your country';
 const departmentPlaceholder = locale === 'es' ? 'Primero selecciona un país' : 'First select a country';
 const contactReasonPlaceholder = locale === 'es' ? 'Selecciona el tipo de consulta' : 'Select the type of inquiry';
@@ -121,13 +122,13 @@ const options = dynamicOptions[locale];
       </select>
     </div>
 
-    <!-- Department Selector -->
+    <!-- City Selector -->
     <div>
       <label class="block text-gray-700 font-medium mb-2">
-        {departmentLabel} *
+        {cityLabel} *
       </label>
       <select 
-        name="department" 
+        name="city" 
         id="departmentSelect"
         required
         disabled
@@ -137,14 +138,14 @@ const options = dynamicOptions[locale];
       </select>
     </div>
     
-    <!-- Full Name -->
+    <!-- Name -->
     <div>
       <label class="block text-gray-700 font-medium mb-2">
         {contact.form.fullName.label} *
       </label>
       <input 
         type="text" 
-        name="fullName" 
+        name="name" 
         required
         placeholder={contact.form.fullName.placeholder}
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
@@ -171,7 +172,7 @@ const options = dynamicOptions[locale];
         {contact.form.phone.label}
       </label>
       <input 
-        type="tel" 
+        type="number" 
         name="phone" 
         placeholder={contact.form.phone.placeholder}
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
@@ -292,7 +293,7 @@ const options = dynamicOptions[locale];
       // Add template field based on contact reason
       const template = getTemplateByContactReason(formData.contactReason);
       multipartData.append('template', template);
-
+      multipartData.append('site', 'snacksyummies');
       // Add all form fields according to the API structure
       Object.entries(formData).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
@@ -316,7 +317,6 @@ const options = dynamicOptions[locale];
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': apiToken
         },
         body: multipartData,
@@ -355,7 +355,7 @@ const options = dynamicOptions[locale];
   document.addEventListener('DOMContentLoaded', function() {
     const contactReasonSelect = document.getElementById('contactReasonSelect');
     const countrySelect = document.getElementById('countrySelect');
-    const departmentSelect = document.getElementById('departmentSelect');
+    const citySelect = document.getElementById('departmentSelect');
     const dynamicFields = document.getElementById('dynamicFields');
     const form = document.getElementById('contactForm');
 
@@ -363,7 +363,7 @@ const options = dynamicOptions[locale];
     console.log('Form elements found:', {
       contactReasonSelect: !!contactReasonSelect,
       countrySelect: !!countrySelect,
-      departmentSelect: !!departmentSelect,
+      citySelect: !!citySelect,
       dynamicFields: !!dynamicFields,
       form: !!form
     });
@@ -395,26 +395,26 @@ const options = dynamicOptions[locale];
       countrySelect.addEventListener('change', function() {
         const selectedCountry = this.value;
         
-        // Clear department options
-        if (departmentSelect) {
-          departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+        // Clear city options
+        if (citySelect) {
+          citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
           
           if (selectedCountry && countriesData[selectedCountry]) {
-            // Enable department select
-            departmentSelect.disabled = false;
-            departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+            // Enable city select
+            citySelect.disabled = false;
+            citySelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
             
-            // Add departments for selected country
-            countriesData[selectedCountry].forEach(function(department) {
+            // Add cities for selected country
+            countriesData[selectedCountry].forEach(function(city) {
               const option = document.createElement('option');
-              option.value = department;
-              option.textContent = department;
-              departmentSelect.appendChild(option);
+              option.value = city;
+              option.textContent = city;
+              citySelect.appendChild(option);
             });
           } else {
-            // Disable department select if no country selected
-            departmentSelect.disabled = true;
-            departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+            // Disable city select if no country selected
+            citySelect.disabled = true;
+            citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
           }
         }
       });
@@ -439,6 +439,11 @@ const options = dynamicOptions[locale];
           const formData = new FormData(this);
           const data = Object.fromEntries(formData.entries());
           
+          // Convert phone to number if present
+          if (data.phone && data.phone !== '') {
+            data.phone = Number(data.phone);
+          }
+          
           // Handle file upload
           const fileInput = document.querySelector('input[type="file"]');
           if (fileInput && fileInput.files[0]) {
@@ -456,10 +461,10 @@ const options = dynamicOptions[locale];
             
             // Reset form
             this.reset();
-            if (departmentSelect) {
-              departmentSelect.disabled = true;
-              departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
-              departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+            if (citySelect) {
+              citySelect.disabled = true;
+              citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+              citySelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
             }
             if (dynamicFields) {
               dynamicFields.innerHTML = '';
