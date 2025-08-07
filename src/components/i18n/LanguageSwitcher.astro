@@ -79,10 +79,10 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   </div>
   
   {activeLocale === 'es' && (
-    <div class="mt-2 md:mt-0 md:ml-2 md:flex md:items-center">
+     <div class="mt-2 md:mt-0 md:ml-2 md:flex md:items-center">
       <span class="hidden md:inline divider text-gray-400">|</span>
-      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 text-primary hover:bg-secondary`} title="Yummies One">
-        <span class="text-primary">Yummies One</span>
+      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 ${currentPath.includes('/yummiesone') ? ' text-quinary bg-secondary' : 'text-primary hover:bg-secondary'}`} title="Yummies One">
+        <span class={currentPath.includes('/yummiesone') ? 'bg-quinary rounded-md  px-2 py-1 text-primary' : 'text-primary'}>Yummies One</span>
       </a>
     </div>
   )}
