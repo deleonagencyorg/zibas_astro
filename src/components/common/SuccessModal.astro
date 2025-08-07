@@ -1,0 +1,114 @@
+---
+import { getLocale } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+
+interface Props {
+  title?: string;
+  message?: string;
+  buttonText?: string;
+}
+
+// Detectar el idioma actual basado en la URL
+const locale = getLocale(Astro.url);
+const defaultValues = {
+  es: {
+    title: "Tu mensaje se envió correctamente",
+    message: "Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.",
+    buttonText: "Cerrar"
+  },
+  en: {
+    title: "Your message was sent successfully",
+    message: "Thank you for your message. We will contact you soon.",
+    buttonText: "Close"
+  }
+};
+
+const { 
+  title = defaultValues[locale]?.title || defaultValues.es.title, 
+  message = defaultValues[locale]?.message || defaultValues.es.message, 
+  buttonText = defaultValues[locale]?.buttonText || defaultValues.es.buttonText
+} = Astro.props;
+---
+
+<div id="successModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+    <div class="bg-white rounded-lg p-8 max-w-md mx-4 relative z-10 transform transition-all">
+    <div class="flex justify-center items-center mb-4">
+      <h3 class="md:text-4xl text-2xl font-bold text-primary font-title" id="modal-title">{title}</h3>
+      <button type="button" class="modal-close text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="mb-6">
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+        <svg class="h-10 w-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <p class="text-gray-700 text-center" id="modal-message">{message}</p>
+    </div>
+    
+    <div class="flex justify-center">
+      <button type="button" class="modal-close px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+        {buttonText}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initSuccessModal() {
+    const modal = document.getElementById('successModal');
+    const closeButtons = document.querySelectorAll('.modal-close');
+    const backdrop = document.querySelector('.modal-backdrop');
+    
+    if (!modal || !closeButtons.length) return;
+    
+    // Close modal function
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+    
+    // Close on button click
+    closeButtons.forEach(button => {
+      button.addEventListener('click', closeModal);
+    });
+    
+    // Close on backdrop click
+    if (backdrop) {
+      backdrop.addEventListener('click', closeModal);
+    }
+    
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  }
+  
+  // Initialize modal on page load
+  document.addEventListener('DOMContentLoaded', initSuccessModal);
+  document.addEventListener('astro:page-load', initSuccessModal);
+  
+  // Expose showModal function to window
+  window.showSuccessModal = function(message, title) {
+    const modal = document.getElementById('successModal');
+    const titleEl = document.getElementById('modal-title');
+    const messageEl = document.getElementById('modal-message');
+    
+    if (!modal) return;
+    
+    // Update content if elements exist
+    if (titleEl && title) titleEl.textContent = title;
+    if (messageEl && message) messageEl.textContent = message;
+    
+    // Show modal
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  };
+</script>

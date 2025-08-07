@@ -2,6 +2,7 @@
 // src/components/contact/FormContact.astro
 import { getLocale } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
+import SuccessModal from '../common/SuccessModal.astro';
 
 // Import locale files statically
 import contactEs from '../../locales/es/contact.json';
@@ -14,7 +15,7 @@ interface Props {
 const { currentLang } = Astro.props;
 
 // Get current locale if not provided
-const locale = currentLang || getLocale();
+const locale = currentLang || getLocale(Astro.url);
 
 // Get contact data from locale
 const contact = locale === 'es' ? contactEs : contactEn;
@@ -199,15 +200,24 @@ const options = dynamicOptions[locale];
     </div>
     
     <!-- Submit Button -->
-    <button 
-      type="submit"
-      id="submitButton"
-      class="w-full bg-primary hover:bg-secondary text-white font-bold py-4 px-6 rounded-full transition-colors duration-300 transform hover:scale-105"
-    >
-      {contact.form.submit}
-    </button>
+    <div>
+      <button 
+        type="submit"
+        id="submitButton"
+        class="w-full py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all"
+      >
+        {contact.form.submit}
+      </button>
+    </div>
   </form>
 </div>
+
+<!-- Success Modal -->
+<SuccessModal 
+  title={locale === 'es' ? "¡Gracias por contactarnos!" : "Thank you for contacting us!"}
+  message={locale === 'es' ? "Hemos recibido tu mensaje. Te contactaremos pronto." : "We have received your message. We will contact you soon."}
+  buttonText={locale === 'es' ? "Cerrar" : "Close"}
+/>
 
 <script define:vars={{ departmentPlaceholder, countryPlaceholder, labels, options, locale, apiHost, apiToken, contactFormPath }}>
   // Countries data
@@ -472,8 +482,15 @@ const options = dynamicOptions[locale];
         const result = await submitContactForm(data);
         
         if (result.success) {
-          // Show success message
-          alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+          // Show success modal instead of alert
+          if (window.showSuccessModal) {
+            const successTitle = locale === 'es' ? '¡Gracias por tu mensaje!' : 'Thank you for your message!';
+            const successMessage = locale === 'es' ? 'Hemos recibido tu información. Te contactaremos pronto.' : 'We have received your information. We will contact you soon.';
+            window.showSuccessModal(successMessage, successTitle);
+          } else {
+            // Fallback to alert if modal function not available
+            alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+          }
           
           // Reset form
           this.reset();
