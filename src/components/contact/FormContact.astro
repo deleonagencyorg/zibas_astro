@@ -81,6 +81,7 @@ const dynamicOptions = {
 };
 
 const options = dynamicOptions[locale];
+
 ---
 
 <div class="bg-white rounded-2xl p-8" transition:name="contact-form">
@@ -512,36 +513,69 @@ const options = dynamicOptions[locale];
     // Clear existing dynamic fields
     dynamicFields.innerHTML = '';
     
+    // Mapping between English and Spanish contact reasons
+    const reasonMapping = {
+      // Spanish values
+      'Soy cliente': 'client',
+      'Quiero ser cliente': 'ser_cliente ',
+      'Exportaciones': 'exportaciones',
+      'Quiero ser proveedor': 'ser_proveedor',
+      'Enviar Hoja de vida': 'resume',
+      'Soy Estudiante Universitario':'estudiante_universitario',
+      'Soy Periodista/ Medio de comunicación': 'periodista_medio',
+      'Línea Ética YUMMIES': 'linea_etica',
+      'Soy un ganador': 'ganador',
+      'Otros': 'otros',
+      
+      // English values
+      'I am a client': 'client',
+      'I want to be a client': 'ser_cliente ',
+      'Exports': 'exportaciones',
+      'I want to be a supplier': 'ser_proveedor',
+      'Send Resume': 'resume',
+      'I am a University Student': 'estudiante_universitario',
+      'I am a Journalist/Media': 'periodista_medio',
+      'YUMMIES Ethics Line': 'linea_etica',
+      'Others': 'otros'
+    };
+    
+    // Get normalized reason type
+    const reasonType = reasonMapping[contactReason] || '';
+    console.log('Normalized reason type:', reasonType);
+    
     // Handle redirect case
-    if (contactReason === 'Enviar Hoja de vida') {
+    if (reasonType === 'resume') {
       window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
       return;
     }
     
-    // Create dynamic fields based on contact reason
-    switch (contactReason) {
-      case 'Soy cliente':
+    // Create dynamic fields based on normalized reason type
+    switch (reasonType) {
+      case 'client':
         createClientFields();
         break;
-      case 'Quiero ser cliente':
+      case 'ser_cliente ':
         createProspectiveClientFields();
         break;
-      case 'Exportaciones':
+      case 'exportaciones':
         createExportsFields();
         break;
-      case 'Quiero ser proveedor':
+      case 'ser_proveedor':
         createSupplierFields();
         break;
-      case 'Soy Estudiante Universitario':
+      case 'estudiante_universitario':
         createStudentFields();
         break;
-      case 'Soy Periodista/ Medio de comunicación':
+      case 'periodista_medio':
         createJournalistFields();
         break;
-      case 'Línea Ética YUMMIES':
+      case 'linea_etica':
         createEthicsLineFields();
         break;
-      case 'Otros':
+      case 'ganador':
+        createWinnerFields();
+        break;
+      case 'otros':
         createOthersFields();
         break;
       default:
@@ -668,13 +702,39 @@ const options = dynamicOptions[locale];
     
     dynamicFields.innerHTML = `
       <div>
-        <label class="block text-gray-700 font-medium mb-2">${labels.commentsEthics}</label>
-        <textarea name="comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        <label class="block text-gray-700 font-medium mb-2">${labels.comments || 'Comentarios'} *</label>
+        <textarea name="comments" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        <p class="text-sm text-gray-500 mt-1">${labels.ethicsLineHelp || 'Si eres empleado Dinant, especifica tu cargo.'}</p>
       </div>
       <div>
-        <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+        <label class="block text-gray-700 font-medium mb-2">${labels.file || 'Adjuntar archivo'}</label>
         <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        <p class="text-sm text-gray-500 mt-1">${labels.fileHelp || 'Formatos permitidos: PDF, JPG, PNG (max 10MB)'}</p>
+      </div>
+    `;
+  }
+  
+  function createWinnerFields() {
+    if (!labels) return;
+    
+    // Solo disponible en español
+    if (locale !== 'es') {
+      dynamicFields.innerHTML = `
+        <div class="alert alert-info">
+          <p>Esta opción solo está disponible en español.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    dynamicFields.innerHTML = `
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Dinámica o promoción en la que ganó *</label>
+        <input type="text" name="dynamicOrPromotion" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Premio adjudicado *</label>
+        <input type="text" name="award" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
       </div>
     `;
   }

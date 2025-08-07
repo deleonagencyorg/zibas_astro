@@ -12,6 +12,7 @@ const baseContactSchema = z.object({
     'Soy Estudiante Universitario',
     'Soy Periodista/ Medio de comunicación',
     'Línea Ética YUMMIES',
+    'Soy un ganador',
     'Otros'
   ]),
   country: z.enum([

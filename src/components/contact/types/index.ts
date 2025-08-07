@@ -8,6 +8,7 @@ export type ContactReason =
   | 'Soy Estudiante Universitario'
   | 'Soy Periodista/ Medio de comunicación'
   | 'Línea Ética YUMMIES'
+  | 'Soy un ganador'
   | 'Otros';
 
 export type Country = 
@@ -70,6 +71,11 @@ export interface OthersExtraFields {
   file?: File;
 }
 
+export interface WinnerExtraFields {
+  dynamicOrPromotion: string; // Dinámica o promoción en la que ganó
+  award: string; // Premio adjudicado
+}
+
 // Complete form types
 export interface ClientForm extends BaseContactForm, ClientExtraFields {
   contactReason: 'Soy cliente';
@@ -99,6 +105,10 @@ export interface EthicsLineForm extends BaseContactForm, EthicsLineExtraFields {
   contactReason: 'Línea Ética YUMMIES';
 }
 
+export interface WinnerForm extends BaseContactForm, WinnerExtraFields {
+  contactReason: 'Soy un ganador';
+}
+
 export interface OthersForm extends BaseContactForm, OthersExtraFields {
   contactReason: 'Otros';
 }
@@ -111,6 +121,7 @@ export type ContactForm =
   | StudentForm
   | JournalistForm
   | EthicsLineForm
+  | WinnerForm
   | OthersForm;
 
 export interface ContactFormResponse {
