@@ -1,0 +1,575 @@
+---
+// src/components/contact/FormContact.astro
+import { getLocale } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+
+// Import locale files statically
+import contactEs from '../../locales/es/contact.json';
+import contactEn from '../../locales/en/contact.json';
+
+interface Props {
+  currentLang?: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+// Get current locale if not provided
+const locale = currentLang || getLocale();
+
+// Get contact data from locale
+const contact = locale === 'es' ? contactEs : contactEn;
+
+// Get localized labels for fields not in contact.json
+const countryLabel = locale === 'es' ? 'País' : 'Country';
+const departmentLabel = locale === 'es' ? 'Departamento/Estado' : 'Department/State';
+const countryPlaceholder = locale === 'es' ? 'Selecciona tu país' : 'Select your country';
+const departmentPlaceholder = locale === 'es' ? 'Primero selecciona un país' : 'First select a country';
+const contactReasonPlaceholder = locale === 'es' ? 'Selecciona el tipo de consulta' : 'Select the type of inquiry';
+
+// Dynamic field labels based on language
+const dynamicLabels = {
+  es: {
+    clientCode: 'Código de Cliente',
+    areaOfInterest: 'Área de Interés',
+    message: 'Mensaje',
+    requestType: 'Tipo de Solicitud',
+    interest: 'Interés',
+    question: 'Pregunta o Solicitud',
+    comments: 'Comentarios',
+    file: 'Adjuntar Archivo',
+    fileHelp: 'PDF, JPG, PNG (máx. 10MB)',
+    areaOfInterestSupplier: 'Área de Interés',
+    commentsEthics: 'Escribe tus comentarios. Si eres empleado Dinant especifica tu cargo'
+  },
+  en: {
+    clientCode: 'Client Code',
+    areaOfInterest: 'Area of Interest',
+    message: 'Message',
+    requestType: 'Request Type',
+    interest: 'Interest',
+    question: 'Question or Request',
+    comments: 'Comments',
+    file: 'Attach File',
+    fileHelp: 'PDF, JPG, PNG (max. 10MB)',
+    areaOfInterestSupplier: 'Area of Interest',
+    commentsEthics: 'Write your comments. If you are a Dinant employee specify your position'
+  }
+};
+
+const labels = dynamicLabels[locale];
+
+// Dynamic options based on language
+const dynamicOptions = {
+  es: {
+    clientAreaOfInterest: ['Sugerencias', 'Consultas', 'Reclamo'],
+    requestTypes: ['Para consumo propio', 'Pulpería', 'Mini Mercado', 'Abastecedor', 'Otros'],
+    exportInterests: ['Quiero ser distribuidor', 'Deseo producto para consumo personal'],
+    journalistAreas: ['Presidencia Ejecutiva', 'Mercadeo', 'Relaciones Corporativas']
+  },
+  en: {
+    clientAreaOfInterest: ['Suggestions', 'Inquiries', 'Complaint'],
+    requestTypes: ['For personal consumption', 'Small store', 'Mini Market', 'Supplier', 'Others'],
+    exportInterests: ['I want to be a distributor', 'I want product for personal consumption'],
+    journalistAreas: ['Executive Presidency', 'Marketing', 'Corporate Relations']
+  }
+};
+
+const options = dynamicOptions[locale];
+---
+
+<div class="bg-white rounded-2xl p-8" transition:name="contact-form">
+  <h2 class="text-primary font-sans text-2xl font-bold mb-6">
+    {contact.form.title}
+  </h2>
+  
+  <form class="space-y-6" id="contactForm">
+    <!-- Contact Reason Dropdown -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.contactReason.label} *
+      </label>
+      <select 
+        name="contactReason" 
+        id="contactReasonSelect"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      >
+        <option value="">{contactReasonPlaceholder}</option>
+        {contact.form.contactReason.options.map((reason) => (
+          <option value={reason}>{reason}</option>
+        ))}
+      </select>
+    </div>
+
+    <!-- Country Selector -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {countryLabel} *
+      </label>
+      <select 
+        name="country" 
+        id="countrySelect"
+        required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      >
+        <option value="">{countryPlaceholder}</option>
+      </select>
+    </div>
+
+    <!-- Department Selector -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {departmentLabel} *
+      </label>
+      <select 
+        name="department" 
+        id="departmentSelect"
+        required
+        disabled
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+      >
+        <option value="">{departmentPlaceholder}</option>
+      </select>
+    </div>
+    
+    <!-- Full Name -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.fullName.label} *
+      </label>
+      <input 
+        type="text" 
+        name="fullName" 
+        required
+        placeholder={contact.form.fullName.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+    
+    <!-- Email -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.email.label} *
+      </label>
+      <input 
+        type="email" 
+        name="email" 
+        required
+        placeholder={contact.form.email.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+    
+    <!-- Phone -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-2">
+        {contact.form.phone.label}
+      </label>
+      <input 
+        type="tel" 
+        name="phone" 
+        placeholder={contact.form.phone.placeholder}
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+      />
+    </div>
+
+    <!-- Dynamic Fields Container -->
+    <div id="dynamicFields" class="space-y-6">
+      <!-- Dynamic fields will be inserted here -->
+    </div>
+    
+    <!-- Submit Button -->
+    <button 
+      type="submit"
+      id="submitButton"
+      class="w-full bg-primary hover:bg-secondary text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 transform hover:scale-105"
+    >
+      {contact.form.submit}
+    </button>
+  </form>
+</div>
+
+<script define:vars={{ departmentPlaceholder, countryPlaceholder, labels, options, locale }}>
+  // Countries data
+  const countriesData = {
+    'Guatemala': [
+      'Guatemala', 'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula',
+      'El Progreso', 'Escuintla', 'Huehuetenango', 'Izabal', 'Jalapa',
+      'Jutiapa', 'Petén', 'Quetzaltenango', 'Quiché', 'Retalhuleu',
+      'Sacatepéquez', 'San Marcos', 'Santa Rosa', 'Sololá', 'Suchitepéquez',
+      'Totonicapán', 'Zacapa'
+    ],
+    'El Salvador': [
+      'Ahuachapán', 'Cabañas', 'Chalatenango', 'Cuscatlán', 'La Libertad',
+      'La Paz', 'La Unión', 'Morazán', 'San Miguel', 'San Salvador',
+      'San Vicente', 'Santa Ana', 'Sonsonate', 'Usulután'
+    ],
+    'Honduras': [
+      'Atlántida', 'Choluteca', 'Colón', 'Comayagua', 'Copán', 'Cortés',
+      'El Paraíso', 'Francisco Morazán', 'Gracias a Dios', 'Intibucá',
+      'Islas de la Bahía', 'La Paz', 'Lempira', 'Ocotepeque', 'Olancho',
+      'Santa Bárbara', 'Valle', 'Yoro'
+    ],
+    'Nicaragua': [
+      'Boaco', 'Carazo', 'Chinandega', 'Chontales', 'Estelí', 'Granada',
+      'Jinotega', 'León', 'Madriz', 'Managua', 'Masaya', 'Matagalpa',
+      'Nueva Segovia', 'Río San Juan', 'Rivas', 'Región Autónoma del Atlántico Norte',
+      'Región Autónoma del Atlántico Sur'
+    ],
+    'Costa Rica': [
+      'San José', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limón'
+    ],
+    'República Dominicana': [
+      'Distrito Nacional', 'Azua', 'Baoruco', 'Barahona', 'Dajabón', 'Duarte',
+      'Elías Piña', 'El Seibo', 'Espaillat', 'Hato Mayor', 'Hermanas Mirabal',
+      'Independencia', 'La Altagracia', 'La Romana', 'La Vega', 'María Trinidad Sánchez',
+      'Monseñor Nouel', 'Monte Cristi', 'Monte Plata', 'Pedernales', 'Peravia',
+      'Puerto Plata', 'Samaná', 'San Cristóbal', 'San José de Ocoa', 'San Juan',
+      'San Pedro de Macorís', 'Sánchez Ramírez', 'Santiago', 'Santiago Rodríguez',
+      'Santo Domingo', 'Valverde'
+    ]
+  };
+
+  // Simple file validation function
+  function validateFile(file) {
+    if (file.size > 10 * 1024 * 1024) {
+      return { valid: false, error: 'El archivo debe ser menor a 10MB' };
+    }
+    
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowedTypes.includes(file.type)) {
+      return { valid: false, error: 'Solo se permiten archivos PDF, JPG y PNG' };
+    }
+    
+    return { valid: true };
+  }
+
+  // Simple form submission function
+  async function submitContactForm(formData) {
+    try {
+      // Handle "Enviar Hoja de vida" redirect case
+      if (formData.contactReason === 'Enviar Hoja de vida') {
+        window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
+        return { success: true, message: 'Redirecting to careers page...' };
+      }
+
+      // Validate file if present
+      if (formData.file) {
+        const fileValidation = validateFile(formData.file);
+        if (!fileValidation.valid) {
+          return {
+            success: false,
+            message: fileValidation.error || 'Invalid file'
+          };
+        }
+      }
+
+      // Create FormData for multipart submission
+      const multipartData = new FormData();
+
+      // Add all form fields
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (key === 'file' && value instanceof File) {
+            multipartData.append('file', value);
+          } else {
+            multipartData.append(key, String(value));
+          }
+        }
+      });
+
+      // Submit to API (you can customize this endpoint)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: multipartData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      return {
+        success: true,
+        message: result.message || 'Formulario enviado exitosamente',
+        data: result.data
+      };
+
+    } catch (error) {
+      console.error('Contact form submission error:', error);
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : 'Error al enviar el formulario'
+      };
+    }
+  }
+
+  // Initialize form when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const contactReasonSelect = document.getElementById('contactReasonSelect');
+    const countrySelect = document.getElementById('countrySelect');
+    const departmentSelect = document.getElementById('departmentSelect');
+    const dynamicFields = document.getElementById('dynamicFields');
+    const form = document.getElementById('contactForm');
+
+    // Populate countries
+    Object.keys(countriesData).forEach(country => {
+      const option = document.createElement('option');
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+
+    // Handle contact reason change
+    contactReasonSelect.addEventListener('change', function() {
+      const selectedReason = this.value;
+      updateDynamicFields(selectedReason);
+    });
+
+    // Handle country change
+    countrySelect.addEventListener('change', function() {
+      const selectedCountry = this.value;
+      
+      // Clear department options
+      departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+      
+      if (selectedCountry && countriesData[selectedCountry]) {
+        // Enable department select
+        departmentSelect.disabled = false;
+        departmentSelect.classList.remove('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+        
+        // Add departments for selected country
+        countriesData[selectedCountry].forEach(function(department) {
+          const option = document.createElement('option');
+          option.value = department;
+          option.textContent = department;
+          departmentSelect.appendChild(option);
+        });
+      } else {
+        // Disable department select if no country selected
+        departmentSelect.disabled = true;
+        departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+      }
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitButton = document.getElementById('submitButton');
+      const originalText = submitButton.textContent;
+      
+      try {
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = locale === 'es' ? 'Enviando...' : 'Sending...';
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Handle file upload
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files[0]) {
+          data.file = fileInput.files[0];
+        }
+        
+        // Submit form
+        const result = await submitContactForm(data);
+        
+        if (result.success) {
+          // Show success message
+          alert(locale === 'es' ? '¡Gracias por tu mensaje! Te contactaremos pronto.' : 'Thank you for your message! We will contact you soon.');
+          
+          // Reset form
+          this.reset();
+          departmentSelect.disabled = true;
+          departmentSelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
+          departmentSelect.innerHTML = `<option value="">${departmentPlaceholder}</option>`;
+          dynamicFields.innerHTML = '';
+        } else {
+          // Show error message
+          alert(result.message);
+        }
+        
+      } catch (error) {
+        console.error('Form submission error:', error);
+        alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
+      } finally {
+        // Restore button state
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
+
+    // Function to update dynamic fields based on contact reason
+    function updateDynamicFields(contactReason) {
+      if (!dynamicFields) return;
+      
+      // Clear existing dynamic fields
+      dynamicFields.innerHTML = '';
+      
+      // Handle redirect case
+      if (contactReason === 'Enviar Hoja de vida') {
+        window.location.href = 'https://www.dinant.com/buscamos-talento-como-tu/';
+        return;
+      }
+      
+      // Create dynamic fields based on contact reason
+      switch (contactReason) {
+        case 'Soy cliente':
+          createClientFields();
+          break;
+        case 'Quiero ser cliente':
+          createProspectiveClientFields();
+          break;
+        case 'Exportaciones':
+          createExportsFields();
+          break;
+        case 'Quiero ser proveedor':
+          createSupplierFields();
+          break;
+        case 'Soy Estudiante Universitario':
+          createStudentFields();
+          break;
+        case 'Soy Periodista/ Medio de comunicación':
+          createJournalistFields();
+          break;
+        case 'Línea Ética YUMMIES':
+          createEthicsLineFields();
+          break;
+        case 'Otros':
+          createOthersFields();
+          break;
+      }
+    }
+
+    // Field creation functions
+    function createClientFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.clientCode}</label>
+          <input type="text" name="clientCode" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
+          <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+            <option value="">Selecciona una opción</option>
+            ${options.clientAreaOfInterest.map(option => `<option value="${option}">${option}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
+          <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+
+    function createProspectiveClientFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.requestType} *</label>
+          <select name="requestType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+            <option value="">Selecciona una opción</option>
+            ${options.requestTypes.map(option => `<option value="${option}">${option}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+
+    function createExportsFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.interest} *</label>
+          <select name="interest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+            <option value="">Selecciona una opción</option>
+            ${options.exportInterests.map(option => `<option value="${option}">${option}</option>`).join('')}
+          </select>
+        </div>
+      `;
+    }
+
+    function createSupplierFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterestSupplier} *</label>
+          <input type="text" name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+
+    function createStudentFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
+          <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+
+    function createJournalistFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
+          <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+            <option value="">Selecciona una opción</option>
+            ${options.journalistAreas.map(option => `<option value="${option}">${option}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.question} *</label>
+          <textarea name="question" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        </div>
+      `;
+    }
+
+    function createEthicsLineFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.commentsEthics}</label>
+          <textarea name="comments" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+
+    function createOthersFields() {
+      dynamicFields.innerHTML = `
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.message}</label>
+          <textarea name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">${labels.file}</label>
+          <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+          <p class="text-sm text-gray-500 mt-1">${labels.fileHelp}</p>
+        </div>
+      `;
+    }
+  });
+</script>
