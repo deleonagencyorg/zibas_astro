@@ -121,9 +121,11 @@ const metaDescription = contact.description;
                 
                 <div class="flex items-center space-x-3">
                   <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 005.516 5.516l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V5z"></path>
                   </svg>
+                  
                   <div id="officePhones" class="flex flex-col">
+                  <div class="text-primary font-title text-2xl font-bold mb-4">Telefonos</div>
                     {contact.offices.locations["+504"].phones.map((phone: string) => (
                      <div> <a href={`tel:${phone}`} class="text-primary hover:text-secondary transition-colors">
                         {phone}
@@ -168,18 +170,27 @@ const metaDescription = contact.description;
           
           <!-- Map -->
           <div class="bg-gradient-to-br bg-white rounded-2xl p-6 shadow-lg mb-4">
-            <div class="w-full h-72 lg:h-80 overflow-hidden rounded-xl">
-              <iframe
-                id="mapIframe"
-                src={contact.offices.locations["+504"].mapEmbed}
-                width="100%"
-                height="100%"
-                frameborder="0"
-                allowfullscreen="allowfullscreen"
-                aria-hidden="false"
-                class="w-full h-full"
-                title={`${contact.offices.locations["+504"].name} Map`}
-              ></iframe>
+            <div class="w-full overflow-hidden rounded-xl" style="height: 400px;">
+              <!-- Container for all map iframes -->
+              <div id="maps-container" style="width: 100%; height: 100%;">
+                {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (
+                  <div 
+                    data-map-country={countryCode}
+                    style={`width: 100%; height: 100%; ${index === 0 ? 'display: block;' : 'display: none;'}`}
+                  >
+                    <iframe
+                      src={location.mapEmbed}
+                      width="100%"
+                      height="100%"
+                      frameborder="0"
+                      allowfullscreen="allowfullscreen"
+                      aria-hidden="false"
+                      style="width: 100%; height: 100%; border: 0;"
+                      title={`${location.name} Map`}
+                    ></iframe>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -195,7 +206,9 @@ const metaDescription = contact.description;
         const officePhones = document.getElementById('officePhones');
         const officeEmail = document.getElementById('officeEmail');
         const officeImage = document.getElementById('officeImage');
-        const mapIframe = document.getElementById('mapIframe');
+        
+        // Get all map containers
+        const mapContainers = document.querySelectorAll('[data-map-country]');
         
         // Contact data is directly available from Astro's define:vars
         const contactData = contactLocations;
@@ -203,6 +216,7 @@ const metaDescription = contact.description;
         // For debugging
         console.log('Contact locations:', contactData);
         console.log('Tabs found:', tabs.length);
+        console.log('Map containers found:', mapContainers.length);
         
         // Function to update office information
         function updateOfficeInfo(countryCode) {
@@ -231,8 +245,10 @@ const metaDescription = contact.description;
           });
           
           // Update email
-          officeEmail.href = `mailto:${office.email}`;
-          officeEmail.textContent = office.email;
+          if (officeEmail) {
+            officeEmail.href = `mailto:${office.email}`;
+            officeEmail.textContent = office.email;
+          }
           
           // Update image
           if (officeImage instanceof HTMLImageElement) {
@@ -240,10 +256,22 @@ const metaDescription = contact.description;
             officeImage.alt = office.name;
           }
           
-          // Update iframe if exists
-          if (mapIframe instanceof HTMLIFrameElement) {
-            mapIframe.src = office.mapEmbed || '';
-            mapIframe.title = `${office.name} Map`;
+          // Update map iframe visibility
+          console.log('Updating map visibility for country:', countryCode);
+          
+          // First hide all maps
+          mapContainers.forEach(container => {
+            container.style.display = 'none';
+            console.log('Hiding map container:', container.getAttribute('data-map-country'));
+          });
+          
+          // Then show the selected one
+          const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
+          if (selectedMap) {
+            selectedMap.style.display = 'block';
+            console.log('Showing map container:', countryCode);
+          } else {
+            console.error('No map container found for country code:', countryCode);
           }
         }
         
@@ -269,6 +297,14 @@ const metaDescription = contact.description;
             }
           });
         });
+        
+        // Initialize with first country
+        if (tabs.length > 0) {
+          const firstTabCountry = tabs[0].getAttribute('data-country-code');
+          if (firstTabCountry) {
+            updateOfficeInfo(firstTabCountry);
+          }
+        }
       });
     </script>
   </div>
