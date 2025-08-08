@@ -597,7 +597,7 @@ const options = dynamicOptions[locale];
       </div>
       <div>
         <label class="block text-gray-700 font-medium mb-2">${labels.areaOfInterest} *</label>
-        <select name="areaOfInterest" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
+        <select name="interestArea" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
           <option value="">${locale === 'es' ? 'Selecciona una opción' : 'Select an option'}</option>
           ${options.clientAreaOfInterest.map(option => `<option value="${option}">${option}</option>`).join('')}
         </select>
@@ -703,7 +703,7 @@ const options = dynamicOptions[locale];
     dynamicFields.innerHTML = `
       <div>
         <label class="block text-gray-700 font-medium mb-2">${labels.comments || 'Comentarios'} *</label>
-        <textarea name="comments" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
+        <textarea name="message" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
         <p class="text-sm text-gray-500 mt-1">${labels.ethicsLineHelp || 'Si eres empleado Dinant, especifica tu cargo.'}</p>
       </div>
       <div>
