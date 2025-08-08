@@ -301,7 +301,7 @@ const options = dynamicOptions[locale];
       }
 
       // Validate file if present
-      if (formData.file) {
+      if (formData.file && formData.file instanceof File && formData.file.size > 0) {
         const fileValidation = validateFile(formData.file);
         if (!fileValidation.valid) {
           return {
