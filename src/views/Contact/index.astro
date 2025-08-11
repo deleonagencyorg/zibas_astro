@@ -198,7 +198,8 @@ const metaDescription = contact.description;
     </div>
 
     <script define:vars={{ contactLocations: contact.offices.locations }}>
-      document.addEventListener('DOMContentLoaded', () => {
+      // Función que se ejecutará cuando el DOM esté listo o cuando se llame manualmente
+      function initializeCountryTabs() {
         // Get references to all elements that need to be updated
         const tabs = document.querySelectorAll('.country-tab');
         const officeName = document.getElementById('officeName');
@@ -231,18 +232,29 @@ const metaDescription = contact.description;
           console.log('Office data:', office);
           
           // Update text content and attributes
-          officeName.textContent = office.name;
-          officeAddress.textContent = office.address;
+          if (officeName) officeName.textContent = office.name;
+          if (officeAddress) officeAddress.textContent = office.address;
           
           // Update phone numbers
-          officePhones.innerHTML = '';
-          office.phones.forEach(phone => {
-            const phoneLink = document.createElement('a');
-            phoneLink.href = `tel:${phone}`;
-            phoneLink.textContent = phone;
-            phoneLink.className = 'text-primary hover:text-secondary transition-colors';
-            officePhones.appendChild(phoneLink);
-          });
+          if (officePhones) {
+            officePhones.innerHTML = '';
+            // Primero añadir el título
+            const phoneTitle = document.createElement('div');
+            phoneTitle.className = 'text-primary font-title text-2xl font-bold mb-4';
+            phoneTitle.textContent = 'Telefonos';
+            officePhones.appendChild(phoneTitle);
+            
+            // Luego añadir los teléfonos
+            office.phones.forEach(phone => {
+              const phoneContainer = document.createElement('div');
+              const phoneLink = document.createElement('a');
+              phoneLink.href = `tel:${phone}`;
+              phoneLink.textContent = phone;
+              phoneLink.className = 'text-primary hover:text-secondary transition-colors';
+              phoneContainer.appendChild(phoneLink);
+              officePhones.appendChild(phoneContainer);
+            });
+          }
           
           // Update email
           if (officeEmail) {
@@ -262,7 +274,6 @@ const metaDescription = contact.description;
           // First hide all maps
           mapContainers.forEach(container => {
             container.style.display = 'none';
-            console.log('Hiding map container:', container.getAttribute('data-map-country'));
           });
           
           // Then show the selected one
@@ -275,27 +286,37 @@ const metaDescription = contact.description;
           }
         }
         
-        // Add click event listeners to tabs
-        tabs.forEach(tab => {
-          tab.addEventListener('click', (e) => {
-            console.log('Tab clicked:', tab);
-            
-            // Remove active class from all tabs
-            tabs.forEach(t => {
-              t.classList.remove('bg-primary', 'text-white');
-              t.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-            });
-            
-            // Add active class to clicked tab
-            tab.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-            tab.classList.add('bg-primary', 'text-white');
-            
-            // Update office info based on country code
-            const countryCode = tab.getAttribute('data-country-code');
-            if (countryCode) {
-              updateOfficeInfo(countryCode);
-            }
+        // Function to handle tab selection
+        function handleTabSelection(tab) {
+          // Remove active class from all tabs
+          tabs.forEach(t => {
+            t.classList.remove('bg-primary', 'text-white');
+            t.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
           });
+          
+          // Add active class to clicked tab
+          tab.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+          tab.classList.add('bg-primary', 'text-white');
+          
+          // Update office info based on country code
+          const countryCode = tab.getAttribute('data-country-code');
+          if (countryCode) {
+            updateOfficeInfo(countryCode);
+          }
+        }
+        
+        // Add click and touch event listeners to tabs for better mobile compatibility
+        tabs.forEach(tab => {
+          // Función para manejar ambos tipos de eventos
+          const handleEvent = (e) => {
+            e.preventDefault();
+            console.log('Tab interaction:', tab.getAttribute('data-country-code'));
+            handleTabSelection(tab);
+          };
+          
+          // Agregar múltiples listeners para mayor compatibilidad
+          tab.addEventListener('click', handleEvent);
+          tab.addEventListener('touchend', handleEvent);
         });
         
         // Initialize with first country
@@ -305,7 +326,20 @@ const metaDescription = contact.description;
             updateOfficeInfo(firstTabCountry);
           }
         }
-      });
+      }
+      
+      // Intentar inicializar inmediatamente
+      if (document.readyState === 'loading') {
+        // Si el documento aún se está cargando, esperar al evento DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', initializeCountryTabs);
+      } else {
+        // Si el documento ya está cargado, ejecutar inmediatamente
+        initializeCountryTabs();
+      }
+      
+      // Como respaldo, intentar inicializar después de un breve retraso
+      // para asegurarnos de que todo esté correctamente cargado
+      setTimeout(initializeCountryTabs, 500);
     </script>
   </div>
 </MainLayout>
