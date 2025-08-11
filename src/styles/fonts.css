@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'TroisMille';
-  src: url('../assets/fonts/TroisMilleTRIALRglr23.ttf') format('truetype');
+  src: url('../assets/fonts/TroisMilleTRIALRglr23.otf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'TroisMille Bold';
-  src: url('../assets/fonts/TroisMilleBold.ttf') format('truetype');
+  src: url('../assets/fonts/TroisMilleBold.otf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
