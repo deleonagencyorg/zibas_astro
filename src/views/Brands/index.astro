@@ -56,8 +56,8 @@ const skeletonCount = 3;
     
     <div class="brands-carousel-container relative w-full my-8" transition:name="brands-carousel" transition:animate={fade({ duration: '0.8s' })}>
       <!-- Botones de navegación -->
-      <button class="carousel-nav carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button class="carousel-nav carousel-prev absolute left-0 top-[60%] transform -translate-y-[200px] z-10 bg-white/80 rounded-full shadow-md w-12 h-12 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -93,8 +93,8 @@ const skeletonCount = 3;
         )}
       </div>
       
-      <button class="carousel-nav carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button class="carousel-nav carousel-next absolute right-0 top-[60%] transform -translate-y-1/2 z-10 bg-white/80 rounded-full shadow-md w-12 h-12 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>
@@ -264,8 +264,16 @@ const skeletonCount = 3;
                   </div>
                   {brand.products && brand.products.length > 1 && (
                     <div class="products-carousel-nav">
-                      <button class="prev-product" aria-label="Producto anterior">&lt;</button>
-                      <button class="next-product" aria-label="Siguiente producto">&gt;</button>
+                      <button class="prev-product" aria-label="Producto anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button class="next-product" aria-label="Siguiente producto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="nav-arrow w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
                     </div>
                   )}
                 </div>
