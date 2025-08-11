@@ -1,0 +1,181 @@
+---
+import { t, type Locale } from '../../../i18n/i18n';
+
+export interface Props {
+  currentLang: Locale;
+  variant?: 'footer' | 'home';
+  customTitle?: string;
+  customPlaceholder?: string; 
+  customButtonText?: string;
+  centered?: boolean;
+  class?: string;
+}
+
+const { 
+  currentLang, 
+  variant = 'footer',
+  customTitle, 
+  customPlaceholder, 
+  customButtonText, 
+  centered = false, 
+  class: className = ''
+} = Astro.props;
+
+// Obtener textos desde los archivos de traducción, usando namespace específico según variante
+const namespace = variant === 'home' ? 'home' : 'common';
+
+// Intentar usar textos personalizados, si no hay, usar los de traducciones
+const title = customTitle || (variant === 'home' 
+  ? t('socialmedia.newsletter', { namespace: 'home', locale: currentLang }) 
+  : t('footer.newsletter_title', { namespace: 'common', locale: currentLang }));
+
+const placeholder = customPlaceholder || (variant === 'home'
+  ? t('newsletter.placeholder', { namespace: 'home', locale: currentLang })
+  : t('footer.newsletter_placeholder', { namespace: 'common', locale: currentLang }));
+
+const buttonText = customButtonText || (variant === 'home'
+  ? t('newsletter.buttonText', { namespace: 'home', locale: currentLang })
+  : t('footer.newsletter_button', { namespace: 'common', locale: currentLang }));
+
+// Mensajes de validación
+const requiredMessage = t('form_validation.required', { namespace: 'common', locale: currentLang });
+const invalidEmailMessage = t('form_validation.invalid_email', { namespace: 'common', locale: currentLang });
+const successMessage = t('subscribe.success', { namespace: 'common', locale: currentLang, fallback: '¡Gracias por suscribirte!' });
+
+// Determinar las clases de alineación basadas en la propiedad centered
+const alignmentClasses = centered 
+  ? 'mx-auto text-center items-center' 
+  : 'md:mx-0 md:text-left md:items-start';
+
+// Determinar clases según variante
+const variantClasses = variant === 'home' 
+  ? 'bg-white text-primary shadow-md rounded-lg p-6' 
+  : '';
+
+// Generar ID único para múltiples formularios en la misma página
+const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class={`subscribe-component w-full flex flex-col ${alignmentClasses} ${variantClasses} ${className}`} id={formId}>
+
+
+  <form 
+    class="flex flex-col w-full" 
+    method="post"
+    action="/__api/subscribe"
+    data-subscribe-form
+  >
+    <div class="mb-2 relative w-full">
+      <input 
+        type="email" 
+        name="email"
+        placeholder={placeholder} 
+        class={`w-full max-w-xs px-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-primary 
+          ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
+        aria-label={placeholder}
+        required
+      />
+      <div class="text-red-500 text-xs mt-1 hidden error-message" data-error-type="required">
+        {requiredMessage}
+      </div>
+      <div class="text-red-500 text-xs mt-1 hidden error-message" data-error-type="invalid-email">
+        {invalidEmailMessage}
+      </div>
+    </div>
+    
+    <button 
+      type="submit" 
+      class={`w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 
+        rounded-full transition-colors ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
+      aria-label={buttonText}
+    >
+      {buttonText}
+    </button>
+
+    <div class="text-green-500 text-sm mt-2 hidden success-message">
+      {successMessage}
+    </div>
+  </form>
+</div>
+
+<script define:vars={{ formId, requiredMessage, invalidEmailMessage, successMessage }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById(formId)?.querySelector('form[data-subscribe-form]');
+    
+    if (!form) return;
+    
+    const emailInput = form.querySelector('input[name="email"]');
+    const requiredError = form.querySelector('[data-error-type="required"]');
+    const invalidEmailError = form.querySelector('[data-error-type="invalid-email"]');
+    const successMessage = form.querySelector('.success-message');
+    
+    // Ocultar todos los mensajes de error
+    const hideAllErrors = () => {
+      if (requiredError) requiredError.classList.add('hidden');
+      if (invalidEmailError) invalidEmailError.classList.add('hidden');
+    };
+    
+    // Validar email
+    const validateEmail = (email) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+    
+    // Manejar envío del formulario
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAllErrors();
+      
+      // Validar que exista valor
+      if (!emailInput || !emailInput.value.trim()) {
+        if (requiredError) requiredError.classList.remove('hidden');
+        return;
+      }
+      
+      // Validar formato de email
+      if (!validateEmail(emailInput.value)) {
+        if (invalidEmailError) invalidEmailError.classList.remove('hidden');
+        return;
+      }
+      
+      try {
+        // Preparar datos para enviar
+        const formData = new FormData();
+        formData.append('email', emailInput.value);
+        
+        // Enviar solicitud al endpoint de la misma aplicación
+        const response = await fetch('/__api/subscribe', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+        
+        // Mostrar mensaje de éxito o error según respuesta
+        if (response.ok) {
+          if (successMessage) {
+            successMessage.classList.remove('hidden');
+            emailInput.value = '';
+            
+            // Ocultar mensaje de éxito después de 5 segundos
+            setTimeout(() => {
+              successMessage.classList.add('hidden');
+            }, 5000);
+          }
+        } else {
+          throw new Error('Error al procesar la suscripción');
+        }
+      } catch (error) {
+        console.error('Error al procesar la suscripción:', error);
+      }
+    });
+    
+    // Limpiar mensajes de error al escribir
+    if (emailInput) {
+      emailInput.addEventListener('input', () => {
+        hideAllErrors();
+        if (successMessage) successMessage.classList.add('hidden');
+      });
+    }
+  });
+</script>

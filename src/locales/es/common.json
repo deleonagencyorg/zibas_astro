@@ -261,5 +261,14 @@
       "title":"😎​ ¡Bienvenidos a Snacks Yummies! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
     }
-  ]
+  ],
+  "form_validation": {
+    "required": "Este campo es requerido",
+    "invalid_email": "Email inválido",
+    "password_min": "La contraseña debe tener al menos 8 caracteres",
+    "passwords_not_match": "Las contraseñas no coinciden"
+  },
+  "subscribe": {
+    "success": "¡Gracias por suscribirte!"
+  }
 }
