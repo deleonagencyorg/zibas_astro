@@ -76,11 +76,11 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
               <h1 class="font-sans text-3xl font-bold mb-4" transition:name={`blog-title-${blogPost.id}`}>{blogPost.title}</h1>
             </div>
             
-            <div class="blog-image-container w-full mb-8 rounded-lg overflow-hidden text-center" transition:animate={slide({ duration: '0.3s' })}>
+            <div class="blog-image-container w-full mb-8 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
               <LazyImage
                 src={blogPost.image} 
                 alt={blogPost.title}
-                class="md:w-[500px] w-[100%] object-cover" 
+                class="md:w-[500px] w-[100%] object-cover mx-auto" 
                 transition:name={`blog-image-${blogPost.id}`}
                 loading="lazy"
               />
