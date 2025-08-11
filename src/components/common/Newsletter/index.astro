@@ -1,4 +1,7 @@
 ---
+import Subscribe from '../Subscribe/index.astro';
+import { getLocale } from '../../../i18n/i18n';
+
 export interface Props {
   placeholder: string;
   buttonText: string;
@@ -9,49 +12,60 @@ export interface Props {
 
 const { placeholder, buttonText, title, centered = false, class: className = '' } = Astro.props;
 
-// Determinar las clases de alineación basadas en la propiedad centered
-const alignmentClasses = centered 
-  ? 'mx-auto text-center items-center' 
-  : 'md:mx-0 md:text-left md:items-start';
+// Obtener el idioma actual para pasarlo al componente Subscribe
+const currentLang = getLocale(Astro.url.pathname) || 'es';
+
 ---
 
-<div class={`newsletter-component w-full flex flex-col ${alignmentClasses} ${className}`}>
-
-  <input 
-    type="email" 
-    placeholder={placeholder} 
-    class={`w-full max-w-xs px-4 py-2 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-primary mb-2 ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
+<!-- Wrapper que mantiene la estructura anterior para compatibilidad -->
+<div class={`newsletter-component w-full flex flex-col ${className}`}>
+  <!-- Utilizamos el componente Subscribe pero mantenemos la misma API externa -->
+  <Subscribe 
+    currentLang={currentLang}
+    customTitle={title}
+    customPlaceholder={placeholder}
+    customButtonText={buttonText}
+    centered={centered}
+    class="w-full"
   />
-  <button 
-    type="button" 
-    class={`w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-full transition-colors ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
-  >
-    {buttonText}
-  </button>
 </div>
 
+<!-- Mantenemos este script para compatibilidad con código antiguo que pueda estar accediendo a estos elementos -->
 <script>
-  // Aquí puedes agregar la lógica para manejar la suscripción
-  // Por ejemplo, enviar el email a un servicio de newsletter
+  // Este script ahora solo proporciona compatibilidad hacia atrás
+  // La validación real y el envío del formulario ahora son manejados por el componente Subscribe
   const newsletterForms = document.querySelectorAll('.newsletter-component');
   
+  // Redirigimos los eventos del componente Newsletter al componente Subscribe
   newsletterForms.forEach(form => {
-    const button = form.querySelector('button');
-    const input = form.querySelector('input');
+    const legacyButton = form.querySelector('.newsletter-component > button');
+    const legacyInput = form.querySelector('.newsletter-component > input');
     
-    if (button && input) {
-      button.addEventListener('click', () => {
-        const email = input.value.trim();
-        if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          // Aquí puedes implementar la lógica para enviar el email
-          console.log('Suscripción con email:', email);
-          // Ejemplo: fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) })
-          alert('¡Gracias por suscribirte!');
-          input.value = '';
-        } else {
-          alert('Por favor ingresa un email válido');
+    // Si encontramos botón o input directo en newsletter-component (versión antigua),
+    // redirigimos el evento al nuevo componente
+    if (legacyButton || legacyInput) {
+      console.warn('Usando componente Newsletter en formato antiguo. Considere migrar directamente a Subscribe.');
+      
+      // El formulario de Subscribe dentro del componente
+      const subscribeForm = form.querySelector('form[data-subscribe-form]');
+      const subscribeInput = form.querySelector('form[data-subscribe-form] input[name="email"]');
+      const subscribeButton = form.querySelector('form[data-subscribe-form] button[type="submit"]');
+      
+      if (subscribeForm && subscribeButton && subscribeInput) {
+        if (legacyButton) {
+          legacyButton.addEventListener('click', () => {
+            // Simular un submit del formulario de Subscribe
+            subscribeForm.dispatchEvent(new Event('submit', { bubbles: true }));
+          });
         }
-      });
+        
+        if (legacyInput) {
+          legacyInput.addEventListener('input', (e) => {
+            // Sincronizar el valor con el input de Subscribe
+            subscribeInput.value = e.target.value;
+          });
+        }
+      }
     }
   });
 </script>
