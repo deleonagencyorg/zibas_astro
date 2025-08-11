@@ -75,7 +75,8 @@ if (section) {
 }
 
 // Home URL with locale
-const homeUrl = `/${currentLocale}`;
+const homeUrl = `/`;
+
 ---
 
 <nav class="breadcrumb-container pt-8 mt-[2rem]" style={`background-color: ${backgroundColor};`} aria-label="Breadcrumb">
@@ -95,7 +96,7 @@ const homeUrl = `/${currentLocale}`;
       {section && (
         <li class="breadcrumb-item" style={`color: ${textColorValue};`}>
           <span class="breadcrumb-separator" aria-hidden="true">/</span>
-          <a href={`/${pathLocale}/${section}`} class="breadcrumb-link current" style={`color: ${textColorValue};`}>
+          <a href={`/${pathLocale}/${section}`} class="breadcrumb-link" style={`color: ${textColorValue};`}>
             {(sectionTitle || section).toUpperCase()}
           </a>
         </li>
