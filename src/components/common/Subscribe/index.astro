@@ -42,6 +42,10 @@ const requiredMessage = t('form_validation.required', { namespace: 'common', loc
 const invalidEmailMessage = t('form_validation.invalid_email', { namespace: 'common', locale: currentLang });
 const successMessage = t('subscribe.success', { namespace: 'common', locale: currentLang, fallback: '¡Gracias por suscribirte!' });
 
+// Variables de entorno para la API
+const apiHost = import.meta.env.PUBLIC_CONTACT_API_HOST;
+const subscribePath = import.meta.env.PUBLIC_SUSCRIBE_FROM_PATH;
+
 // Determinar las clases de alineación basadas en la propiedad centered
 const alignmentClasses = centered 
   ? 'mx-auto text-center items-center' 
@@ -57,12 +61,15 @@ const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
 <div class={`subscribe-component w-full flex flex-col ${alignmentClasses} ${variantClasses} ${className}`} id={formId}>
-
+  {title && (
+    <h3 class={`font-title text-lg font-medium mb-3 ${variant === 'home' ? 'text-primary' : 'text-white'}`}>
+      {title}
+    </h3>
+  )}
 
   <form 
     class="flex flex-col w-full" 
     method="post"
-    action="/__api/subscribe"
     data-subscribe-form
   >
     <div class="mb-2 relative w-full">
@@ -98,84 +105,80 @@ const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
   </form>
 </div>
 
-<script define:vars={{ formId, requiredMessage, invalidEmailMessage, successMessage }}>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById(formId)?.querySelector('form[data-subscribe-form]');
-    
-    if (!form) return;
-    
-    const emailInput = form.querySelector('input[name="email"]');
-    const requiredError = form.querySelector('[data-error-type="required"]');
-    const invalidEmailError = form.querySelector('[data-error-type="invalid-email"]');
-    const successMessage = form.querySelector('.success-message');
-    
-    // Ocultar todos los mensajes de error
-    const hideAllErrors = () => {
-      if (requiredError) requiredError.classList.add('hidden');
-      if (invalidEmailError) invalidEmailError.classList.add('hidden');
-    };
-    
-    // Validar email
-    const validateEmail = (email) => {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-    
-    // Manejar envío del formulario
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideAllErrors();
+<script define:vars={{ formId, requiredMessage, invalidEmailMessage, successMessage, apiHost, subscribePath }}>
+  // Importar el servicio de suscripción dinámicamente para uso en el navegador
+  import('/src/services/SubscribeService.js').then(({ submitSubscription }) => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById(formId)?.querySelector('form[data-subscribe-form]');
       
-      // Validar que exista valor
-      if (!emailInput || !emailInput.value.trim()) {
-        if (requiredError) requiredError.classList.remove('hidden');
-        return;
-      }
+      if (!form) return;
       
-      // Validar formato de email
-      if (!validateEmail(emailInput.value)) {
-        if (invalidEmailError) invalidEmailError.classList.remove('hidden');
-        return;
-      }
+      const emailInput = form.querySelector('input[name="email"]');
+      const requiredError = form.querySelector('[data-error-type="required"]');
+      const invalidEmailError = form.querySelector('[data-error-type="invalid-email"]');
+      const successMessage = form.querySelector('.success-message');
       
-      try {
-        // Preparar datos para enviar
-        const formData = new FormData();
-        formData.append('email', emailInput.value);
+      // Ocultar todos los mensajes de error
+      const hideAllErrors = () => {
+        if (requiredError) requiredError.classList.add('hidden');
+        if (invalidEmailError) invalidEmailError.classList.add('hidden');
+      };
+      
+      // Validar email
+      const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      };
+      
+      // Manejar envío del formulario
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideAllErrors();
         
-        // Enviar solicitud al endpoint de la misma aplicación
-        const response = await fetch('/__api/subscribe', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json',
-          }
-        });
-        
-        // Mostrar mensaje de éxito o error según respuesta
-        if (response.ok) {
-          if (successMessage) {
-            successMessage.classList.remove('hidden');
-            emailInput.value = '';
-            
-            // Ocultar mensaje de éxito después de 5 segundos
-            setTimeout(() => {
-              successMessage.classList.add('hidden');
-            }, 5000);
-          }
-        } else {
-          throw new Error('Error al procesar la suscripción');
+        // Validar que exista valor
+        if (!emailInput || !emailInput.value.trim()) {
+          if (requiredError) requiredError.classList.remove('hidden');
+          return;
         }
-      } catch (error) {
-        console.error('Error al procesar la suscripción:', error);
+        
+        // Validar formato de email
+        if (!validateEmail(emailInput.value)) {
+          if (invalidEmailError) invalidEmailError.classList.remove('hidden');
+          return;
+        }
+        
+        try {
+          // Usar el servicio para enviar la suscripción
+          const response = await submitSubscription(emailInput.value);
+          
+          // Mostrar mensaje de éxito o error según respuesta
+          if (response.success) {
+            if (successMessage) {
+              successMessage.classList.remove('hidden');
+              emailInput.value = '';
+              
+              // Ocultar mensaje de éxito después de 5 segundos
+              setTimeout(() => {
+                successMessage.classList.add('hidden');
+              }, 5000);
+            }
+          } else {
+            throw new Error(response.message || 'Error al procesar la suscripción');
+          }
+        } catch (error) {
+          console.error('Error al procesar la suscripción:', error);
+          // Se podría mostrar un mensaje de error específico aquí
+        }
+      });
+      
+      // Limpiar mensajes de error al escribir
+      if (emailInput) {
+        emailInput.addEventListener('input', () => {
+          hideAllErrors();
+          if (successMessage) successMessage.classList.add('hidden');
+        });
       }
     });
-    
-    // Limpiar mensajes de error al escribir
-    if (emailInput) {
-      emailInput.addEventListener('input', () => {
-        hideAllErrors();
-        if (successMessage) successMessage.classList.add('hidden');
-      });
-    }
+  }).catch(err => {
+    console.error('Error al cargar el servicio de suscripción:', err);
   });
 </script>
