@@ -81,8 +81,8 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   {activeLocale === 'es' && (
     <div class="mt-2 md:mt-0 md:ml-2 md:flex md:items-center">
       <span class="hidden md:inline divider text-gray-400">|</span>
-      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 text-primary hover:bg-secondary`} title="Yummies One">
-        <span class="text-primary">Yummies One</span>
+      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 text-white hover:bg-secondary hover:text-primary`} title="Yummies One">
+        <span >Yummies One</span>
       </a>
     </div>
   )}
@@ -97,7 +97,7 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   }
   
   .language-link {
-    color: var(--color-text, #333);
+    color: var(--color-text, #fff);
     background: none;
     border: none;
     cursor: pointer;
@@ -108,16 +108,18 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   }
   
   .language-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-primary);
+    color: var(--color-text, #fff);
   }
   
   .language-link.active {
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-primary);
+    color: var(--color-text, #fff);
   }
   
   .divider {
-    color: var(--color-text-light, #666);
+    color: var(--color-text-light, #fff);
   }
   
   .flag-icon {
