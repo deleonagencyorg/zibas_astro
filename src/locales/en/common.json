@@ -47,6 +47,9 @@
     "password_min": "Password must be at least 8 characters",
     "passwords_not_match": "Passwords do not match"
   },
+  "subscribe": {
+    "success": "Thank you for subscribing!"
+  },
   "social_media": {
     "facebook": {
       "name": "Facebook",
@@ -156,10 +159,16 @@
       "text": "Blog",
       "href": "/en/blog"
     },
+  
     {
       "id": "about_us",
       "text": "About Us",
       "href": "/en/about-us"
+    },
+    {
+      "id": "contact",
+      "text": "Contact",
+      "href": "/en/contact"
     }
   ],
   "about_us": {
