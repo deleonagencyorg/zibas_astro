@@ -24,6 +24,10 @@
       "title": "Marcas",
       "description": "Explora nuestra familia de marcas. Cada una con su propio sabor y personalidad única."
     },
+    "about_us": {
+      "title": "Nosotros",
+      "description": "Conoce más sobre Snacks Yummies, nuestra historia, misión y valores que nos definen como empresa líder en snacks."
+    },
     "yummiesone": {
       "title": "Yummies One",
       "description": "Descubre Yummies One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
@@ -141,8 +145,29 @@
       "id": "blog",
       "text": "Blog",
       "href": "/es/blog"
+    },
+   
+    {
+      "id": "about_us",
+      "text": "Nosotros",
+      "href": "/es/nosotros"
+    },
+    {
+      "id": "contact",
+      "text": "Contacto",
+      "href": "/es/contacto"
     }
   ],
+  "about_us": {
+    "title": "Nosotros",
+    "subtitle": "Conoce más sobre Snacks Yummies",
+    "content": [
+      "Snacks Yummies es la marca líder de snacks en Centroamérica, dedicada a ofrecer productos de la más alta calidad y sabor inigualable. Desde nuestros inicios, nos hemos comprometido con la innovación y excelencia en cada uno de nuestros productos.",
+      "Nuestra misión es crear momentos de felicidad a través de snacks deliciosos que unen a las personas. Creemos en la importancia de los pequeños momentos de disfrute que hacen la vida más sabrosa.",
+      "Con una amplia variedad de marcas reconocidas como Superman, Zambos, Taqueritos y Ranchitas, ofrecemos opciones para todos los gustos y ocasiones. Cada producto es elaborado con ingredientes cuidadosamente seleccionados y procesos que garantizan la mejor experiencia para nuestros consumidores.",
+      "En Snacks Yummies, también nos preocupamos por nuestra comunidad y el medio ambiente. Trabajamos constantemente en iniciativas sostenibles y programas de responsabilidad social que generan un impacto positivo en las comunidades donde operamos."
+    ]
+  },
   "home": {
     "brands":{
       "title":"Marcas"
@@ -160,22 +185,22 @@
       "buttonText":"Suscribirse"
     },
     "socialmedia":{
-      "title":"Siguenos",
+      "title":"Síguenos",
       "tagtitle":"en redes",
-      "description":"Siguenos en nuestras redes sociales - Snacks Yummies",
+      "description":"Síguenos en nuestras redes sociales - Snacks Yummies",
       "newsletter":"Suscríbete a nuestro newsletter lleno de sabor",
       "instagramLinks":[
         {
-          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
+          "url":"https://www.instagram.com/reel/DNT6raEoqzD/?igsh=MXJsdmh4YWxpMGZseA=="
         },
         {
-          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
+          "url":"https://www.instagram.com/reel/DNL-gGZOW09/?igsh=MTY4eDVzazc5YTliaA=="
         },
         {
-          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
+          "url":"https://www.instagram.com/reel/DNHd_ltM-pc/?igsh=OWpnamQ4Y3FmN3Vz"
         },
         {
-          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
+          "url":"https://www.instagram.com/reel/DNEaatBuSfZ/?igsh=MTZuZjgzZnZ4dzg0dw=="
         }
       ]
     },
@@ -236,5 +261,14 @@
       "title":"😎​ ¡Bienvenidos a Snacks Yummies! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
     }
-  ]
+  ],
+  "form_validation": {
+    "required": "Este campo es requerido",
+    "invalid_email": "Email inválido",
+    "password_min": "La contraseña debe tener al menos 8 caracteres",
+    "passwords_not_match": "Las contraseñas no coinciden"
+  },
+  "subscribe": {
+    "success": "¡Gracias por suscribirte!"
+  }
 }

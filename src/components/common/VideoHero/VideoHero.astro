@@ -1,0 +1,210 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  videoUrl: string;
+  fallbackImageUrl: string;
+  height?: string;
+  width?: string;
+  title?: string;
+  subtitle?: string;
+  overlayOpacity?: string;
+  textColor?: string;
+  showOverlay?: boolean;
+}
+
+const {
+  videoUrl,
+  fallbackImageUrl,
+  height = "400px",
+  width = "100%",
+  title,
+  subtitle,
+  overlayOpacity = "50",
+  textColor = "text-white",
+  showOverlay = true
+} = Astro.props;
+---
+
+<div class="video-hero-container" style={`height: ${height}; width: ${width};`}>
+  <!-- Fallback image that shows while video loads or if video fails -->
+  <div class="fallback-image">
+    <img 
+      src={fallbackImageUrl} 
+      alt={title || "Hero background"} 
+      width="1920" 
+      height="1080"
+      loading="eager"
+    />
+  </div>
+  
+  <!-- Video background -->
+  <div class="video-container">
+    <video 
+      autoplay 
+      muted 
+      loop 
+      playsinline
+      class="hero-video"
+      id="heroVideo"
+    >
+      <source src={videoUrl} type="video/mp4">
+      <!-- If the browser doesn't support video, the fallback image will remain visible -->
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <!-- Mobile overlay with bg-primary (always visible on mobile) -->
+  <div class="mobile-overlay"></div>
+  
+  <!-- Overlay with text (conditional) -->
+  {showOverlay && (
+    <div class={`overlay bg-black bg-opacity-${overlayOpacity}`}>
+      {title && (
+        <div class="text-content">
+          <h1 class={`hero-title ${textColor}`}>{title}</h1>
+          {subtitle && <p class={`hero-subtitle ${textColor}`}>{subtitle}</p>}
+        </div>
+      )}
+      <slot />
+    </div>
+  )}
+  
+  <!-- If no overlay, still show content with transparent background -->
+  {!showOverlay && title && (
+    <div class="overlay" style="background-color: transparent;">
+      <div class="text-content">
+        <h1 class={`hero-title ${textColor}`}>{title}</h1>
+        {subtitle && <p class={`hero-subtitle ${textColor}`}>{subtitle}</p>}
+      </div>
+      <slot />
+    </div>
+  )}
+</div>
+
+<style>
+  .video-hero-container {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fallback-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .fallback-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .mobile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 61, 126, 0.6); /* primary color with 60% opacity - more visible */
+    z-index: 10; /* Higher z-index to ensure visibility */
+    pointer-events: none;
+    display: none; /* Hidden by default */
+  }
+  
+  /* Show overlay only on mobile */
+  @media (max-width: 768px) {
+    .mobile-overlay {
+      display: block !important;
+    }
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  
+  .text-content {
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    max-width: 800px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  // Handle video loading and fallback
+  document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.getElementById('heroVideo') as HTMLVideoElement;
+    const fallbackImage = document.querySelector('.fallback-image') as HTMLElement;
+    
+    if (videoElement) {
+      // Hide fallback image once video can play
+      videoElement.addEventListener('canplay', () => {
+        fallbackImage.style.opacity = '0';
+      });
+      
+      // Show fallback image if video errors
+      videoElement.addEventListener('error', () => {
+        fallbackImage.style.opacity = '1';
+      });
+      
+      // Set a timeout to show video anyway if it takes too long
+      setTimeout(() => {
+        if (videoElement.readyState < 3) { // HAVE_FUTURE_DATA = 3
+          // Video is taking too long, keep fallback visible
+          fallbackImage.style.opacity = '1';
+        }
+      }, 3000);
+    }
+  });
+</script>

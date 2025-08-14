@@ -371,8 +371,8 @@ const slides = Array.isArray(commonAssets)
   <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
     
     <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-        <div id="instagram1" class="hidden md:flex flex-col items-center justify-center ">
+      <div class="flex flex-col md:flex-row items-center justify-center">
+        <div id="instagram1" class="hidden lg:flex flex-col items-center justify-center ">
           <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[0].url}   width="250px"
           height="250px"
           className="z-0 mb-4" />
@@ -386,7 +386,7 @@ const slides = Array.isArray(commonAssets)
           <AnimHeart count={20} containerClass="h-[50vh] w-full " />
         </div>
           
-        <p class="text-primary text-center pt-4 font-title uppercase font-bold md:text-[8rem] text-[6rem] z-10">{homeAssets.socialmedia.title}</p>
+        <p class="text-primary text-center pt-4 font-title  uppercase font-bold md:text-[4rem] lg:text-[8rem] text-[4rem] z-10 mb-4">{homeAssets.socialmedia.title}</p>
         <p class="text-white text-center font-title uppercase font-bold text-[3rem] md:mt-[-3rem] mt-[-2rem] bg-red  px-6 rounded-full z-10">{homeAssets.socialmedia.tagtitle}</p>
 
           <SocialMediaIcons 
@@ -405,7 +405,7 @@ const slides = Array.isArray(commonAssets)
           />
            
         </div>
-        <div id="instagram2" class="hidden md:flex flex-col items-center justify-center ">
+        <div id="instagram2" class="hidden lg:flex flex-col items-center justify-center ">
           <InstagramEmbed postUrl={homeAssets.socialmedia.instagramLinks[2].url}   width="250px"
           height="250px"
           className="z-0 mb-4" />

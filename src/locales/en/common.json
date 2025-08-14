@@ -24,6 +24,10 @@
       "title": "Brands",
       "description": "Explore our family of brands. Each with its own unique flavor and personality."
     },
+    "about_us": {
+      "title": "About Us",
+      "description": "Learn more about Snacks Yummies, our history, mission, and values that define us as a leading snack company."
+    },
     "yummiesone": {
       "title": "Yummies One",
       "description": "Discover Yummies One, our new exclusive platform for true snack lovers."
@@ -42,6 +46,9 @@
     "invalid_email": "Invalid email",
     "password_min": "Password must be at least 8 characters",
     "passwords_not_match": "Passwords do not match"
+  },
+  "subscribe": {
+    "success": "Thank you for subscribing!"
   },
   "social_media": {
     "facebook": {
@@ -151,8 +158,29 @@
       "id": "blog",
       "text": "Blog",
       "href": "/en/blog"
+    },
+  
+    {
+      "id": "about_us",
+      "text": "About Us",
+      "href": "/en/about-us"
+    },
+    {
+      "id": "contact",
+      "text": "Contact",
+      "href": "/en/contact"
     }
   ],
+  "about_us": {
+    "title": "About Us",
+    "subtitle": "Learn more about Snacks Yummies",
+    "content": [
+      "Snacks Yummies is the leading snack brand in Central America, dedicated to offering products of the highest quality and unmatched flavor. Since our beginnings, we have been committed to innovation and excellence in each of our products.",
+      "Our mission is to create moments of happiness through delicious snacks that bring people together. We believe in the importance of small moments of enjoyment that make life more flavorful.",
+      "With a wide variety of recognized brands such as Superman, Zambos, Taqueritos, and Ranchitas, we offer options for all tastes and occasions. Each product is made with carefully selected ingredients and processes that guarantee the best experience for our consumers.",
+      "At Snacks Yummies, we also care about our community and the environment. We constantly work on sustainable initiatives and social responsibility programs that generate a positive impact in the communities where we operate."
+    ]
+  },
   "home": {
     "brands":{
       "title":"Brands"

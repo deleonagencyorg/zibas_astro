@@ -29,6 +29,21 @@ export const headerColors: HeaderColors = {
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
   },
+  yummiesone: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-brown',
+    hoverTextColor: 'hover:text-secondary',
+    hoverBackgroundColor: 'hover:bg-primary',
+    showMessageCarousel: false,
+  },
+  // Configuración para la página de nosotros
+  nosotros: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-white',
+    hoverBackgroundColor: 'hover:bg-primary',
+    showMessageCarousel: true,
+  },
   
   // Configuración para la página de brands
   brands: {
@@ -59,19 +74,19 @@ export const headerColors: HeaderColors = {
   
   // Configuración para la página de recetas
   recipes: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-green-800',
-    hoverTextColor: 'hover:text-green-200',
-    hoverBackgroundColor: 'hover:bg-green-700',
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-primary',
+    hoverBackgroundColor: 'hover:bg-primary',
     showMessageCarousel: false,
   },
   
   // Configuración para la página de contacto
   contact: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-gray-800',
-    hoverTextColor: 'hover:text-gray-300',
-    hoverBackgroundColor: 'hover:bg-gray-700',
+    textColor: 'text-primary',
+    backgroundColor: 'bg-white',
+    hoverTextColor: 'hover:text-primary',
+    hoverBackgroundColor: 'hover:bg-primary',
     showMessageCarousel: false,
   },
   
@@ -91,6 +106,15 @@ export const headerColors: HeaderColors = {
     hoverTextColor: 'hover:text-gray-300',
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
+  },
+
+  // Configuración para la página de nosotros
+  about: {
+    textColor: 'text-primary',
+    backgroundColor: 'bg-brown',
+    hoverTextColor: 'hover:text-white',
+    hoverBackgroundColor: 'hover:bg-secondary',
+    showMessageCarousel: false
   },
 };
 
@@ -121,6 +145,14 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
   
   if (path.includes('/news')) {
     return headerColors.news;
+  }
+  if (path.includes('/yummiesone')) {
+    return headerColors.yummiesone;
+  }
+
+   
+  if (path.includes('/about') || path.includes('/nosotros')) {
+    return headerColors.about;
   }
   
   // Para la página de inicio (ruta raíz)

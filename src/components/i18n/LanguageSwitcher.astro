@@ -17,7 +17,9 @@ const routeTranslations = {
   'productos': 'products',
   'noticias': 'news',
   'contacto': 'contact',
-  'marcas': 'brands'
+  'marcas': 'brands',
+  'nosotros': 'about-us',
+  'blog': 'blog'
   // Agregar más rutas según sea necesario
 };
 
@@ -77,10 +79,10 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   </div>
   
   {activeLocale === 'es' && (
-    <div class="mt-2 md:mt-0 md:ml-2 md:flex md:items-center">
+     <div class="mt-2 md:mt-0 md:ml-2 md:flex md:items-center">
       <span class="hidden md:inline divider text-gray-400">|</span>
-      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 ${textColor} ${hoverTextColor}`} title="Yummies One">
-        <span class={textColor}>Yummies One</span>
+      <a href="/es/yummiesone" class={`language-link flex items-center md:ml-2 ${currentPath.includes('/yummiesone') ? ' text-quinary bg-secondary' : 'text-primary hover:bg-secondary'}`} title="Yummies One">
+        <span class={currentPath.includes('/yummiesone') ? 'bg-quinary rounded-md  px-2 py-1 text-primary' : 'text-primary'}>Yummies One</span>
       </a>
     </div>
   )}
@@ -95,7 +97,7 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   }
   
   .language-link {
-    color: var(--color-text, #333);
+    color: var(--color-text, #fff);
     background: none;
     border: none;
     cursor: pointer;
@@ -106,16 +108,18 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   }
   
   .language-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-primary);
+    color: var(--color-text, #fff);
   }
   
   .language-link.active {
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-primary);
+    color: var(--color-text, #fff);
   }
   
   .divider {
-    color: var(--color-text-light, #666);
+    color: var(--color-text-light, #fff);
   }
   
   .flag-icon {
