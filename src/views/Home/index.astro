@@ -17,6 +17,7 @@ import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import AnimHeart from '../../components/common/AnimHeart/index.astro';
 import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
 import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
+import Delivery from '../../components/common/Delivery/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -62,6 +63,9 @@ const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
 const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
+
+// Obtener datos de delivery
+const deliveryData = homeAssets.delivery || {};
 
 // Obtener las imágenes de máscara del slider desde los archivos de idioma (desktop y mobile)
 const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
@@ -225,7 +229,7 @@ const slides = Array.isArray(commonAssets)
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
-              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-130 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm shadow-md hover:shadow-xl"
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-130 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-md hover:shadow-xl"
               style={{ backgroundColor: brand.bgColor }}
               data-image={brand.image}
               data-image-mobile={brand.imageMobile}
@@ -364,9 +368,13 @@ const slides = Array.isArray(commonAssets)
     </div>
   </section>
 
-  <!-- <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
-
-  </section> -->
+  {currentLang === 'es' && (
+    <Delivery 
+      deliveryTitle={deliveryData.delivery_title || "Dónde"}
+      deliverySubTitle={deliveryData.delivery_sub_title || "Encontrarnos"}
+      deliveryApps={deliveryData.delivery_apps || []}
+    />
+  )}
 
   <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
     

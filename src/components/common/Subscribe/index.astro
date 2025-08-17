@@ -60,8 +60,8 @@ const variantClasses = variant === 'home'
 const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
-<div class={`subscribe-component w-full flex flex-col ${alignmentClasses} ${variantClasses} ${className}`} id={formId}>
-  {title && (
+<div class={`subscribe-component w-full flex flex-col text-center ${alignmentClasses} ${variantClasses} ${className}`} id={formId}>
+  {currentLang === 'es' && title && (
     <h3 class={`font-title text-lg font-medium mb-3 ${variant === 'home' ? 'text-primary' : 'text-white'}`}>
       {title}
     </h3>
@@ -72,7 +72,7 @@ const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
     method="post"
     data-subscribe-form
   >
-    <div class="mb-2 relative w-full">
+    <!-- <div class="mb-2 relative w-full">
       <input 
         type="email" 
         name="email"
@@ -88,17 +88,18 @@ const formId = `subscribe-form-${Math.random().toString(36).substring(2, 9)}`;
       <div class="text-red-500 text-xs mt-1 hidden error-message" data-error-type="invalid-email">
         {invalidEmailMessage}
       </div>
-    </div>
+    </div> -->
     
-    <button 
-      type="submit" 
-      class={`w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 
-        rounded-full transition-colors ${centered ? 'mx-auto' : 'mx-auto md:mx-0'}`}
-      aria-label={buttonText}
-    >
-      {buttonText}
-    </button>
-
+    {currentLang === 'es' && (
+      <a 
+        href="/es/yummiesone" 
+        class={`w-full max-w-xs bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 
+          rounded-full transition-colors ${centered ? 'mx-auto' : 'mx-auto md:mx-0'} text-center`}
+        aria-label="Ir a Yummies One"
+      >
+        Yummies One
+      </a>
+    )}
     <div class="text-green-500 text-sm mt-2 hidden success-message">
       {successMessage}
     </div>
