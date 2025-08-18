@@ -130,7 +130,7 @@ const slides = Array.isArray(commonAssets)
         <div class="animate-spin-slow">
           <LazyImage 
             src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Seal.webp" 
-            alt="Snacks Yummies" 
+            alt="Sello de calidad Snacks Yummies - Marca líder en Centroamérica" 
             class="w-20 md:w-32 lg:w-40 object-cover object-center" 
           />
         </div>
@@ -139,7 +139,7 @@ const slides = Array.isArray(commonAssets)
       <div class="container mx-auto px-4">
         <FloatingChip
                       src={chips[0]}
-                      alt="Chip"
+                      alt="Snack crujiente Taqueritos flotante"
                       size="2xl"
                       position="top: 25%; left: 15%;"
                       mobilePosition="top: 25%; left: 15%;"
@@ -232,8 +232,9 @@ const slides = Array.isArray(commonAssets)
         <path d="M1442 57H0C99.3333 38 380 0 708 0C1036 0 1334 38 1442 57Z"/>
       </svg>
     </div>
-  <section id="brands" class="w-full mt-[-2rem] ">
+  <section id="brands" class="w-full mt-[-2rem] " aria-labelledby="brands-heading">
     <div class="container mx-auto my-8 px-6 md:mx-0 uppercase ">
+      <h2 id="brands-heading" class="sr-only">{homeAssets.brands.title}</h2>
       <CrownTitle text={homeAssets.brands.title} transition:name="brands-title" />
     </div>
     <div class="md:flex md:items-center md:justify-between mt-[2rem]md:mt-[0rem] ">
@@ -267,7 +268,7 @@ const slides = Array.isArray(commonAssets)
             sizeVariation={40}
             containerWidth="80%"
             containerHeight="60%"
-            alt="Chip flotante"
+            alt="Chips de marca premium flotando - experiencia interactiva"
             burstOnHover={true}
             burstCount={8}
             mobileCount={10}
@@ -458,13 +459,13 @@ const slides = Array.isArray(commonAssets)
         <div class="flex flex-col md:flex-row w-full gap-4 md:gap-8">
           <div class="w-full md:w-1/2  p-8 flex items-center justify-center md:min-h-[300px]">
             <div class="text-center">
-              <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/quizilustration.webp" alt='Quiz' class="w-full h-full object-cover object-center"/>
+              <LazyImage src="https://snack.yummiespromociones.com/snacksyummies/quizilustration.webp" alt='Ilustración quiz interactivo Snacks Yummies' class="w-full h-full object-cover object-center"/>
             </div>
           </div>
           
           <div class="w-full md:w-1/2 md:p-8 p-0 flex items-center justify-center md:min-h-[300px] ">
             <div class="text-center">
-              <LazyImage src={homeAssets.quiz.title} alt='Quiz' class="w-full h-full object-cover object-center"/>
+              <LazyImage src={homeAssets.quiz.title} alt='Título quiz - Descubre tu snack ideal' class="w-full h-full object-cover object-center"/>
               <p class="text-white  text-xl py-4 mb-6">{homeAssets.quiz.description}</p>
              
               <p>  <a href={homeAssets.quiz.urlButton} class="bg-white text-primary font-bold py-2 px-8 rounded-full">{homeAssets.quiz.button}</a></p>
@@ -479,13 +480,13 @@ const slides = Array.isArray(commonAssets)
     <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-8 py-8 w-full">
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-4">
         <div class="flex flex-row items-center gap-8">
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/Sal.webp" alt="Sal" class="w-12 object-cover object-center"/>
-          <h2 class="text-5xl font-normal text-center text-white">TAQUE</h2>
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/pimienta.webp" alt="Pimienta" class="w-12 object-cover object-center"/>
+          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/Sal.webp" alt="Sal para recetas mexicanas auténticas" class="w-12 object-cover object-center"/>
+          <h3 class="text-5xl font-normal text-center text-white">TAQUE</h3>
+          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/pimienta.webp" alt="Pimienta para sazón mexicano" class="w-12 object-cover object-center"/>
         </div>
-        <h2 class="text-5xl font-normal text-center text-white">RECETAS</h2>
+        <h3 class="text-5xl font-normal text-center text-white">RECETAS</h3>
         <p>
-          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/sarten.webp" alt="Recetas" class="w-80 object-cover object-center"/>
+          <LazyImage src="https://snack.yummiespromociones.com/taqueritos/sarten.webp" alt="Sartén para recetas mexicanas con Taqueritos" class="w-80 object-cover object-center"/>
         </p>
       </div>
       <div class="w-full md:w-1/2 flex flex-col justify-center items-center gap-8">
