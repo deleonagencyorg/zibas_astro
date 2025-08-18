@@ -5,6 +5,7 @@
 
 // Base URL del bucket de S3
 const S3_BASE_URL = 'https://snack.yummiespromociones.com/snacksyummies';
+const S3_BASE_ASSETS_URL = 'https://snack.yummiespromociones.com/SnacksyummiesAssets';
 
 // Interfaz básica para assets
 export interface Asset {
@@ -31,7 +32,7 @@ export interface SocialLink {
 // Logos
 export const logos = {
   principal: {
-    url: `${S3_BASE_URL}/Logo_SnacksYummies.svg`,
+    url: `${S3_BASE_ASSETS_URL}/zibas-logo-3.webp`,
     alt: 'Snacks Yummies'
   }
 };

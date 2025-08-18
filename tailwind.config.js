@@ -10,21 +10,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#0A3D7E',
-        secondary: '#008DDD',
-        tertiary: '#4895CE',
-        cuaternary: '#0073C1',
-        quinary: '#91CAE9',
-        red: '#D23627',
+        primary: '#FD6600',
+        secondary: '#0167F7',
+        tertiary: '#FDE820',
+        cuaternary: '#FF4DFF',
+        quinary: '#0167F7z',
+        red: '#FC4238',
         white: '#FFFFFF',
         brown: '#FAF1E9',
     
       },
       fontFamily: {
-        sans: ['TroisMille', 'sans-serif'],
-        title: ['TroisMille Bold', 'serif'],
-        heading: ['TroisMille', 'sans-serif'],
-        text: ['TroisMille', 'sans-serif']
+        sans: ['Rockeby regular', 'sans-serif'],
+        title: ['Rockeby black', 'serif'],
+        heading: ['Rockeby regular', 'sans-serif'],
+        text: ['Rockeby regular', 'sans-serif']
       },
       animation: {
         'spin-slow': 'spin 5s linear infinite',

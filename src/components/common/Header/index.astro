@@ -26,7 +26,7 @@ const headerColorConfig = getHeaderColors(pathname);
 
 <header id="site-header" class={`relative w-full transition-all duration-300 font-sans flex flex-col ${headerColorConfig.textColor}`} data-header-config={JSON.stringify(headerColorConfig)}>
   <!-- Banner superior azul claro con mensaje -->
-  {headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
+  <!--{headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   
   <!-- Navbar principal - ocupa el 100% del ancho -->
   <div class={`w-full ${headerColorConfig.backgroundColor}`}>
@@ -42,7 +42,7 @@ const headerColorConfig = getHeaderColors(pathname);
         <a href={`/${currentLang}/`} class="flex-shrink-0">
           <LocalizedImage
             src={logosData.principal.url}
-            alt={logosData.principal.alt || 'Snacks Yummies Logo'}
+            alt={logosData.principal.alt || "Ziba's Logo"}
             class="h-12 w-auto object-contain"
             loading="eager"
             width="120"

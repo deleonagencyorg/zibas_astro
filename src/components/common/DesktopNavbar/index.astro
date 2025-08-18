@@ -4,6 +4,7 @@ import LocalizedImage from '../LazyImage.astro';
 import { t, type Locale } from '../../../i18n/i18n';
 import { socialMediaIconUrls, logos } from '../../../config/assets';
 import type { HeaderColorConfig } from '../../../config/headerColors';
+import SocialMediaIcons from '../SocialMediaIcons/index.astro';
 
 export interface Props {
   currentLang: Locale;
@@ -42,7 +43,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
         <div class="relative group">
           <a 
             href={item.href} 
-            class={`${headerColorConfig.textColor} font-sans text-sm uppercase font-medium transition-colors py-2 px-3 rounded-md flex items-center hover:bg-quinary ${currentPath.includes(item.href.split('/').slice(2).join('/')) ? 'bg-quinary' : ''}`}
+            class={`${headerColorConfig.textColor} font-title text-xl uppercase font-medium transition-colors py-2 px-3 rounded-md flex items-center hover:bg-quinary ${currentPath.includes(item.href.split('/').slice(2).join('/')) ? 'bg-quinary' : ''}`}
           >
             {item.text}
             {item.submenu && (
@@ -75,6 +76,14 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     </div>
     <!-- Language Switcher -->
     <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
+
+    <div class="hidden md:flex">
+      <SocialMediaIcons 
+        currentLang={currentLang} 
+        iconColor="white"
+        centered={false} 
+      />
+    </div>
     
     <!-- Yummies One -->
     <!-- <a href="/yummies-one" class="flex items-center text-white hover:text-gray-300 uppercase text-sm font-medium">
