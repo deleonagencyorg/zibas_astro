@@ -1,12 +1,9 @@
 ---
 // src/components/common/Footer/index.astro
 import { t, type Locale } from '../../../i18n/i18n';
-import { logos, generalAssets } from '../../../config/assets';
+import { logos } from '../../../config/assets';
 import './styles.css';
 import Skeleton from './Skeleton.astro';
-import LazyImage from '../LazyImage.astro';
-import Newsletter from '../Newsletter/index.astro';
-import SocialMediaIcons from '../SocialMediaIcons/index.astro';
 
 export interface Props {
   currentLang: Locale;
@@ -15,148 +12,128 @@ export interface Props {
 
 const { currentLang, loading = false } = Astro.props;
 
-const currentYear = new Date().getFullYear();
-
 // Obtener textos del footer desde los archivos de traducción
-const privacyPolicyText = t('footer.privacy_policy_text', { namespace: 'common', locale: currentLang });
-const privacyPolicyUrl = t('footer.privacy_policy_url', { namespace: 'common', locale: currentLang });
-const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang }).replace('{year}', currentYear.toString());
-const address = t('footer.address', { namespace: 'common', locale: currentLang });
-const phone = t('footer.phone', { namespace: 'common', locale: currentLang });
-const hours = t('footer.hours', { namespace: 'common', locale: currentLang });
-const newsletterTitle = t('footer.newsletter_title', { namespace: 'common', locale: currentLang });
-const newsletterPlaceholder = t('footer.newsletter_placeholder', { namespace: 'common', locale: currentLang });
-const newsletterButton = t('footer.newsletter_button', { namespace: 'common', locale: currentLang });
+const mainText = t('footer.main_text', { namespace: 'common', locale: currentLang });
+const description = t('footer.description', { namespace: 'common', locale: currentLang });
+const followUs = t('footer.follow_us', { namespace: 'common', locale: currentLang });
+const contactUs = t('footer.contact_us', { namespace: 'common', locale: currentLang });
+const instagramText = t('footer.instagram_text', { namespace: 'common', locale: currentLang });
+const facebookText = t('footer.facebook_text', { namespace: 'common', locale: currentLang });
+const email = t('footer.email', { namespace: 'common', locale: currentLang });
+const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang });
+
+// Social media URLs
+const instagramUrl = t('social_media.instagram.url', { namespace: 'common', locale: currentLang });
+const facebookUrl = t('social_media.facebook.url', { namespace: 'common', locale: currentLang });
+
+// Obtener el logo específico de Zibas desde brands.json
+const zibasLogo = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo-3.webp';
 ---
 
 {loading ? (
   <Skeleton />
 ) : (
-  <footer class="bg-cuaternary text-white py-8 px-4 sm:px-6 lg:px-8 font-sans">
-    <div class="container mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <!-- Orden de columnas en mobile controlado con order-* -->
-        <!-- Columna 1: Información de contacto (segundo en mobile) -->
-        <div class="flex flex-col items-start md:items-start items-center space-y-4 order-2 md:order-1">
-          <div class="flex items-center md:items-start space-x-2 justify-center md:justify-start">
-            <LazyImage
-              src={generalAssets.locationIcon}
-              alt="Ubicación"
-              class="h-5 w-5 flex-shrink-0 mt-0.5"
-              color="white"
-              width={20}
-              height={20}
-            />
-            <span>{address}</span>
-          </div>
-          <div class="flex items-center space-x-2 justify-center md:justify-start">
-            <LazyImage
-              src={generalAssets.phoneIcon}
-              alt="Teléfono"
-              class="h-5 w-5 flex-shrink-0"
-              color="white"
-              width={20}
-              height={20}
-            />
-            <span>{phone}</span>
-          </div>
-          <div class="flex items-center space-x-2 justify-center md:justify-start">
-            <LazyImage
-              src={generalAssets.timeIcon}
-              alt="Horario"
-              class="h-5 w-5 flex-shrink-0"
-              color="white"
-              width={20}
-              height={20}
-            />
-            <span>{hours}</span>
-          </div>
-        </div>
+  <footer class="bg-secondary text-white relative overflow-hidden">
+    <!-- Chips decorativos -->
+    <div class="absolute inset-0 pointer-events-none">
+      <!-- Chip izquierdo superior -->
+      <img 
+        src="https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp" 
+        alt="Zibas chip" 
+        class="absolute top-8 left-8 w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 transform -rotate-12 opacity-90"
+      />
+      <!-- Chip derecho superior -->
+      <img 
+        src="https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp" 
+        alt="Zibas chip" 
+        class="absolute top-24 right-4 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 transform rotate-12 opacity-85"
+      />
+      <!-- Chip centro inferior -->
+      <img 
+        src="https://snack.yummiespromociones.com/snacksyummies/zibas-chip3.webp" 
+        alt="Zibas chip" 
+        class="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-16 h-16 md:w-20 md:h-20 rotate-45 opacity-75"
+      />
+    </div>
 
-        <!-- Columna 2: Logo, política de privacidad y copyright (tercero en mobile) -->
-        <div class="flex flex-col items-center space-y-4 order-3 md:order-2">
-          <a href={`/${currentLang}/`} class="mb-2">
-            <img src={logos.principal.url} alt={logos.principal.alt || 'Yummies Logo'} class="h-16 w-auto mx-auto" />
-          </a>
-          <div>
-            <a href={privacyPolicyUrl} class="text-sm hover:underline">{privacyPolicyText}</a>
-          </div>
-          <div class="text-xs opacity-80">
-            {copyrightText}
-          </div>
-        </div>
-
-        <!-- Columna 3: Newsletter y redes sociales (primero en mobile) -->
-        <div class="flex flex-col items-center md:items-start w-full order-1 md:order-3">
-          <!-- Redes Sociales -->
-          <div class="mb-4">
-            <SocialMediaIcons 
-              currentLang={currentLang} 
-              iconColor="white"
-              centered={false} 
-            />
-          </div>
-          <!-- Newsletter -->
-          <Newsletter 
-            title={newsletterTitle}
-            placeholder={newsletterPlaceholder} 
-            buttonText={newsletterButton}
-            centered={false}
-          />
-        </div>
-      </div>
-      
-      <!-- Sección inferior: Política de privacidad (mobile) y copyright -->
-      <div class="flex flex-col items-center text-center text-sm pt-4  border-opacity-20">
-        <!-- Política de privacidad (solo visible en mobile) -->
-        <div class="md:hidden mb-2">
-          <a href={privacyPolicyUrl} class="hover:underline">{privacyPolicyText}</a>
-        </div>
+    <div class="relative z-10 container mx-auto px-6 py-12 md:py-16">
+      <!-- Grid principal -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
         
-      </div>
-      
-      <!-- Separador para la sección de contacto DINANT -->
-      <div class="w-full border-t border-primary border-opacity-20 mt-6 pt-6">
-        <div class="container mx-auto">
-          <div class="text-center mb-4">
-            <h3 class="text-white  font-sans text-xl font-medium">DINANT - Contacto</h3>
+        <!-- Columna izquierda: Texto principal -->
+        <div class="lg:col-span-1">
+          <h1 class="font-title text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+            {mainText}
+          </h1>
+          <p class="font-sans italic text-sm md:text-base leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <!-- Columna central: Logo -->
+        <div class="lg:col-span-1 flex justify-center items-center">
+          <a href={`/${currentLang}/`} class="inline-block">
+            <img 
+              src={logos.principal.url} 
+              alt={logos.principal.alt || 'Zibas Logo'} 
+              class="h-16 md:h-20 lg:h-24 w-auto"
+            />
+          </a>
+        </div>
+
+        <!-- Columna derecha: Enlaces -->
+        <div class="lg:col-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+          <!-- Síguenos -->
+          <div class="text-center lg:text-right">
+            <h3 class="font-title text-lg md:text-xl font-bold mb-3">
+              {followUs}
+            </h3>
+            <div class="flex flex-col space-y-1">
+              <a 
+                href={instagramUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="font-sans text-sm md:text-base hover:underline transition-all duration-200 hover:opacity-80 flex items-center justify-center lg:justify-end space-x-2"
+              >
+                <span>📷</span>
+                <span>{instagramText}</span>
+              </a>
+              <a 
+                href={facebookUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="font-sans text-sm md:text-base hover:underline transition-all duration-200 hover:opacity-80 flex items-center justify-center lg:justify-end space-x-2"
+              >
+                <span>📘</span>
+                <span>{facebookText}</span>
+              </a>
+            </div>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
-            <!-- Guatemala -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="Guatemala">🇬🇹</span>
-              <span>(+502) 2502-7050</span>
-            </div>
-            <!-- El Salvador -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="El Salvador">🇸🇻</span>
-              <span>(+503) 2510-8300</span>
-            </div>
-            <!-- Costa Rica -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="Costa Rica">🇨🇷</span>
-              <span>(+506) 2234-7259</span>
-            </div>
-            <!-- República Dominicana -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="República Dominicana">🇩🇴</span>
-              <span>01 809-273 1042</span>
-            </div>
-            <!-- Nicaragua -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="Nicaragua">🇳🇮</span>
-              <span>2275-3370</span>
-            </div>
-            <!-- Honduras -->
-            <div class="flex items-center space-x-2">
-              <span class="text-2xl" role="img" aria-label="Honduras">🇭🇳</span>
-              <span>(+505) 2255-7480</span>
+
+          <!-- Contáctanos -->
+          <div class="text-center lg:text-right">
+            <h3 class="font-title text-lg md:text-xl font-bold mb-3">
+              {contactUs}
+            </h3>
+            <div class="flex flex-col space-y-1">
+              <a 
+                href={`mailto:${email}`}
+                class="font-sans text-sm md:text-base hover:underline transition-all duration-200 hover:opacity-80"
+              >
+                {email}
+              </a>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center mt-12 pt-6">
+        <p class="font-sans text-sm md:text-base">
+          {copyrightText}
+        </p>
       </div>
     </div>
   </footer>
 )}
 
-<script src="./scripts.js"></script>

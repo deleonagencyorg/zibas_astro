@@ -256,15 +256,16 @@
     }
   },
   "footer": {
+    "main_text": "Vibras sin filtro.",
+    "description": "Vive tu vida al máximo, expresa lo que sientes, explora el mundo y ve lo mejor de ti. Porque ¡Hoy Ziba's a ser tú! Disfruta tus Ziba's en todo momento.",
+    "follow_us": "Síguenos",
+    "contact_us": "Contáctanos",
+    "instagram_text": "Instagram",
+    "facebook_text": "Facebook",
+    "email": "ayudacliente@zibas.com",
+    "copyright": "© Copyright 2025. Ziba's. Todos los derechos reservados.",
     "privacy_policy_text": "Política de Privacidad",
-    "privacy_policy_url": "/es/politica-privacidad",
-    "copyright": "Yummies {year}. Todos los Derechos Reservados",
-    "address": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa, Tegucigalpa, Honduras",
-    "phone": "(504) 2275-3370",
-    "hours": "8:00 a.m. - 5:00 p.m.",
-    "newsletter_title": "Únete a nuestra comunidad registrándote en",
-    "newsletter_placeholder": "tucorreo@email.com",
-    "newsletter_button": "Suscribirse"
+    "privacy_policy_url": "/es/politica-privacidad"
   },
   "messagetop":[
     {

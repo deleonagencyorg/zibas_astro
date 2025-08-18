@@ -244,15 +244,16 @@
     "testimonial1_author": "John Smith"
   },
   "footer": {
+    "main_text": "Unfiltered vibes.",
+    "description": "Live your life to the fullest, express what you feel, explore the world and see the best in you. Because today Ziba's gonna be you! Enjoy your Ziba's at every moment.",
+    "follow_us": "Follow us",
+    "contact_us": "Contact us",
+    "instagram_text": "Instagram",
+    "facebook_text": "Facebook",
+    "email": "ayudacliente@zibas.com",
+    "copyright": "© Copyright 2025. Ziba's. All rights reserved.",
     "privacy_policy_text": "Privacy Policy",
-    "privacy_policy_url": "/en/privacy-policy",
-    "copyright": "Yummies {year}. All Rights Reserved",
-    "address": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa, Tegucigalpa, Honduras",
-    "phone": "(504) 2275-3370",
-    "hours": "8:00 a.m. - 5:00 p.m.",
-    "newsletter_title": "Get the crunchiest news with our newsletter",
-    "newsletter_placeholder": "youremail@email.com",
-    "newsletter_button": "Subscribe"
+    "privacy_policy_url": "/en/privacy-policy"
   },
   "messagetop":[
     {
