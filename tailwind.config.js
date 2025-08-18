@@ -25,6 +25,9 @@ module.exports = {
         title: ['TroisMille Bold', 'serif'],
         heading: ['TroisMille', 'sans-serif'],
         text: ['TroisMille', 'sans-serif']
+      },
+      animation: {
+        'spin-slow': 'spin 5s linear infinite',
       }
     }
   },
