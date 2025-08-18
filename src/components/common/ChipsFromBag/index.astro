@@ -139,21 +139,30 @@ const burstChips = Array.from({ length: burstCount }).map((_, i) => {
   ))}
 </div>
 
-<script>
+<script define:vars={{ 
+  desktopCount, 
+  mobileCountValue, 
+  desktopBaseSize, 
+  mobileBaseSizeValue, 
+  desktopContainerWidth, 
+  mobileContainerWidthValue, 
+  desktopContainerHeight, 
+  mobileContainerHeightValue 
+}}>
   // Obtener referencias a los elementos
   const chipsContainer = document.getElementById('chips-container');
   const chips = document.querySelectorAll('.chip');
   const burstChips = document.querySelectorAll('.burst-chip');
   
   // Valores de configuración para responsive
-  const desktopCount = {desktopCount};
-  const mobileCount = {mobileCountValue};
-  const desktopBaseSize = {desktopBaseSize};
-  const mobileBaseSize = {mobileBaseSizeValue};
-  const desktopContainerWidth = '{desktopContainerWidth}';
-  const mobileContainerWidth = '{mobileContainerWidthValue}';
-  const desktopContainerHeight = '{desktopContainerHeight}';
-  const mobileContainerHeight = '{mobileContainerHeightValue}';
+  const desktopCountValue = desktopCount;
+  const mobileCount = mobileCountValue;
+  const desktopBaseSizeValue = desktopBaseSize;
+  const mobileBaseSize = mobileBaseSizeValue;
+  const desktopContainerWidthValue = desktopContainerWidth;
+  const mobileContainerWidth = mobileContainerWidthValue;
+  const desktopContainerHeightValue = desktopContainerHeight;
+  const mobileContainerHeight = mobileContainerHeightValue;
   
   // Función para verificar si es dispositivo móvil (ancho < 768px)
   function isMobile() {
@@ -164,36 +173,37 @@ const burstChips = Array.from({ length: burstCount }).map((_, i) => {
   function applyResponsiveSettings() {
     if (!chipsContainer) return;
     
-    if (isMobile()) {
-      // Aplicar configuración móvil
-      chipsContainer.style.width = mobileContainerWidth;
-      chipsContainer.style.height = mobileContainerHeight;
-      
-      // Ajustar tamaño de los chips
+    const mobile = isMobile();
+    const count = mobile ? mobileCount : desktopCountValue;
+    const baseSize = mobile ? mobileBaseSize : desktopBaseSizeValue;
+    const containerWidth = mobile ? mobileContainerWidth : desktopContainerWidthValue;
+    const containerHeight = mobile ? mobileContainerHeight : desktopContainerHeightValue;
+    
+    chipsContainer.style.width = containerWidth;
+    chipsContainer.style.height = containerHeight;
+    
+    if (mobile) {
+      // Configuración móvil
       document.querySelectorAll('.chip').forEach((chip, index) => {
-        if (index >= mobileCount) {
+        if (index >= count) {
           chip.style.display = 'none'; // Ocultar chips extras en móvil
         } else {
           chip.style.display = 'block';
           const img = chip.querySelector('img');
           if (img) {
             // Usar el tamaño base móvil directamente
-            img.style.width = mobileBaseSizeValue + 'px';
-            img.style.height = mobileBaseSizeValue + 'px';
+            img.style.width = mobileBaseSize + 'px';
+            img.style.height = mobileBaseSize + 'px';
           }
         }
       });
     } else {
       // Aplicar configuración desktop
-      chipsContainer.style.width = desktopContainerWidth;
-      chipsContainer.style.height = desktopContainerHeight;
-      
-      // Mostrar todos los chips en desktop y restaurar tamaño
       document.querySelectorAll('.chip').forEach(chip => {
         chip.style.display = 'block';
         const img = chip.querySelector('img');
         if (img) {
-          const baseSize = parseFloat(img.dataset.baseSize || desktopBaseSize);
+          const baseSize = parseFloat(img.dataset.baseSize || desktopBaseSizeValue);
           img.style.width = baseSize + 'px';
           img.style.height = baseSize + 'px';
         }

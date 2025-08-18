@@ -59,8 +59,7 @@ const seoKeywords = lang === 'es'
     <meta name="twitter:site" content="@SnacksYummies">
     
     <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Snacks Yummies",
@@ -118,11 +117,9 @@ const seoKeywords = lang === 'es'
         "addressLocality": "Tegucigalpa",
         "addressCountry": "Honduras"
       }
-    }
-    </script>
+    })}></script>
     
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Snacks Yummies",
@@ -134,11 +131,9 @@ const seoKeywords = lang === 'es'
         "target": `https://snacksyummies.com/${lang}/search?q={search_term_string}`,
         "query-input": "required name=search_term_string"
       }
-    }
-    </script>
+    })}></script>
     
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -149,8 +144,7 @@ const seoKeywords = lang === 'es'
           "item": `https://snacksyummies.com/${lang}`
         }
       ]
-    }
-    </script>
+    })}></script>
   </Fragment>
   <ContentComponent />
 </MainLayout>
