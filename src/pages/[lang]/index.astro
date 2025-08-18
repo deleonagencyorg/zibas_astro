@@ -28,8 +28,130 @@ const pageTitle = homeRoute.metaTitleKey ? t(homeRoute.metaTitleKey) : 'Home';
 const pageDescription = homeRoute.metaDescriptionKey ? t(homeRoute.metaDescriptionKey) : '';
 
 const ContentComponent = HomePageContent; // Asignación directa para la página de inicio
+
+// SEO Keywords based on language
+const seoKeywords = lang === 'es' 
+  ? 'snacks centroamérica, taqueritos, zambos, ranchitas, superman snacks, botanas mexicanas, comida mexicana auténtica, snacks honduras, snacks guatemala, marca líder snacks, snacks yummies'
+  : 'central america snacks, mexican snacks, authentic mexican food, honduras snacks, guatemala snacks, leading snack brand, snacks yummies, taqueritos, zambos, ranchitas, superman snacks';
 ---
 <MainLayout title={pageTitle} description={pageDescription}>
+  <Fragment slot="head">
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content={seoKeywords}>
+    <meta name="author" content="Snacks Yummies">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href={`https://snacksyummies.com/${lang}`}>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content={`Snacks Yummies - ${pageTitle}`}>
+    <meta property="og:description" content={pageDescription}>
+    <meta property="og:image" content="https://snacksyummies.com/images/og-snacks-yummies.jpg">
+    <meta property="og:url" content={`https://snacksyummies.com/${lang}`}>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Snacks Yummies">
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'}>
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={`Snacks Yummies - ${pageTitle}`}>
+    <meta name="twitter:description" content={pageDescription}>
+    <meta name="twitter:image" content="https://snacksyummies.com/images/twitter-snacks-yummies.jpg">
+    <meta name="twitter:site" content="@SnacksYummies">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Snacks Yummies",
+      "alternateName": "Yummies",
+      "url": "https://snacksyummies.com",
+      "logo": "https://snacksyummies.com/images/logo.png",
+      "description": lang === 'es' ? "Marca líder de snacks en Centroamérica. Taqueritos, Zambos, Ranchitas y Superman. Calidad y sabor inigualable." : "Leading snack brand in Central America. Taqueritos, Zambos, Ranchitas and Superman. Unmatched quality and flavor.",
+      "foundingDate": "1990",
+      "areaServed": [
+        "Honduras",
+        "Guatemala", 
+        "El Salvador",
+        "Nicaragua",
+        "Costa Rica",
+        "República Dominicana"
+      ],
+      "brand": [
+        {
+          "@type": "Brand",
+          "name": "Taqueritos",
+          "url": "https://taqueritos.com"
+        },
+        {
+          "@type": "Brand", 
+          "name": "Zambos",
+          "url": "https://www.zambos.com"
+        },
+        {
+          "@type": "Brand",
+          "name": "Ranchitas", 
+          "url": "https://ranchitas.com"
+        },
+        {
+          "@type": "Brand",
+          "name": "Superman",
+          "url": "https://www.yummiessuperman.com"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/SnacksYummies",
+        "https://www.instagram.com/snacksyummies/",
+        "https://www.tiktok.com/@snacksyummies", 
+        "https://x.com/SnacksYummies"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+504-2275-3370",
+        "contactType": "customer service",
+        "availableLanguage": ["Spanish", "English"],
+        "hoursAvailable": "Mo-Fr 08:00-17:00"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa",
+        "addressLocality": "Tegucigalpa",
+        "addressCountry": "Honduras"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Snacks Yummies",
+      "url": "https://snacksyummies.com",
+      "description": lang === 'es' ? "Sitio web oficial de Snacks Yummies, la marca líder de snacks en Centroamérica" : "Official website of Snacks Yummies, the leading snack brand in Central America",
+      "inLanguage": lang === 'es' ? "es-ES" : "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `https://snacksyummies.com/${lang}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": lang === 'es' ? "Inicio" : "Home",
+          "item": `https://snacksyummies.com/${lang}`
+        }
+      ]
+    }
+    </script>
+  </Fragment>
   <ContentComponent />
 </MainLayout>
 
