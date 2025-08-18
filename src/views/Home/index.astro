@@ -17,6 +17,7 @@ import CrownTitle from '../../components/common/CrownTitle/CrownTitle.astro';
 import AnimHeart from '../../components/common/AnimHeart/index.astro';
 import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
 import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
+import Delivery from '../../components/common/Delivery/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -62,6 +63,9 @@ const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
 const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
+
+// Obtener datos de delivery
+const deliveryData = homeAssets.delivery || {};
 
 // Obtener las imágenes de máscara del slider desde los archivos de idioma (desktop y mobile)
 const sliderMask = t('assets.slidermask', { namespace: 'common', locale: currentLang }) || 'https://snack.yummiespromociones.com/snacksyummies/bg-front.webp';
@@ -114,12 +118,24 @@ const slides = Array.isArray(commonAssets)
 
       <div class="relative z-0 w-full md:w-[100%] md:ml-auto md:h-full h-[72vh] md:flex md:items-center md:justify-center">
         <Carousel slides={slides} />
-       
       </div>
     </div>
-  
+    
+ 
+
     <!-- Sección de Carrusel Orbital de Productos -->
     <section id="new-products" class="w-full  bg-gradient-to-b from-secondary to-blue-700 relative pb-8 ">
+      {currentLang === 'es' && (
+      <div class="hidden md:flex absolute w-full justify-end pr-4 md:pr-8 -mt-16 z-30">
+        <div class="animate-spin-slow">
+          <LazyImage 
+            src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Seal.webp" 
+            alt="Snacks Yummies" 
+            class="w-20 md:w-32 lg:w-40 object-cover object-center" 
+          />
+        </div>
+      </div>
+    )}
       <div class="container mx-auto px-4">
         <FloatingChip
                       src={chips[0]}
@@ -173,7 +189,7 @@ const slides = Array.isArray(commonAssets)
         <div class="mb-8 p-4 relative">
           <div class="flex flex-col items-center">
             <div class="relative">
-              <span class="inline-block md:text-[3rem] text-[2rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[3rem] md:-translate-x-[4rem] translate-y-[-1rem] md:translate-y-[-1rem]">
+              <span class="inline-block md:text-[3rem] text-[1.5rem] rotate-[-12deg] font-title uppercase font-semibold text-white bg-red py-1 px-6 rounded-full z-10 absolute top-0 left-0 transform -translate-x-[1rem] md:-translate-x-[4rem] translate-y-[-1rem] md:translate-y-[-1rem]">
                 {homeAssets.new_products.tagtitle}</span>
               <h2 class="md:text-[8rem] text-[4rem] font-title uppercase text-white font-bold text-center mt-[1rem] md:mt-0">{homeAssets.new_products.title}</h2>
             </div>
@@ -211,10 +227,10 @@ const slides = Array.isArray(commonAssets)
       </div>
     </section> -->
 
-    <div class="w-full  bg-blue-700">
-      <svg width="100vw" height="57" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+    <div class="w-full  bg-blue-700 border-b-5 border-blue-700 -mt-[0.1rem]">
+      <svg width="100%" height="87" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1442 57" preserveAspectRatio="none">
         <path d="M1442 57H0C99.3333 38 380 0 708 0C1036 0 1334 38 1442 57Z"/>
-      </svg> 
+      </svg>
     </div>
   <section id="brands" class="w-full mt-[-2rem] ">
     <div class="container mx-auto my-8 px-6 md:mx-0 uppercase ">
@@ -225,7 +241,7 @@ const slides = Array.isArray(commonAssets)
         <div class="grid grid-cols-4 md:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
             <div 
-              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-130 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-sm shadow-md hover:shadow-xl"
+              class="logo-brand flex items-center justify-center cursor-pointer hover:scale-130 transition-all border-4 border-transparent hover:border-opacity-50 focus:border-opacity-50 shadow-md hover:shadow-xl"
               style={{ backgroundColor: brand.bgColor }}
               data-image={brand.image}
               data-image-mobile={brand.imageMobile}
@@ -364,9 +380,15 @@ const slides = Array.isArray(commonAssets)
     </div>
   </section>
 
-  <!-- <section id="delivery" class="w-full py-12 flex flex-col items-center justify-center">
+  {currentLang === 'es' && (
+    <Delivery 
+      deliveryTitle={deliveryData.delivery_title || "Dónde"}
+      deliverySubTitle={deliveryData.delivery_sub_title || "Encontrarnos"}
+      deliveryApps={deliveryData.delivery_apps || []}
+    />
 
-  </section> -->
+  )}
+
 
   <section id="socialmedia" class="bg-quinary w-full py-12 flex flex-col items-center justify-center">
     
@@ -418,8 +440,11 @@ const slides = Array.isArray(commonAssets)
       
      
     </div>
-
+    <svg width="100%" height="87" fill="#0073C1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1442 57" preserveAspectRatio="none" class="translate-y-[3rem] w-full z-10">
+      <path d="M0 65V0.5C850 129 1440 0.5 1440 0.5V65H0Z" />
+    </svg>
   </section>
+  
   <!-- <div class=" bg-tertiary">
     <svg width="100vw" height="150" viewBox="0 0 100vw 150" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1442 0H0C99.3333 16.6667 380 50 708 50C1036 50 1334 16.6667 1442 0Z" fill="#91CAE9"/>

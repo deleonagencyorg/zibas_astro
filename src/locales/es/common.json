@@ -188,7 +188,7 @@
       "title":"Síguenos",
       "tagtitle":"en redes",
       "description":"Síguenos en nuestras redes sociales - Snacks Yummies",
-      "newsletter":"Suscríbete a nuestro newsletter lleno de sabor",
+      "newsletter":"Entérate de las noticias y promociones",
       "instagramLinks":[
         {
           "url":"https://www.instagram.com/reel/DNT6raEoqzD/?igsh=MXJsdmh4YWxpMGZseA=="
@@ -215,11 +215,27 @@
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
     },
     "delivery":{
-      "delivery_icon_left":"https://snack.yummiespromociones.com/taqueritos/Banner_Delivery_Neutro.webp",
-      "delivery_icon_right":"https://snack.yummiespromociones.com/taqueritos/moto.webp",
-      "hugo_app_icon":"https://snack.yummiespromociones.com/taqueritos/logohugo.webp",
-      "ocho_app_icon":"https://snack.yummiespromociones.com/taqueritos/Logo_Ocho.webp"
+      "delivery_title":"Dónde",
+      "delivery_sub_title":"Encontrarnos",
+      "delivery_button":"",
+      "delivery_url":"",
+      "delivery_apps":[
+        {
+          "app_icon":"cropped-Logo-Landing-Page-1.webp",
+          "app_name":"Sompopo App",
+          "app_url":"https://sompopo.app.link/yummies",
+          "country":"Honduras"
+        },
+        {
+          "app_icon":"https://snack.yummiespromociones.com/SnacksyummiesAssets/latorre.webp",
+          "app_name":"Latorre",
+          "app_url":"https://www.latorre.com.gt/458?map=productClusterIds",
+          "country":"Guatemala"
+        }
+      ]
     },
+
+     
     "title": " Snacks Yummies -  Comida Auténtica",
     "subtitle": "Disfruta de los mejores tacos y platillos mexicanos",
     "cta_text": "Ver Menú",
@@ -246,7 +262,7 @@
     "address": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa, Tegucigalpa, Honduras",
     "phone": "(504) 2275-3370",
     "hours": "8:00 a.m. - 5:00 p.m.",
-    "newsletter_title": "Entérate de las noticias más crujientes con nuestro newsletter",
+    "newsletter_title": "Únete a nuestra comunidad registrándote en",
     "newsletter_placeholder": "tucorreo@email.com",
     "newsletter_button": "Suscribirse"
   },
