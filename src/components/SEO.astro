@@ -64,8 +64,7 @@ const twitterUrl = socialMedia?.twitter?.url || '';
 {twitterUrl && <link rel="me" href={twitterUrl} />}
 
 <!-- Structured Data -->
-<script type="application/ld+json">
-{
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Snacks Yummies",
@@ -75,31 +74,22 @@ const twitterUrl = socialMedia?.twitter?.url || '';
     socialMedia.facebook?.url,
     socialMedia.instagram?.url,
     socialMedia.tiktok?.url
-  ]
-}
-</script>
+  ].filter(Boolean)
+})}></script>
 
 <!-- Breadcrumbs Structured Data -->
-<script type="application/ld+json">
-{
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "Home",
-      "item": "https://snacksyummies.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "${title || 'Current Page'}",
-      "item": "${canonicalUrl || 'https://snacksyummies.com' + Astro.url.pathname}"
+      "name": currentLang === 'es' ? 'Inicio' : 'Home',
+      "item": `https://snacksyummies.com/${currentLang}`
     }
   ]
-}
-</script>
+})}></script>
 
 <!-- Additional Tags -->
 <meta name="theme-color" content="#0A3D7E" />
