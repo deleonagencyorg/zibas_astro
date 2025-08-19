@@ -65,18 +65,14 @@ const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-3
   <div class="flex items-center space-x-2">
     {activeLocale === 'es' && (
  <a href={enUrl} class={`font-title language-link flex items-center ${activeLocale === 'es' ? 'font-bold text-yellow-500' : `${textColor} ${hoverTextColor}`}`} title="English" data-lang="en">
-      <span class="flag-icon mr-1">
-        🇺🇸
-      </span>
+   
       <span class={textColor}>EN</span>
     </a>
     )}
     {activeLocale === 'en' && (
 
    <a href={esUrl} class={`language-link flex items-center ${activeLocale === 'en' ? 'font-bold text-yellow-500' : `${textColor} ${hoverTextColor}`}`} title="Español" data-lang="es">
-     <span class="flag-icon mr-1">
-       🇭🇳
-     </span>
+    
      <span class={textColor}>ES</span>
    </a>
     )}

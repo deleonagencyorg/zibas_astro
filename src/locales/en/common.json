@@ -227,25 +227,12 @@
     "spotify":{
       "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-_1_2-2-768x116.avif",
       "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
-    },
-    "title": " Snacks Yummies -  Authentic Mexican Food",
-    "subtitle": "Enjoy the best tacos and Mexican dishes",
-    "cta_text": "View Menu",
-    "cta_link": "menu",
-    "features_title": "Our Advantages",
-    "feature1_title": "Fresh Ingredients",
-    "feature1_desc": "We use only the freshest and most authentic ingredients.",
-    "feature2_title": "Traditional Recipes",
-    "feature2_desc": "Prepared following traditional Mexican recipes.",
-    "feature3_title": "Fast Service",
-    "feature3_desc": "Enjoy your favorite food without long waits.",
-    "testimonials_title": "What our customers say",
-    "testimonial1_text": "The best tacos I've ever had. Authentic Mexican flavor!",
-    "testimonial1_author": "John Smith"
+    }
   },
   "footer": {
     "main_text": "Unfiltered vibes.",
     "description": "Live your life to the fullest, express what you feel, explore the world and see the best in you. Because today Ziba's gonna be you! Enjoy your Ziba's at every moment.",
+    "choose": "Choose",
     "follow_us": "Follow us",
     "contact_us": "Contact us",
     "instagram_text": "Instagram",
