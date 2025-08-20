@@ -1,0 +1,344 @@
+---
+// Componente de carrusel de productos con Swiper
+interface Product {
+  id: string;
+  slug: string;
+  title: string;
+  image: string;
+  imageMobile?: string;
+}
+
+export interface Props {
+  products: Product[];
+  title?: string;
+  description?: string;
+  className?: string;
+  autoplay?: boolean;
+  speed?: number;
+  slidesPerView?: number;
+  spaceBetween?: number;
+  loop?: boolean;
+  color?: string;
+}
+
+const {
+  products = [],
+  title = '',
+  description = '',
+  className = '',
+  autoplay = true,
+  speed = 5000,
+  slidesPerView = 3,
+  spaceBetween = 30,
+  loop = true,
+  color = '#F08C00'
+} = Astro.props;
+
+const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
+
+// Textos según idioma
+const texts = {
+  es: {
+    viewMore: 'Ver más'
+  },
+  en: {
+    viewMore: 'View more'
+  }
+};
+
+const currentTexts = texts[currentLang as keyof typeof texts];
+
+// Asegurarse de que products es un array
+const productsItems = Array.isArray(products) ? products : [];
+
+import LazyImage from '../LazyImage.astro';
+---
+
+<div class={`products-carousel ${className}`} data-autoplay={autoplay} data-speed={speed}>
+  {title && (
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4" style={`color: ${color}`}>
+        {title}
+      </h2>
+      {description && (
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          {description}
+        </p>
+      )}
+    </div>
+  )}
+  
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {productsItems.map((product) => (
+        <div class="swiper-slide">
+          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+            <div class="product-image-container relative">
+              <LazyImage 
+                src={product.imageMobile || product.image} 
+                alt={product.title}
+                class="w-full h-48 md:h-56 object-cover"
+                width={300}
+                height={224}
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+            
+            <div class="p-4">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800 line-clamp-2">
+                {product.title}
+              </h3>
+              
+              <a 
+                href={`/${currentLang}/products/${product.slug}`}
+                class="inline-block px-6 py-2 rounded-full text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                style={`background-color: ${color}`}
+              >
+                {currentTexts.viewMore}
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Navegación -->
+    <div class="swiper-button-next !text-white !bg-blue-500/80 !w-12 !h-12 !rounded-full hover:!bg-blue-600/90 transition-all duration-300 !border-2 !border-white/30 backdrop-blur-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <path d="M17 0.999999L33 17M33 17L17 33M33 17L1 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    <div class="swiper-button-prev !text-white !bg-blue-500/80 !w-12 !h-12 !rounded-full hover:!bg-blue-600/90 transition-all duration-300 !border-2 !border-white/30 backdrop-blur-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <path d="M17 0.999999L0.999998 17M0.999998 17L17 33M0.999998 17L33 17" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    
+    <!-- Paginación -->
+    <div class="swiper-pagination !bottom-4"></div>
+  </div>
+</div>
+
+<style>
+  .products-carousel {
+    width: 100%;
+    padding: 2rem 0;
+    overflow: hidden;
+  }
+  
+  .swiper-container {
+    position: relative;
+    width: 100%;
+    padding: 0 40px;
+    overflow: hidden;
+  }
+  
+  .swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+  
+  .swiper-slide {
+    height: auto;
+    display: flex;
+    flex-shrink: 0;
+    width: auto;
+  }
+  
+  .product-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 320px;
+  }
+  
+  .product-image-container {
+    flex-shrink: 0;
+    width: 100%;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3rem;
+  }
+  
+  /* Personalización de Swiper */
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.8) !important;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    background: rgba(59, 130, 246, 0.9) !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    display: none;
+  }
+  
+  .swiper-pagination {
+    position: relative !important;
+    margin-top: 2rem !important;
+  }
+  
+  .swiper-pagination-bullet {
+    background: rgba(0, 0, 0, 0.3) !important;
+    opacity: 1 !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background: v-bind(color) !important;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .swiper-container {
+      padding: 0 30px;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    
+    .product-card {
+      min-height: 280px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .swiper-container {
+      padding: 0 20px;
+    }
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+
+  interface ProductsCarouselOptions {
+    autoplay?: boolean;
+    speed?: number;
+    slidesPerView?: number;
+    spaceBetween?: number;
+    loop?: boolean;
+  }
+
+  class ProductsCarousel {
+    private container: HTMLElement;
+    private swiper: Swiper | null = null;
+    private options: ProductsCarouselOptions;
+
+    constructor(container: HTMLElement, options: ProductsCarouselOptions = {}) {
+      this.container = container;
+      this.options = options;
+      this.init();
+    }
+
+    private init(): void {
+      const swiperContainer = this.container.querySelector('.swiper-container') as HTMLElement;
+      
+      if (!swiperContainer) return;
+
+      this.swiper = new Swiper(swiperContainer, {
+        modules: [Navigation, Pagination, Autoplay],
+        slidesPerView: this.options.slidesPerView || 3,
+        spaceBetween: this.options.spaceBetween || 30,
+        loop: this.options.loop !== false,
+        autoplay: this.options.autoplay ? {
+          delay: this.options.speed || 5000,
+          disableOnInteraction: false,
+        } : false,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: this.options.slidesPerView || 3,
+            spaceBetween: this.options.spaceBetween || 30,
+          },
+        },
+      });
+    }
+
+    public destroy(): void {
+      if (this.swiper) {
+        this.swiper.destroy();
+        this.swiper = null;
+      }
+    }
+  }
+
+  // Variable global para almacenar instancias
+  let carouselInstances: ProductsCarousel[] = [];
+
+  // Función para limpiar instancias existentes
+  function cleanupCarousels() {
+    carouselInstances.forEach(instance => instance.destroy());
+    carouselInstances = [];
+  }
+
+  // Función para inicializar carruseles
+  function initializeCarousels() {
+    cleanupCarousels();
+    
+    const carousels = document.querySelectorAll('.products-carousel');
+    carousels.forEach((element: Element) => {
+      if (element instanceof HTMLElement) {
+        const instance = new ProductsCarousel(element, {
+          autoplay: element.dataset.autoplay !== 'false',
+          speed: parseInt(element.dataset.speed || '5000', 10),
+          slidesPerView: 3,
+          spaceBetween: 30,
+          loop: true,
+        });
+        carouselInstances.push(instance);
+      }
+    });
+  }
+
+  // Inicializar en DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', initializeCarousels);
+  
+  // Reinicializar cuando cambie el idioma
+  document.addEventListener('astro:page-load', initializeCarousels);
+  
+  // Limpiar antes de que la página se descargue
+  document.addEventListener('astro:before-preparation', cleanupCarousels);
+</script> 

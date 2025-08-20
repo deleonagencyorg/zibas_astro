@@ -6,6 +6,11 @@ module.exports = {
     'bg-tertiary', 'text-tertiary', 'border-tertiary',
     'bg-red', 'text-red', 'border-red',
     'bg-white', 'text-white', 'border-white',
+    'bg-blue', 'text-blue', 'border-blue',
+    'bg-orange', 'text-orange', 'border-orange',
+    'bg-yellow', 'text-yellow', 'border-yellow',
+    'bg-pink', 'text-pink', 'border-pink',
+    'bg-quinary', 'text-quinary', 'border-quinary',
   ],
   theme: {
     extend: {
@@ -14,10 +19,14 @@ module.exports = {
         secondary: '#0167F7',
         tertiary: '#FDE820',
         cuaternary: '#FF4DFF',
-        quinary: '#0167F7z',
+        quinary: '#0167F7',
         red: '#FC4238',
         white: '#FFFFFF',
         brown: '#FAF1E9',
+        blue: '#0167F7',
+        orange: '#FD6600',
+        yellow: '#FDE820',
+        pink: '#FF4DFF',
     
       },
       fontFamily: {

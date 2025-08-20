@@ -18,6 +18,7 @@ import AnimHeart from '../../components/common/AnimHeart/index.astro';
 import ChipsFromBag from '../../components/common/ChipsFromBag/index.astro';
 import InstagramEmbed from '../../components/common/InstagramEmbed/index.astro';
 import Delivery from '../../components/common/Delivery/index.astro';
+import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 
 // Add styles for active brand logo
 const activeLogoStyles = `
@@ -59,6 +60,10 @@ const validProducts = Array.isArray(newProducts) ? newProducts : [];
 
 const chips = t('chips', { namespace: 'newproducts', locale: currentLang }) || [];
 const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
+
+// Obtener productos de Zibas según el idioma
+const zibasBrand = brands.find((brand: any) => brand.id === 'zibas');
+const zibasProducts = zibasBrand?.products || [];
 
 const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
@@ -120,6 +125,26 @@ const slides = Array.isArray(commonAssets)
         <Carousel slides={slides} />
       </div>
     </div>
+    
+    <!-- Sección de Productos Zibas -->
+    {zibasProducts.length > 0 && (
+      <section class="w-full py-16 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+          <ProductsCarousel 
+            products={zibasProducts}
+            title={currentLang === 'es' ? 'Nuestros Productos Zibas' : 'Our Zibas Products'}
+            description={currentLang === 'es' ? 'Descubre la deliciosa variedad de papas Zibas con sabores únicos' : 'Discover the delicious variety of Zibas chips with unique flavors'}
+            color="#F08C00"
+            autoplay={true}
+            speed={4000}
+            slidesPerView={3}
+            spaceBetween={30}
+            loop={true}
+            className="max-w-7xl mx-auto"
+          />
+        </div>
+      </section>
+    )}
     
  
 
