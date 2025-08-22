@@ -11,6 +11,7 @@ module.exports = {
     'bg-yellow', 'text-yellow', 'border-yellow',
     'bg-pink', 'text-pink', 'border-pink',
     'bg-quinary', 'text-quinary', 'border-quinary',
+    'bg-brown', 'text-brown', 'border-brown',
   ],
   theme: {
     extend: {
@@ -22,7 +23,7 @@ module.exports = {
         quinary: '#0167F7',
         red: '#FC4238',
         white: '#FFFFFF',
-        brown: '#FAF1E9',
+        brown: '#5B3F2E',
         blue: '#0167F7',
         orange: '#FD6600',
         yellow: '#FDE820',
