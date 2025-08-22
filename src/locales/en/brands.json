@@ -155,28 +155,32 @@
                     "slug": "zibas-clasicas",
                     "title": "Zibas Clasicas",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
+                    "titleColor": "#FDE820"
                 },
                 {
                     "id": "zibas-crema-y-especias",
                     "slug": "zibas-crema-y-especias",
                     "title": "Zibas Crema y Especias",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
+                    "titleColor": "#BBF525"
                 },
                 {
                     "id": "zibas-miel-mostasa",
                     "slug": "zibas-miel-mostasa",
                     "title": "Zibas Miel Mostasa",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
+                    "titleColor": "#2A76F4"
                 },
                 {
                     "id": "zibas-queso",
                     "slug": "zibas-queso",
                     "title": "Zibas Queso",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
+                    "titleColor": "#FB7418"
                 }
             ]
         },
