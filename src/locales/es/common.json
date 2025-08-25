@@ -1,8 +1,8 @@
 {
   "meta": {
     "home": {
-      "title": "Marca Líder de Snacks en Centroamérica",
-      "description": "Descubre Snacks Yummies: Taqueritos, Zambos, Ranchitas y Superman. Los mejores snacks con auténtico sabor mexicano en Honduras, Guatemala y toda Centroamérica."
+      "title": "Ziba's - Disfruta tus Ziba's en todo momento",
+      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
     },
     "contact": {
       "title": "Contacto",
@@ -10,53 +10,47 @@
     },
     "recipes": {
       "title": "Recetas",
-      "description": "Descubre deliciosas recetas con Taqueritos. Desde platos tradicionales hasta creaciones innovadoras."
+      "description": "Descubre deliciosas recetas con Ziba's. Desde platos tradicionales hasta creaciones innovadoras."
     },
     "news": {
       "title": "Noticias",
-      "description": "Mantente al día con las últimas noticias y eventos de Taqueritos."
+      "description": "Mantente al día con las últimas noticias y eventos de Ziba's."
     },
     "products": {
       "title": "Productos",
-      "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
+      "description": "Descubre nuestra línea completa de productos Ziba's. Sabor auténtico para toda la familia."
     },
     "brands": {
       "title": "Nuestras Marcas de Snacks",
-      "description": "Descubre Taqueritos, Zambos, Ranchitas y Superman. Cada marca con sabores únicos y auténticos que conquistan Centroamérica."
+      "description": "Descubre Ziba's, Zambos, Ranchitas y Superman. Cada marca con sabores únicos y auténticos que conquistan Centroamérica."
     },
     "about_us": {
       "title": "Nosotros - Historia y Valores",
-      "description": "Conoce la historia de Snacks Yummies, empresa líder en snacks de Centroamérica desde 1990. Nuestra misión, valores y compromiso con la calidad."
+      "description": "Conoce la historia de Ziba's, empresa líder en snacks de Centroamérica desde 1990. Nuestra misión, valores y compromiso con la calidad."
     },
     "yummiesone": {
-      "title": "Yummies One",
-      "description": "Descubre Yummies One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
+      "title": "Ziba's One",
+      "description": "Descubre Ziba's One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
     }
   },
   "social_media": {
-    "facebook": {
+   "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/SnacksYummies",
-      "alt": "Facebook de Snacks Yummies",
+      "url": "https://www.facebook.com/zibaslatam",
+      "alt": "Facebook de Ziba's",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/snacksyummies/",
-      "alt": "Instagram de Taqueritos",
+      "url": "https://www.instagram.com/zibaslatam",
+      "alt": "Instagram de Ziba's",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@snacksyummies",
-      "alt": "TikTok de Taqueritos",
-        "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
-    },
-    "x": {
-      "name": "X",
-      "url": "https://x.com/SnacksYummies",
-      "alt": "X de Snacks Yummies",
-      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/x.svg"
+      "url": "https://www.tiktok.com/@zibaslatam",
+      "alt": "TikTok de Ziba's",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
   },
   "cookie_consent": {
@@ -109,20 +103,6 @@
         "description": "",
         "link": "https://www.zambos.com"
       }
-    ],
-    "products": [
-      {
-        "id": "product1",
-        "src": "/images/es/products/product1.jpg",
-        "alt": "Taqueritos Original",
-        "title": ""
-      },
-      {
-        "id": "product2",
-        "src": "/images/es/products/product2.jpg",
-        "alt": "Taqueritos Picante",
-        "title": "Taqueritos Picante"
-      }
     ]
   },
   "menu_labels": {
@@ -131,114 +111,49 @@
   },
   "menu_items": [
     {
-      "text": "Superman",
-      "href": "https://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies",
-      "target": "_blank",
-      "special": true
+      "id": "zibas-creators",
+      "text": "Ziba's Creators",
+      "href": "/es/zibas-creators"
     },
     {
-      "id": "brands",
-      "text": "Marcas",
-      "href": "/es/marcas"
+      "id": "products",
+      "text": "Productos",
+      "href": "#products"
+    },
+    {
+      "id": "gallery",
+      "text": "Galería",
+      "href": "#gallery"
     },
     {
       "id": "blog",
-      "text": "Blog",
-      "href": "/es/blog"
+      "text": "Novedades",
+      "href": "#blog"
     },
    
     {
       "id": "about_us",
       "text": "Nosotros",
-      "href": "/es/nosotros"
+      "href": "#about-us"
     },
     {
-      "id": "contact",
-      "text": "Contacto",
-      "href": "/es/contacto"
+      "id": "recipes",
+      "text": "Recetas",
+      "href": "#recipes"
     }
+   
   ],
   "about_us": {
-    "title": "Nosotros",
-    "subtitle": "Conoce más sobre Snacks Yummies",
+    "title": "Conoce Nuestra",
+    "subtitle": "Historia",
     "content": [
-      "Snacks Yummies es la marca líder de snacks en Centroamérica, dedicada a ofrecer productos de la más alta calidad y sabor inigualable. Desde nuestros inicios, nos hemos comprometido con la innovación y excelencia en cada uno de nuestros productos.",
-      "Nuestra misión es crear momentos de felicidad a través de snacks deliciosos que unen a las personas. Creemos en la importancia de los pequeños momentos de disfrute que hacen la vida más sabrosa.",
-      "Con una amplia variedad de marcas reconocidas como Superman, Zambos, Taqueritos y Ranchitas, ofrecemos opciones para todos los gustos y ocasiones. Cada producto es elaborado con ingredientes cuidadosamente seleccionados y procesos que garantizan la mejor experiencia para nuestros consumidores.",
-      "En Snacks Yummies, también nos preocupamos por nuestra comunidad y el medio ambiente. Trabajamos constantemente en iniciativas sostenibles y programas de responsabilidad social que generan un impacto positivo en las comunidades donde operamos."
+      "Las mejores papas en un solo lugar."
     ]
   },
   "home": {
-    "brands":{
-      "title":"Marcas"
-    },
-    "new_products":{
-      "tagtitle":"Nuevos",
-      "title":"Productos"
-    },
-    "preview_brand":{
-      "button":"Ver marca",
-      "title":"Nuestras marcas"
-    },
-    "newsletter":{
-      "placeholder":"tucorreo@email.com",
-      "buttonText":"Suscribirse"
-    },
-    "socialmedia":{
-      "title":"Síguenos",
-      "tagtitle":"en redes",
-      "description":"Síguenos en nuestras redes sociales - Snacks Yummies",
-      "newsletter":"Entérate de las noticias y promociones",
-      "instagramLinks":[
-        {
-          "url":"https://www.instagram.com/reel/DNT6raEoqzD/?igsh=MXJsdmh4YWxpMGZseA=="
-        },
-        {
-          "url":"https://www.instagram.com/reel/DNL-gGZOW09/?igsh=MTY4eDVzazc5YTliaA=="
-        },
-        {
-          "url":"https://www.instagram.com/reel/DNHd_ltM-pc/?igsh=OWpnamQ4Y3FmN3Vz"
-        },
-        {
-          "url":"https://www.instagram.com/reel/DNEaatBuSfZ/?igsh=MTZuZjgzZnZ4dzg0dw=="
-        }
-      ]
-    },
-    "quiz":{
-      "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
-      "description":"Descubre cómo hacer tus días más Yummies",
-      "button":"Hacer Quiz",
-      "urlButton":"/es/marcas"
-    },
-    "spotify":{
-     "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-768x116.webp",
-      "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
-    },
-    "delivery":{
-      "delivery_title":"Dónde",
-      "delivery_sub_title":"Encontrarnos",
-      "delivery_button":"",
-      "delivery_url":"",
-      "delivery_apps":[
-        {
-          "app_icon":"cropped-Logo-Landing-Page-1.webp",
-          "app_name":"Sompopo App",
-          "app_url":"https://sompopo.app.link/yummies",
-          "country":"Honduras"
-        },
-        {
-          "app_icon":"https://snack.yummiespromociones.com/SnacksyummiesAssets/latorre.webp",
-          "app_name":"Latorre",
-          "app_url":"https://www.latorre.com.gt/458?map=productClusterIds",
-          "country":"Guatemala"
-        }
-      ]
-    },
-
-     
     "meta": {
-      "title": " Snacks Yummies -  Participa y gana premios increíbles",
-      "description": "Viví tus momentos más salvajes y disfrutá la experiencia de sabor intenso que te ofrecen Taqueritos. Hacé clic para conocer más sobre nuestros eventos."
+      "title": " Ziba's - Disfruta tus Ziba's en todo momento",
+      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
     }
   },
   "footer": {

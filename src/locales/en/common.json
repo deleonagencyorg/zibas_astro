@@ -1,8 +1,8 @@
 {
   "meta": {
     "home": {
-      "title": "Leading Snack Brand in Central America",
-      "description": "Discover Snacks Yummies: Taqueritos, Zambos, Ranchitas and Superman. The best Mexican snacks in Honduras, Guatemala and all Central America."
+      "title": "Ziba's - Enjoy your Ziba's at any moment",
+      "description": "Your favorite potato chip flakes come with naturally authentic flavors for all tastes."
     },
     "contact": {
       "title": "Contact",
@@ -10,114 +10,62 @@
     },
     "recipes": {
       "title": "Recipes",
-      "description": "Discover delicious recipes with Taqueritos. From traditional dishes to innovative creations."
+      "description": "Discover delicious recipes with Ziba's. From traditional dishes to innovative creations."
     },
     "news": {
       "title": "News",
-      "description": "Stay up to date with the latest news and events from Taqueritos."
+      "description": "Stay up to date with the latest news and events from Ziba's."
     },
     "products": {
       "title": "Products",
-      "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
+      "description": "Discover our complete line of Ziba's products. Authentic flavor for the whole family."
     },
     "brands": {
       "title": "Our Snack Brands",
-      "description": "Discover Taqueritos, Zambos, Ranchitas and Superman. Each brand with unique and authentic flavors that conquer Central America."
+      "description": "Discover Ziba's, Zambos, Ranchitas and Superman. Each brand with unique and authentic flavors that conquer Central America."
     },
     "about_us": {
       "title": "About Us - History and Values",
-      "description": "Learn about Snacks Yummies history, leading snack company in Central America since 1990. Our mission, values and commitment to quality."
+      "description": "Learn about the history of Ziba's, a leading snack company in Central America since 1990. Our mission, values and commitment to quality."
     },
     "yummiesone": {
-      "title": "Yummies One",
-      "description": "Discover Yummies One, our new exclusive platform for true snack lovers."
+      "title": "Ziba's One",
+      "description": "Discover Ziba's One, our new exclusive platform for true snack lovers."
     }
   },
-  "countries": {
-    "honduras": "Honduras",
-    "guatemala": "Guatemala",
-    "el_salvador": "El Salvador",
-    "nicaragua": "Nicaragua",
-    "costa_rica": "Costa Rica",
-    "republica_dominicana": "Dominican Republic"
-  },
-  "form_validation": {
-    "required": "This field is required",
-    "invalid_email": "Invalid email",
-    "password_min": "Password must be at least 8 characters",
-    "passwords_not_match": "Passwords do not match"
-  },
-  "subscribe": {
-    "success": "Thank you for subscribing!"
-  },
   "social_media": {
-    "facebook": {
+   "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/SnacksYummies",
-      "alt": "Facebook de Snacks Yummies",
+      "url": "https://www.facebook.com/zibaslatam",
+      "alt": "Facebook de Ziba's",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/snacksyummies/",
-      "alt": "Instagram de Taqueritos",
+      "url": "https://www.instagram.com/zibaslatam",
+      "alt": "Instagram de Ziba's",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@snacksyummies",
-      "alt": "TikTok de Taqueritos",
+      "url": "https://www.tiktok.com/@zibaslatam",
+      "alt": "TikTok de Ziba's",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
-    },
-    "x": {
-      "name": "X",
-      "url": "https://x.com/SnacksYummies",
-      "alt": "X de Snacks Yummies",
-      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/x.svg"
     }
   },
-  
   "cookie_consent": {
-    "title": "Cookie usage",
+    "title": "Uso de cookies",
     "description": "We use cookies to improve your experience on our website.",
     "accept": "Accept",
     "reject": "Reject",
     "preferences": "Preferences"
   },
   "assets": {
-    "logo": "/images/en/logo.svg",
-    "hero": "/images/en/hero.jpg",
+    "logo": "/images/es/logo.svg",
+    "hero": "/images/es/hero.jpg",
     "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
-      {
-        "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman-m.webp",
-        "alt": "Superman",
-        "title": "",
-        "description": "",
-        "link": "http://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies"
-      },
-      {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-m.webp",
-        "alt": "Ranchitas Buffalo Ranch",
-        "title": "",
-        "description": "",
-        "link": "https://ranchitas.com"
-      },
-
-      {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-m.webp",
-        "alt": "Taqueritos",
-        "title": "",
-        "description": "",
-        "link": "https://taqueritos.com"
-      },
       {
         "id": "slide4",
         "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos.webp",
@@ -127,111 +75,62 @@
         "description": "",
         "link": "https://www.zambos.com"
       }
-    ],
-    "products": [
-      {
-        "id": "product1",
-        "src": "/images/en/products/product1.jpg",
-        "alt": "Taqueritos Original",
-        "title": "Taqueritos Original"
-      },
-      {
-        "id": "product2",
-        "src": "/images/en/products/product2.jpg",
-        "alt": "Taqueritos Spicy",
-        "title": "Taqueritos Spicy"
-      }
     ]
   },
   "menu_labels": {
-    "open_main_menu": "Open main menu",
-    "explore": "Explore"
+    "open_main_menu": "Abrir menú principal",
+    "explore": "Explorar"
   },
   "menu_items": [
     {
-      "id": "brands",
-      "text": "Brands",
-      "href": "/en/brands"
+      "id": "zibas-creators",
+      "text": "Ziba's Creators",
+      "href": "/es/zibas-creators"
     },
-    
+    {
+      "id": "products",
+      "text": "Productos",
+      "href": "#products"
+    },
+    {
+      "id": "gallery",
+      "text": "Galería",
+      "href": "#gallery"
+    },
     {
       "id": "blog",
-      "text": "Blog",
-      "href": "/en/blog"
+      "text": "Novedades",
+      "href": "#blog"
     },
-  
+   
     {
       "id": "about_us",
-      "text": "About Us",
-      "href": "/en/about-us"
+      "text": "Nosotros",
+      "href": "#about-us"
     },
     {
-      "id": "contact",
-      "text": "Contact",
-      "href": "/en/contact"
+      "id": "recipes",
+      "text": "Recetas",
+      "href": "#recipes"
     }
+   
   ],
   "about_us": {
-    "title": "About Us",
-    "subtitle": "Learn more about Snacks Yummies",
+    "title": "Conoce Nuestra",
+    "subtitle": "Historia",
     "content": [
-      "Snacks Yummies is the leading snack brand in Central America, dedicated to offering products of the highest quality and unmatched flavor. Since our beginnings, we have been committed to innovation and excellence in each of our products.",
-      "Our mission is to create moments of happiness through delicious snacks that bring people together. We believe in the importance of small moments of enjoyment that make life more flavorful.",
-      "With a wide variety of recognized brands such as Superman, Zambos, Taqueritos, and Ranchitas, we offer options for all tastes and occasions. Each product is made with carefully selected ingredients and processes that guarantee the best experience for our consumers.",
-      "At Snacks Yummies, we also care about our community and the environment. We constantly work on sustainable initiatives and social responsibility programs that generate a positive impact in the communities where we operate."
+      "Las mejores papas en un solo lugar."
     ]
   },
   "home": {
-    "brands":{
-      "title":"Brands"
-    },
-    "new_products":{
-      "tagtitle":"New",
-      "title":"Products"
-    },
-    "preview_brand":{
-      "button":"View brand",
-      "title":"Our brands"
-    },
-    "newsletter":{
-      "placeholder":"email@email.com",
-      "buttonText":"Subscribe"
-    },
-    "socialmedia":{
-      "title":"Follow us",
-      "tagtitle":"on social media",
-      "description":"Follow us on our social media - Snacks Yummies",
-      "newsletter":"Stay up to date with all our news and promotions",
-      "instagramLinks":[
-        {
-          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
-        },
-        {
-          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
-        },
-        {
-          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
-        },
-        {
-          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
-        }
-      ]
-    },
-    "quiz":{
-      "title":"https://snack.yummiespromociones.com/snacksyummies/titlequiz.webp",
-      "description":"Discover how to make your days more Yummies",
-      "button":"Make Quiz",
-        "urlButton":"/es/marcas"
-      
-    },
-    "spotify":{
-      "listen_in_spotify":"https://snack.yummiespromociones.com/taqueritos/Listen-Lockup-Spanish-Horizontal-White-_1_2-2-768x116.avif",
-      "button_listen_now":"https://snack.yummiespromociones.com/taqueritos/botonspotify.webp"
+    "meta": {
+      "title": " Ziba's - Disfruta tus Ziba's en todo momento",
+      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
     }
   },
   "footer": {
     "main_text": "Unfiltered vibes.",
-    "description": "Live your life to the fullest, express what you feel, explore the world and see the best in you. Because today Ziba's gonna be you! Enjoy your Ziba's at every moment.",
+    "description": "Live your life to the fullest, express what you feel, explore the world and see the best in you. Because today Ziba's going to be you! Enjoy your Ziba's at all times.",
     "choose": "Choose",
     "follow_us": "Follow us",
     "contact_us": "Contact us",
@@ -240,18 +139,27 @@
     "email": "ayudacliente@zibas.com",
     "copyright": "© Copyright 2025. Ziba's. All rights reserved.",
     "privacy_policy_text": "Privacy Policy",
-    "privacy_policy_url": "/en/privacy-policy"
+    "privacy_policy_url": "/es/politica-privacidad"
   },
   "messagetop":[
     {
       "id":"1",
-      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
+      "title":"😎​ Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
       "link":""
     },
     {
       "id":"2",
-      "title":"Snacks Yummies! If you want a snack, you're in the right place ",
+      "title":"😎​ Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
       "link":""
     }
-  ]
+  ],
+  "form_validation": {
+    "required": "This field is required",
+    "invalid_email": "Invalid email",
+    "password_min": "Password must be at least 8 characters",
+    "passwords_not_match": "Passwords do not match"
+  },
+  "subscribe": {
+    "success": "Thank you for subscribing!"
+  }
 }

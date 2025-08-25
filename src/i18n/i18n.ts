@@ -6,11 +6,13 @@ import esNews from '../locales/es/news.json';
 import esProducts from '../locales/es/products.json';
 import esBrands from '../locales/es/brands.json';
 import esNewProducts from '../locales/es/newproducts.json';
+import esGallery from '../locales/es/gallery.json';
 import enRecipes from '../locales/en/recipes.json';
 import enNews from '../locales/en/news.json';
 import enProducts from '../locales/en/products.json';
 import enBrands from '../locales/en/brands.json';
 import enNewProducts from '../locales/en/newproducts.json';
+import enGallery from '../locales/en/gallery.json';
 
 // Tipos para las traducciones
 export type Locale = 'es' | 'en';
@@ -24,7 +26,8 @@ const translations = {
     news: esNews,
     products: esProducts,
     brands: esBrands,
-    newproducts: esNewProducts
+    newproducts: esNewProducts,
+    gallery: esGallery
   },
   en: {
     common: enCommon,
@@ -32,7 +35,8 @@ const translations = {
     news: enNews,
     products: enProducts,
     brands: enBrands,
-    newproducts: enNewProducts
+    newproducts: enNewProducts,
+    gallery: enGallery
   }
 };
 
@@ -66,12 +70,17 @@ export function t(key: TranslationKey, options?: { locale?: Locale, namespace?: 
   const locale = options?.locale || currentLocale;
   const namespace = options?.namespace || 'common';
   
-  // Dividir la clave por puntos para acceder a objetos anidados
-  const keys = key.split('.');
-  
   try {
     // @ts-ignore - Accedemos dinámicamente a las traducciones
     let result = translations[locale][namespace];
+    
+    // Si la clave está vacía, devolver todo el namespace
+    if (!key || key === '') {
+      return result;
+    }
+    
+    // Dividir la clave por puntos para acceder a objetos anidados
+    const keys = key.split('.');
     
     // Navegar por el objeto de traducciones siguiendo las claves
     for (const k of keys) {
