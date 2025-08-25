@@ -95,7 +95,7 @@ import LazyImage from '../LazyImage.astro';
               <a 
                 href={`/${currentLang}/products/${product.slug}`}
                 style={`background-color: #004AB2`}  
-                class="flex w-[310px] h-[58px] px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-[#7BB1FF] bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
+                class="flex w-full max-w-[310px] h-[58px] px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-[#7BB1FF] bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
               >
                 {currentTexts.viewMore}
               </a>
@@ -229,6 +229,12 @@ import LazyImage from '../LazyImage.astro';
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
+  /* Estilos responsive para el botón ViewMore */
+  .product-card a {
+    max-width: 100%;
+    min-width: 200px;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .products-carousel {
@@ -252,6 +258,12 @@ import LazyImage from '../LazyImage.astro';
     .product-image-container .product-image {
       width: 280px !important; /* Más grande en tablet */
       height: 380px !important;
+    }
+
+    /* Ajustar botón en tablet */
+    .product-card a {
+      max-width: 280px !important;
+      width: 100% !important;
     }
   }
 
@@ -277,6 +289,15 @@ import LazyImage from '../LazyImage.astro';
     .product-image-container .product-image {
       width: 220px !important; /* Más grande en móvil */
       height: 320px !important;
+    }
+
+    /* Ajustar botón en móvil */
+    .product-card a {
+      max-width: 240px !important;
+      width: 100% !important;
+      height: 50px !important;
+      font-size: 14px !important;
+      padding: 16px 8px !important;
     }
   }
 </style>

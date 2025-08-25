@@ -1,15 +1,17 @@
 ---
-import RecipeCard from './RecipeCard.astro';
+import RecipeCardCarousel from './RecipeCardCarousel.astro';
 
 export interface Props {
   recipes: any[];
   title?: string;
+  description?: string;
   textButton?: string;
 }
 
 const { 
   recipes = [],
-  title = 'RECETAS',
+  title = 'DESCUBRE NUESTRAS DELICIOSAS',
+  description = 'RECETAS',
   textButton = 'Ver Todas'
 } = Astro.props;
 
@@ -19,12 +21,8 @@ const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 // Asegurarse de que recipes es un array
 const recipeItems = Array.isArray(recipes) ? recipes : [];
 
-// Agrupar recetas en grupos de 3 para desktop y 2 para mobile
-const desktopGroups = [];
-for (let i = 0; i < recipeItems.length; i += 3) {
-  desktopGroups.push(recipeItems.slice(i, i + 3));
-}
-
+// Para desktop: mostrar siempre 3 tarjetas, pero el carousel avanza de 1 en 1
+// Para mobile: mantener 1 por slide
 const mobileGroups = [];
 for (let i = 0; i < recipeItems.length; i += 1) {
   mobileGroups.push([recipeItems[i]]);
@@ -34,15 +32,45 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 <div class="w-full ">
   <div class="w-full px-4 ">
     <!-- Título alineado a la izquierda -->
-    <!-- Carousel de recetas - MOBILE (2 por slide) - Solo visible en mobile -->
+     {title && (
+    <div class="text-center mb-16 relative z-20" >
+      <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: #5B3F2E`}>
+        {title}
+      </h2>
+      {description && (
+        <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: #5B3F2E`}>
+          {description}
+        </h1>
+      )}
+    </div>
+  )}
+    <!-- Seccion de recetas -->
+    
+    <!-- Botones de filtro -->
+    <div class="flex gap-2.5 mb-8 px-4 md:px-0 justify-center">
+      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        DESAYUNO
+      </a>
+      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        BRUNCH
+      </a>
+      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        ALMUERZO
+      </a>
+      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        TODO
+      </a>
+    </div>
+     
+    <!-- Carousel de recetas - MOBILE (1 por slide) - Solo visible en mobile -->
     <div class="recipes-carousel relative md:hidden">
       <div class="recipes-carousel-container w-full  md:py-12 py-6 md:px-12 px-4">
         <div class="recipes-carousel-track flex transition-transform duration-300 " id="recipesTrackMobile">
           {mobileGroups.map((group, index) => (
             <div class="recipe-slide-group w-full flex-shrink-0 flex justify-center ">
-              {group.map(recipe => (
+              {group.map((recipe, recipeIndex) => (
                 <div class="recipe-slide w-full max-w-sm mx-4">
-                  <RecipeCard
+                  <RecipeCardCarousel
                     image={recipe.image}
                     hoverImage={recipe.hover_image || recipe.image}
                     title={recipe.title}
@@ -51,6 +79,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
                     difficulty={recipe.difficulty || '---'}
                     servings={recipe.servings || 0}
                     rating={recipe.rating || 0}
+                    isMainCard={false}
                   />
                 </div>
               ))}
@@ -80,26 +109,23 @@ for (let i = 0; i < recipeItems.length; i += 1) {
       </div>
     </div>
     
-    <!-- Carousel de recetas - DESKTOP (3 por slide) - Solo visible en desktop -->
+    <!-- Carousel de recetas - DESKTOP - Solo visible en desktop -->
     <div class="recipes-carousel relative hidden md:block">
-      <div class="recipes-carousel-container overflow-hidden py-12">
-        <div class="recipes-carousel-track flex transition-transform duration-300" id="recipesTrackDesktop">
-          {desktopGroups.map((group, index) => (
-            <div class="recipe-slide-group w-full flex-shrink-0 flex gap-6">
-              {group.map(recipe => (
-                <div class="recipe-slide w-1/3">
-                  <RecipeCard
-                    image={recipe.image}
-                    hoverImage={recipe.hover_image || recipe.image}
-                    title={recipe.title}
-                    time={`${recipe.preparation_time}MIN`}
-                    id={recipe.id}
-                    difficulty={recipe.difficulty || '---'}
-                    servings={recipe.servings || 0}
-                    rating={recipe.rating || 0}
-                  />
-                </div>
-              ))}
+      <div class="recipes-carousel-container overflow-hidden ">
+        <div class="recipes-carousel-track flex justify-between items-start w-full transition-transform duration-300" id="recipesTrackDesktop" style="transform: translateX(0);">
+          {recipeItems.map((recipe, index) => (
+            <div class="recipe-slide flex-shrink-0" data-index={index}>
+              <RecipeCardCarousel
+                image={recipe.image}
+                hoverImage={recipe.hover_image || recipe.image}
+                title={recipe.title}
+                time={`${recipe.preparation_time}MIN`}
+                id={recipe.id}
+                difficulty={recipe.difficulty || '---'}
+                servings={recipe.servings || 0}
+                rating={recipe.rating || 0}
+                isMainCard={false}
+              />
             </div>
           ))}
         </div>
@@ -138,27 +164,17 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // Configuración para el carrusel mobile
-    setupCarousel({
-      trackId: 'recipesTrackMobile',
-      prevBtnId: 'prevBtnMobile',
-      nextBtnId: 'nextBtnMobile',
-      dotsContainerClass: 'carousel-dots-mobile'
-    });
+    setupMobileCarousel();
 
     // Configuración para el carrusel desktop
-    setupCarousel({
-      trackId: 'recipesTrackDesktop',
-      prevBtnId: 'prevBtnDesktop',
-      nextBtnId: 'nextBtnDesktop',
-      dotsContainerClass: 'carousel-dots-desktop'
-    });
+    setupDesktopCarousel();
 
-    // Función para configurar cada carrusel
-    function setupCarousel({ trackId, prevBtnId, nextBtnId, dotsContainerClass }) {
-      const track = document.getElementById(trackId);
-      const prevBtn = document.getElementById(prevBtnId);
-      const nextBtn = document.getElementById(nextBtnId);
-      const dotsContainer = document.querySelector(`.${dotsContainerClass}`);
+    // Función para configurar el carrusel mobile
+    function setupMobileCarousel() {
+      const track = document.getElementById('recipesTrackMobile');
+      const prevBtn = document.getElementById('prevBtnMobile');
+      const nextBtn = document.getElementById('nextBtnMobile');
+      const dotsContainer = document.querySelector('.carousel-dots-mobile');
 
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
@@ -226,6 +242,149 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         // Habilitar/deshabilitar botones según la posición
         prevBtn.classList.toggle('opacity-50', currentGroup === 0);
         nextBtn.classList.toggle('opacity-50', currentGroup === totalGroups - 1);
+      }
+    }
+
+    // Función para configurar el carrusel desktop
+    function setupDesktopCarousel() {
+      const track = document.getElementById('recipesTrackDesktop');
+      const prevBtn = document.getElementById('prevBtnDesktop');
+      const nextBtn = document.getElementById('nextBtnDesktop');
+      const dotsContainer = document.querySelector('.carousel-dots-desktop');
+
+      if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+      const slides = track.querySelectorAll('.recipe-slide');
+      const totalSlides = slides.length;
+      let currentSlide = 0;
+
+      // Establecer posición inicial - mostrar 3 slides empezando desde el slide 0
+      updateDesktopCarousel();
+
+      // Crear indicadores de puntos
+      createDesktopDots();
+
+      // Botón anterior
+      prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateDesktopCarousel();
+        }
+      });
+
+      // Botón siguiente
+      nextBtn.addEventListener('click', () => {
+        if (currentSlide < totalSlides - 3) {
+          currentSlide++;
+          updateDesktopCarousel();
+        }
+      });
+
+      // Crear indicadores para desktop
+      function createDesktopDots() {
+        dotsContainer.innerHTML = '';
+        
+        const totalDots = Math.max(0, totalSlides - 2); // totalSlides - 3 + 1
+        
+        for (let i = 0; i < totalDots; i++) {
+          const dot = document.createElement('button');
+          dot.classList.add(
+            'w-3', 'h-3', 'rounded-full', 
+            i === currentSlide ? 'bg-white' : 'bg-gray-300'
+          );
+          dot.addEventListener('click', () => {
+            currentSlide = i;
+            updateDesktopCarousel();
+          });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      // Actualizar carrusel desktop
+      function updateDesktopCarousel() {
+        // Resetear todas las tarjetas
+        slides.forEach((slide, index) => {
+          const card = slide.querySelector('a');
+          if (card) {
+            // Resetear clases
+            card.className = 'block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-[310px] h-[562px]';
+            
+            // Actualizar el componente interno
+            const cardContainer = card.querySelector('div');
+            const imgContainer = cardContainer?.querySelector('div[class*="rounded-t-"]'); // Buscar específicamente el contenedor de imagen
+            const infoContainer = cardContainer?.querySelector('div[class*="bg-[#F8E31F]"]'); // Buscar específicamente el contenedor de info
+            const title = card.querySelector('h3');
+            
+            if (index === currentSlide) {
+              // Tarjeta principal (primera visible)
+              card.className = 'block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-[530px] h-[562px]';
+              
+              // Remover overlay si existe
+              const existingOverlay = cardContainer.querySelector('.absolute.inset-0');
+              if (existingOverlay) {
+                existingOverlay.remove();
+              }
+              
+              if (cardContainer) {
+                cardContainer.className = 'flex flex-col w-[530px] h-[562px] relative';
+              }
+              if (imgContainer) {
+                imgContainer.className = 'relative overflow-hidden flex-shrink-0 w-[530px] h-[300px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]';
+              }
+              if (infoContainer) {
+                infoContainer.className = 'flex-shrink-0 w-[530px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50 p-6 flex flex-col justify-between';
+              }
+              if (title) {
+                title.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-2xl';
+              }
+            } else {
+              // Tarjetas secundarias
+              if (cardContainer) {
+                cardContainer.className = 'flex flex-col w-[310px] h-[562px] relative';
+                
+                // Agregar overlay si no existe
+                let overlay = cardContainer.querySelector('.absolute.inset-0');
+                if (!overlay) {
+                  overlay = document.createElement('div');
+                  overlay.className = 'absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px]';
+                  cardContainer.insertBefore(overlay, cardContainer.firstChild);
+                }
+              }
+              if (imgContainer) {
+                imgContainer.className = 'relative overflow-hidden flex-shrink-0 w-[310px] h-[300px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50';
+              }
+              if (infoContainer) {
+                infoContainer.className = 'flex-shrink-0 w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50 p-6 flex flex-col justify-between';
+              }
+              if (title) {
+                title.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-lg';
+              }
+            }
+          }
+          
+          // Mostrar/ocultar slides
+          if (index >= currentSlide && index < currentSlide + 3) {
+            slide.style.display = 'block';
+          } else {
+            slide.style.display = 'none';
+          }
+        });
+        
+        // Actualizar dots
+        const dots = dotsContainer.querySelectorAll('button');
+        dots.forEach((dot, i) => {
+          if (i === currentSlide) {
+            dot.classList.remove('bg-gray-300');
+            dot.classList.add('bg-white');
+          } else {
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-gray-300');
+          }
+        });
+
+        // Habilitar/deshabilitar botones
+        prevBtn.classList.toggle('opacity-50', currentSlide === 0);
+        nextBtn.classList.toggle('opacity-50', currentSlide >= totalSlides - 3);
       }
     }
   });

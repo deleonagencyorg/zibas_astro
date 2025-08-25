@@ -69,6 +69,8 @@ const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {}
 const recipesAssets = t('home', { namespace: 'recipes', locale: currentLang }) || {};
 const recipeItems = t('items', { namespace: 'recipes', locale: currentLang }) || [];
 
+const recipeItemsZibas = recipeItems.filter((recipe: any) => recipe.brand === 'zibas');
+
 // Obtener datos de delivery
 const deliveryData = homeAssets.delivery || {};
 
@@ -152,12 +154,16 @@ const slides = Array.isArray(commonAssets)
 
 
     <!-- Sección de recetas con carrusel -->
-    <!-- <section id="recipes" class="w-full py-12" transition:animate="slide">
-    </section> -->
+    <section id="recipes" class="w-full py-12" transition:animate="slide">
+      <div class="container mx-auto px-4">
+        <RecipesCarousel 
+          recipes={recipeItems} 
+          title={recipesAssets.section_title || 'DESCUBRE NUEVOS SABORES CON NUESTRAS'}
+          textButton={recipesAssets.view_all_button || 'Ver Todas'}
+        />
+      </div>
+    </section>
 
-  
-
- 
 
 
   
