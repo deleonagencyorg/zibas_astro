@@ -25,13 +25,6 @@ const currentLang = getLocale();
 const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {};
 const galleryAssets = t('', { namespace: 'gallery', locale: currentLang }) || {};
 const aboutAssets = t('', { namespace: 'aboutus', locale: currentLang }) || {};
-
-const mappedModalLabels = {
-  close: galleryAssets?.modal?.closeLabel || 'Cerrar',
-  previous: galleryAssets?.modal?.prevLabel || 'Anterior',
-  next: galleryAssets?.modal?.nextLabel || 'Siguiente'
-};
-
 const brands = t('brands', { namespace: 'brands', locale: currentLang }) || [];
 const zibasBrand = brands.find((brand: any) => brand.id === 'zibas');
 const zibasProducts = zibasBrand?.products || [];
