@@ -4,13 +4,15 @@
     "description": "Really explosive combinations! Discover easy-to-prepare recipes with your favorite Taqueritos and the collaboration of our chef Marco Prats."
   },
   "page": {
-    "title": "Recipes",
+    "title": "Discover new flavors with our",
+    "subtitle": "RECIPES",
     "description": "Really explosive combinations! Discover easy-to-prepare recipes with your favorite Taqueritos and the collaboration of our chef Marco Prats.",
     "no_recipes": "No recipes available at this time.",
     "read_more": "Read more"
   },
   "home": {
-    "title": "RECIPES",
+    "title": "Discover new flavors with our",
+    "subtitle": "RECIPES",
     "related_recipes": "Related recipes",
     "view_more": "View All",
     "recipes": "Ingredients",

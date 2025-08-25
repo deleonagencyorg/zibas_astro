@@ -3,13 +3,7 @@
 import LazyImage from '../../components/common/LazyImage.astro';
 // Component Imports
 import Carousel from '../../components/common/Carousel/index.astro';
-import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
-import Newsletter from '../../components/common/Newsletter/index.astro';
-import FloatingChip from '../../components/common/FloatingChip/index.astro';
-import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.astro';
-import NewProductsCarousel from '../../components/common/NewProductsCarousel/index.astro';
-import SimpleProductCarousel from '../../components/common/SimpleProductCarousel/index.astro';
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 
 // Style Imports
@@ -17,28 +11,8 @@ import './styles.css';
 
 // i18n and Data Imports
 import { t, getLocale } from '../../i18n/i18n';
-import type { Locale } from '../../i18n/i18n';
 
-// Recipe interface definition
-interface RecipeItem {
-  id: string;
-  title: string;
-  description?: string;
-  ingredients: string[];
-  instructions: string[];
-  preparation_time: number;
-  servings?: number;
-  image?: string;
-  product_image?: string;
-  tags?: string[];
-}
 
-// Helper function to get recipes by brand
-function getRecipesByBrand(recipes: RecipeItem[], brand: string): RecipeItem[] {
-  return recipes.filter(recipe => 
-    recipe.tags?.some(tag => tag.toLowerCase().includes(brand.toLowerCase()))
-  );
-}
 
 // Props
 export interface Props {
@@ -48,10 +22,9 @@ const { loading = false } = Astro.props;
 
 // Language and Data Setup
 const currentLang = getLocale();
-const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {};
-const recipeItems: RecipeItem[] = getRecipesByBrand(recipesAssets.items || [], 'zibas');
 const galleryAssets = t('', { namespace: 'gallery', locale: currentLang }) || {};
+const aboutAssets = t('', { namespace: 'aboutus', locale: currentLang }) || {};
 
 const mappedModalLabels = {
   close: galleryAssets?.modal?.closeLabel || 'Cerrar',
@@ -70,7 +43,7 @@ const slides = Array.isArray(commonAssets)
     .map(asset => ({
       desktop: asset.desktop,
       mobile: asset.mobile,
-      alt: asset.alt || 'Snacks Yummies',
+      alt: asset.alt || "Ziba's",
       title: asset.title || '',
       subtitle: asset.description || '',
       link: asset.url || asset.link || ''
@@ -117,8 +90,20 @@ const slides = Array.isArray(commonAssets)
     <!-- Sección de recetas con carrusel -->
     <section id="recipes" class="w-full py-12" transition:animate="slide">
       <div class="container mx-auto px-4">
+        {recipesAssets.home?.title && (
+          <div class="text-center mb-16 relative z-20" >
+            <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: #5B3F2E`}>
+              {recipesAssets.home?.title}
+            </h2>
+            {recipesAssets.home?.subtitle && (
+              <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: #5B3F2E`}>
+                {recipesAssets.home?.subtitle}
+              </h1>
+            )}
+          </div>
+        )}
         <RecipesCarousel 
-          recipes={recipeItems} 
+          recipes={recipesAssets.items || []} 
           title={recipesAssets.home?.title || 'DESCUBRE NUEVOS SABORES CON NUESTRAS'}
           textButton={recipesAssets.home?.view_more || 'Ver Todas'}
         />
@@ -141,7 +126,18 @@ const slides = Array.isArray(commonAssets)
     <!-- Sección News -->
 
     <!-- Sección Abaout -->
-
+<section id="about" class="bg-red w-full py-12" transition:animate="slide">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+        {aboutAssets.title || 'About'}
+      </h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+        {aboutAssets.subtitle || 'About'}
+      </h2>
+    </div>
+  </div>
+</section>
 
 
 
