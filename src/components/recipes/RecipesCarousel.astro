@@ -50,7 +50,7 @@ for (let i = 0; i < recipeItems.length; i += 2) {
 
 ---
 
-<div class="w-full ">
+<div class="w-full" data-recipes-carousel>
   <div class="w-full px-4 ">
     <!-- Título alineado a la izquierda -->
     
@@ -128,12 +128,14 @@ for (let i = 0; i < recipeItems.length; i += 2) {
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initRecipesCarousel(root) {
+    if (!root || root.dataset.rcInitialized === 'true') return;
+    root.dataset.rcInitialized = 'true';
     // Estado de filtro actual
     let currentFilter = 'all';
 
     // Setup filtros
-    const filtersContainer = document.getElementById('recipesFilters');
+    const filtersContainer = root.querySelector('#recipesFilters');
     const filterButtons = Array.from(filtersContainer?.querySelectorAll('.filter-btn'));
 
     // Configuración para el carrusel mobile
@@ -162,10 +164,10 @@ for (let i = 0; i < recipeItems.length; i += 2) {
     }
 
     function applyFilterMobile(initial = false) {
-      const track = document.getElementById('recipesTrackMobile');
-      const prevBtn = document.getElementById('prevBtnMobile');
-      const nextBtn = document.getElementById('nextBtnMobile');
-      const dotsContainer = document.querySelector('.carousel-dots-mobile');
+      const track = root.querySelector('#recipesTrackMobile');
+      const prevBtn = root.querySelector('#prevBtnMobile');
+      const nextBtn = root.querySelector('#nextBtnMobile');
+      const dotsContainer = root.querySelector('.carousel-dots-mobile');
 
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
@@ -248,10 +250,10 @@ for (let i = 0; i < recipeItems.length; i += 2) {
     }
 
     function applyFilterDesktop(initial = false) {
-      const track = document.getElementById('recipesTrackDesktop');
-      const prevBtn = document.getElementById('prevBtnDesktop');
-      const nextBtn = document.getElementById('nextBtnDesktop');
-      const dotsContainer = document.querySelector('.carousel-dots-desktop');
+      const track = root.querySelector('#recipesTrackDesktop');
+      const prevBtn = root.querySelector('#prevBtnDesktop');
+      const nextBtn = root.querySelector('#nextBtnDesktop');
+      const dotsContainer = root.querySelector('.carousel-dots-desktop');
 
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
@@ -428,5 +430,19 @@ for (let i = 0; i < recipeItems.length; i += 2) {
         nextClone.classList.toggle('opacity-50', currentSlide >= Math.max(0, visibleSlides.length - 4));
       }
     }
-  });
+  }
+
+  // Inicializaciones para navegaciones parciales de Astro y carga inicial
+  function initAll() {
+    document.querySelectorAll('[data-recipes-carousel]')
+      .forEach((el) => initRecipesCarousel(el));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+  document.addEventListener('astro:after-swap', initAll);
 </script>
