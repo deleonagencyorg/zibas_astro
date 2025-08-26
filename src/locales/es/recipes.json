@@ -64,6 +64,7 @@
       "id": "TaqueDogs",
       "slug": "taqueritos-Queso funcion - TaqueDogs",
       "title": "TaqueDogs ",
+      "category": "Lunch",
       "image": "https://taqueritos.com/wp-content/uploads/2022/12/TaqueDogs.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 15,
@@ -97,6 +98,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Elote_loco_Con_Chile_Taqueritos.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
+      "category": "Brunch",
       "ingredients": [
         "2 elotes de maíz",
         "1 bolsa de Taqueritos Chile Toreado",
@@ -120,6 +122,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Dados_Queso_T.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
+      "category": "Brunch",
       "ingredients": [
         "1 libra de queso crema o quesillo en dados.",
         "1 taza de harina",
@@ -142,7 +145,8 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Ensalada_CesarT.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 15,
-      "ingredients": [
+      "category": "Brunch",
+          "ingredients": [
         "1 lechuga romana",
         "1 pechuga de pollo",
         "Salpimentar al gusto",
@@ -163,6 +167,7 @@
     },
         {
       "id": "Mango Preparado con Taquerito",
+      "category": "Brunch",
       "slug": "Taqueritos- Chile - Toreado",
       "title": "Mango Preparado con Taqueritos Queso Fusión y Chile Toreado",
       "image": "https://snack.yummiespromociones.com/taqueritos/Mango_preparado-1.webp",
@@ -185,6 +190,7 @@
     },
         {
       "id": "Quesadilla de Jamón y Queso con Taqueritos",
+      "category": "Brunch",
       "slug": "Taqueritos- Queso - Fusión",
       "title": "Quesadilla de Jamón y Queso con Taqueritos Chile Queso Fusión",
       "image": "https://snack.yummiespromociones.com/taqueritos/Quesadilla_Taque.webp",
@@ -209,6 +215,7 @@
     },
         {
       "id": "Carne Asada con Taqueritos",
+      "category": "Brunch",
       "slug": "Taqueritos- Queso - Fusión",
       "title": "Carne Asadacon Taqueritos",
       "image": "https://snack.yummiespromociones.com/taqueritos/Carne_Asada.webp",
@@ -232,6 +239,7 @@
     },
         {
       "id": "Alitas de Pollo Empanizadas",
+      "category": "Brunch",
       "slug": "Taqueritos- Queso - Fusión",
       "title": "Alitas de Pollo Empanizadas Taqueritos Toreado Y Queso Fusión",
       "image": "https://snack.yummiespromociones.com/taqueritos/Alitas.jpg",

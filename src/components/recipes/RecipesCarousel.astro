@@ -4,14 +4,11 @@ import RecipeCardCarousel from './RecipeCardCarousel.astro';
 export interface Props {
   recipes: any[];
   title?: string;
-  description?: string;
   textButton?: string;
 }
 
 const { 
   recipes = [],
-  title = 'DESCUBRE NUESTRAS DELICIOSAS',
-  description = 'RECETAS',
   textButton = 'Ver Todas'
 } = Astro.props;
 
@@ -21,12 +18,36 @@ const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 // Asegurarse de que recipes es un array
 const recipeItems = Array.isArray(recipes) ? recipes : [];
 
-// Para desktop: mostrar siempre 3 tarjetas, pero el carousel avanza de 1 en 1
-// Para mobile: mantener 1 por slide
-const mobileGroups = [];
-for (let i = 0; i < recipeItems.length; i += 1) {
-  mobileGroups.push([recipeItems[i]]);
+// Normalizar categoría (usando claves en inglés para el filtrado)
+function getCategoryKey(recipe: any): string {
+  const raw = (
+    recipe?.category_en ||
+    recipe?.category ||
+    recipe?.category?.name ||
+    (Array.isArray(recipe?.categories_en) ? recipe.categories_en[0] : undefined) ||
+    (Array.isArray(recipe?.categories) ? recipe.categories[0] : undefined) ||
+    ''
+  );
+  const key = String(raw || '').trim().toLowerCase();
+  // mapear posibles variaciones a claves conocidas
+  if (['breakfast', 'desayuno'].includes(key)) return 'breakfast';
+  if (['brunch'].includes(key)) return 'brunch';
+  if (['lunch', 'almuerzo'].includes(key)) return 'lunch';
+  return key || 'other';
 }
+
+// Etiquetas por idioma (solo UI)
+const filterLabels = currentLang === 'es'
+  ? { breakfast: 'DESAYUNO', brunch: 'BRUNCH', lunch: 'ALMUERZO', all: 'TODO' }
+  : { breakfast: 'BREAKFAST', brunch: 'BRUNCH', lunch: 'LUNCH', all: 'ALL' };
+
+// Para desktop: mostrar 4 tarjetas por vista, avanzar de 1 en 1
+// Para mobile: 2 por slide (agrupadas de a 2)
+const mobileGroups = [] as any[];
+for (let i = 0; i < recipeItems.length; i += 2) {
+  mobileGroups.push([recipeItems[i], recipeItems[i + 1]].filter(Boolean));
+}
+
 ---
 
 <div class="w-full ">
@@ -36,74 +57,30 @@ for (let i = 0; i < recipeItems.length; i += 1) {
     <!-- Seccion de recetas -->
     
     <!-- Botones de filtro -->
-    <div class="flex gap-2.5 mb-8 px-4 md:px-0 justify-center">
-      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
-        DESAYUNO
-      </a>
-      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
-        BRUNCH
-      </a>
-      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
-        ALMUERZO
-      </a>
-      <a href="#" class="flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
-        TODO
-      </a>
+    <div class="flex gap-2.5 mb-8 px-4 md:px-0 justify-center" id="recipesFilters">
+      <button type="button" data-filter="breakfast" class="filter-btn flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1  text-xl rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        {filterLabels.breakfast}
+      </button>
+      <button type="button" data-filter="brunch" class="filter-btn flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 text-xl rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        {filterLabels.brunch}
+      </button>
+      <button type="button" data-filter="lunch" class="filter-btn flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 text-xl rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        {filterLabels.lunch}
+      </button>
+      <button type="button" data-filter="all" class="filter-btn flex py-5 px-2.5 justify-center items-center gap-2.5 flex-1 text-xl rounded-full border border-brown bg-yellow font-bold text-brown hover:bg-yellow-400 transition-colors">
+        {filterLabels.all}
+      </button>
     </div>
      
     <!-- Carousel de recetas - MOBILE (1 por slide) - Solo visible en mobile -->
-    <div class="recipes-carousel relative md:hidden">
-      <div class="recipes-carousel-container w-full  md:py-12 py-6 md:px-12 px-4">
-        <div class="recipes-carousel-track flex transition-transform duration-300 " id="recipesTrackMobile">
-          {mobileGroups.map((group, index) => (
-            <div class="recipe-slide-group w-full flex-shrink-0 flex justify-center ">
-              {group.map((recipe, recipeIndex) => (
-                <div class="recipe-slide w-full max-w-sm mx-4">
-                  <RecipeCardCarousel
-                    image={recipe.image}
-                    hoverImage={recipe.hover_image || recipe.image}
-                    title={recipe.title}
-                    time={`${recipe.preparation_time}MIN`}
-                    id={recipe.id}
-                    difficulty={recipe.difficulty || '---'}
-                    servings={recipe.servings || 0}
-                    rating={recipe.rating || 0}
-                    isMainCard={false}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      <!-- Controles de navegación mobile (flechas y puntos en la parte inferior) -->
-      <div class="flex justify-center items-center gap-4 mt-6">
-        <!-- Flecha anterior -->
-        <button class="carousel-prev bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnMobile">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        
-        <!-- Puntos indicadores -->
-        <div class="carousel-dots-mobile flex gap-2"></div>
-        
-        <!-- Flecha siguiente -->
-        <button class="carousel-next bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnMobile">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-    </div>
+
     
     <!-- Carousel de recetas - DESKTOP - Solo visible en desktop -->
-    <div class="recipes-carousel relative hidden md:block">
-      <div class="recipes-carousel-container overflow-hidden ">
-        <div class="recipes-carousel-track flex justify-between items-start w-full transition-transform duration-300" id="recipesTrackDesktop" style="transform: translateX(0);">
+    <div class="recipes-carousel relative ">
+      <div class="recipes-carousel-container overflow-visible ">
+        <div class="recipes-carousel-track flex items-start justify-center w-full gap-4 md:gap-6 transition-transform duration-300" id="recipesTrackDesktop" style="transform: translateX(0);">
           {recipeItems.map((recipe, index) => (
-            <div class="recipe-slide flex-shrink-0" data-index={index}>
+            <div class="recipe-slide flex-shrink-0 group-hover-container" data-index={index} data-category={getCategoryKey(recipe)}>
               <RecipeCardCarousel
                 image={recipe.image}
                 hoverImage={recipe.hover_image || recipe.image}
@@ -123,7 +100,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
       <!-- Controles de navegación desktop (flechas y puntos en la parte inferior) -->
       <div class="flex justify-center items-center gap-4 mt-8">
         <!-- Flecha anterior -->
-        <button class="carousel-prev bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnDesktop">
+        <button class="carousel-prev bg-white text-brown p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnDesktop">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
@@ -133,7 +110,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         <div class="carousel-dots-desktop flex gap-2"></div>
         
         <!-- Flecha siguiente -->
-        <button class="carousel-next bg-white text-primary p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnDesktop">
+        <button class="carousel-next bg-white text-brown p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnDesktop">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
@@ -143,7 +120,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
     
     <!-- Botón "Ver Todas" - Visible en ambos modes -->
     <div class="flex justify-center mt-6 w-full px-4 md:px-0">
-      <a href={`/${currentLang === 'es' ? 'es/recetas' : 'en/recipes'}`} class="bg-white text-primary font-bold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors w-full md:w-auto text-center">
+      <a href={`/${currentLang === 'es' ? 'es/recetas' : 'en/recipes'}`} class="bg-yellow text-brown font-bold py-2 px-8 rounded-full hover:border-brown hover:border-2 hover:bg-brown hover:text-yellow transition-colors w-full md:w-auto text-center font-title text-2xl">
         {textButton}
       </a>
     </div>
@@ -152,14 +129,39 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Estado de filtro actual
+    let currentFilter = 'all';
+
+    // Setup filtros
+    const filtersContainer = document.getElementById('recipesFilters');
+    const filterButtons = Array.from(filtersContainer?.querySelectorAll('.filter-btn'));
+
     // Configuración para el carrusel mobile
     setupMobileCarousel();
 
     // Configuración para el carrusel desktop
     setupDesktopCarousel();
 
+    // Eventos de filtros
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'all';
+        currentFilter = filter;
+        // estilos activos
+        filterButtons.forEach(b => b.classList.remove('ring-2', 'ring-brown'));
+        btn.classList.add('ring-2', 'ring-brown');
+        // aplicar filtros
+        applyFilterMobile();
+        applyFilterDesktop();
+      });
+    });
+
     // Función para configurar el carrusel mobile
     function setupMobileCarousel() {
+      applyFilterMobile(true);
+    }
+
+    function applyFilterMobile(initial = false) {
       const track = document.getElementById('recipesTrackMobile');
       const prevBtn = document.getElementById('prevBtnMobile');
       const nextBtn = document.getElementById('nextBtnMobile');
@@ -167,42 +169,46 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
-      const slideGroups = track.querySelectorAll('.recipe-slide-group');
-      const totalGroups = slideGroups.length;
+      const allGroups = Array.from(track.querySelectorAll('.recipe-slide-group'));
+      // Mostrar/ocultar grupos según filtro (cada grupo tiene 1 slide)
+      allGroups.forEach((group) => {
+        const slide = group.querySelector('.recipe-slide');
+        const cat = slide?.getAttribute('data-category') || '';
+        const visible = (currentFilter === 'all') || (cat === currentFilter);
+        group.style.display = visible ? '' : 'none';
+      });
+
+      const visibleGroups = allGroups.filter(g => g.style.display !== 'none');
       let currentGroup = 0;
 
-      // Crear indicadores de puntos
-      createDots();
+      // Handlers prev/next: reset listeners para evitar acumulación
+      const prevClone = prevBtn.cloneNode(true);
+      const nextClone = nextBtn.cloneNode(true);
+      prevBtn.parentNode?.replaceChild(prevClone, prevBtn);
+      nextBtn.parentNode?.replaceChild(nextClone, nextBtn);
 
-      // Actualizar el estado inicial
+      createDots();
       updatePosition();
 
-      // Botón anterior
-      prevBtn.addEventListener('click', () => {
+      prevClone.addEventListener('click', () => {
         if (currentGroup > 0) {
           currentGroup--;
           updatePosition();
         }
       });
 
-      // Botón siguiente
-      nextBtn.addEventListener('click', () => {
-        if (currentGroup < totalGroups - 1) {
+      nextClone.addEventListener('click', () => {
+        if (currentGroup < visibleGroups.length - 1) {
           currentGroup++;
           updatePosition();
         }
       });
 
-      // Crear indicadores
       function createDots() {
         dotsContainer.innerHTML = '';
-        
-        for (let i = 0; i < totalGroups; i++) {
+        for (let i = 0; i < visibleGroups.length; i++) {
           const dot = document.createElement('button');
-          dot.classList.add(
-            'w-3', 'h-3', 'rounded-full', 
-            i === currentGroup ? 'bg-white' : 'bg-gray-300'
-          );
+          dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentGroup ? 'bg-white' : 'bg-gray-300');
           dot.addEventListener('click', () => {
             currentGroup = i;
             updatePosition();
@@ -211,11 +217,13 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         }
       }
 
-      // Actualizar posición del carrusel
       function updatePosition() {
-        // Mover el track
-        track.style.transform = `translateX(-${currentGroup * 100}%)`;
-        
+        // Calcular índice real de grupo visible
+        const targetGroup = visibleGroups[currentGroup];
+        const originalIndex = allGroups.indexOf(targetGroup);
+        const percent = Math.max(0, originalIndex) * 100;
+        track.style.transform = `translateX(-${percent}%)`;
+
         // Actualizar dots
         const dots = dotsContainer.querySelectorAll('button');
         dots.forEach((dot, i) => {
@@ -228,14 +236,18 @@ for (let i = 0; i < recipeItems.length; i += 1) {
           }
         });
 
-        // Habilitar/deshabilitar botones según la posición
-        prevBtn.classList.toggle('opacity-50', currentGroup === 0);
-        nextBtn.classList.toggle('opacity-50', currentGroup === totalGroups - 1);
+        // Habilitar/deshabilitar botones
+        prevClone.classList.toggle('opacity-50', currentGroup === 0);
+        nextClone.classList.toggle('opacity-50', currentGroup >= visibleGroups.length - 1);
       }
     }
 
     // Función para configurar el carrusel desktop
     function setupDesktopCarousel() {
+      applyFilterDesktop(true);
+    }
+
+    function applyFilterDesktop(initial = false) {
       const track = document.getElementById('recipesTrackDesktop');
       const prevBtn = document.getElementById('prevBtnDesktop');
       const nextBtn = document.getElementById('nextBtnDesktop');
@@ -243,44 +255,46 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
-      const slides = track.querySelectorAll('.recipe-slide');
-      const totalSlides = slides.length;
+      const allSlides = Array.from(track.querySelectorAll('.recipe-slide'));
+      // Mostrar/ocultar slides según filtro
+      allSlides.forEach((slide) => {
+        const cat = slide.getAttribute('data-category') || '';
+        const visible = (currentFilter === 'all') || (cat === currentFilter);
+        slide.style.display = visible ? 'block' : 'none';
+      });
+
+      const visibleSlides = allSlides.filter(s => s.style.display !== 'none');
       let currentSlide = 0;
 
-      // Establecer posición inicial - mostrar 3 slides empezando desde el slide 0
-      updateDesktopCarousel();
+      // Resetear listeners para evitar acumulación
+      const prevClone = prevBtn.cloneNode(true);
+      const nextClone = nextBtn.cloneNode(true);
+      prevBtn.parentNode?.replaceChild(prevClone, prevBtn);
+      nextBtn.parentNode?.replaceChild(nextClone, nextBtn);
 
-      // Crear indicadores de puntos
+      updateDesktopCarousel();
       createDesktopDots();
 
-      // Botón anterior
-      prevBtn.addEventListener('click', () => {
+      prevClone.addEventListener('click', () => {
         if (currentSlide > 0) {
           currentSlide--;
           updateDesktopCarousel();
         }
       });
 
-      // Botón siguiente
-      nextBtn.addEventListener('click', () => {
-        if (currentSlide < totalSlides - 3) {
+      nextClone.addEventListener('click', () => {
+        if (currentSlide < Math.max(0, visibleSlides.length - 4)) {
           currentSlide++;
           updateDesktopCarousel();
         }
       });
 
-      // Crear indicadores para desktop
       function createDesktopDots() {
         dotsContainer.innerHTML = '';
-        
-        const totalDots = Math.max(0, totalSlides - 2); // totalSlides - 3 + 1
-        
+        const totalDots = Math.max(0, visibleSlides.length - 3); // totalSlides - 4 + 1
         for (let i = 0; i < totalDots; i++) {
           const dot = document.createElement('button');
-          dot.classList.add(
-            'w-3', 'h-3', 'rounded-full', 
-            i === currentSlide ? 'bg-white' : 'bg-gray-300'
-          );
+          dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentSlide ? 'bg-white' : 'bg-gray-300');
           dot.addEventListener('click', () => {
             currentSlide = i;
             updateDesktopCarousel();
@@ -289,70 +303,108 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         }
       }
 
-      // Actualizar carrusel desktop
       function updateDesktopCarousel() {
-        // Resetear todas las tarjetas
-        slides.forEach((slide, index) => {
-          const card = slide.querySelector('a');
+        // Resetear todas las tarjetas visibles
+        visibleSlides.forEach((slide, index) => {
+          let card = slide.querySelector('a');
           if (card) {
+            // Asegurar ancho base del wrapper slide y transición suave
+            slide.style.width = '310px';
+            slide.style.transition = 'width 300ms ease';
+
+            // Remover cualquier overlay residual si existiera (garantiza que la primera no tenga overlay)
+            const anyOverlay = card.querySelector('.absolute.inset-0');
+            if (anyOverlay) anyOverlay.remove();
+
+            // Remover listeners previos clonando el elemento
+            const newCard = card.cloneNode(true);
+            card.parentNode?.replaceChild(newCard, card);
+            card = newCard; // Usar la nueva referencia
+            
             // Resetear clases
             card.className = 'block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-[310px] h-[562px]';
             
             // Actualizar el componente interno
             const cardContainer = card.querySelector('div');
-            const imgContainer = cardContainer?.querySelector('div[class*="rounded-t-"]'); // Buscar específicamente el contenedor de imagen
-            const infoContainer = cardContainer?.querySelector('div[class*="bg-[#F8E31F]"]'); // Buscar específicamente el contenedor de info
+            const imgContainer = cardContainer?.querySelector('div[class*="rounded-t-"]');
+            const infoContainer = cardContainer?.querySelector('div[class*="bg-[#F8E31F]"]');
             const title = card.querySelector('h3');
-            
-            if (index === currentSlide) {
-              // Tarjeta principal (primera visible)
-              card.className = 'block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-[530px] h-[562px]';
-              
-              // Remover overlay si existe
-              const existingOverlay = cardContainer.querySelector('.absolute.inset-0');
-              if (existingOverlay) {
-                existingOverlay.remove();
-              }
-              
-              if (cardContainer) {
-                cardContainer.className = 'flex flex-col w-[530px] h-[562px] relative';
-              }
-              if (imgContainer) {
-                imgContainer.className = 'relative overflow-hidden flex-shrink-0 w-[530px] h-[300px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]';
-              }
-              if (infoContainer) {
-                infoContainer.className = 'flex-shrink-0 w-[530px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50 p-6 flex flex-col justify-between';
-              }
-              if (title) {
-                title.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-2xl';
-              }
-            } else {
-              // Tarjetas secundarias
-              if (cardContainer) {
-                cardContainer.className = 'flex flex-col w-[310px] h-[562px] relative';
-                
-                // Agregar overlay si no existe
-                let overlay = cardContainer.querySelector('.absolute.inset-0');
-                if (!overlay) {
-                  overlay = document.createElement('div');
-                  overlay.className = 'absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px]';
-                  cardContainer.insertBefore(overlay, cardContainer.firstChild);
+            const imgTag = imgContainer?.querySelector('img');
+
+            // Estado base: TODAS iguales (4 por slide)
+            if (cardContainer) cardContainer.style.width = '310px';
+            if (cardContainer) cardContainer.style.height = '562px';
+            if (imgContainer) imgContainer.style.width = '310px';
+            if (imgContainer) imgContainer.style.height = '300px';
+            if (infoContainer) infoContainer.style.width = '310px';
+            if (infoContainer) infoContainer.style.height = '262px';
+            if (title) title.className = 'font-title font-bold text-black leading-tight flex-1 flex items-center text-brown text-2xl';
+            if (imgTag) imgTag.className = 'w-full h-full object-cover';
+
+            // Hover: la tarjeta bajo cursor crece en ANCHO/ALTO y empuja a las demás
+            card.addEventListener('mouseenter', () => {
+              const baseW = 310;
+              const bigW = 560; // ancho cuando se expande
+              visibleSlides.forEach((s) => {
+                const c2 = s.querySelector('a');
+                const cc2 = c2?.querySelector('div');
+                const imgC2 = cc2?.querySelector('div[class*="rounded-t-"]');
+                const infoC2 = cc2?.querySelector('div[class*="bg-[#F8E31F]"]');
+                const t2 = c2?.querySelector('h3');
+                if (!c2) return;
+                if (c2 === card) {
+                  // Ensanchar slide contenedor para que el layout se mueva
+                  s.style.width = `${bigW}px`;
+                  c2.style.opacity = '1';
+                  c2.style.zIndex = '10';
+                  if (cc2) cc2.style.width = `${bigW}px`;
+                  if (cc2) cc2.style.height = '562px';
+                  if (imgC2) imgC2.style.width = `${bigW}px`;
+                  if (imgC2) imgC2.style.height = '300px';
+                  if (infoC2) infoC2.style.width = `${bigW}px`;
+                  if (infoC2) infoC2.style.height = '262px';
+                  if (t2) t2.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-2xl';
+                } else {
+                  s.style.width = `${baseW}px`;
+                  c2.style.opacity = '0.35';
+                  c2.style.zIndex = '1';
+                  if (cc2) cc2.style.width = `${baseW}px`;
+                  if (cc2) cc2.style.height = '562px';
+                  if (imgC2) imgC2.style.width = `${baseW}px`;
+                  if (imgC2) imgC2.style.height = '300px';
+                  if (infoC2) infoC2.style.width = `${baseW}px`;
+                  if (infoC2) infoC2.style.height = '262px';
+                  if (t2) t2.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-lg';
                 }
-              }
-              if (imgContainer) {
-                imgContainer.className = 'relative overflow-hidden flex-shrink-0 w-[310px] h-[300px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50';
-              }
-              if (infoContainer) {
-                infoContainer.className = 'flex-shrink-0 w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50 p-6 flex flex-col justify-between';
-              }
-              if (title) {
-                title.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-lg';
-              }
-            }
+              });
+            });
+
+            card.addEventListener('mouseleave', () => {
+              // Restaurar estado base igualado para las 4 visibles
+              const baseW = 310;
+              visibleSlides.forEach((s) => {
+                const c2 = s.querySelector('a');
+                const cc2 = c2?.querySelector('div');
+                const imgC2 = cc2?.querySelector('div[class*="rounded-t-"]');
+                const infoC2 = cc2?.querySelector('div[class*="bg-[#F8E31F]"]');
+                const t2 = c2?.querySelector('h3');
+                if (!c2) return;
+                s.style.width = `${baseW}px`;
+                c2.style.opacity = '1';
+                c2.style.zIndex = '';
+                if (cc2) cc2.style.width = `${baseW}px`;
+                if (cc2) cc2.style.height = '562px';
+                if (imgC2) imgC2.style.width = `${baseW}px`;
+                if (imgC2) imgC2.style.height = '300px';
+                if (infoC2) infoC2.style.width = `${baseW}px`;
+                if (infoC2) infoC2.style.height = '262px';
+                if (t2) t2.className = 'font-sans font-bold text-black leading-tight flex-1 flex items-center text-lg';
+              });
+            });
           }
-          
-          // Mostrar/ocultar slides
-          if (index >= currentSlide && index < currentSlide + 3) {
+
+          // Mostrar/ocultar slides visibles en ventana
+          if (index >= currentSlide && index < currentSlide + 4) {
             slide.style.display = 'block';
           } else {
             slide.style.display = 'none';
@@ -372,8 +424,8 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         });
 
         // Habilitar/deshabilitar botones
-        prevBtn.classList.toggle('opacity-50', currentSlide === 0);
-        nextBtn.classList.toggle('opacity-50', currentSlide >= totalSlides - 3);
+        prevClone.classList.toggle('opacity-50', currentSlide === 0);
+        nextClone.classList.toggle('opacity-50', currentSlide >= Math.max(0, visibleSlides.length - 4));
       }
     }
   });

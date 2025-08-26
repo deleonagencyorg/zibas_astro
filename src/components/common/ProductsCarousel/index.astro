@@ -11,8 +11,6 @@ interface Product {
 
 export interface Props {
   products: Product[];
-  title?: string;
-  description?: string;
   className?: string;
   autoplay?: boolean;
   speed?: number;
@@ -24,8 +22,6 @@ export interface Props {
 
 const {
   products = [],
-  title = '',
-  description = '',
   className = '',
   autoplay = true,
   speed = 5000,
@@ -56,24 +52,12 @@ import LazyImage from '../LazyImage.astro';
 ---
 
 <div class={`products-carousel ${className}`} data-autoplay={autoplay} data-speed={speed}>
-  {title && (
-    <div class="text-center mb-16 relative z-20" style="margin-top: -150px; margin-bottom: 150px;">
-      <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: ${color}`}>
-        {title}
-      </h2>
-      {description && (
-        <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: ${color}`}>
-          {description}
-        </h1>
-      )}
-    </div>
-  )}
   
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {productsItems.map((product) => (
         <div class="swiper-slide">
-          <div class="product-card rounded-[50px] border border-[#388BFF] bg-[#005ADA]">
+          <div class="product-card rounded-[50px] border border-blue bg-blue">
             <div class="product-image-container">
               <LazyImage 
                 src={product.imageMobile || product.image} 
@@ -95,7 +79,7 @@ import LazyImage from '../LazyImage.astro';
               <a 
                 href={`/${currentLang}/products/${product.slug}`}
                 style={`background-color: #004AB2`}  
-                class="flex w-full max-w-[310px] h-[58px] px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-[#7BB1FF] bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
+                class="flex w-full max-w-[310px] h-[58px] px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
               >
                 {currentTexts.viewMore}
               </a>

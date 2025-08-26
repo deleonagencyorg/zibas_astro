@@ -66,6 +66,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/TaqueDogs.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 15,
+      "category": "Lunch",
       "ingredients": [
         "1. Pan para Hot Dog",
         "2. queso",
@@ -97,6 +98,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Elote_loco_Con_Chile_Taqueritos.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
+      "category": "Brunch",
       "ingredients": [
         "2 elotes de maíz",
         "1 bolsa de Taqueritos Chile Toreado",
@@ -120,6 +122,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Dados_Queso_T.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
+      "category": "Brunch",
       "ingredients": [
         "1 libra de queso crema o quesillo en dados.",
         "1 taza de harina",
@@ -143,6 +146,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Ensalada_CesarT.webp",
       "product_image": "",
       "preparation_time": 15,
+      "category": "Lunch",
       "ingredients": [
         "1 lechuga romana",
         "1 pechuga de pollo",
@@ -170,6 +174,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Mango_preparado-1.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritochile.webp",
       "preparation_time": 20,
+      "category": "Breakfast",
       "ingredients": [
         "1 mango en trozos",
         "Sal al gusto",
@@ -193,6 +198,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Quesadilla_Taque.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 20,
+      "category": "Breakfast",
       "ingredients": [
         "2 tortillas de harina",
         "2 cucharadas de mantequilla crema",
@@ -218,6 +224,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Carne_Asada.webp",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 20,
+      "category": "Lunch",
       "ingredients": [
         "2 cucharadas de aceite",
         "1 libra de carne para asar de res en trocitos Salpimentar al gusto",
@@ -242,6 +249,7 @@
       "image": "https://snack.yummiespromociones.com/taqueritos/Alitas.jpg",
       "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
       "preparation_time": 15,
+      "category": "Lunch",
       "ingredients": [
         "12 alitas de pollo",
         "Salpimentar al gusto",

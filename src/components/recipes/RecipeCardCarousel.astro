@@ -72,13 +72,11 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
         : 'w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50'
     } p-6 flex flex-col justify-between`}>
       <!-- Título -->
-      <h3 class={`font-sans font-bold text-black leading-tight flex-1 flex items-center ${
-        isMainCard ? 'text-2xl' : 'text-lg'
-      }`}>{title}</h3>
+      <h3 class="font-title font-bold text-black leading-tight flex-1 flex items-center text-2xl">{title}</h3>
       
       <!-- Botón Ver Receta -->
       <div class="flex justify-center">
-        <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-sm font-bold hover:bg-yellow-300 transition-colors">
+        <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-xl font-bold hover:bg-yellow-300 transition-colors">
           {viewRecipeText}
         </div>
       </div>

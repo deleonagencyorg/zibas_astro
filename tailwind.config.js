@@ -12,7 +12,8 @@ module.exports = {
     'bg-pink', 'text-pink', 'border-pink',
     'bg-quinary', 'text-quinary', 'border-quinary',
     'bg-brown', 'text-brown', 'border-brown',
-  ],
+    'bg-green', 'text-green', 'border-green',
+    ],
   theme: {
     extend: {
       colors: {
@@ -25,6 +26,7 @@ module.exports = {
         white: '#FFFFFF',
         brown: '#5B3F2E',
         blue: '#0167F7',
+        green: '#10b981',
         orange: '#FD6600',
         yellow: '#FDE820',
         pink: '#FF4DFF',
