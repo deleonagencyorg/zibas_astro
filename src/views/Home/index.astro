@@ -27,6 +27,7 @@ const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {}
 const galleryAssets = t('', { namespace: 'gallery', locale: currentLang }) || {};
 const aboutAssets = t('', { namespace: 'aboutus', locale: currentLang }) || {};
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
+const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
 const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
 const zibasProducts = zibasBrand?.products || [];
@@ -127,7 +128,20 @@ const slides = Array.isArray(commonAssets)
     </section>
 
     <!-- Sección News -->
-
+     <section id="news" class="bg-yellow w-full py-12" transition:animate="slide">
+      {newsAssets.home.title && (
+        <div class="text-center mb-16 relative z-20" >
+          <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown">
+            {newsAssets.home.title}
+          </h2>
+          {newsAssets.home.subtitle && (
+            <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown">
+              {newsAssets.home.subtitle}
+            </h1>
+          )}
+        </div>
+      )}
+     </section>
     <!-- Sección Abaout -->
 <section id="about" class="bg-red w-full py-12" transition:animate="slide">
   <div class="container mx-auto px-4">

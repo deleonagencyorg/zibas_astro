@@ -1,7 +1,16 @@
 {
   "meta": {
     "title": "Noticias",
-    "description": "Mantente al día con las últimas noticias y eventos de Taqueritos."
+    "subtitle": "Mantente al día con las últimas noticias y eventos de Taqueritos.",
+    "moreimportant":"Noticias más importantes",
+    "destacados":"Destacados",
+    "descriptiondestacados":"Sé el primero en conocer nuestras promociones, lanzamientos y más",
+    "masnoticias":"Más noticias",
+    "descriptionmasnoticias":""
+  },
+  "home": {
+    "title": "Entérate de todo hoy con nuestras",
+    "subtitle": "Novedades"
   },
   "page": {
     "title": "Noticias y Eventos",
