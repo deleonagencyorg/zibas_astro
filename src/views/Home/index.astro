@@ -6,6 +6,7 @@ import Carousel from '../../components/common/Carousel/index.astro';
 import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 import MasonryGallery from '../../components/gallery/MasonryGallery.astro';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
 
 // Style Imports
 import './styles.css';
@@ -129,19 +130,32 @@ const slides = Array.isArray(commonAssets)
 
     <!-- Sección News -->
      <section id="news" class="bg-yellow w-full py-12" transition:animate="slide">
-      {newsAssets.home.title && (
-        <div class="text-center mb-16 relative z-20" >
-          <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown">
-            {newsAssets.home.title}
-          </h2>
-          {newsAssets.home.subtitle && (
-            <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown">
-              {newsAssets.home.subtitle}
-            </h1>
-          )}
-        </div>
-      )}
-     </section>
+  <div class="container mx-auto px-4">
+    {newsAssets.home.title && (
+      <div class="text-center mb-16 relative z-20 overflow-hidden" >
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid
+               pixelSize={20}
+               density={0.7}
+               introDuration={800}
+               loopInterval={1100}
+               mutateAmount={50}
+             />
+          </div>
+        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown relative z-10">
+          {newsAssets.home.title}
+        </h2>
+        {newsAssets.home.subtitle && (
+          <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown relative z-10 flex items-center justify-center">
+            
+            <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
+          </h1>
+        
+        )}
+      </div>
+    )}
+  </div>
+</section>
     <!-- Sección Abaout -->
 <section id="about" class="bg-red w-full py-12" transition:animate="slide">
   <div class="container mx-auto px-4">
