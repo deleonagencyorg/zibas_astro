@@ -1,0 +1,53 @@
+---
+import LazyImage from '../common/LazyImage.astro';
+
+export interface GalleryItem {
+  url: string;
+  alt?: string;
+}
+
+export interface Props {
+  items: GalleryItem[];
+  columns?: number; // desktop columns
+  title?: string;
+  className?: string;
+}
+
+const {
+  items = [],
+  columns = 3,
+  title = '',
+  className = ''
+} = Astro.props as Props;
+---
+
+<section class={`w-full ${className}`}> 
+  {title && (
+    <div class="text-center mb-8">
+      <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-white">{title}</h2>
+    </div>
+  )}
+
+  <div class="masonry" style={`--cols: ${columns}; --gap: 1rem;`}>
+    {items.map((item) => (
+      <div class="masonry-item">
+        <LazyImage src={item.url} alt={item.alt || ''} class="w-full h-auto rounded-lg block" />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .masonry {
+    column-count: 1;
+    column-gap: var(--gap, 1rem);
+  }
+  .masonry-item {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    margin-bottom: var(--gap, 1rem);
+  }
+  @media (min-width: 768px) {
+    .masonry { column-count: var(--cols, 3); }
+  }
+</style>

@@ -5,6 +5,7 @@ import LazyImage from '../../components/common/LazyImage.astro';
 import Carousel from '../../components/common/Carousel/index.astro';
 import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
+import MasonryGallery from '../../components/gallery/MasonryGallery.astro';
 
 // Style Imports
 import './styles.css';
@@ -114,7 +115,14 @@ const slides = Array.isArray(commonAssets)
     <!-- Sección Gallery -->
     <section id="gallery" class="bg-pink w-full py-12" transition:animate="slide">
       <div class="container mx-auto px-4">
-        
+        {Array.isArray(galleryAssets.images) && galleryAssets.images.length > 0 && (
+          <MasonryGallery 
+            items={galleryAssets.images}
+            columns={3}
+            title={galleryAssets.title}
+            className=""
+          />
+        )}
       </div>
     </section>
 
