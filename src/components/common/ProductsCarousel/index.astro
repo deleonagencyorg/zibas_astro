@@ -57,32 +57,35 @@ import LazyImage from '../LazyImage.astro';
     <div class="swiper-wrapper">
       {productsItems.map((product) => (
         <div class="swiper-slide">
-          <div class="product-card rounded-[50px] border border-blue bg-blue">
+          <div class="product-card rounded-[50px] border border-indigo-300 bg-[#0f5fcd]">
             <div class="product-image-container">
+             
+              
               <LazyImage 
                 src={product.imageMobile || product.image} 
                 alt={product.title}
-                class="product-image"
+                class="product-image z-20"
                 width={300}
                 height={400}
               />
             </div>
             
             <div class="absolute bottom-0 left-0 right-0 p-6 text-left text-white">
-              <h4 class="text-left">
+              <h4 class="text-left text-4xl">
                 ZIBA'S
               </h4>
-              <h3 class="text-2xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.titleColor || '#10b981'}`}>
+              <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.titleColor || '#10b981'}`}>
                 {product.title.split(' ').slice(1).join(' ')}
               </h3>
               
               <a 
                 href={`/${currentLang}/products/${product.slug}`}
                 style={`background-color: #004AB2`}  
-                class="flex w-full max-w-[310px] h-[58px] px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
+                class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
               >
                 {currentTexts.viewMore}
               </a>
+             
             </div>
           </div>
         </div>
@@ -191,7 +194,6 @@ import LazyImage from '../LazyImage.astro';
   }
 
   .product-card h3 {
-    font-size: 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;

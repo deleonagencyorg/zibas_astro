@@ -21,9 +21,8 @@ const {
 } = Astro.props as Props;
 ---
 
-<section class={`w-full ${className}`}> 
+<section class={`w-full ${className}`} data-gallery-root> 
   
-
   <div class="gallery-viewport">
     <div class="masonry" style={`--cols: ${columns}; --gap: 1rem;`}>
       {items.map((item, idx) => (
@@ -98,122 +97,130 @@ const {
 
 <script is:inline>
   (() => {
-    const section = document.currentScript?.closest('section');
-    const grid = section?.querySelector('.masonry');
-    if (!grid) return;
+    function init(section) {
+      if (!section || section.dataset.galleryInit === '1') return;
+      section.dataset.galleryInit = '1';
 
-    const modal = document.getElementById('gallery-modal');
-    const imgEl = document.getElementById('gallery-image');
-    const capEl = document.getElementById('gallery-caption');
-    const btnClose = document.getElementById('gallery-close');
-    const btnPrev = document.getElementById('gallery-prev');
-    const btnNext = document.getElementById('gallery-next');
+      const grid = section.querySelector('.masonry');
+      if (!grid) return;
 
-    const thumbs = Array.from(grid.querySelectorAll('img'));
-    const data = thumbs.map((img) => ({ url: img.currentSrc || img.src, alt: img.alt || '' }));
-    let index = 0;
-    let open = false;
+      const modal = section.querySelector('#gallery-modal');
+      const imgEl = section.querySelector('#gallery-image');
+      const capEl = section.querySelector('#gallery-caption');
+      const btnClose = section.querySelector('#gallery-close');
+      const btnPrev = section.querySelector('#gallery-prev');
+      const btnNext = section.querySelector('#gallery-next');
 
-    function show(i) {
-      if (!imgEl) return;
-      index = (i + data.length) % data.length;
-      const item = data[index];
-      imgEl.src = item.url;
-      imgEl.alt = item.alt || '';
-      if (capEl) capEl.textContent = item.alt || '';
-    }
+      const thumbs = Array.from(grid.querySelectorAll('button[data-index] img'));
+      const data = thumbs.map((img) => ({ url: img.currentSrc || img.src, alt: img.alt || '' }));
+      let index = 0;
+      let isOpen = false;
 
-    function onOpen(i) {
-      if (!modal) return;
-      open = true;
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      show(i);
-    }
+      function show(i) {
+        if (!imgEl) return;
+        index = (i + data.length) % data.length;
+        const item = data[index];
+        imgEl.src = item.url;
+        imgEl.alt = item.alt || '';
+        if (capEl) capEl.textContent = item.alt || '';
+      }
 
-    function onClose() {
-      if (!modal) return;
-      open = false;
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+      function onOpen(i) {
+        if (!modal) return;
+        isOpen = true;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        show(i);
+      }
 
-    function onPrev() { show(index - 1); }
-    function onNext() { show(index + 1); }
+      function onClose() {
+        if (!modal) return;
+        isOpen = false;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
 
-    // Click handlers on thumbnails
-    grid.addEventListener('click', (e) => {
-      const btn = (e.target instanceof Element) ? e.target.closest('button[data-index]') : null;
-      if (!btn) return;
-      const i = Number((btn as HTMLButtonElement).dataset.index || 0);
-      onOpen(i);
-    });
+      function onPrev() { show(index - 1); }
+      function onNext() { show(index + 1); }
 
-    // Controls
-    btnClose?.addEventListener('click', onClose);
-    btnPrev?.addEventListener('click', onPrev);
-    btnNext?.addEventListener('click', onNext);
+      // Click handlers on thumbnails
+      grid.addEventListener('click', (e) => {
+        const target = e.target instanceof Element ? e.target : null;
+        const btn = target ? target.closest('button[data-index]') : null;
+        if (!btn) return;
+        const i = Number(btn.getAttribute('data-index') || '0');
+        pauseRotation();
+        onOpen(i);
+      });
 
-    // Close when clicking backdrop (outside content)
-    modal?.addEventListener('click', (e) => {
-      if (e.target === modal) onClose();
-    });
+      // Controls
+      btnClose && btnClose.addEventListener('click', onClose);
+      btnPrev && btnPrev.addEventListener('click', onPrev);
+      btnNext && btnNext.addEventListener('click', onNext);
 
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (!open) return;
-      if (e.key === 'Escape') onClose();
-      else if (e.key === 'ArrowLeft') onPrev();
-      else if (e.key === 'ArrowRight') onNext();
-    });
+      // Close when clicking backdrop
+      modal && modal.addEventListener('click', (e) => {
+        if (e.target === modal) onClose();
+      });
 
-    // Auto-rotation at start with smooth animation
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const ROTATE_MS = 4000;
-    let rotateTimer: number | null = null;
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!isOpen) return;
+        if (e.key === 'Escape') onClose();
+        else if (e.key === 'ArrowLeft') onPrev();
+        else if (e.key === 'ArrowRight') onNext();
+      });
 
-    function cycleOnce() {
-      const firstItem = grid.querySelector('.masonry-item');
-      if (!firstItem) return;
-      firstItem.classList.add('fade-out');
-      // After fade-out, move to end and fade-in
-      setTimeout(() => {
-        firstItem.classList.remove('fade-out');
-        grid.appendChild(firstItem);
-        firstItem.classList.add('fade-in');
-        // Ensure fade-in effect ends
-        setTimeout(() => firstItem.classList.remove('fade-in'), 300);
-      }, 300);
-    }
+      // Auto-rotation
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const ROTATE_MS = 4000;
+      let rotateTimer = null;
 
-    if (!reduceMotion) {
-      // Kick off a first gentle rotation shortly after load
-      setTimeout(cycleOnce, 800);
-      rotateTimer = window.setInterval(cycleOnce, ROTATE_MS);
-    }
+      function cycleOnce() {
+        const firstItem = grid.querySelector('.masonry-item');
+        if (!firstItem) return;
+        firstItem.classList.add('fade-out');
+        setTimeout(() => {
+          firstItem.classList.remove('fade-out');
+          grid.appendChild(firstItem);
+          firstItem.classList.add('fade-in');
+          setTimeout(() => firstItem.classList.remove('fade-in'), 300);
+        }, 300);
+      }
 
-    // Pause rotation when page/tab is hidden
-    document.addEventListener('visibilitychange', () => {
-      if (reduceMotion) return;
-      if (document.hidden) {
-        if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
-      } else if (!rotateTimer) {
+      function startRotation() {
+        if (reduceMotion || rotateTimer) return;
         rotateTimer = window.setInterval(cycleOnce, ROTATE_MS);
       }
-    });
+      function pauseRotation() {
+        if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
+      }
 
-    // Stop rotation when user opens modal (to avoid distraction)
-    function pauseRotation() {
-      if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
+      if (!reduceMotion) {
+        setTimeout(cycleOnce, 800);
+        startRotation();
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (reduceMotion) return;
+        if (document.hidden) pauseRotation();
+        else startRotation();
+      });
+
+      btnClose && btnClose.addEventListener('click', () => { if (!reduceMotion) startRotation(); });
     }
-    function resumeRotation() {
-      if (!reduceMotion && !rotateTimer) rotateTimer = window.setInterval(cycleOnce, ROTATE_MS);
+
+    function tryInit() {
+      const section = document.querySelector('[data-gallery-root]');
+      init(section);
     }
-    btnClose?.addEventListener('click', () => { resumeRotation(); });
-    // Opening modal via thumbs pauses rotation
-    grid.addEventListener('click', (e) => {
-      const btn = (e.target instanceof Element) ? e.target.closest('button[data-index]') : null;
-      if (btn) pauseRotation();
-    });
+
+    // Initial load and after swaps
+    document.addEventListener('astro:page-load', tryInit);
+    document.addEventListener('astro:after-swap', tryInit);
+    // Fallback for full reload
+    tryInit();
   })();
 </script>
