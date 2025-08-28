@@ -11,9 +11,13 @@ import './styles.css';
 
 export interface Props {
   currentLang: Locale;
+  headerColors?: {
+    backgroundColor?: string;
+    textColor?: string;
+  };
 }
 
-const { currentLang } = Astro.props;
+const { currentLang, headerColors } = Astro.props;
 
 // Configuraciones
 const logosData = logos;
@@ -22,21 +26,53 @@ const logosData = logos;
 const { pathname } = Astro.url;
 const headerColorConfig = getHeaderColors(pathname);
 
+// Si se pasan colores de header específicos (por ejemplo, desde un producto), 
+// crear una configuración personalizada
+let customHeaderConfig = headerColorConfig;
+let customStyles: { backgroundColor?: string; color?: string } = {};
+if (headerColors) {
+  customHeaderConfig = {
+    ...headerColorConfig,
+    // Mantener las clases base pero también usar estilos inline
+    backgroundColor: headerColors.backgroundColor ? headerColors.backgroundColor : headerColorConfig.backgroundColor,
+    textColor: headerColors.textColor ? headerColors.textColor : headerColorConfig.textColor,
+  };
+  
+  // Crear estilos inline para los colores personalizados
+  if (headerColors.backgroundColor) {
+    customStyles.backgroundColor = headerColors.backgroundColor;
+  }
+  if (headerColors.textColor) {
+    customStyles.color = headerColors.textColor;
+  }
+}
+
 ---
 
-<header id="site-header" class={`relative w-full transition-all duration-300 font-sans flex flex-col ${headerColorConfig.textColor}`} data-header-config={JSON.stringify(headerColorConfig)}>
+<header 
+  id="site-header" 
+  class={`relative w-full transition-all duration-300 font-sans flex flex-col ${customHeaderConfig.textColor}`} 
+  style={'background-color: ' + (customStyles.backgroundColor || 'transparent') + '; color: ' + (customStyles.color || 'inherit')}
+  data-header-config={JSON.stringify(customHeaderConfig)}
+>
   <!-- Banner superior azul claro con mensaje -->
-  <!--{headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
+  <!--{customHeaderConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   
   <!-- Navbar principal - ocupa el 100% del ancho -->
-  <div class={`w-full ${headerColorConfig.backgroundColor}`}>
+  <div 
+    class={`w-full ${customHeaderConfig.backgroundColor}`}
+    style={customStyles.backgroundColor ? `background-color: ${customStyles.backgroundColor}` : ''}
+  >
     <!-- Navbar de Desktop -->
     <div class="hidden md:block">
-      <DesktopNavbar currentLang={currentLang} headerColorConfig={headerColorConfig} />
+      <DesktopNavbar currentLang={currentLang} headerColorConfig={customHeaderConfig} />
     </div>
 
     <!-- Navegación Móvil -->
-    <nav class={`mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center ${headerColorConfig.backgroundColor}`}>
+    <nav 
+      class={`mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center ${customHeaderConfig.backgroundColor}`}
+      style={customStyles.backgroundColor ? `background-color: ${customStyles.backgroundColor}` : ''}
+    >
       <!-- Logo para Móvil -->
       <div class="logo-container">
         <a href={`/${currentLang}/`} class="flex-shrink-0">
@@ -54,7 +90,7 @@ const headerColorConfig = getHeaderColors(pathname);
       
       <!-- Mobile Menu Button -->
       <div class="menu-button-container">
-        <MobileMenuButton currentLang={currentLang} headerColorConfig={headerColorConfig} />
+        <MobileMenuButton currentLang={currentLang} headerColorConfig={customHeaderConfig} />
       </div>
     </nav>
   </div>

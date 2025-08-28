@@ -33,9 +33,12 @@ const { lang, productId } = Astro.params;
 // Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 
-console.log(`Renderizando producto: ${productId} en idioma: ${lang}`);
+const headerColors = {
+  backgroundColor: product.header_background,
+  textColor: product.header_text_color
+};
 ---
 
-<MainLayout title={product.name}>
+<MainLayout title={product.name} headerColors={headerColors}>
   <ProductDetail currentLang={currentLang} productId={productId} />
 </MainLayout>
