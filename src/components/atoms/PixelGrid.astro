@@ -1,0 +1,214 @@
+---
+export interface Props {
+  width?: number;           // canvas width in px (fallback: container width)
+  height?: number;          // canvas height in px (fallback: container height)
+  pixelSize?: number;       // size of each square in px
+  density?: number;         // 0..1, probability a cell is colored at init
+  introDuration?: number;   // ms, intro fade-in duration
+  loopInterval?: number;    // ms, how often to mutate random cells
+  mutateAmount?: number;    // how many cells mutate per loop
+  background?: string;      // background color
+  palette?: string[];       // array of hex colors to pick from
+  class?: string;           // container classes
+}
+
+const {
+  width = undefined,
+  height = undefined,
+  pixelSize = 14,
+  density = 0.30,        // aún más espacios transparentes por defecto
+  introDuration = 400,    // intro rápida
+  loopInterval = 300,     // cambios más constantes
+  mutateAmount = 30,       // muy pocos cuadros visibles a la vez
+  background = '#FDE820',
+  palette = [
+    '#FC4238', // red
+    '#FFFFFF', // white
+    '#5B3F2E', // brown
+    '#0167F7', // blue
+    '#10b981', // green
+    '#FD6600', // orange
+    '#FDE820', // yellow
+    '#FF4DFF', // pink
+  ],
+  class: className = ''
+} = Astro.props;
+---
+
+<div class={`relative inline-block ${className}`} data-pixel-grid
+     style={`background:${background};`}
+     data-config={JSON.stringify({ pixelSize, density, introDuration, loopInterval, mutateAmount, palette, width, height })}>
+  <canvas class="block" width={width} height={height} />
+</div>
+
+<style>
+  [data-pixel-grid] { overflow: hidden; }
+  /* slight appearance animation for container */
+  [data-pixel-grid] { opacity: 0; animation: pg-fade-in 300ms ease-out forwards; }
+  @keyframes pg-fade-in { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+</style>
+
+<script>
+  function initPixelGrid(root) {
+    if (!root || root.dataset.pgInitialized === 'true') return;
+    root.dataset.pgInitialized = 'true';
+
+    const cfg = JSON.parse(root.getAttribute('data-config') || '{}');
+    const canvas = root.querySelector('canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Sizing: if no explicit width/height, use container box
+    function resizeToContainer() {
+      if (!cfg.width) canvas.width = Math.max(64, Math.floor(root.clientWidth));
+      if (!cfg.height) canvas.height = Math.max(64, Math.floor(root.clientHeight || root.clientWidth * 0.5));
+    }
+    resizeToContainer();
+
+    const ps = Math.max(4, Number(cfg.pixelSize) || 12);
+    const cols = Math.max(1, Math.floor(canvas.width / ps));
+    const rows = Math.max(1, Math.floor(canvas.height / ps));
+
+    // Grid state
+    // cada celda: c=color, a=alpha, k=frames de impulso al mutar
+    const grid = new Array(rows * cols).fill(0).map(() => ({ c: 'transparent', a: 0, k: 0 }));
+
+    // Helpers
+    const idx = (x, y) => y * cols + x;
+    const rnd = (min, max) => Math.random() * (max - min) + min;
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    // Intro populate
+    const now = () => performance.now();
+    const t0 = now();
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const i = idx(x, y);
+        const active = Math.random() < (cfg.density ?? 0.25);
+        grid[i].c = active ? pick(cfg.palette || []) : 'transparent';
+        grid[i].a = 0; // aparecerá con fade
+        grid[i].k = active ? 6 : 0;
+      }
+    }
+
+    // Mutation loop
+    const mutate = () => {
+      const n = Math.max(1, Math.min(grid.length, Number(cfg.mutateAmount) || 2));
+      for (let k = 0; k < n; k++) {
+        const i = Math.floor(Math.random() * grid.length);
+        // 50% de las veces apaga la celda para dejar espacios libres
+        if (Math.random() < 0.5) {
+          grid[i].c = 'transparent';
+          grid[i].k = 0;
+          grid[i].a = Math.max(0, grid[i].a * 0.6);
+        } else {
+          const color = pick(cfg.palette || []);
+          grid[i].c = color;
+          grid[i].a = Math.max(0, grid[i].a * 0.5); // reinicia parcialmente
+          grid[i].k = 10; // impulso de aparición suave y visible
+        }
+      }
+    };
+
+    let rafId = 0;
+    let loopTimer = 0;
+
+    function draw(ts) {
+      const elapsed = now() - t0;
+      // clear
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const i = idx(x, y);
+          const cell = grid[i];
+
+          // Fade-out suave por defecto
+          cell.a *= 0.88; // decaimiento un poco más rápido
+
+          // Boost de aparición si fue mutada recientemente
+          if (cell.k > 0) {
+            const introBoost = (elapsed < (cfg.introDuration || 400)) ? 0.20 : 0.28;
+            cell.a = Math.min(1, cell.a + introBoost);
+            cell.k -= 1;
+          }
+
+          if (!cell.c || cell.c === 'transparent' || cell.a < 0.08) continue; // oculta casi transparentes
+
+          ctx.globalAlpha = cell.a;
+          ctx.fillStyle = cell.c;
+          ctx.fillRect(x * ps, y * ps, ps, ps);
+        }
+      }
+      ctx.globalAlpha = 1;
+      rafId = requestAnimationFrame(draw);
+    }
+
+    // Visibility/pause using IntersectionObserver
+    let visible = true;
+    const io = new IntersectionObserver((entries) => {
+      visible = entries[0]?.isIntersecting ?? true;
+      if (visible) {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(draw);
+        scheduleLoop();
+      } else {
+        cancelAnimationFrame(rafId);
+        clearInterval(loopTimer);
+      }
+    }, { threshold: 0.01 });
+    io.observe(root);
+
+    function scheduleLoop() {
+      clearInterval(loopTimer);
+      loopTimer = setInterval(() => { if (visible) mutate(); }, Math.max(90, Number(cfg.loopInterval) || 300));
+    }
+
+    // Handle resizes
+    const onResize = () => {
+      // Re-init completely on resize to avoid complex state migrations
+      cleanup();
+      root.dataset.pgInitialized = 'false';
+      initPixelGrid(root);
+    };
+    window.addEventListener('resize', onResize);
+
+    // Start
+    rafId = requestAnimationFrame(draw);
+    scheduleLoop();
+
+    function cleanup() {
+      cancelAnimationFrame(rafId);
+      clearInterval(loopTimer);
+      io.disconnect();
+      window.removeEventListener('resize', onResize);
+    }
+
+    // Store cleanup so we can call on swap
+    root.__pgCleanup = cleanup;
+  }
+
+  function initAllPixelGrids() {
+    document.querySelectorAll('[data-pixel-grid]').forEach((el) => initPixelGrid(el));
+  }
+
+  // Lifecycle hooks for Astro navigations
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAllPixelGrids);
+  } else {
+    initAllPixelGrids();
+  }
+  document.addEventListener('astro:page-load', () => {
+    initAllPixelGrids();
+  });
+  document.addEventListener('astro:before-swap', () => {
+    // Cleanup existing instances before DOM swap
+    document.querySelectorAll('[data-pixel-grid]').forEach((el) => {
+      if (el.__pgCleanup) try { el.__pgCleanup(); } catch {}
+      el.dataset.pgInitialized = 'false';
+    });
+  });
+  document.addEventListener('astro:after-swap', () => {
+    initAllPixelGrids();
+  });
+</script>

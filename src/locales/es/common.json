@@ -68,36 +68,8 @@
     "slider": [
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/superman-m.webp",
-        "alt": "Superman",
-        "title": "",
-        "description": "",
-        "link": "http://www.yummiessuperman.com/?utm_source=WebYummies&utm_medium=WebYummies&utm_campaign=WebYummies&utm_id=WebYummies"
-      },
-      {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-m.webp",
-        "alt": "Ranchitas Buffalo Ranch",
-        "title": "",
-        "description": "",
-        "link": "https://ranchitas.com"
-      },
-
-      {
-        "id": "slide3",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-m.webp",
-        "alt": "Taqueritos",
-        "title": "",
-        "description": "",
-        "link": "https://taqueritos.com"
-      },
-      {
-        "id": "slide4",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-m.webp",
+        "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
+        "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
         "alt": "Zambos",
         "title": "",
         "description": "",

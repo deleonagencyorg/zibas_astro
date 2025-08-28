@@ -67,9 +67,9 @@
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
-        "id": "slide4",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-m.webp",
+        "id": "slide1",
+        "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
+        "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
         "alt": "Zambos",
         "title": "",
         "description": "",
