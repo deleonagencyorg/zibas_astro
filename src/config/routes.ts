@@ -64,6 +64,13 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.about_us.title',
     metaDescriptionKey: 'meta.about_us.description',
   },
+  {
+    id: 'zibas_creators',
+    slugs: { es: 'zibas-creators', en: 'zibas-creators' },
+    contentComponent: '@/views/ZibasCreators/index.astro',
+    metaTitleKey: 'meta.zibas_creators.title',
+    metaDescriptionKey: 'meta.zibas_creators.description',
+  },
   // ... Agrega más rutas aquí
 ];
 
