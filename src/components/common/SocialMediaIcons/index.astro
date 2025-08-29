@@ -18,7 +18,6 @@ export interface Props {
 }
 
 const { currentLang, iconColor = "white", iconSize = 24, centered = false, class: className = '' } = Astro.props;
-
 // Determinar las clases de alineación basadas en la propiedad centered
 const alignmentClasses = centered 
   ? 'mx-auto justify-center' 

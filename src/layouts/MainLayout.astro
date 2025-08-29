@@ -12,23 +12,39 @@ import { routesConfig } from '../config/routes';
 import { getHeaderColors } from '../config/headerColors';
 import { ViewTransitions } from 'astro:transitions';
 import "../styles/global.css";
+import { head } from 'framer-motion/m';
 
 export interface Props {
   title?: string;
   description?: string;
   class?: string;
+  headerColors?: {
+    backgroundColor?: string;
+    textColor?: string;
+  };
 }
-const { title, description, class: className } = Astro.props;
+
+const { title, description, class: className, headerColors } = Astro.props;
 
 // Determine language for <html lang=...> and for key prop from the URL
 const pathSegments = Astro.url.pathname.split('/');
 const langFromUrl = pathSegments[1] as Locale;
 const validLocales: Locale[] = ['es', 'en'];
 const currentLang = validLocales.includes(langFromUrl) ? langFromUrl : 'es'; // Default to 'es'
-
 // Obtener configuración de colores basada en la ruta actual
 const { pathname } = Astro.url;
 const headerColorConfig = getHeaderColors(pathname);
+
+// Si se pasan colores de header específicos (por ejemplo, desde un producto), 
+// crear una configuración personalizada
+let customHeaderConfig = headerColorConfig;
+if (headerColors) {
+  customHeaderConfig = {
+    ...headerColorConfig,
+    backgroundColor: headerColors.backgroundColor ? `bg-[${headerColors.backgroundColor}]` : headerColorConfig.backgroundColor,
+    textColor: headerColors.textColor ? headerColors.textColor : headerColorConfig.textColor, // Mantener el textColor original de getHeaderColors
+  };
+}
 ---
 <html lang={currentLang}>
   <head>
@@ -46,7 +62,7 @@ const headerColorConfig = getHeaderColors(pathname);
   <body class={`font-sans ${className || ''}`}>
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
-      <Header currentLang={currentLang} />
+      <Header currentLang={currentLang} headerColors={headerColors} />
       <main transition:animate="slide">
         <slot />
       </main>
@@ -54,6 +70,6 @@ const headerColorConfig = getHeaderColors(pathname);
     </I18nProvider>
     
     <!-- Menú móvil al final del body para máximo z-index -->
-    <MobileMenu currentLang={currentLang} headerColorConfig={headerColorConfig} />
+    <MobileMenu currentLang={currentLang} headerColorConfig={customHeaderConfig} />
   </body>
 </html>

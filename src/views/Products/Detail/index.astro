@@ -4,11 +4,20 @@ import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
 import { initProductDetail } from './scripts.js';
+import ProductsCarousel from '../../../components/common/ProductsCarousel/index.astro';
+import LazyImage from '../../../components/common/LazyImage.astro';
+
 
 // Interfaces locales
 interface ProductSize {
   value: string;
   image: string;
+}
+
+interface Stockist {
+  id: string;
+  name: string;
+  link: string;
 }
 
 interface Product {
@@ -18,6 +27,8 @@ interface Product {
   available?: string;
   background_image: string;
   background_color: string;
+  header_text_color: string;
+  color_button: string;
   sizes: ProductSize[];
   description?: string;
   short_description?: string;
@@ -27,6 +38,7 @@ interface Product {
   }>;
   // relatedProducts es opcional ya que no existe en la estructura actual
   relatedProducts?: string[];
+  weight?: string[];
 }
 
 const { currentLang, productId } = Astro.props;
@@ -34,7 +46,13 @@ const { currentLang, productId } = Astro.props;
 // Obtener datos desde traducciones
 const productsAssets = t('home', { namespace: 'products', locale: currentLang }) || {};
 const products = t('items', { namespace: 'products', locale: currentLang as Locale }) || [];
+const stockists = t('stockist', { namespace: 'products', locale: currentLang as Locale }) || [];
 const product = products.find((item: Product) => item.id === productId);
+const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
+const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
+const brandsList = brandsAssets.brands || [];
+const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
+const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
 
 // Si el producto no existe, lanzar error
 if (!product || Object.keys(product).length === 0) {
@@ -46,10 +64,15 @@ const safeProduct: Product = {
   id: product.id || '',
   name: product.name || '',
   image: product.image || '',
-  background_image: product.background_image || '',
+  background_image: product.background_color || '',
   background_color: product.background_color || '',
+  header_text_color: product.header_text_color || '#000000',
+  color_button: product.color_button || '#000000',
   sizes: Array.isArray(product.sizes) ? product.sizes : [],
-  available: product.available || ''
+  available: product.available || '',
+  description: product.description || '',
+  weight: Array.isArray(product.weight) ? product.weight : [],
+  
 };
 
 // Obtener todos los productos como un array
@@ -67,72 +90,128 @@ if (allProductsArray.length > 1) {
 
 
 ---
-{currentLang === 'en' && (
-  <div id="hero" class="w-full aspect-[4/3] md:h-[32rem] bg-cover bg-center" style="background-image: url('https://snack.yummiespromociones.com/taqueritos/banner_productos_en.webp'); background-size: cover; background-position: center;"></div>
-)}
+
 {safeProduct.background_color && (
-  <article id="product-detail" class="product-detail pt-12 md:pt-29 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative min-h-screen flex items-center" 
+  <article id="product-detail" class="product-detail pt-12 md:pt-29 pb-32 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative" 
     style={`
       --mobile-bg: ${safeProduct.background_color};
-      --desktop-bg: url('${safeProduct.background_image}');
+      --desktop-bg: url('${safeProduct.background_color}');
     `}
     transition:animate="slide"
   >
-    <div class="md:mt-[0] container mx-auto px-4 py-12 flex flex-col md:flex-row items-center">
-      <img id="product-image" class="mb-[2rem] w-[100%] md:hidden" src={safeProduct.image} alt={safeProduct.name} transition:name={`product-image-${safeProduct.id}`} />
-      <div class="w-full md:w-1/2 md:ml-auto">
-        
-        <h1 class="md:text-4xl text-3xl font-bold mb-6 text-white">{safeProduct.name}</h1>
-        <h2 class="font-heading md:text-3xl text-2xl text-white">{productsAssets.presentations}</h2>
-        {safeProduct.sizes && safeProduct.sizes.length > 0 && (
-          <div class="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-2 my-4">
-            {safeProduct.sizes
-              .slice() // Crear una copia para no modificar el original
-              .sort((a: ProductSize, b: ProductSize) => parseInt(b.value) - parseInt(a.value))
-              .map((size: ProductSize) => (
-                <div class="flex flex-col items-center">
-                  <img 
-                    src={size.image} 
-                    alt={`Size ${size.value}`}
-                    class="w-24"
+    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col md:flex-row gap-5">
+      {/* Contenedor de la imagen del lado izquierdo */}
+      <div class="relative flex justify-center items-center w-full md:w-[605px] p-4 md:px-28 md:py-16 rounded-[85px] gap-2 cursor-pointer overflow-hidden group" style={{ backgroundColor: safeProduct.color_button }}>
+        {/* Overlay para el efecto de oscurecimiento */}
+        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-[85px]"></div>
+        <img id="product-image" class="relative z-10 max-w-full h-auto transition-transform duration-300 group-hover:scale-110" src={safeProduct.image} alt={safeProduct.name} transition:name={`product-image-${safeProduct.id}`} />
+      </div>
+      
+      {/* Contenido del lado derecho */}
+      <div class="w-full md:w-1/2 md:h-[605px] h-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="md:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
+          <a 
+            href="#" 
+            class="flex h-[54px] justify-center items-center gap-[10px] px-10 py-5 rounded-[47px] border whitespace-nowrap uppercase italic font-title text-xl font-medium"
+            style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
+          >
+            {currentLang === 'es' ? 'ENCUÉNTRALO' : 'FIND IT'}
+          </a>
+        </div>
+        <h1 
+          class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
+          style={{ color: safeProduct.header_text_color }}>
+         {currentLang === 'es' ? 'DESCRIPCIÓN' : 'DESCRIPTION'}
+        </h1>
+        <h2 
+          class=" md:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
+          style={{ color: safeProduct.header_text_color }}
+        >
+            {safeProduct.description}
+        </h2>
+
+        <h1 
+          class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
+          style={{ color: safeProduct.header_text_color }}>
+          {currentLang === 'es' ? 'PRESENTACIONES' : 'PRESENTATIONS'}
+        </h1>
+        <h2 
+          class=" md:text-3xl text-2xl italic font-text font-medium py-5"
+          style={{ color: safeProduct.header_text_color }}
+        >
+            {currentLang === 'es' ? 'Tamaño por presentación varía de acuerdo al país.​' : 'The size of the presentation varies according to the country.'}
+        </h2>
+
+        {safeProduct.weight && safeProduct.weight.length > 0 && (
+          <div class="flex flex-wrap gap-2 my-4">
+            {safeProduct.weight.map((weight, index) => (
+              <div class="flex flex-col items-center">
+                <span class="flex h-[75px] px-[35px] py-4 flex-col justify-center items-center gap-2 flex-1 rounded-[15px] border text-lg md:text-xl font-bold" style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}>{weight}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Sección de Stockists */}
+        {stockists && stockists.length > 0 && (
+          <div class="stockists-section mt-8 mb-16">
+            <h1 
+              class="uppercase italic font-title md:text-4xl text-xl font-medium py-4"
+              style={{ color: safeProduct.header_text_color }}>
+              {currentLang === 'es' ? productsAssets.product_available || 'DISPONIBLE EN' : 'AVAILABLE AT'}
+            </h1>
+            <div class="flex flex-wrap gap-4 my-4 mb-8">
+              {stockists.map((stockist: Stockist) => (
+                <div 
+                  class="flex items-center justify-center h-[60px] w-[60px] p-2 rounded-[15px] border hover:scale-105 transition-transform"
+                  style={{ borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
+                >
+                  <LazyImage
+                    src={stockist.link} 
+                    alt={stockist.name}
+                    class="w-full h-full object-contain"
+                    title={stockist.name}
                   />
                 </div>
-              ))
-            }
+              ))}
+            </div>
           </div>
         )}
-        <h2 class="font-heading md:text-2xl text-xl text-white">{productsAssets.product_available}</h2>
-        {safeProduct.available && (
-          <div class="mb-8 mt-4">
-            <img 
-              src={safeProduct.available} 
-              alt="Available in"
-              class="md:h-[35px] h-[35px]"
-            />
-          </div>
-        )}
-        <p class="font-medium text-md text-white">{productsAssets.text}</p>
-
      
       </div>
     </div>
   </article>
 )}
-<div id="related-products" class="container mx-auto px-4 py-12" transition:animate="fade">
-  <h2 class="text-2xl font-bold mb-8 text-white text-center">{productsAssets.related_products}</h2>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {relatedProducts.slice(0, 2).map((product) => (
-      <a 
-        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-        class="block hover:scale-105 transition-transform"
-      >
-        <div class="aspect-square overflow-hidden w-full h-[400px]" style={`background-image: url('${product.image}'); background-size: cover; background-position: center;`}>
-          
+<!-- Sección de Productos Zibas -->
+    {products.length > 0 && (
+      <section class="w-full py-16 bg-blue">
+        <div class="container mx-auto px-4">
+          {brandsAssets.home?.title && (
+          <div class="text-center mb-8 relative z-20" >
+            <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: white`}>
+              {brandsAssets.home?.title}
+            </h2>
+            {brandsAssets.home?.subtitle && (
+              <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: white`}>
+                {brandsAssets.home?.subtitle}
+              </h1>
+            )}
+          </div>
+        )}
+          <ProductsCarousel 
+            products={products}
+            color={'white'}
+            autoplay={true}
+            speed={4000}
+            slidesPerView={3}
+            spaceBetween={30}
+            loop={true}
+            className="max-w-7xl mx-auto"
+          />
         </div>
-      </a>
-    ))}
-  </div>
-</div>
+      </section>
+    )}
 <script>
   // Este script se ejecuta solo en el navegador
   import { initProductDetail } from './scripts.js';

@@ -1,5 +1,5 @@
 ---
-// src/pages/[lang]/products/[productId].astro
+// src/pages/[lang]/productos/[productId].astro
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import ProductDetail from '../../../views/Products/Detail/index.astro';
@@ -12,7 +12,6 @@ export function getStaticPaths() {
   for (const locale of locales) {
     // Obtener productos para este idioma
     const products = t('items', { namespace: 'products', locale: locale as Locale }) || [];
-    console.log(`Found ${products.length} products for language ${locale}`);
     
     // Para cada producto, crear una ruta
     for (const product of products) {
@@ -23,7 +22,7 @@ export function getStaticPaths() {
     }
   }
 
-  console.log(`Generated ${paths.length} product routes in English`);
+  console.log(`Generadas ${paths.length} rutas de productos en español`);
   return paths;
 }
 
@@ -33,9 +32,12 @@ const { lang, productId } = Astro.params;
 // Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 
-console.log(`Rendering product: ${productId} in language: ${lang}`);
+const headerColors = {
+  backgroundColor: product.header_background,
+  textColor: product.header_text_color
+};
 ---
 
-<MainLayout title={product.name}>
+<MainLayout title={product.name} headerColors={headerColors}>
   <ProductDetail currentLang={currentLang} productId={productId} />
 </MainLayout>

@@ -126,6 +126,30 @@
     "meta": {
       "title": " Ziba's - Disfruta tus Ziba's en todo momento",
       "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
+    },
+    "newsletter":{
+      "placeholder":"email@email.com",
+      "buttonText":"Subscribe"
+    },
+    "socialmedia":{
+      "title":"Follow us",
+      "tagtitle":"on social media",
+      "description":"Follow us on our social media - Snacks Yummies",
+      "newsletter":"Stay up to date with all our news and promotions",
+      "instagramLinks":[
+        {
+          "url":"https://www.instagram.com/reel/DLYiMsKtKon/?igsh=MXRza3ByZmlxbmtndw=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DLTEEQXvxkG/?igsh=MTQ4MzVkMnQxNWRrZA=="
+        },
+        {
+          "url":"https://www.instagram.com/reel/DKiDRYgtggB/?igsh=Ym9yNHdtbzJhczdi"
+        },
+        {
+          "url":"https://www.instagram.com/p/DKaTrbKRfmO/?igsh=bTIyMGd5Y3kxYzY0"
+        }
+      ]
     }
   },
   "footer": {

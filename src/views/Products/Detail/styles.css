@@ -3,6 +3,8 @@
 @layer components {
   .product-detail {
     /* Estilos base */
+    position: relative;
+    z-index: 1;
   }
   
   .product-gallery {
@@ -29,5 +31,11 @@
     margin-bottom: 0.5rem;
     display: flex;
     align-items: flex-start;
+  }
+
+  /* Estilos específicos para evitar sobreposición */
+  .stockists-section {
+    margin-bottom: 2rem;
+    clear: both;
   }
 }

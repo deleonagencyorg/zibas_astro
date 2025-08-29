@@ -44,6 +44,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
           <a 
             href={item.href} 
             class={`${headerColorConfig.textColor} font-title text-xl uppercase font-medium transition-colors py-2 px-3 rounded-md flex items-center hover:bg-quinary ${!item.href.startsWith('#') && currentPath === item.href ? 'bg-quinary' : ''}`}
+            style={`color: ${headerColorConfig.textColor};`}
           >
             {item.text}
             {item.submenu && (
@@ -80,7 +81,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     <div class="hidden md:flex">
       <SocialMediaIcons 
         currentLang={currentLang} 
-        iconColor="white"
+        iconColor='white'
         centered={false} 
       />
     </div>

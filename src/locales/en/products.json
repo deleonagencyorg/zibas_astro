@@ -1,56 +1,143 @@
 {
   "meta": {
-    "title": "Products - Taqueritos",
-    "description": "Discover our complete line of Taqueritos products. Authentic flavor for the whole family."
+    "title": "Productos - Taqueritos",
+    "description": "Descubre nuestra línea completa de productos Taqueritos. Sabor auténtico para toda la familia."
   },
   "home": {
-    "countries": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
-    "presentations": "PRESENTATIONS",
-    "text": "*Size per presentation varies by country.",
-    "product_available": "PRODUCT AVAILABLE IN",
-    "related_products": "Try also"
-  },
+    "title": "Descubre la variedad de nuestros",
+    "subtitle": "Productos",
+    "textButton": "Conoce más"
+},
+  "stockist":[
+    {
+      "id": "pedidos-ya",
+      "name": "Pedidos Ya",
+      "link": "https://www.svgrepo.com/show/511302/3d-modelling-round-820.svg"
+    },
+    {
+      "id": "rappi",
+      "name": "Rappi",
+      "link": "https://www.svgrepo.com/show/511302/3d-modelling-round-820.svg"
+    },
+    {
+      "id": "hugo",
+      "name": "Hugo",
+      "link": "https://www.svgrepo.com/show/511302/3d-modelling-round-820.svg"
+    },
+    {
+      "id": "la-colonia",
+      "name": "La Colonia",
+      "link": "https://www.svgrepo.com/show/511302/3d-modelling-round-820.svg"
+    },
+    {
+      "id": "la-torre",
+      "name": "La Torre",
+      "link": "https://www.svgrepo.com/show/511302/3d-modelling-round-820.svg"
+    }
+  ],
   "items": [
     {
-      "id": "taqueritos-chile-toreado",
-      "name": "Taqueritos Chile Toreado",
-      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
-      "background_color": "#007c34",
-      "image": "https://snack.yummiespromociones.com/taqueritos/13-Banner-Producto-960x559-1.webp",
-      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-Banner-Packs-Gramajes-1920x1118-1.webp",
+      "id": "zibas-clasicas",
+      "name": "Ziba's Clásicas",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
+      "background_color": "#FDE820",
+      "header_color": "#FDE820",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FDE820",
+      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
         {
-          "value": "8",
-          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
         }
+      ],
+      "weight": [
+        "23g",
+        "26g",
+        "40g",
+        "80g",
+        "190g"
       ]
     },
     {
-      "id": "taqueritos-dragon-de-hielo",
-      "name": "Taqueritos Dragon Ice",
-      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
-      "background_color": "#091824",
-      "image": "https://snack.yummiespromociones.com/taqueritos/imagen2-2.avif",
-      "background_image": "https://snack.yummiespromociones.com/taqueritos/2-2.avif",
+      "id": "zibas-queso",
+      "name": "Ziba's Queso",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
+      "background_color": "#FE5A00",
+      "header_color": "#FFFFFF",
+      "header_background": "#FE5A00",
+      "header_text_color": "#FFFFFF",
+      "color_button": "#FE5A00",
+      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
         {
-          "value": "8",
-          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
         }
+      ],
+      "weight": [
+        "23g",
+        "26g",
+        "40g",
+        "80g",
+        "190g"
       ]
     },
     {
-      "id": "taqueritos-dragon-de-fuego",
-      "name": "Taqueritos Dragon Fire",
-      "background_color": "#281211",
-      "available": "https://snack.yummiespromociones.com/taqueritos/20-Banderas-Web-1080x147-1-e1747237818134.avif",
-      "image": "https://snack.yummiespromociones.com/taqueritos/image-4-2.avif",
-      "background_image": "https://snack.yummiespromociones.com/taqueritos/1-3.avif",
+      "id": "zibas-crema-y-especias",
+      "name": "Ziba's Crema y Especias",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
+      "background_color": "#BEDE89",
+      "header_color": "#1C1C1C",
+      "header_background": "#BEDE89",
+      "header_text_color": "#1C1C1C",
+      "color_button": "#BEDE89",
+      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
         {
-          "value": "8",
-          "image": "https://snack.yummiespromociones.com/taqueritos/image-7-1-png.avif"
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
         }
+      ],
+      "weight": [
+        "23g",
+        "26g",
+        "40g",
+        "80g",
+        "190g"
+      ]
+    },
+    {
+      "id": "zibas-miel-mostasa",
+      "name": "Ziba's Miel Mostasa",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
+      "background_color": "#0167F7",
+      "header_color": "#FFFFFF",
+      "header_background": "#0167F7",
+      "header_text_color": "#FFFFFF",
+      "color_button": "#0167F7",
+      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "23g",
+        "26g",
+        "40g",
+        "80g",
+        "190g"
       ]
     }
   ]
