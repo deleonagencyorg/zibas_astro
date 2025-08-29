@@ -5,6 +5,7 @@ import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
 import { initProductDetail } from './scripts.js';
 import ProductsCarousel from '../../../components/common/ProductsCarousel/index.astro';
+import LazyImage from '../../../components/common/LazyImage.astro';
 
 
 // Interfaces locales
@@ -115,13 +116,13 @@ if (allProductsArray.length > 1) {
             class="flex h-[54px] justify-center items-center gap-[10px] px-10 py-5 rounded-[47px] border whitespace-nowrap uppercase italic font-title text-xl font-medium"
             style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
           >
-            encuéntralo
+            {currentLang === 'es' ? 'ENCUÉNTRALO' : 'FIND IT'}
           </a>
         </div>
         <h1 
           class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
-          DESCRIPCIÓN
+         {currentLang === 'es' ? 'DESCRIPCIÓN' : 'DESCRIPTION'}
         </h1>
         <h2 
           class=" md:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
@@ -133,13 +134,13 @@ if (allProductsArray.length > 1) {
         <h1 
           class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
-          PRESENTACIONES
+          {currentLang === 'es' ? 'PRESENTACIONES' : 'PRESENTATIONS'}
         </h1>
         <h2 
           class=" md:text-3xl text-2xl italic font-text font-medium py-5"
           style={{ color: safeProduct.header_text_color }}
         >
-            Tamaño por presentación varía de acuerdo al país.​
+            {currentLang === 'es' ? 'Tamaño por presentación varía de acuerdo al país.​' : 'The size of the presentation varies according to the country.'}
         </h2>
 
         {safeProduct.weight && safeProduct.weight.length > 0 && (
@@ -158,7 +159,7 @@ if (allProductsArray.length > 1) {
             <h1 
               class="uppercase italic font-title md:text-4xl text-xl font-medium py-4"
               style={{ color: safeProduct.header_text_color }}>
-              {productsAssets.product_available || 'DISPONIBLE EN'}
+              {currentLang === 'es' ? productsAssets.product_available || 'DISPONIBLE EN' : 'AVAILABLE AT'}
             </h1>
             <div class="flex flex-wrap gap-4 my-4 mb-8">
               {stockists.map((stockist: Stockist) => (
@@ -166,7 +167,7 @@ if (allProductsArray.length > 1) {
                   class="flex items-center justify-center h-[60px] w-[60px] p-2 rounded-[15px] border hover:scale-105 transition-transform"
                   style={{ borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
                 >
-                  <img 
+                  <LazyImage
                     src={stockist.link} 
                     alt={stockist.name}
                     class="w-full h-full object-contain"
@@ -183,7 +184,7 @@ if (allProductsArray.length > 1) {
   </article>
 )}
 <!-- Sección de Productos Zibas -->
-    {zibasProducts.length > 0 && (
+    {products.length > 0 && (
       <section class="w-full py-16 bg-blue">
         <div class="container mx-auto px-4">
           {brandsAssets.home?.title && (
@@ -199,7 +200,7 @@ if (allProductsArray.length > 1) {
           </div>
         )}
           <ProductsCarousel 
-            products={zibasProducts}
+            products={products}
             color={'white'}
             autoplay={true}
             speed={4000}
