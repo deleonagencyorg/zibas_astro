@@ -98,7 +98,7 @@ const headerColors = {
                 </h3>
                 
                 <div class="flex items-start space-x-3">
-                  <p id="officeAddress" class="text-white leading-relaxed">  {`+ ${contact.offices.locations["+504"].address}`}</p>
+                  <p id="officeAddress" class="text-white leading-relaxed font-semibold ">  {`+ ${contact.offices.locations["+504"].address}`}</p>
                 </div>
                 
                 <div class="flex items-center space-x-3">
@@ -226,7 +226,7 @@ const headerColors = {
               const phoneLink = document.createElement('a');
               phoneLink.href = `tel:${phone}`;
               phoneLink.textContent = `+${phone}`;
-              phoneLink.className = 'text-white hover:text-primary transition-colors';
+              phoneLink.className = 'text-white hover:text-primary font-medium font-semibold transition-colors';
               phoneContainer.appendChild(phoneLink);
               officePhones.appendChild(phoneContainer);
             });
