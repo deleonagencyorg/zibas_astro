@@ -87,22 +87,24 @@ const options = dynamicOptions[locale];
 
 ---
 
-<div class="bg-white rounded-2xl p-8" transition:name="contact-form">
-  <h2 class="text-primary font-sans text-2xl font-bold mb-6">
+<div class="bg-[#F04F00] rounded-2xl p-8" transition:name="contact-form">
+  <h2 class="text-white text-center md:text-2xl uppercase font-sans text-2xl font-bold mb-6">
     {contact.form.title}
   </h2>
-  
-  <form class="space-y-6" id="contactForm">
+
+  <form class="space-y-6 shadow-md" id="contactForm">
+  <!-- Fila para Contact Reason y Country -->
+  <div class="flex flex-col md:flex-row gap-6">
     <!-- Contact Reason Dropdown -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {contact.form.contactReason.label} *
       </label>
       <select 
         name="contactReason" 
         id="contactReasonSelect"
         required
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{contactReasonPlaceholder}</option>
         {locale === 'es' ? (
@@ -123,23 +125,26 @@ const options = dynamicOptions[locale];
     </div>
 
     <!-- Country Selector -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {countryLabel} *
       </label>
       <select 
         name="country" 
         id="countrySelect"
         required
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{countryPlaceholder}</option>
       </select>
     </div>
+  </div>
 
+  <!-- Fila para City y Name -->
+  <div class="flex flex-col md:flex-row gap-6">
     <!-- City Selector -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {cityLabel} *
       </label>
       <select 
@@ -147,15 +152,15 @@ const options = dynamicOptions[locale];
         id="departmentSelect"
         required
         disabled
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{departmentPlaceholder}</option>
       </select>
     </div>
     
     <!-- Name -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {contact.form.fullName.label} *
       </label>
       <input 
@@ -163,13 +168,16 @@ const options = dynamicOptions[locale];
         name="name" 
         required
         placeholder={contact.form.fullName.placeholder}
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase placeholder:text-white flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
-    
+  </div>
+  
+  <!-- Fila para Email y Phone -->
+  <div class="flex flex-col md:flex-row gap-6">
     <!-- Email -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {contact.form.email.label} *
       </label>
       <input 
@@ -177,39 +185,56 @@ const options = dynamicOptions[locale];
         name="email" 
         required
         placeholder={contact.form.email.placeholder}
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full px-4 py-3 placeholder:text-white bg-transparent uppercase border-[1.5px] border-white rounded-full  focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
     
     <!-- Phone -->
-    <div>
-      <label class="block text-gray-700 font-medium mb-2">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
         {contact.form.phone.label}
       </label>
       <input 
         type="number" 
         name="phone" 
         placeholder={contact.form.phone.placeholder}
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-transparent focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
+  </div>
 
-    <!-- Dynamic Fields Container -->
-    <div id="dynamicFields" class="space-y-6">
-      <!-- Dynamic fields will be inserted here -->
+  <!-- Fila para comentario -->
+  <div class="flex flex-col md:flex-row gap-6">
+    <div class="flex-1">
+      <label class="block text-white uppercase font-semibold  mb-2">
+        {contact.form.message.label} *
+      </label>
+      <textarea 
+        name="message" 
+        required
+        rows="4"
+        placeholder={contact.form.message.placeholder}
+        class="w-full px-4 py-3 border-[1.5px] border-white rounded-2xl bg-transparent placeholder:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+      ></textarea>
     </div>
-    
-    <!-- Submit Button -->
-    <div>
-      <button 
-        type="submit"
-        id="submitButton"
-        class="w-full py-3 px-6 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all"
-      >
-        {contact.form.submit}
-      </button>
-    </div>
-  </form>
+  </div>
+
+  <!-- Dynamic Fields Container -->
+  <div id="dynamicFields" class="space-y-6">
+    <!-- Dynamic fields will be inserted here -->
+  </div>
+  
+  <!-- Submit Button -->
+  <div>
+    <button 
+      type="submit"
+      id="submitButton"
+      class="w-full py-3 px-6 bg-[#FE5A00] text-white rounded-xl uppercase font-bold text-2xl hover:bg-primary-dark transition-all"
+    >
+      {contact.form.submit}
+    </button>
+  </div>
+</form>
 </div>
 
 <!-- Success Modal -->
