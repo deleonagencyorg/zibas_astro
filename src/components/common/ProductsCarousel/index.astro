@@ -3,10 +3,10 @@
 interface Product {
   id: string;
   slug: string;
-  title: string;
+  name: string;
   image: string;
   imageMobile?: string;
-  titleColor?: string;
+  background_color?: string;
 }
 
 export interface Props {
@@ -63,8 +63,8 @@ import LazyImage from '../LazyImage.astro';
               
               <LazyImage 
                 src={product.imageMobile || product.image} 
-                alt={product.title}
-                class="product-image z-20"
+                alt={product.name}
+                class="product-image z-20 md:mt-[0px] -mt-[35px]"
                 width={300}
                 height={400}
               />
@@ -74,12 +74,12 @@ import LazyImage from '../LazyImage.astro';
               <h4 class="text-left text-4xl">
                 ZIBA'S
               </h4>
-              <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.titleColor || '#10b981'}`}>
-                {product.title.split(' ').slice(1).join(' ')}
+              <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.background_color || '#10b981'}`}>
+                {product.name.split(' ').slice(1).join(' ')}
               </h3>
               
               <a 
-                href={`/${currentLang}/productos/${product.slug}`}
+                href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
                 style={`background-color: #004AB2`}  
                 class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
               >

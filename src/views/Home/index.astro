@@ -6,12 +6,17 @@ import Carousel from '../../components/common/Carousel/index.astro';
 import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 import MasonryGallery from '../../components/gallery/MasonryGallery.astro';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
+import AnimHeart from '../../components/common/AnimHeart/index.astro';
+import SocialMediaIcons from '../../components/common/SocialMediaIcons/index.astro';
+import Newsletter from '../../components/common/Newsletter/index.astro';
 
 // Style Imports
 import './styles.css';
 
 // i18n and Data Imports
 import { t, getLocale } from '../../i18n/i18n';
+import { InstagramEmbed } from 'react-social-media-embed';
 
 
 
@@ -23,11 +28,13 @@ const { loading = false } = Astro.props;
 
 // Language and Data Setup
 const currentLang = getLocale();
+const homeAssets = t('home', { namespace: 'common', locale: currentLang }) || {};
 const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {};
 const galleryAssets = t('', { namespace: 'gallery', locale: currentLang }) || {};
 const aboutAssets = t('', { namespace: 'aboutus', locale: currentLang }) || {};
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
 const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
+const products = t('items', { namespace: 'products', locale: currentLang }) || [];
 const brandsList = brandsAssets.brands || [];
 const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
 const zibasProducts = zibasBrand?.products || [];
@@ -62,35 +69,35 @@ const slides = Array.isArray(commonAssets)
     
     <!-- Sección de Productos Zibas -->
     {zibasProducts.length > 0 && (
-      <section class="w-full py-16 bg-blue">
+      <section class="w-full py-4 bg-blue pt-16">
         <div class="container mx-auto px-4">
           {brandsAssets.home?.title && (
-          <div class="text-center mb-16 relative z-20" >
-            <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: white`}>
+          <div class="text-center mb-2 relative z-20" >
+            <h2 class="text-3xl md:text-4xl italic font-bold mb-3" style={`color: white`}>
               {brandsAssets.home?.title}
             </h2>
             {brandsAssets.home?.subtitle && (
-              <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: white`}>
+              <h1 class="text-6xl md:text-9xl italic font-bold " style={`color: white`}>
                 {brandsAssets.home?.subtitle}
               </h1>
             )}
           </div>
         )}
           <ProductsCarousel 
-            products={zibasProducts}
+            products={products}
             color={'white'}
             autoplay={true}
             speed={4000}
             slidesPerView={3}
             spaceBetween={30}
             loop={true}
-            className="max-w-7xl mx-auto"
+            className="max-w-7xl mx-auto mb-8"
           />
         </div>
       </section>
     )}
     <!-- Sección de recetas con carrusel -->
-    <section id="recipes" class="w-full py-12" transition:animate="slide">
+    <!-- <section id="recipes" class="w-full py-12" transition:animate="slide">
       <div class="container mx-auto px-4">
         {recipesAssets.home?.title && (
           <div class="text-center mb-16 relative z-20" >
@@ -110,7 +117,7 @@ const slides = Array.isArray(commonAssets)
           textButton={recipesAssets.home?.view_more || 'Ver Todas'}
         />
       </div>
-    </section>
+    </section> -->
 
 
     <!-- Sección Gallery -->
@@ -127,23 +134,39 @@ const slides = Array.isArray(commonAssets)
       </div>
     </section>
 
+
+
+
     <!-- Sección News -->
-     <section id="news" class="bg-yellow w-full py-12" transition:animate="slide">
-      {newsAssets.home.title && (
-        <div class="text-center mb-16 relative z-20" >
-          <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown">
-            {newsAssets.home.title}
-          </h2>
-          {newsAssets.home.subtitle && (
-            <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown">
-              {newsAssets.home.subtitle}
-            </h1>
-          )}
-        </div>
-      )}
-     </section>
+     <!-- <section id="news" class="bg-yellow w-full py-12" transition:animate="slide">
+  <div class="container mx-auto px-4">
+    {newsAssets.home.title && (
+      <div class="text-center mb-16 relative z-20 overflow-hidden" >
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid
+               pixelSize={20}
+               density={0.7}
+               introDuration={800}
+               loopInterval={1100}
+               mutateAmount={50}
+             />
+          </div>
+        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown relative z-10">
+          {newsAssets.home.title}
+        </h2>
+        {newsAssets.home.subtitle && (
+          <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown relative z-10 flex items-center justify-center">
+            
+            <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
+          </h1>
+        
+        )}
+      </div>
+    )}
+  </div>
+</section> -->
     <!-- Sección Abaout -->
-<section id="about" class="bg-red w-full py-12" transition:animate="slide">
+<!-- <section id="about" class="bg-red w-full py-12" transition:animate="slide">
   <div class="container mx-auto px-4">
     <div class="text-center mb-8">
       {aboutAssets.title && (
@@ -174,7 +197,7 @@ const slides = Array.isArray(commonAssets)
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 
 
