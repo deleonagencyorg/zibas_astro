@@ -17,6 +17,7 @@ interface ProductSize {
 interface Stockist {
   id: string;
   name: string;
+  icon: string;
   link: string;
 }
 
@@ -164,15 +165,18 @@ if (allProductsArray.length > 1) {
             <div class="flex flex-wrap gap-4 my-4 mb-8">
               {stockists.map((stockist: Stockist) => (
                 <div 
-                  class="flex items-center justify-center h-[60px] w-[60px] p-2 rounded-[15px] border hover:scale-105 transition-transform"
+                  class="flex items-center justify-center h-[100px] w-[100px] p-2 rounded-[15px] border hover:scale-105 transition-transform"
                   style={{ borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
                 >
+                  <a href={stockist.link} target="_blank" rel="noopener noreferrer">  
                   <LazyImage
-                    src={stockist.link} 
+                    src={stockist.icon} 
                     alt={stockist.name}
+                    color={safeProduct.background_color==='#FDE820'?'black':'white'}
                     class="w-full h-full object-contain"
                     title={stockist.name}
                   />
+                  </a>
                 </div>
               ))}
             </div>
