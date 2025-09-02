@@ -145,15 +145,14 @@ function getHueRotate(color: string) {
 const isExternal = src.startsWith('http');
 let srcset = '';
 
-if (isWebP) {
-  if (isExternal && src.includes('assets.doguiygatibienestar.com')) {
+if (isExternal && src.includes('assets.doguiygatibienestar.com')) {
     srcset = [
       `${src}?w=640 640w`,
       `${src}?w=768 768w`,
       `${src}?w=1024 1024w`,
       `${src}?w=1280 1280w`
     ].join(', ');
-  } else if (!isExternal) {
+} else if (isWebP && !isExternal) {
     const baseUrl = src.substring(0, src.lastIndexOf('.webp'));
     srcset = [
       `${baseUrl}-640w.webp 640w`,
@@ -161,8 +160,15 @@ if (isWebP) {
       `${baseUrl}-1024w.webp 1024w`,
       `${baseUrl}-1280w.webp 1280w`
     ].join(', ');
-  }
+} else if (isExternal) { 
+    srcset = [
+      `${src}?w=640&q=80 640w`,
+      `${src}?w=768&q=80 768w`,
+      `${src}?w=1024&q=80 1024w`,
+      `${src}?w=1280&q=80 1280w`
+    ].join(', ');
 }
+
 ---
 
 <img 
