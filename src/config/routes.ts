@@ -71,6 +71,13 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.zibas_creators.title',
     metaDescriptionKey: 'meta.zibas_creators.description',
   },
+  {
+    id: 'jurados',
+    slugs: { es: 'jurados' }, // Spanish-only route
+    contentComponent: '@/views/Jurados/index.astro',
+    metaTitleKey: 'meta.jurados.title',
+    metaDescriptionKey: 'meta.jurados.description',
+  },
   // ... Agrega más rutas aquí
 ];
 

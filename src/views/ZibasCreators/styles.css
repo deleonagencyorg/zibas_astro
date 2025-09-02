@@ -313,6 +313,15 @@ section > * {
   }
 }
 
+@keyframes floatNoRotate {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+}
+
 @keyframes bounceSubtle {
   0%, 20%, 53%, 80%, 100% {
     transform: translate3d(0, 0, 0);
@@ -350,6 +359,13 @@ section > * {
 
 .animate-bounce-subtle {
   animation: bounceSubtle 2s ease-in-out infinite;
+}
+
+/* Flotar emoji sin rotación */
+#emoji {
+  animation: floatNoRotate 3.2s ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
 }
 
 /* Delays de animación */

@@ -1,0 +1,87 @@
+{
+  "title": "Jurados",
+  "description": "Conoce a nuestros jurados internacionales",
+  "meta": {
+    "title": "Jurados | Ziba's",
+    "description": "Conoce a los jurados internacionales de Ziba's"
+  },
+  "countries": [
+    {
+      "id": "spain",
+      "name": "España",
+      "active": true
+    },
+    {
+      "id": "mexico",
+      "name": "México",
+      "active": false
+    },
+    {
+      "id": "colombia",
+      "name": "Colombia",
+      "active": false
+    }
+  ],
+  "jurors": {
+    "spain": [
+      {
+        "name": "María García",
+        "title": "Chef Ejecutiva",
+        "bio": "Con más de 15 años de experiencia en la gastronomía internacional, María ha sido reconocida con 2 estrellas Michelin por su restaurante en Barcelona. Su enfoque en la fusión de sabores tradicionales con técnicas modernas la convierte en una jueza excepcional.",
+        "image": "/images/es/jurados/maria-garcia.jpg"
+      },
+      {
+        "name": "Javier Rodríguez",
+        "title": "Crítico Gastronómico",
+        "bio": "Autor de varios libros sobre gastronomía española y columnista en las revistas más prestigiosas del sector. Su paladar refinado y conocimiento profundo de las tradiciones culinarias lo hacen un jurado respetado internacionalmente.",
+        "image": "/images/es/jurados/javier-rodriguez.jpg"
+      },
+      {
+        "name": "Carmen Ortiz",
+        "title": "Sommelier Internacional",
+        "bio": "Especialista en maridajes y con certificación de la Asociación Internacional de Sommeliers. Carmen aporta su experiencia única en la combinación de sabores y su conocimiento de vinos para evaluar la armonía completa de los platos.",
+        "image": "/images/es/jurados/carmen-ortiz.jpg"
+      }
+    ],
+    "mexico": [
+      {
+        "name": "Roberto Sánchez",
+        "title": "Chef de Cocina Tradicional",
+        "bio": "Embajador de la cocina mexicana en el mundo, Roberto ha dedicado su carrera a preservar y modernizar las recetas ancestrales de México. Su restaurante en Ciudad de México ha sido reconocido como uno de los 50 mejores del mundo.",
+        "image": "/images/es/jurados/roberto-sanchez.jpg"
+      },
+      {
+        "name": "Luisa Fernández",
+        "title": "Investigadora Gastronómica",
+        "bio": "Doctora en antropología culinaria, Luisa ha documentado las tradiciones gastronómicas de todas las regiones de México. Su conocimiento profundo de ingredientes y técnicas tradicionales la convierte en una jueza invaluable.",
+        "image": "/images/es/jurados/luisa-fernandez.jpg"
+      },
+      {
+        "name": "Miguel Torres",
+        "title": "Chef Innovador",
+        "bio": "Pionero de la cocina de vanguardia en Latinoamérica, Miguel combina técnicas moleculares con ingredientes autóctonos mexicanos. Su creatividad y visión futurista aportan una perspectiva única al panel de jurados.",
+        "image": "/images/es/jurados/miguel-torres.jpg"
+      }
+    ],
+    "colombia": [
+      {
+        "name": "Ana Martínez",
+        "title": "Chef de Cocina Colombiana",
+        "bio": "Reconocida por su trabajo en la promoción de la gastronomía colombiana a nivel internacional. Su restaurante en Bogotá ha recibido múltiples premios por su interpretación contemporánea de platos tradicionales.",
+        "image": "/images/es/jurados/ana-martinez.jpg"
+      },
+      {
+        "name": "Carlos Ramírez",
+        "title": "Experto en Café",
+        "bio": "Catador profesional de café y consultor para las principales marcas del mundo. Su paladar excepcional y conocimiento de los procesos de producción lo convierten en un juez ideal para evaluar sabores complejos.",
+        "image": "/images/es/jurados/carlos-ramirez.jpg"
+      },
+      {
+        "name": "Diana López",
+        "title": "Chef Pastelera",
+        "bio": "Formada en las mejores escuelas de pastelería de Francia, Diana ha revolucionado la repostería colombiana incorporando ingredientes locales en creaciones de nivel mundial. Su atención al detalle y precisión técnica son incomparables.",
+        "image": "/images/es/jurados/diana-lopez.jpg"
+      }
+    ]
+  }
+}

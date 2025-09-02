@@ -13,7 +13,7 @@ export interface HeaderColors {
 // Configuración por defecto
 export const defaultHeaderColors: HeaderColorConfig = {
   textColor: 'text-white',
-  backgroundColor: 'bg-primary',
+  backgroundColor: 'bg-blue',
   hoverTextColor: 'hover:text-gray-300',
   hoverBackgroundColor: 'hover:bg-blue-800',
   showMessageCarousel: true,
@@ -83,6 +83,15 @@ export const headerColors: HeaderColors = {
   
   // Configuración para la página de contacto
   contact: {
+    textColor: 'text-white',
+    backgroundColor: 'bg-primary',
+    hoverTextColor: 'hover:text-gray-300',
+    hoverBackgroundColor: 'hover:bg-blue-800',
+    showMessageCarousel: true,
+  },
+  
+  // Configuración para la página de jurados
+  jurados: {
     textColor: 'text-white',
     backgroundColor: 'bg-primary',
     hoverTextColor: 'hover:text-gray-300',
@@ -166,6 +175,10 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
   
   if (path.includes('/zibas-creators')) {
     return headerColors.zibas_creators;
+  }
+  
+  if (path.includes('/jurados')) {
+    return headerColors.jurados;
   }
   
   // Para la página de inicio (ruta raíz)

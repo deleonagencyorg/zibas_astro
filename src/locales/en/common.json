@@ -85,33 +85,22 @@
     {
       "id": "zibas-creators",
       "text": "Ziba's Creators",
-      "href": "/es/zibas-creators"
+      "href": "/en/zibas-creators"
     },
     {
       "id": "products",
-      "text": "Productos",
-      "href": "#products"
+      "text": "Products",
+      "href": "/en/#products"
     },
     {
       "id": "gallery",
-      "text": "Galería",
-      "href": "#gallery"
+      "text": "Gallery",
+      "href": "/en/#gallery"
     },
     {
-      "id": "blog",
-      "text": "Novedades",
-      "href": "#blog"
-    },
-   
-    {
-      "id": "about_us",
-      "text": "Nosotros",
-      "href": "#about-us"
-    },
-    {
-      "id": "recipes",
-      "text": "Recetas",
-      "href": "#recipes"
+      "id": "contact",
+      "text": "Contact",
+      "href": "/en/contact"
     }
    
   ],
@@ -161,19 +150,19 @@
     "instagram_text": "Instagram",
     "facebook_text": "Facebook",
     "email": "ayudacliente@zibas.com",
-    "copyright": "© Copyright 2025. Ziba's. All rights reserved.",
+    "copyright": "Copyright 2025. Ziba's. All rights reserved.",
     "privacy_policy_text": "Privacy Policy",
     "privacy_policy_url": "/es/politica-privacidad"
   },
   "messagetop":[
     {
       "id":"1",
-      "title":"😎​ Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
+      "title":"😎 Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
       "link":""
     },
     {
       "id":"2",
-      "title":"😎​ Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
+      "title":"😎 Welcome to Snacks Yummies! If you're craving a snack, you're in the right place 🎉",
       "link":""
     }
   ],

@@ -55,6 +55,8 @@ if (headerColors) {
   style={'background-color: ' + (customStyles.backgroundColor || 'transparent') + '; color: ' + (customStyles.color || 'inherit')}
   data-header-config={JSON.stringify(customHeaderConfig)}
 >
+{headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
+  
   <!-- Banner superior azul claro con mensaje -->
   <!--{customHeaderConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   
