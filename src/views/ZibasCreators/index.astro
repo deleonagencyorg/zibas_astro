@@ -1,0 +1,357 @@
+---
+// src/views/ZibasCreators/index.astro
+import LazyImage from '../../components/common/LazyImage.astro';
+import { t } from '../../i18n/i18n';
+import type { Locale } from '../../i18n/i18n';
+import { getLocale } from '../../i18n/i18n';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { logos } from '../../config/assets';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
+import './styles.css';
+
+// Import categories data
+import categoriesEs from '../../locales/es/categories-zibas-creators.json';
+import categoriesEn from '../../locales/en/categories-zibas-creators.json';
+
+interface Props {
+  currentLang: Locale;
+  headerColorConfig?: any;
+}
+
+const { currentLang, headerColorConfig } = Astro.props;
+
+// Get current locale if not provided
+const locale = currentLang || getLocale();
+
+// Get categories data based on locale
+const categoriesData = locale === 'es' ? categoriesEs : categoriesEn;
+
+// Meta information
+const title = 'Ziba\'s Creators - Concurso de Creatividad';
+const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles.';
+---
+
+<MainLayout title={title} description={metaDescription} headerColors={headerColorConfig}>
+      <!-- Hero Section - Orange -->
+    <section id="hero" class="h-[300px] lg:h-[800px] relative overflow-hidden" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/coverzibascreators.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+      <!-- Background decorative bars -->
+      
+      
+      <!-- Main content -->
+      <div class="relative z-10 flex items-center justify-center h-full">
+        <div class="container mx-auto px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="text-white  hero-content animate-fade-in-up">
+              <h1 class="text-5xl md:text-7xl font-title font-bold leading-tight animate-fade-in-up animation-delay-200">
+                BIENVENIDO A CASA, CREADOR.
+              </h1>
+              <p class="text-xl md:text-2xl leading-relaxed font-medium animate-fade-in-up animation-delay-400 mb-8">
+                AQUÍ PREMIAREMOS TU TALENTO EN VIDEO, BAILE, MÚSICA, ARTE, MEMES E INTELIGENCIA ARTIFICIAL.
+              </p>
+             <a href="/jurados" class="bg-orange border border-white text-white font-bold py-4 px-8 rounded-md text-lg mt-8">
+              Conoce a nuestros jurados
+             </a>
+            </div>
+            
+            <!-- Right Content - Ziba's Creators Image -->
+            <div class="relative hero-graphic flex justify-center animate-fade-in-left">
+              <div class="relative z-10 max-w-md lg:max-w-lg ">
+                <!-- Main Ziba's Creators Image -->
+                <div class="relative">
+                  <LazyImage
+                    src="https://snack.yummiespromociones.com/SnacksyummiesAssets/logozibascreators.webp" 
+                    alt="Ziba's Creators" 
+                    class="w-full h-auto object-contain animate-fade-in-up animation-delay-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation indicators -->
+   
+    </section>
+
+    <!-- How to Participate Section - Blue -->
+    <section id="how-to-participate" class="bg-blue py-20 relative">
+      
+      <div class="container mx-auto px-4">
+        <!-- Title Section -->
+        <div class="text-center mb-16 animate-fade-in-up">
+          <h2 class="text-white  italic text-4xl md:text-5xl font-title font-bold mb-4 leading-tight animate-fade-in-up animation-delay-200">
+            DESCUBRE COMO PUEDES
+          </h2>
+          <h3 class="text-white italic text-6xl md:text-8xl font-title font-bold leading-tight animate-fade-in-up animation-delay-400">
+            PARTICIPAR
+          </h3>
+        </div>
+        
+        <!-- Cards Grid -->
+        <div class="relative max-w-7xl mx-auto">
+          <!-- Top Row -->
+          <div class="flex flex-col md:flex-row gap-8 mb-8">
+            <!-- Step 1 -->
+            <div class="bg-blue-700 rounded-[30px] p-10 flex flex-col gap-5 step-card animate-fade-in-up animation-delay-600">
+              <h4 class="text-white text-2xl md:text-3xl font-title font-bold text-center leading-tight">
+                REGÍSTRATE Y CREA TU CUENTA
+              </h4>
+              <div class="flex items-center gap-2 opacity-80">
+                <div class="flex-1 h-0.5 bg-white"></div>
+                <span class="text-white text-lg md:text-xl font-title font-bold uppercase whitespace-nowrap">
+                  PASO Nº1
+                </span>
+                <div class="flex-1 h-0.5 bg-white"></div>
+              </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="bg-blue-700 rounded-[30px] p-10 flex flex-col gap-5 step-card animate-fade-in-up animation-delay-800">
+              <h4 class="text-white text-2xl md:text-3xl font-title font-bold text-center leading-tight">
+                ELIGE CATEGORÍA Y SUBE TU MEJOR CONTENIDO
+              </h4>
+              <div class="flex items-center gap-2 opacity-80">
+                <div class="flex-1 h-0.5 bg-white"></div>
+                <span class="text-white text-lg md:text-xl font-title font-bold uppercase whitespace-nowrap">
+                  PASO Nº2
+                </span>
+                <div class="flex-1 h-0.5 bg-white"></div>
+              </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="bg-blue-700 rounded-[30px] p-10 flex flex-col gap-5 step-card animate-fade-in-up animation-delay-1000">
+              <h4 class="text-white text-2xl md:text-3xl font-title font-bold text-center leading-tight">
+                ESPERA A QUE PUEDAS SER JUZGADO
+              </h4>
+              <div class="flex items-center gap-2 opacity-80">
+                <div class="flex-1 h-0.5 bg-white"></div>
+                <span class="text-white text-lg md:text-xl font-title font-bold uppercase whitespace-nowrap">
+                  PASO Nº3
+                </span>
+                <div class="flex-1 h-0.5 bg-white">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bottom Row - Single Card -->
+          <div class="flex justify-center">
+            <div class="bg-blue-700 rounded-[30px] p-10 flex flex-col gap-5 step-card max-w-md animate-fade-in-up animation-delay-1200">
+              <h4 class="text-white text-2xl md:text-3xl font-title font-bold text-center leading-tight">
+                ¡GANA PREMIOS COMO TABLETS, SMARTPHONES Y MÁS!
+              </h4>
+              <div class="flex items-center gap-2 opacity-80">
+                <div class="flex-1 h-0.5 bg-white"></div>
+                <span class="text-white text-lg md:text-xl font-title font-bold uppercase whitespace-nowrap">
+                  PREMIO
+                </span>
+                <div class="flex-1 h-0.5 bg-white"></div>
+              </div>
+            </div>
+          </div>
+          
+      
+          
+          <!-- Circular Face Image -->
+          <div id="emoji" class="absolute bottom-8 left-8 hidden lg:block">
+            <div class="bg-pink rounded-full w-36 h-36 flex items-center justify-center">
+              <div class="w-28 h-28 bg-pink rounded-full flex items-center justify-center">
+                <LazyImage
+                  src="https://snack.yummiespromociones.com/SnacksyummiesAssets/emojizibas.webp"
+                  alt="Ziba's Creators" 
+                  class="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div  class="absolute bottom-8 right-8 hidden lg:block">
+            <div class="w-36 h-36 flex items-center justify-center">
+              <div class="w-28 h-28flex items-center justify-center">
+                <PixelGrid
+                pixelSize={20}
+                density={0.7}
+                background='bg-blue'
+                introDuration={800}
+                loopInterval={1100}
+                mutateAmount={50}
+              />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Content Section - Yellow -->
+    <section id="upload" class="bg-yellow py-20">
+      <div class="container mx-auto px-4">
+        <!-- Title Section -->
+        <div class="text-center mb-16 animate-fade-in-up">
+          <h2 class="text-brown italic text-4xl md:text-5xl font-title font-bold mb-4 leading-tight animate-fade-in-up animation-delay-200">
+            AQUÍ PUEDES SUBIR TU
+          </h2>
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid
+               pixelSize={20}
+               density={0.7}
+               introDuration={800}
+               loopInterval={1100}
+               mutateAmount={50}
+             />
+          </div>
+          <h3 class="text-brown italic text-6xl md:text-8xl font-title font-bold leading-tight animate-fade-in-up animation-delay-400">
+            CONTENIDO
+          </h3>
+        </div>
+        
+        <!-- Checklist Items -->
+        <div class="relative max-w-6xl mx-auto mb-16">
+          <!-- Item 1 -->
+          <div class="bg-[#f0dc1c] rounded-[162px] px-8 py-7 flex items-center gap-4 mb-4 checklist-item animate-fade-in-up animation-delay-600">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="44" height="43" viewBox="0 0 44 43" fill="none">
+<path d="M34.5561 33.7599H34.5729M34.5561 33.7599C33.4505 34.8563 31.4469 34.5832 30.0419 34.5832C28.3172 34.5832 27.4867 34.9205 26.2558 36.1514C25.2077 37.1997 23.8026 39.0862 22.1449 39.0862C20.4872 39.0862 19.0821 37.1997 18.034 36.1514C16.8032 34.9205 15.9726 34.5832 14.2479 34.5832C12.8429 34.5832 10.8393 34.8563 9.73376 33.7599C8.61936 32.6549 8.89361 30.643 8.89361 29.2289C8.89361 27.4419 8.5028 26.6202 7.23021 25.3476C5.33718 23.4546 4.39066 22.508 4.39062 21.3319C4.39064 20.1557 5.33714 19.2092 7.23016 17.3162C8.36617 16.1802 8.89361 15.0545 8.89361 13.4349C8.89361 12.0298 8.62057 10.0262 9.71691 8.92069C10.822 7.80632 12.8339 8.08059 14.248 8.08059C15.8675 8.08059 16.9932 7.55318 18.1292 6.41721C20.0222 4.52415 20.9687 3.57764 22.1449 3.57764C23.3211 3.57764 24.2676 4.52415 26.1606 6.41721C27.2963 7.55295 28.422 8.08059 30.0419 8.08059C31.4469 8.08059 33.4507 7.80754 34.5562 8.90393C35.6705 10.009 35.3962 12.0209 35.3962 13.4349C35.3962 15.2219 35.7871 16.0436 37.0596 17.3162C38.9527 19.2092 39.8992 20.1557 39.8992 21.3319C39.8992 22.508 38.9527 23.4546 37.0596 25.3476C35.787 26.6202 35.3962 27.4419 35.3962 29.2289C35.3962 30.643 35.6705 32.6549 34.5561 33.7599Z" stroke="#141B34" stroke-width="2.75935"/>
+<path d="M16.8184 22.9169L20.0141 25.7702L27.4709 16.8931" stroke="#141B34" stroke-width="2.75935" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+            </div>
+            <p class="text-[#5b3f2e] text-xl md:text-2xl font-medium flex-1">
+              Se original, muéstranos algo único
+            </p>
+            <div class="w-9 h-9 flex items-center justify-center">
+              <svg class="w-9 h-9 text-[#5b3f2e]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+          </div>
+        
+          <!-- Item 2 -->
+          <div class="bg-[#f0dc1c] rounded-[162px] px-8 py-7 flex items-center gap-4 mb-4 checklist-item ml-16 md:ml-32 animate-fade-in-up animation-delay-800">
+            <div class="w-10 h-10 flex items-center justify-center">
+             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="43" viewBox="0 0 44 43" fill="none">
+<path d="M34.5561 33.7599H34.5729M34.5561 33.7599C33.4505 34.8563 31.4469 34.5832 30.0419 34.5832C28.3172 34.5832 27.4867 34.9205 26.2558 36.1514C25.2077 37.1997 23.8026 39.0862 22.1449 39.0862C20.4872 39.0862 19.0821 37.1997 18.034 36.1514C16.8032 34.9205 15.9726 34.5832 14.2479 34.5832C12.8429 34.5832 10.8393 34.8563 9.73376 33.7599C8.61936 32.6549 8.89361 30.643 8.89361 29.2289C8.89361 27.4419 8.5028 26.6202 7.23021 25.3476C5.33718 23.4546 4.39066 22.508 4.39062 21.3319C4.39064 20.1557 5.33714 19.2092 7.23016 17.3162C8.36617 16.1802 8.89361 15.0545 8.89361 13.4349C8.89361 12.0298 8.62057 10.0262 9.71691 8.92069C10.822 7.80632 12.8339 8.08059 14.248 8.08059C15.8675 8.08059 16.9932 7.55318 18.1292 6.41721C20.0222 4.52415 20.9687 3.57764 22.1449 3.57764C23.3211 3.57764 24.2676 4.52415 26.1606 6.41721C27.2963 7.55295 28.422 8.08059 30.0419 8.08059C31.4469 8.08059 33.4507 7.80754 34.5562 8.90393C35.6705 10.009 35.3962 12.0209 35.3962 13.4349C35.3962 15.2219 35.7871 16.0436 37.0596 17.3162C38.9527 19.2092 39.8992 20.1557 39.8992 21.3319C39.8992 22.508 38.9527 23.4546 37.0596 25.3476C35.787 26.6202 35.3962 27.4419 35.3962 29.2289C35.3962 30.643 35.6705 32.6549 34.5561 33.7599Z" stroke="#141B34" stroke-width="2.75935"/>
+<path d="M16.8184 22.9169L20.0141 25.7702L27.4709 16.8931" stroke="#141B34" stroke-width="2.75935" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+            </div>
+            <p class="text-[#5b3f2e] text-xl md:text-2xl font-medium flex-1">
+              Asegúrate de que tu archivo cumpla con los requisitos
+            </p>
+            <div class="w-9 h-9 flex items-center justify-center">
+              <svg class="w-9 h-9 text-[#5b3f2e]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Item 3 -->
+          <div class="bg-[#f0dc1c] rounded-[162px] px-8 py-7 flex items-center gap-4 checklist-item ml-32 md:ml-64 animate-fade-in-up animation-delay-1000">
+            
+            <div class="w-10 h-10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="44" height="43" viewBox="0 0 44 43" fill="none">
+<path d="M34.5561 33.7599H34.5729M34.5561 33.7599C33.4505 34.8563 31.4469 34.5832 30.0419 34.5832C28.3172 34.5832 27.4867 34.9205 26.2558 36.1514C25.2077 37.1997 23.8026 39.0862 22.1449 39.0862C20.4872 39.0862 19.0821 37.1997 18.034 36.1514C16.8032 34.9205 15.9726 34.5832 14.2479 34.5832C12.8429 34.5832 10.8393 34.8563 9.73376 33.7599C8.61936 32.6549 8.89361 30.643 8.89361 29.2289C8.89361 27.4419 8.5028 26.6202 7.23021 25.3476C5.33718 23.4546 4.39066 22.508 4.39062 21.3319C4.39064 20.1557 5.33714 19.2092 7.23016 17.3162C8.36617 16.1802 8.89361 15.0545 8.89361 13.4349C8.89361 12.0298 8.62057 10.0262 9.71691 8.92069C10.822 7.80632 12.8339 8.08059 14.248 8.08059C15.8675 8.08059 16.9932 7.55318 18.1292 6.41721C20.0222 4.52415 20.9687 3.57764 22.1449 3.57764C23.3211 3.57764 24.2676 4.52415 26.1606 6.41721C27.2963 7.55295 28.422 8.08059 30.0419 8.08059C31.4469 8.08059 33.4507 7.80754 34.5562 8.90393C35.6705 10.009 35.3962 12.0209 35.3962 13.4349C35.3962 15.2219 35.7871 16.0436 37.0596 17.3162C38.9527 19.2092 39.8992 20.1557 39.8992 21.3319C39.8992 22.508 38.9527 23.4546 37.0596 25.3476C35.787 26.6202 35.3962 27.4419 35.3962 29.2289C35.3962 30.643 35.6705 32.6549 34.5561 33.7599Z" stroke="#141B34" stroke-width="2.75935"/>
+<path d="M16.8184 22.9169L20.0141 25.7702L27.4709 16.8931" stroke="#141B34" stroke-width="2.75935" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+            </div>
+            <p class="text-[#5b3f2e] text-xl md:text-2xl font-medium flex-1">
+              Cuanto mas creativo, tendrás más posibilidades.
+            </p>
+            <div class="w-9 h-9 flex items-center justify-center">
+              <svg class="w-9 h-9 text-[#5b3f2e]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Decorative Lines -->
+          <div class="absolute top-[90px] left-[-10px]   transform rotate-[15deg] hidden lg:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="79" viewBox="0 0 174 79" fill="none">
+              <path d="M148.333 57.6208C146.388 57.0804 144.46 56.5114 142.506 56.0055C138.925 55.0681 136.876 51.9863 137.733 48.775C138.568 45.6828 141.127 44.6013 145.098 45.9586C150.177 47.6989 155.152 49.7727 160.246 51.4689C162.978 52.3741 165.989 52.458 168.628 53.5307C170.634 54.3355 173.038 55.7787 173.791 57.5472C174.433 59.046 173.426 61.7762 172.299 63.3652C169.381 67.5071 166.01 71.3491 162.769 75.2603C161.904 76.3096 161.001 77.6283 159.832 78.059C158.114 78.7012 156.14 78.6487 154.277 78.9065C154.153 76.6312 153.169 73.9177 154.07 72.1584C155.853 68.6684 158.673 65.7159 161.201 62.3384C158.996 60.8347 157.481 60.1415 156.216 63.0676C155.099 65.6345 152.913 66.8458 149.989 67.0038C134.85 67.8364 119.686 69.7849 104.591 69.301C94.0488 68.9593 83.4883 65.6902 73.1242 62.9981C67.7468 61.6015 62.385 59.2297 57.7053 56.2249C48.995 50.6266 43.4127 43.0694 47.0626 31.6692C38.9206 28.5744 31.0761 25.6015 23.2402 22.594C15.986 19.8087 8.89684 16.7419 3.95989 10.2991C3.79797 10.09 3.46339 9.98458 3.33863 9.75909C1.89317 6.99279 -0.779249 3.75535 2.12253 1.1605C5.2632 -1.64244 7.91587 1.43604 10.0315 3.84147C15.9663 10.6102 24.3165 13.0382 32.2115 16.2694C37.4294 18.4037 42.8308 20.1216 47.9775 22.4104C50.6792 23.6162 52.3086 23.0509 53.9762 20.9256C62.7689 9.7084 75.0515 6.01416 88.6208 5.61132C94.7437 5.43001 100.161 8.26314 105.037 11.6982C109.956 15.1479 109.67 21.5563 105.826 26.0175C95.1843 38.3796 81.1216 37.3648 67.0086 36.3448C63.0781 36.0646 59.1858 35.1962 55.2124 34.5826C53.5389 39.1671 54.3104 42.6381 57.838 45.6451C65.4214 52.1138 74.3623 55.5949 83.8921 57.7451C95.7841 60.4333 107.786 62.4193 120.024 61.3725C129.456 60.572 138.854 59.4035 148.256 58.3973C148.272 58.1408 148.287 57.8843 148.302 57.6277L148.333 57.6208ZM60.575 25.5057C71.0913 29.3726 94.7653 29.7268 100.249 17.7977C92.3634 9.31378 68.5636 14.3116 60.575 25.5057Z" fill="#5B3F2E"/>
+              </svg>
+          </div>
+          <div class="absolute top-[220px] left-[120px]  transform rotate-[15deg] hidden lg:block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="79" viewBox="0 0 174 79" fill="none">
+              <path d="M148.333 57.6208C146.388 57.0804 144.46 56.5114 142.506 56.0055C138.925 55.0681 136.876 51.9863 137.733 48.775C138.568 45.6828 141.127 44.6013 145.098 45.9586C150.177 47.6989 155.152 49.7727 160.246 51.4689C162.978 52.3741 165.989 52.458 168.628 53.5307C170.634 54.3355 173.038 55.7787 173.791 57.5472C174.433 59.046 173.426 61.7762 172.299 63.3652C169.381 67.5071 166.01 71.3491 162.769 75.2603C161.904 76.3096 161.001 77.6283 159.832 78.059C158.114 78.7012 156.14 78.6487 154.277 78.9065C154.153 76.6312 153.169 73.9177 154.07 72.1584C155.853 68.6684 158.673 65.7159 161.201 62.3384C158.996 60.8347 157.481 60.1415 156.216 63.0676C155.099 65.6345 152.913 66.8458 149.989 67.0038C134.85 67.8364 119.686 69.7849 104.591 69.301C94.0488 68.9593 83.4883 65.6902 73.1242 62.9981C67.7468 61.6015 62.385 59.2297 57.7053 56.2249C48.995 50.6266 43.4127 43.0694 47.0626 31.6692C38.9206 28.5744 31.0761 25.6015 23.2402 22.594C15.986 19.8087 8.89684 16.7419 3.95989 10.2991C3.79797 10.09 3.46339 9.98458 3.33863 9.75909C1.89317 6.99279 -0.779249 3.75535 2.12253 1.1605C5.2632 -1.64244 7.91587 1.43604 10.0315 3.84147C15.9663 10.6102 24.3165 13.0382 32.2115 16.2694C37.4294 18.4037 42.8308 20.1216 47.9775 22.4104C50.6792 23.6162 52.3086 23.0509 53.9762 20.9256C62.7689 9.7084 75.0515 6.01416 88.6208 5.61132C94.7437 5.43001 100.161 8.26314 105.037 11.6982C109.956 15.1479 109.67 21.5563 105.826 26.0175C95.1843 38.3796 81.1216 37.3648 67.0086 36.3448C63.0781 36.0646 59.1858 35.1962 55.2124 34.5826C53.5389 39.1671 54.3104 42.6381 57.838 45.6451C65.4214 52.1138 74.3623 55.5949 83.8921 57.7451C95.7841 60.4333 107.786 62.4193 120.024 61.3725C129.456 60.572 138.854 59.4035 148.256 58.3973C148.272 58.1408 148.287 57.8843 148.302 57.6277L148.333 57.6208ZM60.575 25.5057C71.0913 29.3726 94.7653 29.7268 100.249 17.7977C92.3634 9.31378 68.5636 14.3116 60.575 25.5057Z" fill="#5B3F2E"/>
+              </svg>
+          </div>
+        </div>
+        
+        <!-- Upload Button -->
+        <div class="flex justify-center animate-fade-in-up animation-delay-1200">
+          <div class="relative animate-bounce-subtle">
+            <div class="bg-yellow h-24 w-80 rounded-[200px] border-2 border-[#5b3f2e]"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="bg-[#0167f7] h-16 w-72 rounded-[200px] flex items-center justify-center gap-4">
+                <span class="text-white text-xl md:text-2xl font-semibold">
+                  SUBIR CONTENIDO
+                </span>
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Categories Section - Pink -->
+    <section id="categories" class="bg-pink py-20">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16 animate-fade-in-up">
+          <h2 class="text-white italic text-3xl md:text-5xl font-bold mb-4 animate-fade-in-up animation-delay-200">
+            DESCUBRE CADA UNA DE LAS
+          </h2>
+          <h3 class="text-white italic text-6xl md:text-8xl font-bold animate-fade-in-up animation-delay-400">
+            CATEGORIAS
+          </h3>
+        </div>
+        
+        <div class="categories-container flex gap-5 items-center justify-center overflow-x-auto pb-4 max-w-7xl mx-auto">
+          {categoriesData.categories.map((category, index) => (
+            <div 
+              class="category-card bg-white rounded-[30px] overflow-hidden shadow-lg transition-all duration-500 ease-in-out cursor-pointer group animate-fade-in-up"
+              style={`animation-delay: ${0.6 + (index * 0.2)}s`}
+              data-category-index={index}
+            >
+              <div class={`h-[300px] bg-gradient-to-br ${category.gradient} relative`}>
+                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                </div>
+              </div>
+              <div class="bg-pink h-[163px] p-6 flex flex-col justify-center">
+                <h4 class="text-white text-3xl md:text-4xl font-title font-bold mb-2 leading-tight">
+                  {category.title}
+                </h4>
+                <p class="text-white text-lg md:text-xl font-medium opacity-90">
+                  {category.description}
+                </p>
+                <p class="text-white text-sm md:text-base font-medium opacity-80 mt-1 hidden group-hover:block transition-all duration-300">
+                  {category.subtitle}
+                </p>
+              </div>
+              
+              <!-- Expanded content on hover -->
+              <div class="absolute inset-0 bg-pink p-6 flex flex-col justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
+                <h4 class="text-white text-2xl md:text-3xl font-title font-bold mb-3 leading-tight">
+                  {category.title}
+                </h4>
+                <p class="text-white text-base md:text-lg font-medium opacity-90 mb-3">
+                  {category.subtitle}
+                </p>
+                <p class="text-white text-sm md:text-base font-medium opacity-80 leading-relaxed">
+                  {category.longDescription}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <script src="./scripts.js"></script>
+  </MainLayout>

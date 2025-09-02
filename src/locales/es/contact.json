@@ -1,7 +1,7 @@
 {
   "title": "Contáctanos",
   "subtitle": "¿Tienes preguntas? ¡Estamos aquí para ti!",
-  "description": "Envíanos tus dudas o comentarios llenando el formulario de la derecha, o contáctanos vía e-mail o teléfono.",
+  "description": "ENVÍANOS TUS DUDAS O COMENTARIOS LLENANDO EL FORMULARIO DE LA DERECHA, O CONTÁCTANOS VIA E-MAIL O TELÉFONO.",
   "email": "contacto@yummies.com",
   "phone": "1234-56789",
   "form": {
@@ -43,10 +43,10 @@
       "placeholder": "Escribe tu mensaje aquí...",
       "required": true
     },
-    "submit": "Enviar"
+    "submit": "Enviar mensaje"
   },
   "offices": {
-    "title": "Nuestras Oficinas",
+    "title": "Descubre Nuestras Oficinas",
     "locations": {
       "+504":{
         "tab": "Honduras",

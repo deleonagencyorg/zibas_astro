@@ -31,6 +31,10 @@
     "yummiesone": {
       "title": "Ziba's One",
       "description": "Descubre Ziba's One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
+    },
+    "zibas_creators": {
+      "title": "Ziba's Creators - Concurso de Creatividad",
+      "description": "Participa en el concurso de creatividad de Ziba's. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles."
     }
   },
   "social_media": {
@@ -90,28 +94,17 @@
     {
       "id": "products",
       "text": "Productos",
-      "href": "#products"
+      "href": "/es/#products"
     },
     {
       "id": "gallery",
       "text": "Galería",
-      "href": "#gallery"
+      "href": "/es/#gallery"
     },
     {
-      "id": "blog",
-      "text": "Novedades",
-      "href": "#blog"
-    },
-   
-    {
-      "id": "about_us",
-      "text": "Nosotros",
-      "href": "#about-us"
-    },
-    {
-      "id": "recipes",
-      "text": "Recetas",
-      "href": "#recipes"
+      "id": "contact",
+      "text": "Contacto",
+      "href": "/es/contacto"
     }
    
   ],
@@ -161,7 +154,7 @@
     "instagram_text": "Instagram",
     "facebook_text": "Facebook",
     "email": "ayudacliente@zibas.com",
-    "copyright": "© Copyright 2025. Ziba's. Todos los derechos reservados.",
+    "copyright": "Copyright 2025. Ziba's. Todos los derechos reservados.",
     "privacy_policy_text": "Política de Privacidad",
     "privacy_policy_url": "/es/politica-privacidad"
   },

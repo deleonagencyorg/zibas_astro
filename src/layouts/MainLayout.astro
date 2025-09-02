@@ -62,7 +62,9 @@ if (headerColors) {
   <body class={`font-sans ${className || ''}`}>
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
-      <Header currentLang={currentLang} headerColors={headerColors} />
+      <slot name="header">
+        <Header currentLang={currentLang} headerColors={headerColors} />
+      </slot>
       <main transition:animate="slide">
         <slot />
       </main>

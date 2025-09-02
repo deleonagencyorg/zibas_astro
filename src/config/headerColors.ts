@@ -13,7 +13,7 @@ export interface HeaderColors {
 // Configuración por defecto
 export const defaultHeaderColors: HeaderColorConfig = {
   textColor: 'text-white',
-  backgroundColor: 'bg-primary',
+  backgroundColor: 'bg-blue',
   hoverTextColor: 'hover:text-gray-300',
   hoverBackgroundColor: 'hover:bg-blue-800',
   showMessageCarousel: true,
@@ -83,11 +83,20 @@ export const headerColors: HeaderColors = {
   
   // Configuración para la página de contacto
   contact: {
-    textColor: 'text-primary',
-    backgroundColor: 'bg-white',
-    hoverTextColor: 'hover:text-primary',
-    hoverBackgroundColor: 'hover:bg-primary',
-    showMessageCarousel: false,
+    textColor: 'text-white',
+    backgroundColor: 'bg-primary',
+    hoverTextColor: 'hover:text-gray-300',
+    hoverBackgroundColor: 'hover:bg-blue-800',
+    showMessageCarousel: true,
+  },
+  
+  // Configuración para la página de jurados
+  jurados: {
+    textColor: 'text-white',
+    backgroundColor: 'bg-primary',
+    hoverTextColor: 'hover:text-gray-300',
+    hoverBackgroundColor: 'hover:bg-blue-800',
+    showMessageCarousel: true,
   },
   
   // Configuración para la página de noticias
@@ -106,6 +115,15 @@ export const headerColors: HeaderColors = {
     hoverTextColor: 'hover:text-gray-300',
     hoverBackgroundColor: 'hover:bg-blue-800',
     showMessageCarousel: true,
+  },
+
+  // Configuración para Ziba's Creators
+  zibas_creators: {
+    textColor: 'text-white',
+    backgroundColor: 'bg-orange-500',
+    hoverTextColor: 'hover:text-orange-200',
+    hoverBackgroundColor: 'hover:bg-orange-600',
+    showMessageCarousel: false,
   },
 
   // Configuración para la página de nosotros
@@ -153,6 +171,14 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
    
   if (path.includes('/about') || path.includes('/nosotros')) {
     return headerColors.about;
+  }
+  
+  if (path.includes('/zibas-creators')) {
+    return headerColors.zibas_creators;
+  }
+  
+  if (path.includes('/jurados')) {
+    return headerColors.jurados;
   }
   
   // Para la página de inicio (ruta raíz)
