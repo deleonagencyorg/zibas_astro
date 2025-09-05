@@ -1,7 +1,9 @@
 ---
-import type { Locale } from '../../i18n/i18n';
+import { t, type Locale } from '../../i18n/i18n';
 import MainLayout from '../../layouts/MainLayout.astro';
 import juradosData from '../../locales/es/jurados.json';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
+import LazyImage from '../../components/common/LazyImage.astro';
 
 export interface Props {
   lang?: string;
@@ -19,11 +21,120 @@ const { title, description, countries, jurors } = juradosData;
 // Find the active country (default to first country if none is active)
 const activeCountry = countries.find(country => country.active) || countries[0];
 const activeCountryId = activeCountry.id;
+
+// Social media icons and urls from i18n common namespace
+const socialMedia = t('social_media', { namespace: 'common', locale: lang as Locale }) as any;
 ---
 
 <MainLayout title={juradosData.meta.title} description={juradosData.meta.description} headerColors={headerColor}>
- <section class="py-16 bg-blue h-screen w-full">
-  <h1 class="text-5xl font-bold text-center mb-8">{juradosData.title}</h1>
-  <p class="text-xl text-center mb-12">{juradosData.description}</p>
+ <section class="py-16 bg-blue h-full w-full">
+  
+  <div class="container mx-auto px-4">
+    {juradosData.title && (
+      <div class="text-center mb-16 relative z-20 overflow-hidden" >
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid
+               pixelSize={20}
+               density={0.7}
+               background="none"
+               introDuration={800}
+               loopInterval={1100}
+               mutateAmount={50}
+             />
+          </div>
+        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-white relative z-10">
+          {juradosData.description}
+        </h2>
+        {juradosData.description&& (
+          <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-white relative z-10 flex items-center justify-center">
+            
+            <span class="font-title pl-2 relative z-10">{juradosData.title}</span>
+          </h1>
+        
+        )}
+      </div>
+    )}
+
+    <!-- Swiper styles and script (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Jurors Carousel -->
+    <div class="relative">
+      <div class="swiper-container jurors-carousel">
+        <div class="swiper-wrapper">
+          {jurors[activeCountryId]?.map((person) => (
+            <div class="swiper-slide px-2 md:px-4 py-4">
+              <div class="bg-[#005ada] rounded-[30px] flex flex-col md:flex-row items-center gap-8 md:gap-16 px-6 md:px-12 py-8 text-white">
+                <div class="shrink-0 size-[220px] md:size-[300px] rounded-full bg-cover bg-center" style={`background-image: url('${person.image}')`} />
+                <div class="flex-1 w-full">
+                  <div class="uppercase">
+                    <h3 class="font-title font-black text-3xl md:text-[38px] leading-tight">{person.name}</h3>
+                    <p class="font-title font-bold text-lg md:text-xl mt-3 max-w-[44ch]">{person.title}</p>
+                  </div>
+                  <p class="mt-4 text-base md:text-lg max-w-[60ch] opacity-95">{person.bio}</p>
+
+                  <div class="mt-6">
+                    <div class="uppercase font-title font-black text-lg md:text-xl mb-4">Redes sociales:</div>
+                    <div class="flex flex-col gap-4">
+                      <a href={socialMedia?.instagram?.url} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+                        <LazyImage src={socialMedia?.instagram?.iconUrl} alt={socialMedia?.instagram?.alt || 'Instagram'} class="w-5 h-5 md:w-6 md:h-6" color='white' loading="lazy" />
+                        <span class="font-title italic font-bold text-xl group-hover:underline">Instagram</span>
+                      </a>
+                      <a href={socialMedia?.facebook?.url} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+                        <LazyImage src={socialMedia?.facebook?.iconUrl} alt={socialMedia?.facebook?.alt || 'Facebook'} class="w-5 h-5 md:w-6 md:h-6" color='white' loading="lazy" />
+                        <span class="font-title italic font-bold text-xl group-hover:underline">Facebook</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Controls -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const el = document.querySelector('.swiper-container.jurors-carousel');
+        if (!el) return;
+        // eslint-disable-next-line no-undef
+        const swiper = new Swiper('.swiper-container.jurors-carousel', {
+          loop: true,
+          slidesPerView: 1,
+          spaceBetween: 16,
+          autoplay: { delay: 5000, disableOnInteraction: false },
+          pagination: { el: '.swiper-pagination', clickable: true },
+          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+          breakpoints: {
+            768: { slidesPerView: 1 },
+          },
+        });
+        window.addEventListener('load', () => swiper.update());
+      });
+    </script>
+
+    <style is:global>
+      /* Make navigation arrows and pagination white for Jurados carousel */
+      .jurors-carousel .swiper-button-next,
+      .jurors-carousel .swiper-button-prev {
+        color: #fff;
+        --swiper-navigation-size: 28px;
+      }
+      .jurors-carousel .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.6);
+      }
+      .jurors-carousel .swiper-pagination-bullet-active {
+        background: #fff;
+      }
+    </style>
+
+  </div>
  </section>
 </MainLayout>

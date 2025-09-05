@@ -1,0 +1,219 @@
+---
+import CategoryCard from './CategoryCard.astro';
+
+export interface Props {
+  categories: any[];
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  categories = [],
+  title,
+  subtitle
+} = Astro.props;
+
+const categoryItems = Array.isArray(categories) ? categories : [];
+
+// Helper to get a consistent key for category types if needed in the future
+function getCategoryType(category: any): string {
+  return String(category?.id || 'general').trim().toLowerCase();
+}
+---
+
+<div class="w-full" data-categories-carousel>
+  <div class="w-full px-4">
+    <!-- Title Section -->
+ 
+    <!-- Desktop Carousel -->
+    <div class="categories-carousel relative">
+      <div class="categories-carousel-container overflow-visible">
+        <div class="categories-carousel-track flex items-start justify-center w-full gap-4 md:gap-6 transition-transform duration-300" id="categoriesTrackDesktop">
+          {categoryItems.map((category, index) => (
+            <div class="category-slide flex-shrink-0" data-index={index} data-category={getCategoryType(category)}>
+              <CategoryCard
+                id={category.id}
+                title={category.title}
+                description={category.description}
+                image={category.image}
+                gradient={category.gradient}
+                url={category.url}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Controls -->
+      <div class="flex justify-center items-center gap-4 mt-8">
+        <button class="carousel-prev bg-white text-pink p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnDesktop">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div class="carousel-dots-desktop flex gap-2"></div>
+        <button class="carousel-next bg-white text-pink p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnDesktop">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCategoriesCarousel(root) {
+    if (!root || root.dataset.ccInitialized === 'true') return;
+    root.dataset.ccInitialized = 'true';
+
+    setupDesktopCarousel();
+
+    function setupDesktopCarousel() {
+      const track = root.querySelector('#categoriesTrackDesktop');
+      const prevBtn = root.querySelector('#prevBtnDesktop');
+      const nextBtn = root.querySelector('#nextBtnDesktop');
+      const dotsContainer = root.querySelector('.carousel-dots-desktop');
+
+      if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+      const slides = Array.from(track.querySelectorAll('.category-slide'));
+      let currentSlide = 0;
+      const slidesPerView = 4;
+
+      if (slides.length <= slidesPerView) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        dotsContainer.style.display = 'none';
+        // Center the items if they are less than the view
+        track.parentElement.style.display = 'flex';
+        track.parentElement.style.justifyContent = 'center';
+        return;
+      }
+
+      const prevClone = prevBtn.cloneNode(true);
+      const nextClone = nextBtn.cloneNode(true);
+      prevBtn.parentNode.replaceChild(prevClone, prevBtn);
+      nextBtn.parentNode.replaceChild(nextClone, nextBtn);
+
+      updateCarousel();
+      createDots();
+
+      prevClone.addEventListener('click', () => {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateCarousel();
+        }
+      });
+
+      nextClone.addEventListener('click', () => {
+        if (currentSlide < slides.length - slidesPerView) {
+          currentSlide++;
+          updateCarousel();
+        }
+      });
+
+      function createDots() {
+        dotsContainer.innerHTML = '';
+        const totalDots = Math.max(0, slides.length - slidesPerView + 1);
+        for (let i = 0; i < totalDots; i++) {
+          const dot = document.createElement('button');
+          dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentSlide ? 'bg-white' : 'bg-gray-100');
+          dot.addEventListener('click', () => {
+            currentSlide = i;
+            updateCarousel();
+          });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function updateCarousel() {
+        const offset = currentSlide * (310 + 24); // 310px card width + 24px gap
+        track.style.transform = `translateX(-${offset}px)`;
+
+        slides.forEach((slide) => {
+            const card = slide.querySelector('a');
+            if (!card) return;
+
+            // Clone to remove old listeners
+            const newCard = card.cloneNode(true);
+            card.parentNode.replaceChild(newCard, card);
+
+            const slideContainer = newCard.parentElement;
+            const cardContainer = newCard.querySelector('div');
+            const gradientBg = cardContainer.querySelector('div:first-child');
+            const contentBg = cardContainer.querySelector('div:last-child');
+
+            const originalWidth = 310;
+            const expandedWidth = 380;
+
+            // Set base transition
+            slideContainer.style.transition = 'width 300ms ease';
+            newCard.style.transition = 'opacity 300ms ease';
+            [cardContainer, gradientBg, contentBg].forEach(el => {
+                if(el) el.style.transition = 'width 300ms ease';
+            });
+
+            newCard.addEventListener('mouseenter', () => {
+                if (window.innerWidth < 768) return;
+
+                slideContainer.style.width = `${expandedWidth}px`;
+                if(cardContainer) cardContainer.style.width = `${expandedWidth}px`;
+                if(gradientBg) gradientBg.style.width = `${expandedWidth}px`;
+                if(contentBg) contentBg.style.width = `${expandedWidth}px`;
+
+                slides.forEach(s => {
+                    const otherCard = s.querySelector('a');
+                    if (otherCard !== newCard) {
+                        otherCard.style.opacity = '0.6';
+                    }
+                });
+            });
+
+            newCard.addEventListener('mouseleave', () => {
+                if (window.innerWidth < 768) return;
+
+                slideContainer.style.width = `${originalWidth}px`;
+                if(cardContainer) cardContainer.style.width = `${originalWidth}px`;
+                if(gradientBg) gradientBg.style.width = `${originalWidth}px`;
+                if(contentBg) contentBg.style.width = `${originalWidth}px`;
+
+                slides.forEach(s => {
+                    s.querySelector('a').style.opacity = '1';
+                });
+            });
+        });
+
+        updateDots();
+        updateButtons();
+      }
+
+      function updateDots() {
+        const dots = dotsContainer.querySelectorAll('button');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('bg-brown', i === currentSlide);
+          dot.classList.toggle('bg-gray-300', i !== currentSlide);
+        });
+      }
+
+      function updateButtons() {
+        prevClone.disabled = currentSlide === 0;
+        nextClone.disabled = currentSlide >= slides.length - slidesPerView;
+        prevClone.classList.toggle('opacity-50', prevClone.disabled);
+        nextClone.classList.toggle('opacity-50', nextClone.disabled);
+      }
+    }
+  }
+
+  function initAll() {
+    document.querySelectorAll('[data-categories-carousel]').forEach(initCategoriesCarousel);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+  document.addEventListener('astro:page-load', initAll);
+  document.addEventListener('astro:after-swap', initAll);
+</script>
