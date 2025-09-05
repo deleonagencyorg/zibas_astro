@@ -161,13 +161,13 @@
   "messagetop":[
     {
       "id":"1",
-      "title":"😎​ ¡Bienvenidos a Snacks Yummies! Si se te antoja un snack, estás en el lugar correcto 🎉",
+      "title":"😎 ¡Bienvenidos a Ziba's! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
     },
     {
       "id":"2",
-      "title":"😎​ ¡Bienvenidos a Snacks Yummies! Si se te antoja un snack, estás en el lugar correcto 🎉",
-      "link":""
+      "title":"🎨 Ziba's Creators: ¡Participa con tu creatividad y gana premios!",
+      "link":"/es/zibas-creators"
     }
   ],
   "form_validation": {
