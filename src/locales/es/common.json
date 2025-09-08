@@ -74,20 +74,20 @@
         "id": "slide2",
         "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
         "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
-        "alt": "Zambos",
+        "alt": "Ziba's",
         "title": "",
         "description": "",
-        "link": "https://www.zambos.com"
+        "link": "#"
       },
    
       {
         "id": "slide1",
         "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
         "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
-        "alt": "Zambos",
+        "alt": "Ziba's",
         "title": "",
         "description": "",
-        "link": "https://www.zambos.com"
+        "link": "#"
       }
      
     ]
@@ -138,7 +138,7 @@
     "socialmedia":{
       "title":"Síguenos",
       "tagtitle":"en redes",
-      "description":"Síguenos en nuestras redes sociales - Snacks Yummies",
+      "description":"Síguenos en nuestras redes sociales - Ziba's",
       "newsletter":"Entérate de las noticias y promociones",
       "instagramLinks":[
         {
