@@ -67,14 +67,24 @@
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
-        "id": "slide1",
+        "id": "slide2",
         "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
         "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
-        "alt": "Zambos",
+        "alt": "Ziba's",
         "title": "",
         "description": "",
-        "link": "https://www.zambos.com"
+        "link": "#"
+      },
+      {
+        "id": "slide1",
+        "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
+        "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
+        "alt": "Ziba's",
+        "title": "",
+        "description": "",
+        "link": "#"
       }
+     
     ]
   },
   "menu_labels": {
@@ -82,11 +92,7 @@
     "explore": "Explorar"
   },
   "menu_items": [
-    {
-      "id": "zibas-creators",
-      "text": "Ziba's Creators",
-      "href": "/en/zibas-creators"
-    },
+ 
     {
       "id": "products",
       "text": "Products",

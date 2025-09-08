@@ -18,9 +18,14 @@ const { lang = 'es', headerColor } = Astro.props;
 // Get jurados data
 const { title, description, countries, jurors } = juradosData;
 
-// Find the active country (default to first country if none is active)
-const activeCountry = countries.find(country => country.active) || countries[0];
-const activeCountryId = activeCountry.id;
+// Get all jurors from all countries
+const allJurors = countries.flatMap(country => 
+  jurors[country.id]?.map(juror => ({
+    ...juror,
+    countryId: country.id,
+    countryName: country.name
+  })) || []
+);
 
 // Social media icons and urls from i18n common namespace
 const socialMedia = t('social_media', { namespace: 'common', locale: lang as Locale }) as any;
@@ -63,27 +68,41 @@ const socialMedia = t('social_media', { namespace: 'common', locale: lang as Loc
     <div class="relative">
       <div class="swiper-container jurors-carousel">
         <div class="swiper-wrapper">
-          {jurors[activeCountryId]?.map((person) => (
+          {allJurors.map((person) => (
             <div class="swiper-slide px-2 md:px-4 py-4">
-              <div class="bg-[#005ada] rounded-[30px] flex flex-col md:flex-row items-center gap-8 md:gap-16 px-6 md:px-12 py-8 text-white">
-                <div class="shrink-0 size-[220px] md:size-[300px] rounded-full bg-cover bg-center" style={`background-image: url('${person.image}')`} />
-                <div class="flex-1 w-full">
+              <div class="bg-[#005ada] rounded-[30px] flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 px-6 md:px-12 py-8 text-white relative">
+                <!-- Country Flag Emoji -->
+                <div class="absolute bottom-4 right-4 text-4xl md:text-5xl">
+                  {person.countryId === 'guatemala' && '🇬🇹'}
+                  {person.countryId === 'honduras' && '🇭🇳'}
+                  {person.countryId === 'el_salvador' && '🇸🇻'}
+                  {person.countryId === 'republica_dominicana' && '🇩🇴'}
+                  {person.countryId === 'costa_rica' && '🇨🇷'}
+                </div>
+                
+                <div class="shrink-0 size-[220px] md:size-[300px] rounded-full bg-cover bg-center" style={`background-image: url('${person.image}')`}>
+                </div>
+                <div class="flex-1 w-full text-center md:text-left">
                   <div class="uppercase">
                     <h3 class="font-title font-black text-3xl md:text-[38px] leading-tight">{person.name}</h3>
                     <p class="font-title font-bold text-lg md:text-xl mt-3 max-w-[44ch]">{person.title}</p>
                   </div>
                   <p class="mt-4 text-base md:text-lg max-w-[60ch] opacity-95">{person.bio}</p>
 
+                  {/* Followers count */}
+                  <div class="mt-4">
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                      <span class="font-title font-black text-lg md:text-xl text-white">Seguidores:</span>
+                      <span class="font-title font-bold text-lg md:text-xl text-yellow-300">{person.followers}</span>
+                    </div>
+                  </div>
+
                   <div class="mt-6">
                     <div class="uppercase font-title font-black text-lg md:text-xl mb-4">Redes sociales:</div>
-                    <div class="flex flex-col gap-4">
-                      <a href={socialMedia?.instagram?.url} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+                    <div class="flex flex-col gap-4 items-center md:items-start">
+                      <a href={person.instagramLink} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
                         <LazyImage src={socialMedia?.instagram?.iconUrl} alt={socialMedia?.instagram?.alt || 'Instagram'} class="w-5 h-5 md:w-6 md:h-6" color='white' loading="lazy" />
-                        <span class="font-title italic font-bold text-xl group-hover:underline">Instagram</span>
-                      </a>
-                      <a href={socialMedia?.facebook?.url} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
-                        <LazyImage src={socialMedia?.facebook?.iconUrl} alt={socialMedia?.facebook?.alt || 'Facebook'} class="w-5 h-5 md:w-6 md:h-6" color='white' loading="lazy" />
-                        <span class="font-title italic font-bold text-xl group-hover:underline">Facebook</span>
+                        <span class="font-title italic font-bold text-xl group-hover:underline">@{person.instagram}</span>
                       </a>
                     </div>
                   </div>
@@ -101,37 +120,115 @@ const socialMedia = t('social_media', { namespace: 'common', locale: lang as Loc
     </div>
 
     <script is:inline>
-      document.addEventListener('DOMContentLoaded', () => {
+      function initJurorsCarousel() {
         const el = document.querySelector('.swiper-container.jurors-carousel');
-        if (!el) return;
-        // eslint-disable-next-line no-undef
-        const swiper = new Swiper('.swiper-container.jurors-carousel', {
-          loop: true,
-          slidesPerView: 1,
-          spaceBetween: 16,
-          autoplay: { delay: 5000, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          breakpoints: {
-            768: { slidesPerView: 1 },
-          },
-        });
-        window.addEventListener('load', () => swiper.update());
-      });
+        if (!el) {
+          console.log('Swiper container not found');
+          return;
+        }
+        
+        // Check if Swiper is available
+        if (typeof Swiper === 'undefined') {
+          console.log('Swiper not loaded, retrying...');
+          setTimeout(initJurorsCarousel, 100);
+          return;
+        }
+
+        try {
+          const swiper = new Swiper('.swiper-container.jurors-carousel', {
+            loop: true, // Enable loop for continuous navigation
+            slidesPerView: 1,
+            spaceBetween: 20,
+            autoplay: { 
+              delay: 5000, 
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
+            },
+            pagination: { 
+              el: '.jurors-carousel .swiper-pagination', 
+              clickable: true,
+              dynamicBullets: true
+            },
+            navigation: { 
+              nextEl: '.jurors-carousel .swiper-button-next', 
+              prevEl: '.jurors-carousel .swiper-button-prev' 
+            },
+            breakpoints: {
+              768: { 
+                slidesPerView: 1,
+                spaceBetween: 30
+              },
+            },
+            on: {
+              init: function () {
+                console.log('Jurors carousel initialized');
+                // Force show navigation buttons
+                const nextBtn = document.querySelector('.jurors-carousel .swiper-button-next');
+                const prevBtn = document.querySelector('.jurors-carousel .swiper-button-prev');
+                if (nextBtn) nextBtn.style.display = 'flex';
+                if (prevBtn) prevBtn.style.display = 'flex';
+              }
+            }
+          });
+          
+          // Force update after initialization
+          setTimeout(() => {
+            swiper.update();
+          }, 100);
+          
+        } catch (error) {
+          console.error('Error initializing jurors carousel:', error);
+        }
+      }
+
+      // Try multiple initialization methods
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initJurorsCarousel);
+      } else {
+        initJurorsCarousel();
+      }
+      
+      // Also try on window load
+      window.addEventListener('load', initJurorsCarousel);
+      
+      // For Astro page transitions
+      document.addEventListener('astro:page-load', initJurorsCarousel);
     </script>
 
     <style is:global>
       /* Make navigation arrows and pagination white for Jurados carousel */
       .jurors-carousel .swiper-button-next,
       .jurors-carousel .swiper-button-prev {
-        color: #fff;
+        color: #fff !important;
         --swiper-navigation-size: 28px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px !important;
+        height: 44px !important;
+        margin-top: -22px !important;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        backdrop-filter: blur(4px);
       }
+      
+      .jurors-carousel .swiper-button-next:after,
+      .jurors-carousel .swiper-button-prev:after {
+        font-size: 18px !important;
+        font-weight: bold;
+      }
+      
       .jurors-carousel .swiper-pagination-bullet {
         background: rgba(255, 255, 255, 0.6);
       }
       .jurors-carousel .swiper-pagination-bullet-active {
         background: #fff;
+      }
+      
+      /* Ensure carousel shows all slides */
+      .jurors-carousel .swiper-slide {
+        opacity: 1 !important;
+        visibility: visible !important;
       }
     </style>
 

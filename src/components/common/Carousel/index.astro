@@ -35,6 +35,9 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
+<!-- Importar script para manejo de videos -->
+<script is:inline src="/src/components/common/Carousel/videoHandler.js"></script>
+
 <!-- Cargar scripts del carrusel solo en el cliente -->
 <script is:inline define:vars={{ carouselSelector: '.swiper-container.main-carousel' }}>
   document.addEventListener('DOMContentLoaded', () => {

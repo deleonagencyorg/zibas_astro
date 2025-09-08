@@ -2,7 +2,7 @@
 ---
 import LazyImage from '../../components/common/LazyImage.astro';
 // Component Imports
-import Carousel from '../../components/common/Carousel/index.astro';
+import VideoCarousel from '../../components/common/VideoCarousel/index.astro';
 import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 import MasonryGallery from '../../components/gallery/MasonryGallery.astro';
@@ -58,13 +58,14 @@ const slides = Array.isArray(commonAssets)
 ---
 
   <main class="w-full flex flex-col items-center justify-center mt-0">
-    <!-- Slider Section con máscara -->
-    <div class="relative w-full overflow-hidden max-w-[100vw] h-auto aspect-[1/1] md:aspect-[21/9] lg:h-[66vh]">
-     
-
-      <div class="relative z-0 w-full md:w-[100%] md:ml-auto md:h-full h-[72vh] md:flex md:items-center md:justify-center">
-        <Carousel slides={slides} />
-      </div>
+    <!-- Slider Section con VideoCarousel -->
+    <div class="relative w-full overflow-hidden">
+      <VideoCarousel 
+        slides={slides} 
+        height="100vh" 
+        mobileHeight="300px" 
+        showOverlay={true} 
+      />
     </div>
     
     <!-- Sección de Productos Zibas -->

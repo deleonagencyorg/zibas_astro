@@ -81,7 +81,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     <div class="hidden md:flex">
       <SocialMediaIcons 
         currentLang={currentLang} 
-        iconColor='white'
+        iconColor={headerColorConfig.isSpecialBackground ? 'black' : headerColorConfig.textColor.replace('text-', '')}
         centered={false} 
       />
     </div>

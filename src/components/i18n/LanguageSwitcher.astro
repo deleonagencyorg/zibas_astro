@@ -59,26 +59,36 @@ const enUrl = activeLocale === 'en' ? currentPath : getTranslatedPath('en');
 // Usar colores por defecto si no se proporciona configuración
 const textColor = headerColorConfig?.textColor || 'text-white';
 const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-300';
+
+// Determinar el color del texto basado en si es un fondo especial
+const textColorValue = headerColorConfig?.isSpecialBackground ? 'black' : (headerColorConfig?.textColor?.replace('text-', '') || 'white');
 ---
 
-<div class="font-title language-switcher flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2 ">
+<div class="font-title language-switcher flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
   <div class="flex items-center space-x-2">
     {activeLocale === 'es' && (
- <a href={enUrl} class={`font-title language-link flex items-center ${activeLocale === 'es' ? 'font-bold text-yellow-500' : `${textColor} ${hoverTextColor}`}`} title="English" data-lang="en">
-   
-      <span class={textColor}>EN</span>
-    </a>
+      <a 
+        href={enUrl} 
+        class={`font-title language-link flex items-center ${activeLocale === 'es' ? 'font-bold' : ''}`} 
+        style={`color: ${textColorValue};`}
+        title="English" 
+        data-lang="en"
+      >
+        <span>EN</span>
+      </a>
     )}
     {activeLocale === 'en' && (
-
-   <a href={esUrl} class={`language-link flex items-center ${activeLocale === 'en' ? 'font-bold text-yellow-500' : `${textColor} ${hoverTextColor}`}`} title="Español" data-lang="es">
-    
-     <span class={textColor}>ES</span>
-   </a>
+      <a 
+        href={esUrl} 
+        class={`language-link flex items-center ${activeLocale === 'en' ? 'font-bold' : ''}`} 
+        style={`color: ${textColorValue};`}
+        title="Español" 
+        data-lang="es"
+      >
+        <span>ES</span>
+      </a>
     )}
   </div>
-  
-
 </div>
 
 <style>
