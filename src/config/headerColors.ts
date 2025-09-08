@@ -4,6 +4,7 @@ export interface HeaderColorConfig {
   hoverTextColor: string;
   hoverBackgroundColor: string;
   showMessageCarousel: boolean;
+  isSpecialBackground?: boolean;
 }
 
 export interface HeaderColors {
@@ -65,11 +66,11 @@ export const headerColors: HeaderColors = {
   
   // Configuración para la página de productos
   products: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-blue-900',
-    hoverTextColor: 'hover:text-gray-300',
-    hoverBackgroundColor: 'hover:bg-blue-800',
-    showMessageCarousel: true,
+    textColor: 'text-black',
+    backgroundColor: 'bg-lemon',
+    hoverTextColor: 'hover:text-white',
+    hoverBackgroundColor: 'hover:bg-black',
+    showMessageCarousel: false,
   },
   
   // Configuración para la página de recetas
@@ -87,7 +88,7 @@ export const headerColors: HeaderColors = {
     backgroundColor: 'bg-primary',
     hoverTextColor: 'hover:text-gray-300',
     hoverBackgroundColor: 'hover:bg-blue-800',
-    showMessageCarousel: true,
+    showMessageCarousel: false,
   },
   
   // Configuración para la página de jurados

@@ -112,13 +112,7 @@ if (allProductsArray.length > 1) {
       <div class="w-full md:w-1/2 md:h-[605px] h-auto">
         <div class="flex justify-between items-center mb-6">
           <h1 class="md:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
-          <a 
-            href="#" 
-            class="flex h-[54px] justify-center items-center gap-[10px] px-10 py-5 rounded-[47px] border whitespace-nowrap uppercase italic font-title text-xl font-medium"
-            style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
-          >
-            {currentLang === 'es' ? 'ENCUÉNTRALO' : 'FIND IT'}
-          </a>
+      
         </div>
         <h1 
           class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
@@ -172,7 +166,7 @@ if (allProductsArray.length > 1) {
                   <LazyImage
                     src={stockist.icon} 
                     alt={stockist.name}
-                    color={safeProduct.background_color==='#FDE820'?'black':'white'}
+                    color={['#FDE820', '#BEDE89'].includes(safeProduct.background_color) ? 'black' : 'white'}
                     class="w-full h-full object-contain"
                     title={stockist.name}
                   />

@@ -27,8 +27,8 @@ function getCategoryType(category: any): string {
  
     <!-- Desktop Carousel -->
     <div class="categories-carousel relative">
-      <div class="categories-carousel-container overflow-visible">
-        <div class="categories-carousel-track flex items-start justify-center w-full gap-4 md:gap-6 transition-transform duration-300" id="categoriesTrackDesktop">
+      <div class="categories-carousel-container overflow-hidden">
+        <div class="categories-carousel-track flex items-start gap-4 md:gap-6 transition-transform duration-300" id="categoriesTrackDesktop" style="transform: translateX(0px); width: max-content;">
           {categoryItems.map((category, index) => (
             <div class="category-slide flex-shrink-0" data-index={index} data-category={getCategoryType(category)}>
               <CategoryCard
@@ -78,8 +78,15 @@ function getCategoryType(category: any): string {
       if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
 
       const slides = Array.from(track.querySelectorAll('.category-slide'));
+      // Inicializar en 0 para mostrar la primera categoría
       let currentSlide = 0;
       const slidesPerView = 4;
+      
+      // Asegurar que el track esté visible desde el inicio
+      track.style.transform = 'translateX(0px)';
+      
+      // Asegurar que el contenedor tenga el ancho correcto
+      track.style.width = 'max-content';
 
       if (slides.length <= slidesPerView) {
         prevBtn.style.display = 'none';
@@ -96,8 +103,19 @@ function getCategoryType(category: any): string {
       prevBtn.parentNode.replaceChild(prevClone, prevBtn);
       nextBtn.parentNode.replaceChild(nextClone, nextBtn);
 
-      updateCarousel();
+      // Llamar a createDots primero para que los puntos estén listos
       createDots();
+      
+      // Luego actualizar el carrusel para mostrar la primera categoría
+      updateCarousel();
+      
+      // Forzar la visibilidad de la primera categoría
+      setTimeout(() => {
+        currentSlide = 0;
+        track.style.transform = 'translateX(0px)';
+        updateDots();
+        updateButtons();
+      }, 100);
 
       prevClone.addEventListener('click', () => {
         if (currentSlide > 0) {
@@ -128,6 +146,7 @@ function getCategoryType(category: any): string {
       }
 
       function updateCarousel() {
+        // Asegurar que el carrusel comience desde la primera categoría
         const offset = currentSlide * (310 + 24); // 310px card width + 24px gap
         track.style.transform = `translateX(-${offset}px)`;
 

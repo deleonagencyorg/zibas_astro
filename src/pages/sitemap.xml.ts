@@ -40,7 +40,7 @@ export const GET: APIRoute = async () => {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       ${allUrls.map(url => `
         <url>
-          <loc>https://snacksyummies.com${url}</loc>
+          <loc>https://zibaspapas.com${url}</loc>
           <lastmod>${new Date().toISOString()}</lastmod>
           <changefreq>weekly</changefreq>
           <priority>0.8</priority>

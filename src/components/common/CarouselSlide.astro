@@ -15,24 +15,62 @@ export interface Props {
 }
 
 const { slide, priority = false } = Astro.props;
+
+// Detectar si es un video basado en la extensión del archivo
+const isDesktopVideo = slide.desktop.toLowerCase().endsWith('.mp4') || slide.desktop.toLowerCase().endsWith('.webm');
+const isMobileVideo = slide.mobile.toLowerCase().endsWith('.mp4') || slide.mobile.toLowerCase().endsWith('.webm');
+
+// Generar un ID único para este slide para referencias en JavaScript
+const slideId = `slide-${Math.random().toString(36).substring(2, 11)}`;
 ---
 
-<div class="swiper-slide relative h-full">
+<div class="swiper-slide relative h-full" id={slideId}>
   {slide.link ? (
     <a href={slide.link} class="block w-full h-full">
       <div class="w-full h-full overflow-hidden">
-        <LazyImage 
-          src={slide.mobile} 
-          alt={slide.alt}
-          class="w-full h-full object-cover object-center md:hidden"
-          priority={priority}
-        />
-        <LazyImage 
-          src={slide.desktop} 
-          alt={slide.alt}
-          class="w-full h-full object-cover object-center hidden md:block"
-          priority={priority}
-        />
+        {isMobileVideo ? (
+          <video 
+            class="w-full h-full object-cover object-center md:hidden video-slide"
+            muted
+            playsinline
+            preload="metadata"
+            data-slide-id={slideId}
+            data-is-mobile="true"
+            poster={`${slide.mobile.split('.')[0]}.jpg`}
+          >
+            <source src={slide.mobile} type={slide.mobile.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+            Tu navegador no soporta videos HTML5.
+          </video>
+        ) : (
+          <LazyImage 
+            src={slide.mobile} 
+            alt={slide.alt}
+            class="w-full h-full object-cover object-center md:hidden"
+            priority={priority}
+          />
+        )}
+        
+        {isDesktopVideo ? (
+          <video 
+            class="w-full h-full object-cover object-center hidden md:block video-slide"
+            muted
+            playsinline
+            preload="metadata"
+            data-slide-id={slideId}
+            data-is-mobile="false"
+            poster={`${slide.desktop.split('.')[0]}.jpg`}
+          >
+            <source src={slide.desktop} type={slide.desktop.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+            Tu navegador no soporta videos HTML5.
+          </video>
+        ) : (
+          <LazyImage 
+            src={slide.desktop} 
+            alt={slide.alt}
+            class="w-full h-full object-cover object-center hidden md:block"
+            priority={priority}
+          />
+        )}
       </div>
       <div class="absolute inset-x-0 bottom-8 flex flex-col items-center justify-center text-center text-white px-4">
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4 drop-shadow-lg">{slide.title}</h2>
@@ -42,18 +80,49 @@ const { slide, priority = false } = Astro.props;
   ) : (
     <>
       <div class="w-full h-full overflow-hidden">
-        <LazyImage 
-          src={slide.mobile} 
-          alt={slide.alt}
-          class="w-full h-full object-cover object-center md:hidden"
-          priority={priority}
-        />
-        <LazyImage 
-          src={slide.desktop} 
-          alt={slide.alt}
-          class="w-full h-full object-cover object-center hidden md:block"
-          priority={priority}
-        />
+        {isMobileVideo ? (
+          <video 
+            class="w-full h-full object-cover object-center md:hidden video-slide"
+            muted
+            playsinline
+            preload="metadata"
+            data-slide-id={slideId}
+            data-is-mobile="true"
+            poster={`${slide.mobile.split('.')[0]}.jpg`}
+          >
+            <source src={slide.mobile} type={slide.mobile.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+            Tu navegador no soporta videos HTML5.
+          </video>
+        ) : (
+          <LazyImage 
+            src={slide.mobile} 
+            alt={slide.alt}
+            class="w-full h-full object-cover object-center md:hidden"
+            priority={priority}
+          />
+        )}
+        
+        {isDesktopVideo ? (
+          <video 
+            class="w-full h-full object-cover object-center hidden md:block video-slide"
+            muted
+            playsinline
+            preload="metadata"
+            data-slide-id={slideId}
+            data-is-mobile="false"
+            poster={`${slide.desktop.split('.')[0]}.jpg`}
+          >
+            <source src={slide.desktop} type={slide.desktop.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+            Tu navegador no soporta videos HTML5.
+          </video>
+        ) : (
+          <LazyImage 
+            src={slide.desktop} 
+            alt={slide.alt}
+            class="w-full h-full object-cover object-center hidden md:block"
+            priority={priority}
+          />
+        )}
       </div>
       <div class="absolute inset-x-0 bottom-8 flex flex-col items-center justify-center text-center text-white px-4">
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4 drop-shadow-lg">{slide.title}</h2>

@@ -71,14 +71,25 @@
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
-        "id": "slide1",
+        "id": "slide2",
         "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
         "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
         "alt": "Zambos",
         "title": "",
         "description": "",
         "link": "https://www.zambos.com"
+      },
+   
+      {
+        "id": "slide1",
+        "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
+        "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
+        "alt": "Zambos",
+        "title": "",
+        "description": "",
+        "link": "https://www.zambos.com"
       }
+     
     ]
   },
   "menu_labels": {

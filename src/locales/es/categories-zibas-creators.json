@@ -8,8 +8,8 @@
       "description": "Videos que cuentan historias.",
       "subtitle": "Crea contenido visual impactante",
       "longDescription": "Comparte tus mejores videos, cortometrajes, documentales y contenido audiovisual que cuenten historias únicas y emocionantes.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
       "url": "/es/zibas-creators/categoria/audiovisual",
       "color": "#8B5CF6",
       "gradient": "from-purple-400 to-pink-400"
@@ -20,8 +20,8 @@
       "description": "Muéstranos tu flow.",
       "subtitle": "Expresa el ritmo con tu cuerpo",
       "longDescription": "Demuestra tu talento en danza, coreografías, freestyle y cualquier expresión artística que involucre el movimiento corporal.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_BAILE.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_BAILE.webp",
       "url": "/es/zibas-creators/categoria/baile",
       "color": "#FB923C",
       "gradient": "from-orange-400 to-red-400"
@@ -32,8 +32,8 @@
       "description": "¡Que el ritmo no pare!",
       "subtitle": "Comparte tu pasión musical",
       "longDescription": "Sube tus covers, composiciones originales, instrumentales y cualquier creación musical que demuestre tu talento artístico.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MUSICA.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MUSICA.webp",
       "url": "/es/zibas-creators/categoria/musica",
       "color": "#3B82F6",
       "gradient": "from-blue-400 to-indigo-400"
@@ -44,8 +44,8 @@
       "description": "Dibujo, pintura, ilustración, lo que quieras.",
       "subtitle": "Libera tu imaginación artística",
       "longDescription": "Comparte tus dibujos, pinturas, esculturas digitales, ilustraciones y cualquier forma de expresión artística visual.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_ARTE.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_ARTE.webp",
       "url": "/es/zibas-creators/categoria/arte",
       "color": "#10B981",
       "gradient": "from-green-400 to-emerald-400"
@@ -56,8 +56,8 @@
       "description": "Porque reír también es un arte.",
       "subtitle": "Crea contenido viral y divertido",
       "longDescription": "Comparte tus memes más creativos, videos graciosos, parodias y cualquier contenido que haga reír a la comunidad.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MEME.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MEME.webp",
       "url": "/es/zibas-creators/categoria/memes",
       "color": "#F59E0B",
       "gradient": "from-yellow-400 to-orange-400"
@@ -68,11 +68,23 @@
       "description": "Contenido creado con IA.",
       "subtitle": "Innovación y tecnología creativa",
       "longDescription": "Comparte tus creaciones con IA, imágenes generadas, videos con efectos especiales y contenido que combine tecnología y creatividad.",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
-      "imageMobile": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/B-boy_breakdancing.jpg/1200px-B-boy_breakdancing.jpg",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
       "url": "/es/zibas-creators/categoria/inteligencia-artificial",
       "color": "#EC4899",
       "gradient": "from-pink-400 to-rose-400"
+    },
+    {
+      "id": "cortometraje",
+      "title": "CORTOMETRAJE",
+      "description": "Cuenta historias en formato corto.",
+      "subtitle": "Expresa tu creatividad cinematográfica",
+      "longDescription": "Comparte tus cortometrajes, historias audiovisuales y narrativas cinematográficas que muestren tu talento como director.",
+      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_CORTOMETRAJE.webp",
+      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_CORTOMETRAJE.webp",
+      "url": "/es/zibas-creators/categoria/cortometraje",
+      "color": "#6366F1",
+      "gradient": "from-indigo-400 to-purple-400"
     }
   ],
   "meta": {

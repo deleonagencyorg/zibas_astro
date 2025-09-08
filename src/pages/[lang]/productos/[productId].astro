@@ -33,9 +33,15 @@ const { lang, productId } = Astro.params;
 // Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 
+// Usar los colores específicos del producto para el encabezado
+const specialBackgrounds = ['#FDE820', '#BEDE89'];
+const isSpecialBackground = specialBackgrounds.includes(product.background_color);
+
 const headerColors = {
-  backgroundColor: product.header_background,
-  textColor: product.header_text_color
+  backgroundColor: product.background_color,
+  textColor: product.header_text_color,
+  // Propiedad personalizada para indicar si es un fondo especial
+  isSpecialBackground: isSpecialBackground
 };
 ---
 

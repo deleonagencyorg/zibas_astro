@@ -82,7 +82,9 @@ import LazyImage from '../LazyImage.astro';
               <a 
                 href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
                 style={`background-color: #004AB2`}  
-                class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg uppercase"
+                class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold hover:shadow-lg uppercase"
+                data-no-swipe="true"
+                data-no-animation="true"
               >
                 {currentTexts.viewMore}
               </a>
@@ -212,8 +214,13 @@ import LazyImage from '../LazyImage.astro';
   }
 
   .product-card a:hover {
-    transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Prevent animation glitches during navigation */
+  .product-card a[data-no-animation] {
+    transition: box-shadow 0.3s ease;
+    transform: none !important;
   }
 
   /* Estilos responsive para el botón ViewMore */
@@ -319,6 +326,15 @@ import LazyImage from '../LazyImage.astro';
       
       if (!swiperContainer) return;
 
+      // Add event listeners to prevent swiper from handling link clicks
+      const productLinks = swiperContainer.querySelectorAll('a[data-no-swipe]');
+      productLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          // Stop propagation to prevent Swiper from handling the click
+          e.stopPropagation();
+        });
+      });
+
       this.swiper = new Swiper(swiperContainer, {
         modules: [Navigation, Autoplay],
         slidesPerView: this.options.slidesPerView || 3,
@@ -346,6 +362,16 @@ import LazyImage from '../LazyImage.astro';
             spaceBetween: this.options.spaceBetween || 30,
           },
         },
+        // Prevent swiper from handling clicks on links with data-no-animation
+        preventClicksPropagation: true,
+        preventClicks: false,
+        noSwiping: true,
+        noSwipingClass: 'swiper-no-swiping',
+      });
+
+      // Add swiper-no-swiping class to all links with data-no-swipe attribute
+      productLinks.forEach(link => {
+        link.classList.add('swiper-no-swiping');
       });
     }
 
