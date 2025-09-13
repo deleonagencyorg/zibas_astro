@@ -1,0 +1,28 @@
+{
+  "id": "Ensalada César con Pollo Toreado",
+  "slug": "Taqueritos- Queso - Función",
+  "title": "Ensalada César con Pollo Toreado y Taqueritos Queso Fusión",
+  "image": "https://snack.yummiespromociones.com/taqueritos/Ensalada_CesarT.webp",
+  "product_image": "",
+  "preparation_time": 15,
+  "category": "Lunch",
+  "ingredients": [
+    "1 lechuga romana",
+    "1 pechuga de pollo",
+    "Salpimentar al gusto",
+    "1 taza de Taqueritos Queso Fusión Triturado",
+    "1 taza de Taqueritos Queso Fusión Enteros",
+    "½ taza de queso parmesano",
+    "Aceite para freír la cantidad necesaria",
+    "Salsa César"
+  ],
+  "instructions": [
+    "Paso 1. Salpimentar las pechugas de pollo y luego colocar un poco de aceite en una sartén y cocinar.",
+    "Paso 2. Una vez que esté lista corte en trozos",
+    "Paso 3. En un plato, coloque la lechuga troceada para poder después encima coloca de forma decorativa el pollo y espolvorear con el queso parmesano.",
+    "Paso 4. Deje caer de los Taqueritos encima de la ensalada como si fueran unos crotones.",
+    "Paso 5. Adereza con salsa César."
+  ],
+  "product": ["Taqueritos- Queso - Función"],
+  "tags": ["Taqueritos", "Queso", "Función"]
+}

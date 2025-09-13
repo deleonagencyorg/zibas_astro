@@ -47,9 +47,9 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
 >
   <!-- Container principal con las medidas específicas -->
   <div class={`flex flex-col ${isMainCard ? 'w-[530px] h-[562px]' : 'w-[310px] h-[562px]'} relative`}>
-    <!-- Overlay gris para tarjetas no principales -->
+    <!-- Overlay gris para tarjetas no principales: oculto en mobile para tener estado activo por defecto -->
     {!isMainCard && (
-      <div class="absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px]"></div>
+      <div class="absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px] hidden md:block"></div>
     )}
     
     <!-- Imagen -->

@@ -1,0 +1,32 @@
+{
+  "id": "TaqueDogs",
+  "slug": "taqueritos-Queso funcion - TaqueDogs",
+  "title": "TaqueDogs",
+  "image": "https://snack.yummiespromociones.com/taqueritos/TaqueDogs.webp",
+  "product_image": "https://snack.yummiespromociones.com/taqueritos/taqueritoqueso.png",
+  "preparation_time": 15,
+  "category": "Lunch",
+  "ingredients": [
+    "1. Pan para Hot Dog",
+    "2. queso",
+    "3. Mayonesa de cilantro y limón",
+    "4. Taqueritos",
+    "1.Pan para Hot Dog",
+    "2.Salchichas",
+    "3.Mayonesa",
+    "4.Mostaza",
+    "5.Queso",
+    "6.Chili",
+    "7.Taqueritos",
+    "1.Pan para Hot Dog",
+    "2.Salchichas",
+    "3.Mayonesa",
+    "4.Mostaza",
+    "5.Kétchup",
+    "6.Coleslaw",
+    "7.Taqueritos"
+  ],
+  "instructions": ["Arma tus TaqueDogs y disfruta"],
+  "product": ["taqueritos-Queso-función"],
+  "tags": ["Taqueritos", "Queso", "Función"]
+}

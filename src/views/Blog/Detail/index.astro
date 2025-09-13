@@ -43,28 +43,16 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
 ---
 
 <Layout title={blogPost.title} class="bg-white" description="Blog post details">
-  <slot />
-  
-  <!-- Hero Section -->
-  <div class="relative w-full h-[60vh] overflow-hidden mt-[-100px]">
-    <div class="absolute inset-0 w-full h-full overflow-hidden">
-      <LazyImage
-        src={blogPost.image}
-        alt={blogPost.title}
-        class="w-full h-full object-cover animate-zoom"
-      />
-    </div>
-    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8">
-      <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight font-sans">
-          {blogPost.title}
-        </h1>
+  <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <slot />
+    
+    <!-- Hero Section -->
+    <div class="relative w-full h-[60vh] overflow-hidden mt-[-100px]">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
     {isLoading
       ? <BlogDetailSkeleton />
       : <>
@@ -108,6 +96,7 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
           )}
         </>
     }
+    </div>
   </div>
   
 </Layout>
