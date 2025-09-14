@@ -5,6 +5,10 @@ import './styles.css';
 import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 import RelatedRecipesCarousel from '../../../components/recipes/RelatedRecipesCarousel.astro';
 import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
+import LazyImage from '../../../components/common/LazyImage.astro';
+import { div } from 'framer-motion/m';
+import IngredientsCarousel from '../../../components/recipes/IngredientsCarousel.astro';
+import SocialShare from '../../../components/common/SocialShare.astro';
 
 interface RecipeItem {
   id: string;
@@ -68,30 +72,17 @@ function formatTime(minutes: number): string {
 ---
 <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   <div class="w-full max-w-6xl mx-auto px-4 pt-4">
-    <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+    <Breadcrumb 
+    bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
   </div>
-<div id="hero" class="flex flex-col pt-8 md:pt-12 md:flex-row justify-center items-center md:h-[43rem] pb-8" transition:animate="slide">
+<section id="hero" class="flex flex-col pt-8 md:pt-12 md:flex-row justify-center items-center  pb-8" transition:animate="slide">
   <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
-    {recipe.image && (
-      <div class="w-full md:w-1/2 flex justify-center">
-        <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
-          <img 
-            src={recipe.image} 
-            alt={recipe.title}
-            class="w-full h-full object-cover"
-            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-            transition:name={`recipe-image-${recipe.id}`}
-          />
-        </div>
-      </div>
-    )}
-    
-    <div class="w-[80%] md:w-1/2 flex flex-col gap-4 bg-white md:p-8 p-4 rounded-lg">
-      <h1 class=" font-heading md:text-3xl text-2xl font-bold text-gray-800 mb-2 text-center md:text-left">{recipe.title}</h1>
+    <div class="w-[80%] md:w-1/2 flex flex-col gap-4 md:p-8 p-4 rounded-lg">
+      <h1 class=" font-title md:text-6xl text-5xl font-bold text-white mb-2 text-center md:text-left uppercase italic">{recipe.title}</h1>
       <div class="flex items-center justify-center md:justify-start">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
-          class="h-5 w-5 md:h-6 md:w-6 text-gray-500" 
+          class="h-5 w-5 md:h-6 md:w-6 text-white" 
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor"
@@ -103,21 +94,50 @@ function formatTime(minutes: number): string {
             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
           />
         </svg>
-        <span class="ml-2 md:ml-5 text-gray-500 font-heading text-base md:text-xl">
+        <span class="ml-2 md:ml-5 text-white font-title text-base md:text-xl">
           {formatTime(recipe.preparation_time)}
         </span>
       </div>
+
+      <!-- Social share below time -->
+      <div class="mt-3 md:mt-4">
+        <SocialShare
+          title={recipe.title}
+          description={recipe.description}
+          className="flex gap-3"
+          buttonClassName="!bg-white/90 hover:!bg-white !text-black !rounded-full !px-3 !py-1"
+          iconSize={28}
+          round={true}
+          showLabels={false}
+        />
+      </div>
     </div>
+   {recipe.image && (
+      <div class="w-full md:w-1/2 flex justify-center">
+        <div class="relative rounded-2xl overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
+          <LazyImage
+            src={recipe.image} 
+            alt={recipe.title}
+            class="w-full h-full object-cover"
+            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+            transition:name={`recipe-image-${recipe.id}`}
+          />
+        </div>
+      </div>
+    )}
+    
+
   </div>
-</div>
-<div id="ingredients" class=" flex flex-col justify-center items-center    mb-8 py-16 ">
+</section>
+
+<section id="ingredients" class=" flex flex-col justify-center items-center    mb-4 py-4 ">
   <div class="w-full max-w-6xl px-4">
-    <h1 class="font-heading font-bold md:text-4xl text-2xl text-white text-center mb-8 ">
+    <h2 class="font-title font-bold md:text-4xl text-2xl text-white text-left  uppercase italic ">
       {recipesAssets.recipes}
-    </h1>
+    </h2>
     
     <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-      {recipe.image && (
+      <!-- {recipe.image && (
         <div class="w-full md:w-1/2 flex justify-center">
           <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
             <img 
@@ -128,35 +148,29 @@ function formatTime(minutes: number): string {
             />
           </div>
         </div>
-      )}
+      )} -->
       
-      <div class="w-[80%] md:w-1/2 flex flex-col gap-4 md:p-8 p-4 rounded-lg text-white">
+      <div class="w-full md:w-full flex flex-col gap-4 md:p-8 p-4 rounded-lg text-white">
        
         <section class="mb-8 text-white">
-          <ul class="list-disc list-inside space-y-2 text-white">
-            {recipe.ingredients.map((ingredient: string) => (
-              <li class="text-white">
-                {ingredient}
-              </li>
-            ))}
-          </ul>
+          <IngredientsCarousel items={recipe.ingredients.map((txt: string) => ({ text: txt }))} />
         </section>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div id="instructions" class="mt-[-2rem]  md:mt-[-2rem] flex flex-col md:flex-row justify-center items-center md:h-[43rem] mb-8">
+<section id="instructions" class=" flex flex-col justify-center items-center    mb-8  -mt-[1rem] ">
 
   <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
-    <div class="w-[80%]  flex items-center justify-center flex-col gap-4  md:p-0 p-4 rounded-lg text-white">
-      <h1 class="font-heading font-bold md:text-4xl text-2xl text-gray-600 text-center mb-8">
+    <div class="w-full max-w-6xl px-4">
+      <h2 class="font-title font-bold md:text-4xl text-2xl text-white text-left mb-8 uppercase italic ">
         {recipesAssets.preparation}
-      </h1>
+      </h2>
       <section class="mb-8 text-white">
-        <ul class="list-disc list-inside space-y-2 text-gray-600">
+        <ul class="list-disc list-inside space-y-2 text-white">
           {recipe.instructions.map((instruction: string) => (
-            <li class="text-gray-600">
+            <li class="text-white text-lg">
               {instruction}
             </li>
           ))}
@@ -164,11 +178,14 @@ function formatTime(minutes: number): string {
       </section>
     </div>
   </div>
-</div>
+</section>
 <div id="suggestions_related" class="mt-[-2rem] flex flex-col justify-center items-center py-12 " transition:animate="fade">
   <div class="w-full max-w-6xl px-4">
-    <h2 class="pb-8 text-3xl md:text-4xl font-bold text-gray-600 mb-8 text-center font-heading">
-      {recipesAssets.related_recipes}
+    <h2 class="text-3xl md:text-6xl font-bold text-white mb-8 text-center font-title italic">
+      {currentLang === 'es' ? 'DESCUBRE MÁS RECETAS' : 'Discover More Recipes'}
+    </h2>
+    <h2 class="pb-8 text-3xl md:text-9xl font-bold text-white mb-8 text-center font-title italic">
+      {currentLang === 'es' ? 'SIMILARES' : 'SIMILAR'}
     </h2>
     <!-- Carousel reutilizable con la lista de recetas sugeridas (usa RecipeCard) -->
     <div class="w-full">
