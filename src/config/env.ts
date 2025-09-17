@@ -1,6 +1,6 @@
 // Centralized environment access
 // Client-exposed (must start with PUBLIC_)
-export const PUBLIC_PROMOTION_ID = (import.meta as any).env.PUBLIC_PROMOTION_ID || '5';
+export const PUBLIC_PROMOTION_ID: number = Number((((import.meta as any).env.PUBLIC_PROMOTION_ID) ?? '').toString()) || 0;
 export const PUBLIC_DEBUG_CREATORS = ((import.meta as any).env.PUBLIC_DEBUG_CREATORS || 'false') === 'true';
 
 // Server-only (must NOT start with PUBLIC_)

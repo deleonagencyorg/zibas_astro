@@ -12,6 +12,7 @@ import { getParticipations } from '../../services/participationService';
 import PostCard from '../../components/creators/PostCard.astro';
 import Lightbox from '../../components/creators/Lightbox.astro';
 import './styles.css';
+import { PUBLIC_PROMOTION_ID } from '../../config/env';
 import juradosData from '../../locales/es/jurados.json';
 
 // Import categories data
@@ -64,7 +65,7 @@ interface ParticipationItem {
 
 let participations: ParticipationItem[] = [];
 let pagination = { page: 1, pageSize: 10, pageCount: 1, total: 0 };
-const promotionId = 7; // ID de la promoción actual
+const promotionId = PUBLIC_PROMOTION_ID || 0; // ID de la promoción desde env
 const initialPage = 1;
 const initialPageSize = 10;
 try {
@@ -525,38 +526,47 @@ try {
             COMUNIDAD
           </h3>
         </div>
-        <div id="posts-grid" class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
-          {participations.map((p) => {
-            const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
-            const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
-            return (
-              <PostCard 
-                backgroundImage={displayImage}
-                originalMedia={p.image}
-                description={p.description || 'Sin descripción'}
-                profileName={author || 'Anónimo'}
-                actionUrl={p.link}
-                country={p.country}
-                categories={p.categories}
-              />
-            )
-          })}
-        </div>
 
-        <!-- Load more button -->
-        {pagination.page < pagination.pageCount && (
-          <div class="text-center mt-8">
-            <button
-              id="load-more"
-              class="bg-orange text-white font-bold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-              data-current-page={pagination.page}
-              data-page-count={pagination.pageCount}
-              data-page-size={pagination.pageSize}
-              data-promotion-id={promotionId}
-            >
-              Ver más
-            </button>
+        {(participations.length === 0 || pagination.pageCount === 0) ? (
+          <div class="text-center text-white text-xl md:text-2xl font-semibold">
+            Aún no hay resultados que mostrar.
           </div>
+        ) : (
+          <>
+            <div id="posts-grid" class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
+              {participations.map((p) => {
+                const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
+                const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
+                return (
+                  <PostCard 
+                    backgroundImage={displayImage}
+                    originalMedia={p.image}
+                    description={p.description || 'Sin descripción'}
+                    profileName={author || 'Anónimo'}
+                    actionUrl={p.link}
+                    country={p.country}
+                    categories={p.categories}
+                  />
+                )
+              })}
+            </div>
+
+            {/* Load more button */}
+            {pagination.page < pagination.pageCount && (
+              <div class="text-center mt-8">
+                <button
+                  id="load-more"
+                  class="bg-orange text-white font-bold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  data-current-page={pagination.page}
+                  data-page-count={pagination.pageCount}
+                  data-page-size={pagination.pageSize}
+                  data-promotion-id={promotionId}
+                >
+                  Ver más
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
