@@ -8,6 +8,7 @@ export interface Props {
   image: string;
   url?: string;
   id: string;
+  clickable?: boolean;
 }
 
 const { 
@@ -16,14 +17,18 @@ const {
   gradient,
   image,
   url = '#',
-  id
+  id,
+  clickable = true
 } = Astro.props;
 ---
 
 <a 
-  href={url}
+  href={clickable ? url : '#'}
   class="block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-[310px] h-[463px] md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]"
   data-category-id={id}
+  aria-disabled={clickable ? 'false' : 'true'}
+  onclick={clickable ? undefined : 'return false;'}
+  style={clickable ? '' : 'cursor: default;'}
 >
   <div class="w-[310px] h-[463px] bg-white rounded-[30px] overflow-hidden shadow-lg transition-all duration-500 ease-in-out md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]">
     <!-- Gradient background section -->

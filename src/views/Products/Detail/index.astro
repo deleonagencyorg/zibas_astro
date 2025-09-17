@@ -93,11 +93,10 @@ if (allProductsArray.length > 1) {
 ---
 
 {safeProduct.background_color && (
-  <article id="product-detail" class="product-detail pt-12 md:pt-29 pb-32 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative" 
-    style={`
-      --mobile-bg: ${safeProduct.background_color};
-      --desktop-bg: url('${safeProduct.background_color}');
-    `}
+  <article
+    id="product-detail"
+    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative"
+    style={{ backgroundColor: safeProduct.background_color }}
     transition:animate="slide"
   >
     <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col lg:flex-row gap-5">
