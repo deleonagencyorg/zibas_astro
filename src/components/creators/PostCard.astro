@@ -5,9 +5,11 @@ import { getCountryInfo } from '../../utils/countryUtils';
 
 interface Props {
   backgroundImage: string;
+  originalMedia?: string;   // Media original (video/imagen) para el lightbox
   description: string;
   profileName: string;
   country?: string;
+  categories?: string[];
   actionUrl?: string;       // URL a la que redirigir
   actionFunc?: string;      // Nombre de una función global a ejecutar
   onClick?: string;         // Para pasar JS directamente, ej: "alert('hola')"
@@ -16,9 +18,11 @@ interface Props {
 
 const {
   backgroundImage,
+  originalMedia,
   description,
   profileName,
   country,
+  categories,
   actionUrl,
   actionFunc,
   onClick,
@@ -33,8 +37,17 @@ if (actionUrl) {
   clickHandler = `window.open('${actionUrl}', '_blank')`;
 } else {
   // Si no hay URL, preparamos para el lightbox
-  const mediaType = isVideo ? 'video' : 'image';
-  const eventDetail = JSON.stringify({ src: backgroundImage, type: mediaType, description: description, author: profileName });
+  const lightboxSrc = originalMedia || backgroundImage; // Usar media original si existe
+  const lightboxIsVideo = lightboxSrc?.includes('.mp4') || lightboxSrc?.includes('.webm') || lightboxSrc?.includes('.mov');
+  const mediaType = lightboxIsVideo ? 'video' : 'image';
+  const eventDetail = JSON.stringify({ 
+    src: lightboxSrc, 
+    type: mediaType, 
+    description: description, 
+    author: profileName,
+    country: country,
+    categories: categories
+  });
   clickHandler = `document.dispatchEvent(new CustomEvent('show-lightbox', { detail: ${eventDetail} }))`;
 }
 

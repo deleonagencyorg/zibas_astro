@@ -4,26 +4,42 @@
 
 <div id="creator-lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
   <!-- Contenedor del contenido -->
-  <div id="lightbox-content" class="relative w-full h-[90vh] max-w-6xl bg-gray-900 rounded-lg shadow-xl transform scale-95 transition-all duration-300 flex flex-row">
+  <div id="lightbox-content" class="relative w-full h-[90vh] max-w-6xl bg-orange rounded-lg shadow-xl transform scale-95 transition-all duration-300 flex flex-col md:flex-row">
     <!-- Botón de cerrar -->
     <button id="lightbox-close" class="absolute -top-4 -right-4 bg-white text-black rounded-full h-10 w-10 flex items-center justify-center z-10">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
     <!-- Contenedor de medios (imagen o video) -->
-    <div id="media-container" class="flex-1 bg-black rounded-l-lg overflow-hidden flex items-center justify-center">
+    <div id="media-container" class="flex-1 bg-black rounded-t-lg md:rounded-l-lg md:rounded-tr-none overflow-hidden flex items-center justify-center">
       <!-- El contenido se insertará aquí dinámicamente -->
     </div>
 
     <!-- Información del post -->
-    <div class="w-80 p-6 flex flex-col justify-center">
-      <p id="lightbox-description" class="text-white text-base mb-4 leading-relaxed"></p>
-      <p id="lightbox-author" class="text-white/70 text-sm"></p>
+    <div class="w-full md:w-80 p-6 flex flex-col justify-center">
+      <p id="lightbox-description" class="text-white text-2xl mb-4 leading-relaxed"></p>
+      <p id="lightbox-author" class="text-white/70 text-2xl mb-3"></p>
+      <div id="lightbox-country" class="text-white/60 text-2xl mb-2"></div>
+      <div id="lightbox-categories" class="flex flex-wrap gap-2"></div>
     </div>
   </div>
 </div>
 
 <script>
+  // Función para obtener información del país
+  function getCountryDisplayInfo(countryCode) {
+    const countries = {
+      'guatemala': { name: 'Guatemala', flag: '🇬🇹' },
+      'honduras': { name: 'Honduras', flag: '🇭🇳' },
+      'el_salvador': { name: 'El Salvador', flag: '🇸🇻' },
+      'nicaragua': { name: 'Nicaragua', flag: '🇳🇮' },
+      'costa_rica': { name: 'Costa Rica', flag: '🇨🇷' },
+      'republica_dominicana': { name: 'República Dominicana', flag: '🇩🇴' }
+    };
+    
+    return countries[countryCode] || { name: countryCode, flag: '🌍' };
+  }
+
   document.addEventListener('astro:page-load', () => {
     const lightbox = document.getElementById('creator-lightbox');
     const content = document.getElementById('lightbox-content');
@@ -31,8 +47,10 @@
     const mediaContainer = document.getElementById('media-container');
     const descriptionEl = document.getElementById('lightbox-description');
     const authorEl = document.getElementById('lightbox-author');
+    const countryEl = document.getElementById('lightbox-country');
+    const categoriesEl = document.getElementById('lightbox-categories');
 
-    if (!lightbox || !closeButton || !mediaContainer || !descriptionEl || !authorEl || !content) return;
+    if (!lightbox || !closeButton || !mediaContainer || !descriptionEl || !authorEl || !countryEl || !categoriesEl || !content) return;
 
     const openLightbox = (detail) => {
       if (!detail || !detail.src) return;
@@ -57,6 +75,25 @@
 
       descriptionEl.textContent = detail.description || '';
       authorEl.textContent = detail.author ? `Por: @${detail.author}` : '';
+      
+      // Mostrar país
+      if (detail.country) {
+        const countryInfo = getCountryDisplayInfo(detail.country);
+        countryEl.innerHTML = `<span class="inline-flex items-center gap-1"><span>${countryInfo.flag}</span><span>${countryInfo.name}</span></span>`;
+      } else {
+        countryEl.innerHTML = '';
+      }
+      
+      // Mostrar categorías
+      categoriesEl.innerHTML = '';
+      if (detail.categories && detail.categories.length > 0) {
+        detail.categories.forEach(category => {
+          const categoryTag = document.createElement('span');
+          categoryTag.className = 'bg-white/20 text-white text-2xl px-3 py-2 rounded-full';
+          categoryTag.textContent = category;
+          categoriesEl.appendChild(categoryTag);
+        });
+      }
 
       lightbox.classList.remove('opacity-0', 'pointer-events-none');
       content.classList.remove('scale-95');

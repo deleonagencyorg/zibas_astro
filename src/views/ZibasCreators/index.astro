@@ -374,10 +374,11 @@ try {
         <div class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
           {participations.map((p) => {
             const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
-            const image = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
+            const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
             return (
               <PostCard 
-                backgroundImage={image}
+                backgroundImage={displayImage}
+                originalMedia={p.image}
                 description={p.description || 'Sin descripción'}
                 profileName={author || 'Anónimo'}
                 actionUrl={p.link}
