@@ -64,7 +64,7 @@ interface ParticipationItem {
 
 let participations: ParticipationItem[] = [];
 let pagination = { page: 1, pageSize: 10, pageCount: 1, total: 0 };
-const promotionId = 5; // ID de la promoción actual
+const promotionId = 7; // ID de la promoción actual
 const initialPage = 1;
 const initialPageSize = 10;
 try {
@@ -588,7 +588,7 @@ try {
     let currentPage = Number(btn.dataset.currentPage || '1');
     const pageCount = Number(btn.dataset.pageCount || '1');
     const pageSize = Number(btn.dataset.pageSize || '10');
-    const promotionId = Number(btn.dataset.promotionId || '5');
+    const promotionId = Number(btn.dataset.promotionId || '7');
 
     const buildCard = (p) => {
       const author = `${(p.contact?.firstName || '')} ${(p.contact?.lastName || '')}`.trim() || 'Anónimo';
