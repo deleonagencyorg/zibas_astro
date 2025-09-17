@@ -1,8 +1,7 @@
 ---
 import LanguageSwitcher from '../../i18n/LanguageSwitcher.astro';
-import LocalizedImage from '../LazyImage.astro';
 import { t, type Locale } from '../../../i18n/i18n';
-import { socialMediaIconUrls, logos } from '../../../config/assets';
+import { logos } from '../../../config/assets';
 import type { HeaderColorConfig } from '../../../config/headerColors';
 import SocialMediaIcons from '../SocialMediaIcons/index.astro';
 
@@ -23,7 +22,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 ---
 
 <!-- Desktop Navigation -->
-<nav class={`hidden md:flex items-center justify-between w-full py-3 px-6 ${headerColorConfig.backgroundColor}`} data-current-lang={currentLang}>
+<nav class={`hidden md:flex items-center justify-between w-full py-3 px-6 bg-[#fcb800]`} data-current-lang={currentLang}>
   <!-- Logo -->
   <div class="flex-shrink-0">
     <a href={`/${currentLang}/`} class="block">

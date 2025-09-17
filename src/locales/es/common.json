@@ -98,11 +98,6 @@
   },
   "menu_items": [
     {
-      "id": "zibas-creators",
-      "text": "Ziba's Creators",
-      "href": "/es/zibas-creators"
-    },
-    {
       "id": "products",
       "text": "Productos",
       "href": "/es/#products"
