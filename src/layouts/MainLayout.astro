@@ -59,13 +59,13 @@ if (headerColors) {
     <slot name="head" />
     {/* <GoogleTagManager /> */}
   </head>
-  <body class={`font-sans ${className || ''}`}>
+  <body class={`font-sans min-h-screen flex flex-col ${className || ''}`}>
     {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
       <slot name="header">
         <Header currentLang={currentLang} headerColors={headerColors} />
       </slot>
-      <main transition:animate="slide">
+      <main transition:animate="slide" class="flex-1 flex flex-col overflow-hidden">
         <slot />
       </main>
       <Footer currentLang={currentLang} />

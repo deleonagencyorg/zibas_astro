@@ -72,6 +72,13 @@ export const routesConfig: RouteConfig[] = [
     metaDescriptionKey: 'meta.zibas_creators.description',
   },
   {
+    id: 'participacion',
+    slugs: { es: 'participacion',},
+    contentComponent: '@/views/Participacion/index.astro',
+    metaTitleKey: 'meta.participacion.title',
+    metaDescriptionKey: 'meta.participacion.description',
+  },
+  {
     id: 'jurados',
     slugs: { es: 'jurados' }, // Spanish-only route
     contentComponent: '@/views/Jurados/index.astro',

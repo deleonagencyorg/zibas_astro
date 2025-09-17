@@ -35,7 +35,7 @@ const title = 'Ziba\'s Creators - Concurso de Creatividad';
 const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles.';
 
 // Llamada al nuevo servicio para obtener las participaciones
-interface Participation {
+interface ParticipationItem {
   id: number;
   description: string;
   image?: string;
@@ -50,10 +50,15 @@ interface Participation {
   // Agrega aquí cualquier otra propiedad que necesites
 }
 
-let participations: Participation[] = [];
+let participations: ParticipationItem[] = [];
+let pagination = { page: 1, pageSize: 10, pageCount: 1, total: 0 };
+const promotionId = 5; // ID de la promoción actual
+const initialPage = 1;
+const initialPageSize = 10;
 try {
-  const participationData = await getParticipations(5, 1, 10); // Usando promotionId=5, page=1, pageSize=10 como ejemplo
+  const participationData = await getParticipations(promotionId, initialPage, initialPageSize);
   participations = participationData.data;
+  pagination = participationData.meta?.pagination || pagination;
   console.log('[ZibasCreatorsView] Participations loaded:', participations);
 } catch (error) {
   console.error('[ZibasCreatorsView] Failed to load participations:', error);
@@ -80,8 +85,8 @@ try {
               <p class="text-xl md:text-2xl leading-relaxed font-medium animate-fade-in-up animation-delay-400 mb-8">
                 AQUÍ PREMIAREMOS TU TALENTO EN VIDEO, BAILE, MÚSICA, ARTE, MEMES E INTELIGENCIA ARTIFICIAL.
               </p>
-             <a href="/es/jurados" class="bg-orange border border-white text-white font-bold py-4 px-8 rounded-md text-lg mt-8">
-              Conoce a nuestros jurados
+             <a href="/es/participacion" class="bg-orange border border-white text-white font-bold py-4 px-8 rounded-md text-lg mt-8">
+              Participá ahora
              </a>
             </div>
             
@@ -315,14 +320,14 @@ try {
           <div class="relative animate-bounce-subtle">
             <div class="bg-yellow h-24 w-80 rounded-[200px] border-2 border-[#5b3f2e]"></div>
             <div class="absolute inset-0 flex items-center justify-center">
-              <div class="bg-[#0167f7] h-16 w-72 rounded-[200px] flex items-center justify-center gap-4">
+              <a href="https://zibascreators.yummiespromociones.com/" class="bg-[#0167f7] h-16 w-72 rounded-[200px] flex items-center justify-center gap-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white" aria-label="Ir al formulario de participación">
                 <span class="text-white text-xl md:text-2xl font-semibold">
                   SUBIR CONTENIDO
                 </span>
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
                 </svg>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -371,7 +376,7 @@ try {
             COMUNIDAD
           </h3>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
+        <div id="posts-grid" class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
           {participations.map((p) => {
             const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
             const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
@@ -388,9 +393,193 @@ try {
             )
           })}
         </div>
+
+        <!-- Load more button -->
+        {pagination.page < pagination.pageCount && (
+          <div class="text-center mt-8">
+            <button
+              id="load-more"
+              class="bg-orange text-white font-bold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              data-current-page={pagination.page}
+              data-page-count={pagination.pageCount}
+              data-page-size={pagination.pageSize}
+              data-promotion-id={promotionId}
+            >
+              Ver más
+            </button>
+          </div>
+        )}
       </div>
     </section>
 
    </MainLayout>
 
 <script src="./scripts.js"></script>
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const API_HOST = import.meta.env.PUBLIC_API_HOST;
+    const API_TOKEN = import.meta.env.PUBLIC_API_TOKEN;
+    const grid = document.getElementById('posts-grid');
+    const btn = document.getElementById('load-more');
+    if (!grid || !btn || !API_HOST || !API_TOKEN) return;
+
+    const countryMap = {
+      'guatemala': { name: 'Guatemala', flag: '🇬🇹' },
+      'honduras': { name: 'Honduras', flag: '🇭🇳' },
+      'el_salvador': { name: 'El Salvador', flag: '🇸🇻' },
+      'nicaragua': { name: 'Nicaragua', flag: '🇳🇮' },
+      'costa_rica': { name: 'Costa Rica', flag: '🇨🇷' },
+      'republica_dominicana': { name: 'República Dominicana', flag: '🇩🇴' }
+    };
+
+    const getCountryInfo = (code) => countryMap[code] || { name: (code || ''), flag: '🌍' };
+
+    const socialLinkBg = 'https://snack.yummiespromociones.com/zibas/socialmedia.webp';
+
+    let currentPage = Number(btn.dataset.currentPage || '1');
+    const pageCount = Number(btn.dataset.pageCount || '1');
+    const pageSize = Number(btn.dataset.pageSize || '10');
+    const promotionId = Number(btn.dataset.promotionId || '5');
+
+    const buildCard = (p) => {
+      const author = `${(p.contact?.firstName || '')} ${(p.contact?.lastName || '')}`.trim() || 'Anónimo';
+      const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
+      const originalMedia = p.image;
+      const isVideo = (originalMedia || displayImage || '').match(/\.(mp4|webm|mov)(\?|$)/i);
+      const countryInfo = getCountryInfo(p.country);
+      const categories = Array.isArray(p.categories) ? p.categories : [];
+
+      const wrapper = document.createElement(p.link ? 'button' : 'button');
+      wrapper.className = 'block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] cursor-pointer';
+      wrapper.style.aspectRatio = '9 / 16';
+
+      if (p.link) {
+        wrapper.onclick = () => window.open(p.link, '_blank');
+      } else {
+        const mediaType = isVideo ? 'video' : 'image';
+        wrapper.onclick = () => {
+          const detail = {
+            src: originalMedia || displayImage,
+            type: mediaType,
+            description: p.description || 'Sin descripción',
+            author: author,
+            country: p.country,
+            categories: categories
+          };
+          document.dispatchEvent(new CustomEvent('show-lightbox', { detail }));
+        };
+      }
+
+      // Background container
+      const bg = document.createElement('div');
+      bg.className = 'absolute inset-0 w-full h-full';
+
+      if (p.link) {
+        const img = document.createElement('img');
+        img.src = socialLinkBg;
+        img.alt = 'Social Media Link';
+        img.width = 400;
+        img.height = 600;
+        img.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
+        bg.appendChild(img);
+      } else if (isVideo) {
+        const video = document.createElement('video');
+        video.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
+        video.muted = true;
+        video.loop = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        const source = document.createElement('source');
+        source.src = displayImage; // thumbnail como poster equivalente visual
+        source.type = 'video/mp4';
+        video.src = originalMedia || displayImage;
+        bg.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = displayImage;
+        img.alt = p.description || 'Post';
+        img.width = 400;
+        img.height = 600;
+        img.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
+        bg.appendChild(img);
+      }
+
+      // Overlay hover
+      const overlay = document.createElement('div');
+      overlay.className = 'absolute inset-0 bg-gradient-to-t from-orange/70 via-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300';
+
+      // Content always visible
+      const content = document.createElement('div');
+      content.className = 'absolute inset-0 p-5 flex flex-col justify-end items-center text-center bg-gradient-to-t from-black/80 to-transparent';
+      const inner = document.createElement('div');
+      inner.className = 'w-full';
+
+      const desc = document.createElement('p');
+      desc.className = 'text-white text-sm font-medium mb-3 line-clamp-3';
+      desc.textContent = p.description || 'Sin descripción';
+
+      const authorRow = document.createElement('div');
+      authorRow.className = 'flex items-center justify-center text-white text-md font-bold gap-2 mb-2';
+      authorRow.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>';
+      const authorSpan = document.createElement('span');
+      authorSpan.textContent = author;
+      authorRow.appendChild(authorSpan);
+
+      const countryRow = document.createElement('div');
+      countryRow.className = 'flex items-center justify-center text-white text-md font-medium gap-1 mb-2 opacity-80';
+      const flagSpan = document.createElement('span');
+      flagSpan.textContent = countryInfo.flag;
+      const countrySpan = document.createElement('span');
+      countrySpan.textContent = countryInfo.name;
+      if (p.country) {
+        countryRow.appendChild(flagSpan);
+        countryRow.appendChild(countrySpan);
+      }
+
+      const catsRow = document.createElement('div');
+      catsRow.className = 'flex flex-wrap justify-center gap-1';
+      categories.forEach((c) => {
+        const tag = document.createElement('span');
+        tag.className = 'bg-white/20 text-white text-md px-2 py-1 rounded-full';
+        tag.textContent = c;
+        catsRow.appendChild(tag);
+      });
+
+      inner.appendChild(desc);
+      inner.appendChild(authorRow);
+      if (p.country) inner.appendChild(countryRow);
+      if (categories.length) inner.appendChild(catsRow);
+      content.appendChild(inner);
+
+      wrapper.appendChild(bg);
+      wrapper.appendChild(overlay);
+      wrapper.appendChild(content);
+
+      return wrapper;
+    };
+
+    const fetchNext = async () => {
+      if (currentPage >= pageCount) return;
+      btn.disabled = true;
+      try {
+        const nextPage = currentPage + 1;
+        const url = `${API_HOST}/v1/auth/participations?promotionId=${promotionId}&page=${nextPage}&pageSize=${pageSize}`;
+        const res = await fetch(url, { headers: { 'Authorization': API_TOKEN, 'Content-Type': 'application/json' }});
+        if (!res.ok) throw new Error('Error al cargar más participaciones');
+        const json = await res.json();
+        const items = json?.data || [];
+        items.forEach((p) => grid.appendChild(buildCard(p)));
+        currentPage = nextPage;
+        if (currentPage >= pageCount) {
+          btn.style.display = 'none';
+        }
+      } catch (e) {
+        console.error('[ZibasCreatorsView] Load more failed:', e);
+      } finally {
+        btn.disabled = false;
+      }
+    };
+
+    btn.addEventListener('click', fetchNext);
+  });
+</script>

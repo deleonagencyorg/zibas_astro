@@ -53,9 +53,16 @@ const filterLabels = currentLang === 'es'
       lunch: 'LUNCH'
     };
 
-// Normaliza el tipo (si no existe en JSON, lo deriva de category)
+// Normaliza la categoría de receta.
+// Nota: en los JSON se usa "type" para cosas como el tipo de media (p.ej. "image").
+// Para los filtros debemos priorizar la propiedad "category" si existe.
 function normalizeType(r: Recipe): string {
-  const raw = String((r as any).type || (r as any).category || '').toLowerCase().trim();
+  const rawCategory = String((r as any).category || '').toLowerCase().trim();
+  const rawType = String((r as any).type || '').toLowerCase().trim();
+
+  // Primero intentar con category
+  const raw = rawCategory || rawType;
+
   if (['breakfast', 'desayuno'].includes(raw)) return 'breakfast';
   if (['brunch'].includes(raw)) return 'brunch';
   if (['lunch', 'almuerzo'].includes(raw)) return 'lunch';
