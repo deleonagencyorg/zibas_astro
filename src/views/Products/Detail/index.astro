@@ -93,66 +93,70 @@ if (allProductsArray.length > 1) {
 ---
 
 {safeProduct.background_color && (
-  <article id="product-detail" class="product-detail pt-12 md:pt-29 pb-32 md:bg-[image:var(--desktop-bg)] bg-cover bg-center bg-[var(--mobile-bg)] relative" 
-    style={`
-      --mobile-bg: ${safeProduct.background_color};
-      --desktop-bg: url('${safeProduct.background_color}');
-    `}
+  <article
+    id="product-detail"
+    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative"
+    style={{ backgroundColor: safeProduct.background_color }}
     transition:animate="slide"
   >
-    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col md:flex-row gap-5">
+    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col lg:flex-row gap-5">
       {/* Contenedor de la imagen del lado izquierdo */}
-      <div class="relative flex justify-center items-center w-full md:w-[605px] p-4 md:px-28 md:py-16 rounded-[85px] gap-2 cursor-pointer overflow-hidden group" style={{ backgroundColor: safeProduct.color_button }}>
+      <div class="relative flex justify-center items-center w-full lg:w-[605px] p-4 lg:px-28 lg:py-8 rounded-[85px] gap-2 cursor-pointer overflow-hidden group" style={{ backgroundColor: safeProduct.color_button }}>
         {/* Overlay para el efecto de oscurecimiento */}
         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-[85px]"></div>
         <img id="product-image" class="relative z-10 max-w-full h-auto transition-transform duration-300 group-hover:scale-110" src={safeProduct.image} alt={safeProduct.name} transition:name={`product-image-${safeProduct.id}`} />
       </div>
       
       {/* Contenido del lado derecho */}
-      <div class="w-full md:w-1/2 md:h-[605px] h-auto">
+      <div class="w-full lg:w-1/2  h-auto">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="md:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
+          <h1 class="lg:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
       
         </div>
         <h1 
-          class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
+          class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
          {currentLang === 'es' ? 'DESCRIPCIÓN' : 'DESCRIPTION'}
         </h1>
         <h2 
-          class=" md:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
+          class=" lg:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
           style={{ color: safeProduct.header_text_color }}
         >
             {safeProduct.description}
         </h2>
 
         <h1 
-          class="uppercase italic font-title md:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
+          class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
           {currentLang === 'es' ? 'PRESENTACIONES' : 'PRESENTATIONS'}
         </h1>
         <h2 
-          class=" md:text-3xl text-2xl italic font-text font-medium py-5"
+          class=" lg:text-3xl text-2xl italic font-text font-medium py-5"
           style={{ color: safeProduct.header_text_color }}
         >
             {currentLang === 'es' ? 'Tamaño por presentación varía de acuerdo al país.​' : 'The size of the presentation varies according to the country.'}
         </h2>
 
         {safeProduct.weight && safeProduct.weight.length > 0 && (
-          <div class="flex flex-wrap gap-2 my-4">
-            {safeProduct.weight.map((weight, index) => (
-              <div class="flex flex-col items-center">
-                <span class="flex h-[75px] px-[35px] py-4 flex-col justify-center items-center gap-2 flex-1 rounded-[15px] border text-lg md:text-xl font-bold" style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}>{weight}</span>
-              </div>
-            ))}
+          <div class="my-4 max-w-full">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+              {safeProduct.weight.map((weight) => (
+                <div class="w-full min-w-0">
+                  <span class="block w-full h-[60px] md:h-[70px] px-4 lg:px-5 py-3 md:py-4 text-center rounded-[15px] border text-base md:text-xl font-bold"
+                        style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}>
+                    {weight}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {/* Sección de Stockists */}
         {stockists && stockists.length > 0 && (
-          <div class="stockists-section mt-8 mb-16">
+          <div class="stockists-section mt-8 mb-4">
             <h1 
-              class="uppercase italic font-title md:text-4xl text-xl font-medium py-4"
+              class="uppercase italic font-title lg:text-4xl text-xl font-medium py-2"
               style={{ color: safeProduct.header_text_color }}>
               {currentLang === 'es' ? productsAssets.product_available || 'DISPONIBLE EN' : 'AVAILABLE AT'}
             </h1>

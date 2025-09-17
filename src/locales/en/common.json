@@ -104,6 +104,11 @@
       "href": "/en/#gallery"
     },
     {
+      "id": "recipes",
+      "text": "Recipes",
+      "href": "/en/recipes"
+    },
+    {
       "id": "contact",
       "text": "Contact",
       "href": "/en/contact"

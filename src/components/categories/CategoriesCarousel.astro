@@ -5,12 +5,14 @@ export interface Props {
   categories: any[];
   title?: string;
   subtitle?: string;
+  disableLinks?: boolean;
 }
 
 const {
   categories = [],
   title,
-  subtitle
+  subtitle,
+  disableLinks = false
 } = Astro.props;
 
 const categoryItems = Array.isArray(categories) ? categories : [];
@@ -38,6 +40,7 @@ function getCategoryType(category: any): string {
                 image={category.image}
                 gradient={category.gradient}
                 url={category.url}
+                clickable={!disableLinks}
               />
             </div>
           ))}

@@ -65,14 +65,14 @@ if (headerColors) {
     class={`w-full bg-yellow`}
     style={customStyles.backgroundColor ? `background-color: ${customStyles.backgroundColor}` : ''}
   >
-    <!-- Navbar de Desktop -->
-    <div class="hidden md:block">
+    <!-- Navbar de Desktop (solo en pantallas lg y superiores) -->
+    <div class="hidden lg:block">
       <DesktopNavbar currentLang={currentLang} headerColorConfig={customHeaderConfig} />
     </div>
 
     <!-- Navegación Móvil -->
     <nav 
-      class={`mobile-nav md:hidden w-full py-2 px-4 flex justify-between items-center ${customHeaderConfig.backgroundColor}`}
+      class={`mobile-nav lg:hidden w-full py-2 px-4 flex justify-between items-center ${customHeaderConfig.backgroundColor}`}
       style={customStyles.backgroundColor ? `background-color: ${customStyles.backgroundColor}` : ''}
     >
       <!-- Logo para Móvil -->
@@ -105,7 +105,7 @@ function initHeaderScrollBehavior() {
   const header = document.getElementById('site-header');
   
   function handleScroll() {
-    if (!header || window.innerWidth < 768) return; // Solo aplicar en desktop (md y superior)
+    if (!header || window.innerWidth < 1024) return; // Solo aplicar en desktop (lg y superior)
     
     // Obtener la configuración de colores del header
     const headerConfig = header.getAttribute('data-header-config');

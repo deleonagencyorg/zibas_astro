@@ -1,23 +1,30 @@
 ---
 import BlogDetail from '../../../views/Blog/Detail/index.astro';
-import { type Locale } from '../../../i18n/i18n';
+import { setLocale, type Locale } from '../../../i18n/i18n';
+import MainLayout from '../../../layouts/MainLayout.astro';
 
 export async function getStaticPaths() {
   const locales = ['en', 'es'];
-  const paths = [];
+  const paths: any[] = [];
+  // Use a static glob and then filter by locale from the file path
+  const modules = import.meta.glob('../../../locales/*/blog/*.md');
   for (const locale of locales) {
-    const blogPosts = (await import(`../../../locales/${locale}/news.json`)).items || [];
-    for (const blogPost of blogPosts) {
+    const allPosts: any[] = [];
+    for (const p in modules) {
+      const parts = p.split('/');
+      const fileLocale = parts[4]; // ../../../locales/<lang>/blog/file.md
+      if (fileLocale !== locale) continue;
+      const mod: any = await modules[p]();
+      const fm = mod.frontmatter || {};
+      if (fm && fm.slug && fm.id) {
+        const content = typeof mod.compiledContent === 'function' ? mod.compiledContent() : '';
+        allPosts.push({ ...fm, content });
+      }
+    }
+    for (const blogPost of allPosts) {
       paths.push({
-        params: { 
-          lang: locale, 
-          blogId: blogPost.slug || blogPost.id 
-        },
-        props: { 
-          blogPost,
-          currentLang: locale as Locale,
-          allBlogPosts: blogPosts
-        }
+        params: { lang: locale, blogId: blogPost.slug || blogPost.id },
+        props: { blogPost, currentLang: locale as Locale, allBlogPosts: allPosts }
       });
     }
   }
@@ -25,6 +32,11 @@ export async function getStaticPaths() {
 }
 
 const { blogPost, currentLang, allBlogPosts } = Astro.props;
----
+const { lang, blogId } = Astro.params;
 
-<BlogDetail blogPost={blogPost} currentLang={currentLang} allBlogPosts={allBlogPosts} />
+// Set locale for this page
+setLocale(lang as Locale);
+---
+<MainLayout title={blogPost.title}>
+  <BlogDetail blogPost={blogPost} currentLang={currentLang} allBlogPosts={allBlogPosts} />
+</MainLayout>

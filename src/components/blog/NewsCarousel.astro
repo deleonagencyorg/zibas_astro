@@ -1,0 +1,202 @@
+---
+import BlogCard from './BlogCard.astro';
+
+interface Item {
+  id: string;
+  slug: string;
+  title: string;
+  image?: string;
+  published_date?: string;
+  category?: string;
+}
+
+interface Props {
+  id?: string;
+  items: Item[];
+  currentLang?: string;
+}
+
+const { id = 'news-carousel', items = [], currentLang = 'es' } = Astro.props as Props;
+
+const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No content available';
+---
+
+<div id={id} data-news-carousel data-lang={currentLang} class="w-full">
+  {items.length === 0 ? (
+    <div class="w-full py-10 flex items-center justify-center">
+      <p class="text-white text-center text-lg md:text-xl font-semibold">{noContent}</p>
+    </div>
+  ) : (
+    <div class="w-full">
+      <div class="relative overflow-hidden">
+        <div class="flex transition-transform duration-300 will-change-transform" data-track>
+          <!-- Slides will be built by script -->
+        </div>
+        <!-- Nav Buttons overlaid, centered vertically -->
+        <button data-prev class="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Prev">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <button data-next class="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+      <div class="mt-4 hidden items-center justify-center" data-empty>
+        <span class="text-white text-lg md:text-xl font-semibold">{noContent}</span>
+      </div>
+      <!-- Provide initial items as JSON for reliable init -->
+      <script type="application/json" data-items>{JSON.stringify(items)}</script>
+    </div>
+  )}
+</div>
+
+<script>
+  // @ts-check
+  /** @typedef {{id:string, slug:string, title:string, image?:string, published_date?:string, category?:string}} Item */
+
+  (function(){
+    const root = document.currentScript?.closest('[data-news-carousel]');
+    if (!root || (/** @type {any} */(root))._newsInit) return;
+    (/** @type {any} */(root))._newsInit = true;
+  })();
+
+  /**
+   * Initialize a news carousel instance by root element
+   * @param {HTMLElement} root
+   * @param {Item[]} items
+   * @param {string} currentLang
+   */
+  const initNewsCarousel = (root, items, currentLang) => {
+    if (!root) return;
+    const track = /** @type {HTMLElement|null} */(root.querySelector('[data-track]'));
+    const prev = /** @type {HTMLElement|null} */(root.querySelector('[data-prev]'));
+    const next = /** @type {HTMLElement|null} */(root.querySelector('[data-next]'));
+    const empty = /** @type {HTMLElement|null} */(root.querySelector('[data-empty]'));
+    const itemsScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
+
+    /** @type {Item[]} */
+    let data = Array.isArray(items) ? items : [];
+    let index = 0;
+    const langAttr = root.getAttribute('data-lang') || '';
+    const lang = (currentLang && typeof currentLang === 'string' && currentLang) || langAttr || (location.pathname.split('/')[1] || 'es');
+
+    // If no data passed from outside, try to read embedded JSON
+    if (!data.length && itemsScript && itemsScript.textContent) {
+      try { data = JSON.parse(itemsScript.textContent); } catch {}
+    }
+
+    /** @template T 
+     * @param {T[]} arr
+     * @param {number} size
+     * @returns {T[][]}
+     */
+    function chunk(arr, size){
+      const out = []; for (let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out;
+    }
+
+    function buildSlides() {
+      if (!track) return;
+      track.innerHTML = '';
+
+      if (!data.length) {
+        track.style.transform = 'translateX(0)';
+        index = 0;
+        if (empty) { empty.classList.remove('hidden'); empty.classList.add('flex'); }
+        return;
+      }
+      if (empty) { empty.classList.add('hidden'); empty.classList.remove('flex'); }
+
+      const groups = chunk(data, 4);
+      groups.forEach((group) => {
+        const slide = document.createElement('div');
+        slide.className = 'w-full flex-shrink-0 px-1';
+        slide.innerHTML = `
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4">
+            ${group.map((item) => `
+              <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
+                <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
+                  <img src=\"${item.image || '/images/blog/placeholder.jpg'}\" alt=\"${item.title}\" class=\"absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105\" loading=\"lazy\" />\
+                  <!-- Overlay oscuro base que aumenta en hover -->\
+                  <div class=\"absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300\"></div>\
+                  <!-- Contenido inferior -->\
+                  <div class=\"absolute inset-x-0 bottom-0 p-3 z-10 flex flex-col gap-2\">\
+                    <h3 class=\"text-white font-bold text-sm md:text-base leading-tight\">${item.title}</h3>\
+                    <div><span class=\"inline-block border-2 border-white bg-transparent text-white py-1.5 px-4 rounded-md text-center text-xs md:text-sm font-medium\">${lang==='es' ? 'Leer más' : 'Read more'}</span></div>\
+                  </div>\
+                </a>\
+              </div>
+            `).join('')}
+          </div>
+        `;
+        track.appendChild(slide);
+      });
+      track.style.width = groups.length * 100 + '%';
+      track.querySelectorAll(':scope > div').forEach((slide) => {
+        (/** @type {HTMLElement} */(slide)).style.width = (100/groups.length) + '%';
+      });
+      index = Math.min(index, Math.max(0, groups.length - 1));
+      update();
+    }
+
+    function update(){
+      if (!track) return;
+      const slidesCount = track.children.length;
+      if (slidesCount === 0) return;
+      track.style.transform = `translateX(-${index * (100 / slidesCount) }%)`;
+    }
+
+    /** @param {Item[]} newItems */
+    function setData(newItems){
+      data = Array.isArray(newItems) ? newItems : [];
+      index = 0;
+      buildSlides();
+    }
+
+    if (prev) prev.addEventListener('click', ()=> { index = Math.max(0, index-1); update(); });
+    if (next) next.addEventListener('click', ()=> { const max = Math.max(0, (track?.children.length||1)-1); index = Math.min(max, index+1); update(); });
+
+    // expose to window for external filter control
+    const rootId = root.getAttribute('id') || 'news-carousel';
+    (/** @type {any} */(window))._newsCarousels = (/** @type {any} */(window))._newsCarousels || {};
+    (/** @type {any} */(window))._newsCarousels[rootId] = { setData };
+
+    // First render with current data (from props or embedded JSON)
+    buildSlides();
+  };
+
+  // auto-init when loaded and after Astro view transitions
+  function autoInit(event){
+    console.log(`[NewsCarousel] autoInit triggered by: ${event?.type || 'direct call'}`);
+    document.querySelectorAll('[data-news-carousel]').forEach((rootEl) => {
+      const root = /** @type {HTMLElement} */(rootEl);
+      if (root._carouselInitialized) {
+        console.log(`[NewsCarousel] Skipping already initialized carousel: ${root.id}`);
+        return;
+      }
+      root._carouselInitialized = true;
+      console.log(`[NewsCarousel] Initializing carousel: ${root.id}`);
+
+      let items = [];
+      const dataScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
+      if (dataScript && dataScript.textContent) {
+        try { 
+          items = JSON.parse(dataScript.textContent);
+          console.log(`[NewsCarousel] Parsed ${items.length} items from embedded JSON for ${root.id}.`);
+        } catch (e) {
+          console.error(`[NewsCarousel] Failed to parse embedded JSON for ${root.id}:`, e);
+        }
+      } else {
+        console.warn(`[NewsCarousel] No data-items script tag found for ${root.id}.`);
+      }
+      const lang = root.getAttribute('data-lang') || '';
+      initNewsCarousel(root, items, lang);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInit);
+  } else {
+    autoInit({type: 'immediate'});
+  }
+  document.addEventListener('astro:page-load', autoInit);
+  document.addEventListener('astro:after-swap', autoInit);
+</script>

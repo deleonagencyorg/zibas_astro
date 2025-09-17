@@ -1,35 +1,131 @@
 ---
-// src/components/pages/RecipesPage.astro
-import { t } from '../../i18n/i18n';
-import type { Locale } from '../../i18n/i18n';
+// src/views/Recipes/index.astro
 import { getLocale } from '../../i18n/i18n';
 import './styles.css';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import LazyImage from '../../components/common/LazyImage.astro';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
+import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+
+interface Recipe {
+  id: string;
+  title: string;
+  image?: string;
+  preparation_time: number;
+  type?: string;
+}
 
 const currentLang = getLocale();
-const recipes = t('items', { namespace: 'recipes', locale: currentLang });
+
+// Get all recipe files with correct Vite glob typing
+const recipeModules = import.meta.glob<{default: Recipe}>('../../locales/*/recipes/*.json');
+const allRecipes: Recipe[] = [];
+
+// Process each file
+for (const path in recipeModules) {
+  const lang = path.split('/')[3]; // Extract language from path
+  if (lang === currentLang) {
+    const module = await recipeModules[path]();
+    allRecipes.push(module.default);
+  }
+}
+
+// Shared translations
+const noRecipesText = currentLang === 'es' 
+  ? 'No hay recetas disponibles en este momento.' 
+  : 'No recipes available at this time.';
+const noFilterResultsText = currentLang === 'es'
+  ? 'No se encontraron resultados para la selección'
+  : 'No results found for the selection';
+
+// Filter labels
+const filterLabels = currentLang === 'es'
+  ? { 
+      all: 'TODAS',
+      breakfast: 'DESAYUNO', 
+      brunch: 'BRUNCH',
+      lunch: 'ALMUERZO'
+    }
+  : {
+      all: 'ALL',
+      breakfast: 'BREAKFAST',
+      brunch: 'BRUNCH',
+      lunch: 'LUNCH'
+    };
+
+// Normaliza la categoría de receta.
+// Nota: en los JSON se usa "type" para cosas como el tipo de media (p.ej. "image").
+// Para los filtros debemos priorizar la propiedad "category" si existe.
+function normalizeType(r: Recipe): string {
+  const rawCategory = String((r as any).category || '').toLowerCase().trim();
+  const rawType = String((r as any).type || '').toLowerCase().trim();
+
+  // Primero intentar con category
+  const raw = rawCategory || rawType;
+
+  if (['breakfast', 'desayuno'].includes(raw)) return 'breakfast';
+  if (['brunch'].includes(raw)) return 'brunch';
+  if (['lunch', 'almuerzo'].includes(raw)) return 'lunch';
+  return 'other';
+}
 ---
-<div id="hero" class="w-full aspect-[4/3] md:h-[32rem] bg-cover bg-center" style="background-image: url('https://snack.yummiespromociones.com/taqueritos/banner_recetas.webp'); background-size: cover; background-position: center;" transition:animate="fade"></div>
-<div class="bg-white py-12">
+<div class="-mt-px -mb-px overflow-hidden" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  
+  <div class="container mx-auto px-4 mt-0">
+    <div class="pt-4">
+      <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+    </div>
+    <div class="pt-0 pb-0">
+      <div class="text-center mb-16 relative z-20 overflow-hidden" >
+        <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+          <PixelGrid
+             pixelSize={20}
+             density={0.7}
+             introDuration={800}
+             loopInterval={1100}
+             mutateAmount={50}
+             background="none"
+           />
+        </div>
+      <h2 class="text-3xl md:text-4xl italic font-bold mt-0 mb-4 text-white relative z-10">
+        {currentLang==='es' ? 'Descubre nuestras' : 'Discover our'}
+      </h2>
+        <h1 class="text-6xl md:text-9xl italic font-bold mt-0 mb-4 text-white relative z-10 flex items-center justify-center">
+          <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'Recetas' : 'Recipes'}</span>
+        </h1>
+    </div>
+    </div>
+    <!-- Filter Buttons -->
+    <div id="recipeFilters" class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto md:max-w-none md:grid-cols-4 md:gap-4 md:flex md:justify-center">
+      <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 hover:opacity-100 active:text-white active:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
+      <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 hover:opacity-100 active:text-white active:bg-orange-400 transition-colors border border-white" data-filter="breakfast">{filterLabels.breakfast}</button>
+      <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 hover:opacity-100 active:text-white active:bg-orange-400 transition-colors border border-white" data-filter="brunch">{filterLabels.brunch}</button>
+      <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 hover:opacity-100 active:text-white active:bg-orange-400 transition-colors border border-white" data-filter="lunch">{filterLabels.lunch}</button>
+    </div>
 
-  <div class="container mx-auto px-4 mt-12">
-
-    {recipes.length === 0 ? (
-      <p class="text-center text-gray-500">{t('page.no_recipes', { namespace: 'recipes' })}</p>
+    {allRecipes.length === 0 ? (
+      <p class="text-center text-gray-500">{noRecipesText}</p>
     ) : (
-      <div class="md:w-[80%] w-full mx-auto grid grid-cols-2 md:grid-cols-3 md:gap-32 gap-6" transition:animate="slide">
-        {recipes.map((recipe: any) => (
-          <RecipeCard
-            image={recipe.image || '/images/recipes/placeholder.jpg'}
-            title={recipe.title}
-            time={`${recipe.preparation_time}MIN`}
-            id={recipe.id}
-            textColor="text-gray-800"
-            iconColor="text-gray-800"
-          />
+      <div id="recipesGrid" class="w-full mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10 mt-12" transition:animate="slide">
+        {allRecipes.map((recipe: Recipe) => (
+          <div class="recipe-card" data-type={normalizeType(recipe)}>
+            <RecipeCard
+              image={recipe.image || '/images/recipes/placeholder.jpg'}
+              title={recipe.title}
+              time={`${recipe.preparation_time}MIN`}
+              id={recipe.id}
+              textColor="text-white"
+              iconColor="text-white"
+            />
+          </div>
         ))}
       </div>
+      <!-- No results message for filters -->
+      <div id="noResults" class="hidden mt-6 items-center justify-center h-48 md:h-64">
+        <span class="text-white text-lg md:text-xl font-semibold">{noFilterResultsText}</span>
+      </div>
+      <!-- Infinite scroll sentinel -->
+      <div id="infiniteSentinel" class="w-full h-10"></div>
     )}
   </div>
 </div>
@@ -37,11 +133,116 @@ const recipes = t('items', { namespace: 'recipes', locale: currentLang });
 <script>
   // This script runs only on the client side
   document.addEventListener('DOMContentLoaded', () => {
+    // Fallback image handling
     const images = document.querySelectorAll('img');
-    images.forEach(img => {
+    images.forEach((img) => {
       img.addEventListener('error', function() {
         this.src = '/images/recipes/placeholder.jpg';
       });
     });
+
+    // Filters
+    const filterButtons = Array.from(document.querySelectorAll('#recipeFilters .filter-btn')) as HTMLButtonElement[];
+    const cards = Array.from(document.querySelectorAll('#recipesGrid .recipe-card')) as HTMLElement[];
+    const noResultsEl = document.getElementById('noResults') as HTMLElement | null;
+    const sentinel = document.getElementById('infiniteSentinel');
+
+    // Pagination settings
+    const pageSize = 6;
+    let currentFilter = 'all';
+    let revealedCount = 0;
+
+    // Hide all cards
+    function hideAll() {
+      cards.forEach((c) => (c.style.display = 'none'));
+    }
+
+    // Get cards matching filter
+    function getMatchingCards(filter: string) {
+      return cards.filter((card) => {
+        const type = (card.dataset.type || 'other').toLowerCase();
+        return filter === 'all' || type === filter;
+      });
+    }
+
+    // Reveal next page of matching cards
+    function revealNextPage() {
+      const matching = getMatchingCards(currentFilter);
+      const nextBatch = matching.slice(revealedCount, revealedCount + pageSize);
+      nextBatch.forEach((card) => (card.style.display = ''));
+      revealedCount += nextBatch.length;
+
+      // Toggle no-results
+      const anyVisible = matching.length > 0;
+      if (noResultsEl) {
+        if (anyVisible) {
+          noResultsEl.classList.add('hidden');
+          noResultsEl.classList.remove('flex');
+        } else {
+          noResultsEl.classList.remove('hidden');
+          noResultsEl.classList.add('flex');
+        }
+      }
+    }
+
+    // Apply filter and reset pagination
+    function applyFilter(filter: string) {
+      currentFilter = filter;
+      revealedCount = 0;
+      hideAll();
+      revealNextPage();
+    }
+
+    function setActive(btn: HTMLButtonElement) {
+      // Reset styles for all buttons
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-orange', 'opacity-40', 'opacity-50', 'text-brown');
+        // Asegurar texto blanco siempre
+        b.classList.add('text-white');
+      });
+      // Highlight active
+      btn.classList.add('bg-orange', 'text-white');
+      // Dim the rest
+      filterButtons.forEach(b => {
+        if (b !== btn) b.classList.add('opacity-40');
+      });
+    }
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'all';
+        setActive(btn as HTMLButtonElement);
+        applyFilter(filter);
+      });
+    });
+
+    // Initialize default state (ALL)
+    const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
+    if (defaultBtn) {
+      setActive(defaultBtn);
+      applyFilter('all');
+    }
+
+    // Infinite scroll observer
+    if ('IntersectionObserver' in window && sentinel) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const matching = getMatchingCards(currentFilter);
+            if (revealedCount < matching.length) {
+              revealNextPage();
+            }
+          }
+        });
+      });
+      io.observe(sentinel);
+    }
   });
 </script>
+
+<style>
+  /* Active filter visual state (keeps tailwind classes consistent) */
+  #recipeFilters .filter-btn.bg-brown {
+    /* nothing else, class toggles handle colors */
+  }
+</style>

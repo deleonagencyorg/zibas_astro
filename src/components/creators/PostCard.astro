@@ -1,0 +1,155 @@
+---
+// src/components/creators/PostCard.astro
+import { Image } from 'astro:assets';
+import { getCountryInfo } from '../../utils/countryUtils';
+import LazyImage from '../common/LazyImage.astro';
+
+interface Props {
+  backgroundImage: string;
+  originalMedia?: string;   // Media original (video/imagen) para el lightbox
+  description: string;
+  profileName: string;
+  country?: string;
+  categories?: string[];
+  actionUrl?: string;       // URL a la que redirigir
+  actionFunc?: string;      // Nombre de una función global a ejecutar
+  onClick?: string;         // Para pasar JS directamente, ej: "alert('hola')"
+  customClasses?: string;
+}
+
+const {
+  backgroundImage,
+  originalMedia,
+  description,
+  profileName,
+  country,
+  categories,
+  actionUrl,
+  actionFunc,
+  onClick,
+  customClasses = '',
+} = Astro.props;
+
+const isVideo = backgroundImage?.includes('.mp4') || backgroundImage?.includes('.webm') || backgroundImage?.includes('.mov');
+
+// Determina el comportamiento del clic
+let clickHandler = '';
+if (actionUrl) {
+  clickHandler = `window.open('${actionUrl}', '_blank')`;
+} else {
+  // Si no hay URL, preparamos para el lightbox
+  const lightboxSrc = originalMedia || backgroundImage; // Usar media original si existe
+  const lightboxIsVideo = lightboxSrc?.includes('.mp4') || lightboxSrc?.includes('.webm') || lightboxSrc?.includes('.mov');
+  const mediaType = lightboxIsVideo ? 'video' : 'image';
+  const eventDetail = JSON.stringify({ 
+    src: lightboxSrc, 
+    type: mediaType, 
+    description: description, 
+    author: profileName,
+    country: country,
+    categories: categories
+  });
+  clickHandler = `document.dispatchEvent(new CustomEvent('show-lightbox', { detail: ${eventDetail} }))`;
+}
+
+const Tag = clickHandler ? 'button' : 'div';
+const { name: countryName, flag: countryFlag } = getCountryInfo(country);
+---
+
+<Tag
+  class={`block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] cursor-pointer ${customClasses}`}
+  style="aspect-ratio: 9 / 16;"
+  onclick={clickHandler}
+>
+  <!-- Background Image/Video -->
+  <div class="absolute inset-0 w-full h-full">
+    {actionUrl ? (
+      <!-- Imagen de fondo para links externos -->
+      <LazyImage
+        src="https://snack.yummiespromociones.com/zibas/socialmedia.webp"
+        alt="Social Media Link"
+        width={400}
+        height={600}
+        class="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    ) : isVideo ? (
+      <video
+        class="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
+        muted
+        loop
+        autoplay
+        playsinline
+      >
+        <source src={backgroundImage} type="video/mp4" />
+      </video>
+    ) : (
+      <LazyImage
+        src={backgroundImage}
+        alt={description}
+        width={400}
+        height={600}
+        class="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    )}
+  </div>
+
+  <!-- Overlay animado solo en hover -->
+  <div class="absolute inset-0 bg-gradient-to-t from-orange/70 via-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+  <!-- Content (siempre visible) -->
+  <div class="absolute inset-0 p-5 flex flex-col justify-end items-center text-center bg-gradient-to-t from-black/80 to-transparent">
+    <div class="w-full">
+      <!-- Description -->
+      <p class="text-white text-sm font-medium mb-3 line-clamp-3">
+        {description}
+      </p>
+      
+      <!-- Author -->
+      <div class="flex items-center justify-center text-white text-md font-bold gap-2 mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+        </svg>
+        <span>{profileName}</span>
+      </div>
+
+      <!-- Country -->
+      {country && (
+        <div class="flex items-center justify-center text-white text-md font-medium gap-1 mb-2 opacity-80">
+          <span>{countryFlag}</span>
+          <span>{countryName}</span>
+        </div>
+      )}
+
+      <!-- Categories -->
+      {categories && categories.length > 0 && (
+        <div class="flex flex-wrap justify-center gap-1">
+          {categories.map(category => (
+            <span class="bg-white/20 text-white text-md px-2 py-1 rounded-full">
+              {category}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Play icon for videos -->
+  {isVideo && (
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+      <div class="bg-white/20 backdrop-blur-sm rounded-full p-4">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+    </div>
+  )}
+</Tag>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
