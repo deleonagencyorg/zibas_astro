@@ -30,53 +30,28 @@ const blogLink = `/${currentLang}/blog/${slug || id}`;
 const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
 ---
 
-<a 
-  href={blogLink} 
-  class="block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out h-[350px] md:h-[450px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
-  transition:animate="fade"
->
-  <!-- Imagen de fondo (siempre visible) -->
-  <div class="absolute inset-0 w-full h-full">
-    <LazyImage
-      src={image}
-      alt={title}
-      class="w-full h-full object-cover"
+<div class="news-card">
+  <a href={blogLink} class="block group relative overflow-hidden rounded-[1rem]" style="aspect-ratio: 9/16;">
+    <img 
+      src={image || '/images/blog/placeholder.jpg'} 
+      alt={title} 
+      class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" 
+      loading="lazy" 
       transition:name={`blog-image-${id}`}
     />
-  </div>
-  
-  <!-- Overlay con gradiente para el estado normal -->
-  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300"></div>
-  
-  <!-- Información en estado normal -->
-  <div class="absolute bottom-0 left-0 right-0 p-4 bg-white bg-opacity-90 group-hover:opacity-0 transition-opacity duration-300">
-    <h3 class="font-sans text-sm md:text-lg font-bold text-primary text-center mb-3">{title}</h3>
-    <div class="flex justify-center">
-      <div class="border-2 border-primary bg-white text-primary py-2 px-8 rounded-full text-center text-sm font-medium">
-        {viewBlogText}
-      </div>
-    </div>
-  </div>
-  
-  <!-- Overlay para hover -->
-  <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-blue-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-  
-  <!-- Información en hover -->
-  <div class="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-    <!-- Toda la información en la parte inferior -->
-    <div class="p-5 flex flex-col gap-3">
-      <!-- Título en hover (al inicio de la información) -->
-      <h3 class="font-sans text-lg font-bold text-white text-center mb-3">{title}</h3>
-      
-      <!-- Botón de leer más -->
-      <div class="flex justify-center mt-4">
-        <div class="border-2 border-white bg-transparent text-white py-2 px-8 rounded-full text-center text-sm font-medium">
+    <!-- Overlay oscuro base que aumenta en hover -->
+    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300"></div>
+    <!-- Contenido inferior -->
+    <div class="absolute inset-x-0 bottom-0 p-3 z-10 flex flex-col gap-2">
+      <h3 class="text-white font-bold text-sm md:text-base leading-tight">{title}</h3>
+      <div>
+        <span class="inline-block border-2 border-white bg-transparent text-white py-1.5 px-4 rounded-md text-center text-xs md:text-sm font-medium">
           {viewBlogText}
-        </div>
+        </span>
       </div>
     </div>
-  </div>
-</a>
+  </a>
+</div>
 
 <style>
   /* Mantener los mismos estilos que RecipeCard */

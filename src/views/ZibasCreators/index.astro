@@ -8,6 +8,9 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { logos } from '../../config/assets';
 import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import CategoriesCarousel from '../../components/categories/CategoriesCarousel.astro';
+import { getParticipations } from '../../services/participationService';
+import PostCard from '../../components/creators/PostCard.astro';
+import Lightbox from '../../components/creators/Lightbox.astro';
 import './styles.css';
 
 // Import categories data
@@ -30,9 +33,36 @@ const categoriesData = locale === 'es' ? categoriesEs : categoriesEn;
 // Meta information
 const title = 'Ziba\'s Creators - Concurso de Creatividad';
 const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles.';
+
+// Llamada al nuevo servicio para obtener las participaciones
+interface Participation {
+  id: number;
+  description: string;
+  image?: string;
+  thumbnail?: string;
+  link?: string;
+  country?: string;
+  categories?: string[];
+  contact?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  // Agrega aquí cualquier otra propiedad que necesites
+}
+
+let participations: Participation[] = [];
+try {
+  const participationData = await getParticipations(5, 1, 10); // Usando promotionId=5, page=1, pageSize=10 como ejemplo
+  participations = participationData.data;
+  console.log('[ZibasCreatorsView] Participations loaded:', participations);
+} catch (error) {
+  console.error('[ZibasCreatorsView] Failed to load participations:', error);
+}
+
 ---
 
 <MainLayout title={title} description={metaDescription} headerColors={headerColorConfig}>
+  <Lightbox />
       <!-- Hero Section - Orange -->
     <section id="hero" class="h-[300px] lg:h-[800px] relative overflow-hidden" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/coverzibascreators.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
       <!-- Background decorative bars -->
@@ -111,7 +141,7 @@ const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sub
             <!-- Step 2 -->
             <div class="bg-blue-700 rounded-[30px] p-10 flex flex-col gap-5 step-card animate-fade-in-up animation-delay-800">
               <h4 class="text-white text-2xl md:text-3xl font-title font-bold text-center leading-tight">
-                ELIGE CATEGORÍA Y SUBE TU MEJOR CONTENIDO
+                ELIGE CATEGORÍAS Y SUBE TU MEJOR CONTENIDO
               </h4>
               <div class="flex items-center gap-2 opacity-80">
                 <div class="flex-1 h-0.5 bg-white"></div>
@@ -309,7 +339,7 @@ const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sub
             DESCUBRE CADA UNA DE LAS
           </h2>
           <h3 class="text-white italic text-6xl md:text-8xl font-bold animate-fade-in-up animation-delay-400">
-            CATEGORIAS
+            CATEGORÍAS
           </h3>
         </div>
         
@@ -320,6 +350,45 @@ const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Sub
         />
        </div>
      </section>
+
+     <section id="posts" class="bg-red py-20">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16 animate-fade-in-up">
+          <h2 class="text-white italic text-4xl md:text-5xl font-title font-bold mb-4 leading-tight animate-fade-in-up animation-delay-200">
+            LO MEJOR DE NUESTRA
+          </h2>
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid
+               pixelSize={20}
+               density={0.7}
+               background="none"
+               introDuration={800}
+               loopInterval={1100}
+               mutateAmount={50}
+             />
+          </div>
+          <h3 class="text-white italic text-6xl md:text-8xl font-title font-bold leading-tight animate-fade-in-up animation-delay-400">
+            COMUNIDAD
+          </h3>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
+          {participations.map((p) => {
+            const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
+            const image = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
+            return (
+              <PostCard 
+                backgroundImage={image}
+                description={p.description || 'Sin descripción'}
+                profileName={author || 'Anónimo'}
+                actionUrl={p.link}
+                country={p.country}
+                categories={p.categories}
+              />
+            )
+          })}
+        </div>
+      </div>
+    </section>
 
    </MainLayout>
 

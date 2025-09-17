@@ -1,200 +1,94 @@
 ---
-// Lightbox component for displaying post content
+// src/components/creators/Lightbox.astro
 ---
 
-<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm">
-  <!-- Close button -->
-  <button 
-    id="lightbox-close" 
-    class="absolute top-4 right-4 z-60 text-white hover:text-gray-300 transition-colors"
-    aria-label="Cerrar"
-  >
-    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
+<div id="creator-lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+  <!-- Contenedor del contenido -->
+  <div id="lightbox-content" class="relative w-full h-[90vh] max-w-6xl bg-gray-900 rounded-lg shadow-xl transform scale-95 transition-all duration-300 flex flex-row">
+    <!-- Botón de cerrar -->
+    <button id="lightbox-close" class="absolute -top-4 -right-4 bg-white text-black rounded-full h-10 w-10 flex items-center justify-center z-10">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
 
-  <!-- Content container -->
-  <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="max-w-4xl w-full max-h-[90vh] overflow-hidden">
-      <!-- Media container -->
-      <div id="lightbox-media" class="relative bg-black rounded-lg overflow-hidden mb-4">
-        <!-- Content will be injected here -->
-      </div>
+    <!-- Contenedor de medios (imagen o video) -->
+    <div id="media-container" class="flex-1 bg-black rounded-l-lg overflow-hidden flex items-center justify-center">
+      <!-- El contenido se insertará aquí dinámicamente -->
+    </div>
 
-      <!-- Info panel -->
-      <div id="lightbox-info" class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1">
-            <p id="lightbox-description" class="text-lg leading-relaxed mb-3"></p>
-            <p id="lightbox-author" class="text-sm opacity-80 font-medium"></p>
-          </div>
-          <div id="lightbox-categories" class="flex flex-wrap gap-2">
-            <!-- Categories will be injected here -->
-          </div>
-        </div>
-      </div>
+    <!-- Información del post -->
+    <div class="w-80 p-6 flex flex-col justify-center">
+      <p id="lightbox-description" class="text-white text-base mb-4 leading-relaxed"></p>
+      <p id="lightbox-author" class="text-white/70 text-sm"></p>
     </div>
   </div>
 </div>
 
 <script>
-  class LightboxManager {
-    constructor() {
-      this.lightbox = document.getElementById('lightbox');
-      this.mediaContainer = document.getElementById('lightbox-media');
-      this.descriptionEl = document.getElementById('lightbox-description');
-      this.authorEl = document.getElementById('lightbox-author');
-      this.categoriesEl = document.getElementById('lightbox-categories');
-      this.closeBtn = document.getElementById('lightbox-close');
-      
-      this.init();
-    }
+  document.addEventListener('astro:page-load', () => {
+    const lightbox = document.getElementById('creator-lightbox');
+    const content = document.getElementById('lightbox-content');
+    const closeButton = document.getElementById('lightbox-close');
+    const mediaContainer = document.getElementById('media-container');
+    const descriptionEl = document.getElementById('lightbox-description');
+    const authorEl = document.getElementById('lightbox-author');
 
-    init() {
-      // Close button
-      this.closeBtn?.addEventListener('click', () => this.close());
-      
-      // Close on backdrop click
-      this.lightbox?.addEventListener('click', (e) => {
-        if (e.target === this.lightbox) {
-          this.close();
-        }
-      });
+    if (!lightbox || !closeButton || !mediaContainer || !descriptionEl || !authorEl || !content) return;
 
-      // Close on escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !this.lightbox?.classList.contains('hidden')) {
-          this.close();
-        }
-      });
+    const openLightbox = (detail) => {
+      if (!detail || !detail.src) return;
 
-      // Listen for post card clicks
-      document.addEventListener('click', (e) => {
-        const postCard = e.target.closest('.post-card');
-        if (postCard) {
-          e.preventDefault();
-          this.openPost(postCard);
-        }
-      });
-    }
+      // Limpiar contenido anterior
+      mediaContainer.innerHTML = '';
 
-    openPost(postCard) {
-      const data = {
-        id: postCard.dataset.postId,
-        image: postCard.dataset.image,
-        description: postCard.dataset.description,
-        author: postCard.dataset.author,
-        link: postCard.dataset.link,
-        hasMedia: postCard.dataset.hasMedia === 'true',
-        isVideo: postCard.dataset.isVideo === 'true'
-      };
-
-      // Handle external links
-      if (data.link && data.link !== '') {
-        window.open(data.link, '_blank');
-        return;
-      }
-
-      // Show lightbox
-      this.show(data);
-    }
-
-    show(data) {
-      // Clear previous content
-      this.mediaContainer.innerHTML = '';
-      
-      // Create media content
-      if (data.hasMedia) {
-        if (data.isVideo) {
-          this.mediaContainer.innerHTML = `
-            <video 
-              class="w-full h-auto max-h-[70vh] object-contain" 
-              controls 
-              autoplay 
-              loop
-            >
-              <source src="${data.image}" type="video/mp4" />
-              Tu navegador no soporta el elemento video.
-            </video>
-          `;
-        } else {
-          this.mediaContainer.innerHTML = `
-            <img 
-              src="${data.image}" 
-              alt="${data.description}" 
-              class="w-full h-auto max-h-[70vh] object-contain"
-            />
-          `;
-        }
+      if (detail.type === 'video') {
+        const video = document.createElement('video');
+        video.src = detail.src;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.className = 'w-full h-full object-contain';
+        mediaContainer.appendChild(video);
       } else {
-        // Placeholder for posts without media
-        this.mediaContainer.innerHTML = `
-          <div class="flex items-center justify-center h-64 bg-gradient-to-br from-orange to-red rounded-lg">
-            <div class="text-center text-white">
-              <svg class="w-16 h-16 mx-auto mb-4 opacity-60" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              <p class="text-lg font-semibold">Contenido de texto</p>
-            </div>
-          </div>
-        `;
+        const img = document.createElement('img');
+        img.src = detail.src;
+        img.className = 'w-full h-full object-contain';
+        mediaContainer.appendChild(img);
       }
 
-      // Set description and author
-      this.descriptionEl.textContent = data.description;
-      this.authorEl.textContent = `Por ${data.author}`;
+      descriptionEl.textContent = detail.description || '';
+      authorEl.textContent = detail.author ? `Por: @${detail.author}` : '';
 
-      // Show lightbox
-      this.lightbox.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
+      lightbox.classList.remove('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-95');
+    };
 
-    close() {
-      this.lightbox.classList.add('hidden');
-      document.body.style.overflow = '';
-      
-      // Stop any playing videos
-      const videos = this.mediaContainer.querySelectorAll('video');
-      videos.forEach(video => {
+    const closeLightbox = () => {
+      lightbox.classList.add('opacity-0', 'pointer-events-none');
+      content.classList.add('scale-95');
+      // Detener video si existe
+      const video = mediaContainer.querySelector('video');
+      if (video) {
         video.pause();
-        video.currentTime = 0;
-      });
-    }
-  }
+        video.src = '';
+      }
+    };
 
-  // Initialize lightbox when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new LightboxManager());
-  } else {
-    new LightboxManager();
-  }
+    // Event listener para abrir
+    document.addEventListener('show-lightbox', (e) => {
+      openLightbox(e.detail);
+    });
 
-  // Re-initialize on page transitions
-  document.addEventListener('astro:page-load', () => new LightboxManager());
+    // Event listeners para cerrar
+    closeButton.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) { // Cierra solo si se hace clic en el fondo
+        closeLightbox();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  });
 </script>
-
-<style>
-  #lightbox {
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  #lightbox.hidden {
-    animation: fadeOut 0.3s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-
-  #lightbox-media img,
-  #lightbox-media video {
-    border-radius: 0.5rem;
-  }
-</style>

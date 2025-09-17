@@ -9,6 +9,7 @@ import LazyImage from '../../components/common/LazyImage.astro';
 import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import NewsCarousel from '../../components/blog/NewsCarousel.astro';
+import { getCategoryName } from '../../i18n/categories';
 
 export interface Props { currentLang: Locale }
 
@@ -83,7 +84,7 @@ const leftThree = firstFive.slice(0, 3);
 const rightTwo = firstFive.slice(3, 5);
 const restPosts = allPosts.slice(5);
 ---
-<MainLayout title={pageTitle} description={pageDescription} class="bg-primary py-16">
+<MainLayout title={pageTitle} description={pageDescription} class="bg-primary">
   <ViewTransitions />
   <div class="-mt-px -mb-px overflow-hidden pb-15" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container mx-auto px-4 mt-0 pb-16">
@@ -108,7 +109,7 @@ const restPosts = allPosts.slice(5);
       <div id="blogFilters" class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto md:max-w-none md:grid-cols-4 md:gap-4 md:flex md:justify-center">
         <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
         {categories.map((cat) => (
-          <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{cat.toUpperCase()}</button>
+          <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
         ))}
       </div>
 
