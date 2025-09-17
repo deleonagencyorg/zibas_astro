@@ -105,7 +105,13 @@ const homeUrl = `/`;
       <!-- Additional segments if present -->
       {segments.slice(1).map((segment, index) => {
         const path = segments.slice(0, index + 2).join('/');
-        const segmentTitle = segment.replace(/-/g, ' ');
+        // Decode URL-encoded chars (e.g., %20) and normalize dashes
+        let segmentTitle = '';
+        try {
+          segmentTitle = decodeURIComponent(segment).replace(/-/g, ' ');
+        } catch {
+          segmentTitle = segment.replace(/-/g, ' ');
+        }
         return (
           <li class="breadcrumb-item" style={`color: ${textColorValue};`}>
             <span class="breadcrumb-separator" aria-hidden="true">/</span>

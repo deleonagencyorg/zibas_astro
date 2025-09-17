@@ -9,7 +9,6 @@ export async function getStaticPaths() {
   // Cargar recetas EN
   const enModules = import.meta.glob('../../../locales/en/recipes/*.json', { eager: true });
   const enFiles = Object.values(enModules) as any[];
-  console.log(`Found ${enFiles.length} recipes for language en`);
   for (const mod of enFiles) {
     const recipe = (mod as any).default;
     if (!recipe?.id) continue;
@@ -21,7 +20,6 @@ export async function getStaticPaths() {
   // Cargar recetas ES
   const esModules = import.meta.glob('../../../locales/es/recipes/*.json', { eager: true });
   const esFiles = Object.values(esModules) as any[];
-  console.log(`Found ${esFiles.length} recipes for language es`);
   for (const mod of esFiles) {
     const recipe = (mod as any).default;
     if (!recipe?.id) continue;
@@ -30,7 +28,6 @@ export async function getStaticPaths() {
       props: { recipe, currentLang: 'es' }
     });
   }
-  console.log(`Generated ${paths.length} recipe routes`);
   return paths;
 }
 
@@ -39,8 +36,6 @@ const { lang, recipeId } = Astro.params;
 
 // Establecer el idioma para las traducciones
 setLocale(lang as Locale);
-
-console.log(`Rendering recipe: ${recipeId} in language: ${lang}`);
 ---
 
 <MainLayout title={recipe.title}>

@@ -7,6 +7,7 @@ import RecipesCarousel from "../../components/recipes/RecipesCarousel.astro";
 import ProductsCarousel from '../../components/common/ProductsCarousel/index.astro';
 import MasonryGallery from '../../components/gallery/MasonryGallery.astro';
 import PixelGrid from '../../components/atoms/PixelGrid.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
 
 
 // Style Imports
@@ -38,7 +39,7 @@ const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
 const zibasProducts = zibasBrand?.products || [];
 
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
-const slides = Array.isArray(commonAssets) 
+const slides = Array.isArray(commonAssets)
   ? commonAssets
     .filter(asset => asset && typeof asset === 'object' && asset.desktop && asset.mobile)
     .map(asset => ({
@@ -51,7 +52,34 @@ const slides = Array.isArray(commonAssets)
     }))
   : [];
 
-
+// Load latest blog posts by current language from markdown
+const blogModules = import.meta.glob('../../locales/*/blog/*.md');
+let latestBlogPosts: Array<{ id: string; slug: string; title: string; image?: string; published_date?: string; }>= [];
+for (const path in blogModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod: any = await blogModules[path]();
+    const fm = mod.frontmatter || {};
+    if (fm && fm.id && fm.slug && fm.title) {
+      latestBlogPosts.push({
+        id: String(fm.id),
+        slug: String(fm.slug),
+        title: String(fm.title),
+        image: fm.image ? String(fm.image) : '/images/blog/placeholder.jpg',
+        published_date: fm.published_date ? String(fm.published_date) : ''
+      });
+    }
+  }
+}
+function toDate(s?: string){
+  if(!s) return 0; 
+  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)){ const [d,m,y]=s.split('/').map(Number); return new Date(y,(m||1)-1,d||1).getTime(); }
+  const t=Date.parse(s); return isNaN(t)?0:t;
+}
+latestBlogPosts = latestBlogPosts.sort((a,b)=> toDate(b.published_date)-toDate(a.published_date)).slice(0,5);
+const noNewsText = currentLang==='es' ? 'No se encuentra novedades aún para mostrar' : 'There are no updates to show yet';
+const topNewsLabel = currentLang==='es' ? 'NOTICIAS MÁS IMPORTANTES' : 'TOP NEWS';
+const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
 
 ---
 
@@ -159,6 +187,57 @@ const slides = Array.isArray(commonAssets)
           </h1>
         
         )}
+      </div>
+    )}
+
+    {latestBlogPosts.length === 0 ? (
+      <div class="max-w-5xl mx-auto text-center py-12">
+        <p class="text-brown text-lg md:text-xl font-semibold">{noNewsText}</p>
+      </div>
+    ) : (
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
+          <!-- Columna izquierda: 3 más recientes -->
+          <div class="md:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
+              <div class="flex-1 ml-4 border-b border-brown/40"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {latestBlogPosts.slice(0,3).map((post) => (
+                <BlogCard
+                  image={post.image || '/images/blog/placeholder.jpg'}
+                  title={post.title}
+                  id={post.id}
+                  slug={post.slug}
+                />
+              ))}
+            </div>
+          </div>
+
+          <!-- Columna derecha: destacados (posiciones 3 y 4) -->
+          <div class="md:col-span-1">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
+              <div class="flex-1 ml-4 border-b border-brown/40"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+              {latestBlogPosts.slice(3,5).map((post) => (
+                <BlogCard
+                  image={post.image || '/images/blog/placeholder.jpg'}
+                  title={post.title}
+                  id={post.id}
+                  slug={post.slug}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center mt-10">
+          <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
+            {currentLang==='es' ? 'Ver más' : 'View more'}
+          </a>
+        </div>
       </div>
     )}
   </div>

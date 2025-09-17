@@ -1,100 +1,226 @@
 ---
-import Layout from '../../layouts/MainLayout.astro';
+// src/views/Blog/index.astro
 import { type Locale } from '../../i18n/i18n';
+import { ViewTransitions } from 'astro:transitions';
+import MainLayout from '../../layouts/MainLayout.astro';
+import './styles.css';
 import BlogCard from '../../components/blog/BlogCard.astro';
-import BlogCardSkeleton from '../../components/blog/BlogCardSkeleton.astro';
+import LazyImage from '../../components/common/LazyImage.astro';
+import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
-import { fade } from 'astro:transitions';
-import BlogCarouselHero from '../../components/blog/BlogCarouselHero.astro';
+import NewsCarousel from '../../components/blog/NewsCarousel.astro';
 
-interface Props {
-  blogPosts: Array<{
-    id: string;
-    slug: string;
-    title: string;
-    summary: string;
-    image: string;
-    published_date: string;
-  }>;
-  currentLang: Locale;
-  isLoading?: boolean;
+export interface Props { currentLang: Locale }
+
+interface BlogPostFrontmatter {
+  id: string;
+  slug: string;
+  title: string;
+  summary?: string;
+  image?: string;
+  published_date?: string;
+  category?: string;
 }
 
-const { blogPosts, currentLang, isLoading = false } = Astro.props;
+const { currentLang } = Astro.props;
+const pageTitle = currentLang === 'es' ? 'Noticias' : 'News';
+const pageDescription = currentLang === 'es' 
+  ? 'Mantente al día con nuestras últimas noticias y artículos.' 
+  : 'Stay updated with our latest news and articles.';
+
+// Load markdown posts for the current language
+const mdModules = import.meta.glob('../../locales/*/blog/*.md');
+let allPosts: BlogPostFrontmatter[] = [];
+
+for (const path in mdModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod: any = await mdModules[path]();
+    const fm = mod.frontmatter || {};
+    if (fm && fm.id && fm.slug && fm.title) {
+      allPosts.push({
+        id: String(fm.id),
+        slug: String(fm.slug),
+        title: String(fm.title),
+        summary: fm.summary ? String(fm.summary) : '',
+        image: fm.image ? String(fm.image) : '/images/blog/placeholder.jpg',
+        published_date: fm.published_date ? String(fm.published_date) : '',
+        category: fm.category ? String(fm.category).toLowerCase() : 'other'
+      });
+    }
+  }
+}
+
+// Sort by published_date desc (ISO or fallback)
+function toDate(s: string | undefined): number {
+  if (!s) return 0;
+  // normalize common formats dd/mm/yyyy or yyyy-mm-dd
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) {
+    const [d,m,y] = s.split('/').map(Number);
+    return new Date(y, (m||1)-1, d||1).getTime();
+  }
+  const t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+allPosts = allPosts.sort((a,b) => toDate(b.published_date) - toDate(a.published_date));
+
+// Build dynamic categories set
+const categories = Array.from(new Set(allPosts.map(p => (p.category || 'other'))));
+
+const filterLabels = currentLang === 'es'
+  ? { all: 'TODAS' }
+  : { all: 'ALL' };
+
+const noPostsText = currentLang === 'es'
+  ? 'No hay noticias disponibles en este momento.'
+  : 'No blog posts available at this time.';
+
+// Labels and splits for the two-column layout below
+const topNewsLabel = currentLang === 'es' ? 'NOTICIAS MÁS IMPORTANTES' : 'TOP NEWS';
+const featuredLabel = currentLang === 'es' ? 'DESTACADOS' : 'FEATURED';
+const firstFive = allPosts.slice(0, 5);
+const leftThree = firstFive.slice(0, 3);
+const rightTwo = firstFive.slice(3, 5);
+const restPosts = allPosts.slice(5);
 ---
+<MainLayout title={pageTitle} description={pageDescription} class="bg-primary py-16">
+  <ViewTransitions />
+  <div class="-mt-px -mb-px overflow-hidden pb-15" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container mx-auto px-4 mt-0 pb-16">
+      <div class="pt-4">
+        <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+      </div>
+      <div class="pt-0 pb-0">
+        <div class="text-center mb-16 relative z-20 overflow-hidden">
+          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+            <PixelGrid pixelSize={20} density={0.7} introDuration={800} loopInterval={1100} mutateAmount={50} background="none" />
+          </div>
+          <h2 class="text-3xl md:text-4xl italic font-bold mt-0 mb-4 text-white relative z-10">
+            {currentLang==='es' ? 'Descubre nuestras' : 'Discover our'}
+          </h2>
+          <h1 class="text-6xl md:text-9xl italic font-bold mt-0 mb-4 text-white relative z-10 flex items-center justify-center">
+            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'Noticias' : 'News'}</span>
+          </h1>
+        </div>
+      </div>
 
-<Layout title="Blog" class="bg-primary" description="Latest blog posts">
-  
-  <!-- Hero Carousel -->
-  <BlogCarouselHero news={blogPosts} currentLang={currentLang} />
-  
-  <div class="container mx-auto px-4 pt-6">
-    <Breadcrumb bgColor="bg-primary" textColor="text-white" hoverColor="hover:text-white" />
-    
-    <div class="text-center mb-12" transition:animate={fade({ duration: '0.5s' })}>
-      <h1 class="font-sans text-4xl font-bold mb-4 text-white">Blog</h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto text-white">
-        Stay updated with our latest news and articles
-      </p>
-    </div>
+      <!-- Filter Buttons -->
+      <div id="blogFilters" class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto md:max-w-none md:grid-cols-4 md:gap-4 md:flex md:justify-center">
+        <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
+        {categories.map((cat) => (
+          <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{cat.toUpperCase()}</button>
+        ))}
+      </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-6 mx-auto max-w-7xl">
-      {isLoading
-        ? [...Array(8)].map((_, i) => <BlogCardSkeleton key={i} />)
-        : blogPosts.map((post, index) => (
-            <BlogCard 
-              image={post.image}
-              title={post.title}
-              summary={post.summary}
-              date={post.published_date}
-              slug={post.slug || post.id}
-              class="transition-all duration-500 ease-out"
-              style={`opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease-out forwards ${index * 0.1}s`}
-            />
-          ))
-      }
+      <!-- News Carousel listing 4 per slide -->
+      <div class="max-w-6xl mx-auto mb-16">
+        <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
+      </div>
+
+      {allPosts.length === 0 ? (
+        <div class="max-w-5xl mx-auto text-center py-12">
+          <p class="text-white text-lg md:text-xl font-semibold">{noPostsText}</p>
+        </div>
+      ) : (
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
+            <!-- Left column: 3 most recent -->
+            <div class="md:col-span-2">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
+                <div class="flex-1 ml-4 border-b border-white/40"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {leftThree.map((post) => (
+                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
+                ))}
+              </div>
+            </div>
+
+            <!-- Right column: featured (next 2) -->
+            <div class="md:col-span-1">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
+                <div class="flex-1 ml-4 border-b border-white/40"></div>
+              </div>
+              <div class="grid grid-cols-1 gap-6">
+                {rightTwo.map((post) => (
+                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+        
+        </div>
+      )}
     </div>
   </div>
-  
-</Layout>
+</MainLayout>
 
 <style>
-  .container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-  
-  .hero-container {
-    width: 100%;
-    max-height: 300px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-  
-  .hero-image {
-    width: 100%;
-    height: 300px;
-    background-image: url('https://snack.yummiespromociones.com/snacksyummies/bgondas.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  @media (max-width: 768px) {
-    .hero-image {
-      height: 200px;
-    }
-  }
-  
   @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
+
+<script define:vars={{ initialPosts: allPosts, currentLang }}>
+  function initBlogFilters(){
+    const filterButtons = Array.from(document.querySelectorAll('#blogFilters .filter-btn'));
+    const data = Array.isArray(initialPosts) ? initialPosts : [];
+
+    function getCarousel(){ return (window)._newsCarousels && (window)._newsCarousels['news-list']; }
+
+    function setActive(btn) {
+      filterButtons.forEach(b => { b.classList.remove('opacity-40'); b.classList.add('text-white'); });
+      filterButtons.forEach(b => { if (b!==btn) b.classList.add('opacity-40'); });
+    }
+    function applyFilter(filter) {
+      const carousel = getCarousel();
+      if (!carousel) return; // will be re-applied on ready
+      const filtered = filter === 'all' 
+        ? data 
+        : data.filter(p => (p.category || 'other').toLowerCase() === filter);
+      carousel.setData(filtered);
+    }
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'all';
+        setActive(btn);
+        applyFilter(filter);
+      });
+    });
+    // init
+    const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
+    if (defaultBtn) setActive(defaultBtn);
+
+    // Ensure carousel receives initial data when ready
+    const applyInitial = () => {
+      const c = getCarousel();
+      if (c) { 
+        c.setData(data); 
+        // Also apply the "all" filter to show all posts initially
+        const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
+        if (defaultBtn) setActive(defaultBtn);
+        return true; 
+      }
+      return false;
+    };
+    
+    // Try immediate application
+    if (!applyInitial()) {
+      // If carousel not ready, retry with polling
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (applyInitial() || Date.now() - start > 3000) clearInterval(timer);
+      }, 100);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogFilters);
+  } else {
+    initBlogFilters();
+  }
+  document.addEventListener('astro:page-load', initBlogFilters);
+</script>

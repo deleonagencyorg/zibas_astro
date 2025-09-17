@@ -1,12 +1,11 @@
 ---
-import Layout from '../../../layouts/MainLayout.astro';
-import Header from '../../../components/common/Header/index.astro';
-import Footer from '../../../components/common/Footer/index.astro';
-import { type Locale, t } from '../../../i18n/i18n';
+import { type Locale } from '../../../i18n/i18n';
 import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
 import BlogCard from '../../../components/blog/BlogCard.astro';
 import BlogDetailSkeleton from '../../../components/blog/BlogDetailSkeleton.astro';
 import { fade, slide } from 'astro:transitions';
+import ShareModal from '../../../components/common/ShareModal.astro';
+import ShareButton from '../../../components/common/ShareButton.astro';
 import LazyImage from '../../../components/common/LazyImage.astro';
 
 interface Props {
@@ -42,64 +41,70 @@ const suggestedPosts = allBlogPosts
 const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
 ---
 
-<Layout title={blogPost.title} class="bg-white" description="Blog post details">
-  <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-    <slot />
-    
-    <!-- Hero Section -->
-    <div class="relative w-full h-[60vh] overflow-hidden mt-[-100px]">
-        </div>
-      </div>
-    </div>
-
-    <div class="container mx-auto px-4 py-12 max-w-4xl">
-    {isLoading
-      ? <BlogDetailSkeleton />
-      : <>
-          <Breadcrumb bgColor="bg-white" textColor="text-gray-500" hoverColor="hover:text-primary" />
-          <div class="w-full mx-auto my-6">
-            <div class="mb-8">
-            
-         
-              <h1 class="font-sans text-3xl font-bold mb-4" transition:name={`blog-title-${blogPost.id}`}>{blogPost.title}</h1>
-            </div>
-            
-            <div class="blog-image-container w-full mb-8 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
-              <LazyImage
-                src={blogPost.image} 
-                alt={blogPost.title}
-                class="md:w-[500px] w-[100%] object-cover mx-auto" 
-                transition:name={`blog-image-${blogPost.id}`}
-                loading="lazy"
-              />
-            </div>
-            
-            <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg " transition:animate={fade({ duration: '0.5s' })}>
-              <Fragment set:html={blogPost.content} />
-            </div>
+<div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
+  <div class="w-full max-w-6xl mx-auto px-4 py-16">
+  {isLoading
+    ? <BlogDetailSkeleton />
+    : <>
+        <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+        <div class="w-full mx-auto my-6">
+          <div class="mb-8">
+            <h1 class="font-title text-9xl md:text-5xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>{blogPost.title}</h1>
           </div>
-          
-          {suggestedPosts.length > 0 && (
-            <section class="mt-16 mb-12" transition:animate={fade({ duration: '0.7s' })}>
-              <h2 class="text-gray-700 font-title text-4xl md:text-6xl font-bold text-left mb-8">{readMoreTitle}</h2>
-              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-7xl">
-                {suggestedPosts.map((post) => (
-                  <BlogCard 
-                    image={post.image}
-                    title={post.title}
-                    id={post.id}
-                    slug={post.slug || post.id}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-        </>
-    }
-    </div>
+
+          <div class="blog-image-container w-full mb-4 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
+            <LazyImage 
+              src={blogPost.image} 
+              alt={blogPost.title}
+              class="w-full h-auto rounded-lg max-w-3xl"
+              loading="lazy"
+            />
+          </div>
+          <!-- Share button under main image -->
+          <div class="w-full mb-8 flex justify-center">
+            <ShareButton modalId="shareModal-blog" />
+          </div>
+
+          <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
+            <Fragment set:html={blogPost.content} />
+          </div>
+        </div>
+
+        {suggestedPosts.length > 0 && (
+          <section class="mt-16 mb-0 pb-8" transition:animate={fade({ duration: '0.7s' })}>
+            <h2 class="text-white font-title text-4xl md:text-6xl font-bold text-left mb-8">{readMoreTitle}</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-7xl">
+              {suggestedPosts.map((post) => (
+                <BlogCard 
+                  image={post.image}
+                  title={post.title}
+                  id={post.id}
+                  slug={post.slug || post.id}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+      </>
+  }
   </div>
-  
-</Layout>
+</div>
+
+<!-- Share Modal instance for blog -->
+<ShareModal
+  id="shareModal-blog"
+  url={Astro.url.href}
+  title={blogPost.title}
+  description={''}
+  hashtags={[]}
+  showLabels={false}
+  iconSize={40}
+  round={true}
+  openTextEs="Comparte esta noticia en tus redes sociales"
+  openTextEn="Share this news on your social networks"
+  acceptTextEs="Aceptar"
+  acceptTextEn="Accept"
+/>
 
 <style>
 .animate-zoom {

@@ -113,6 +113,16 @@
       "href": "/es/#gallery"
     },
     {
+      "id": "recipes",
+      "text": "Recetas",
+      "href": "/es/recetas"
+    },
+    {
+      "id": "blog",
+      "text": "Blog",
+      "href": "/es/blog"
+    },
+    {
       "id": "contact",
       "text": "Contacto",
       "href": "/es/contacto"
