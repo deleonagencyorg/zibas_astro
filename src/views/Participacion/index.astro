@@ -1,0 +1,113 @@
+---
+// src/views/Participacion/index.astro
+import { type Locale } from '../../i18n/i18n';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+
+interface Props {
+  currentLang: Locale;
+  headerColorConfig?: any;
+}
+
+const { currentLang, headerColorConfig } = Astro.props;
+
+// Meta information
+const title = 'Participación - Ziba\'s Creators';
+const metaDescription = 'Participa en el concurso de creatividad de Ziba\'s. Formulario de participación para subir tu contenido creativo.';
+---
+
+<MainLayout title={title} description={metaDescription} headerColors={headerColorConfig}>
+  <!-- Hero Section with same background as zibas-creators -->
+  <section id="hero" class="h-[200px] lg:h-[300px] relative overflow-hidden" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/coverzibascreators.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <!-- Main content -->
+    <div class="relative z-10 flex items-center justify-center h-full">
+      <div class="absolute top-4 left-0 w-full z-20">
+        <div class="container mx-auto px-4">
+          <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+        </div>
+      </div>
+      <div class="container mx-auto px-4">
+        <div class="text-center">
+          <!-- Title -->
+          <div class="text-white">
+            <h1 class="text-4xl md:text-6xl font-title font-bold leading-tight">
+              PARTICIPACIÓN
+            </h1>
+            <p class="text-lg md:text-xl leading-relaxed font-medium mt-4">
+              Completa el formulario para participar en Ziba's Creators
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="bg-white py-8 lg:py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-full mx-auto">
+        <!-- Iframe Container -->
+        <div class="w-full bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="iframe-container" style="position: relative; width: 100%; height: 0; padding-bottom: 75%; overflow: hidden;">
+            <iframe 
+              src="https://www.google.com" 
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+              title="Formulario de Participación"
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  /* Responsive iframe container */
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* 4:3 aspect ratio by default */
+    overflow: hidden;
+  }
+
+  .iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Adjust aspect ratio for different screen sizes */
+  @media (max-width: 768px) {
+    .iframe-container {
+      padding-bottom: 100%; /* More square on mobile */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .iframe-container {
+      padding-bottom: 60%; /* Wider on desktop */
+    }
+  }
+
+  /* Animation classes for consistency with zibas-creators */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+</style>

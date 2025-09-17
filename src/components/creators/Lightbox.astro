@@ -1,0 +1,200 @@
+---
+// Lightbox component for displaying post content
+---
+
+<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm">
+  <!-- Close button -->
+  <button 
+    id="lightbox-close" 
+    class="absolute top-4 right-4 z-60 text-white hover:text-gray-300 transition-colors"
+    aria-label="Cerrar"
+  >
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
+  <!-- Content container -->
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="max-w-4xl w-full max-h-[90vh] overflow-hidden">
+      <!-- Media container -->
+      <div id="lightbox-media" class="relative bg-black rounded-lg overflow-hidden mb-4">
+        <!-- Content will be injected here -->
+      </div>
+
+      <!-- Info panel -->
+      <div id="lightbox-info" class="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex-1">
+            <p id="lightbox-description" class="text-lg leading-relaxed mb-3"></p>
+            <p id="lightbox-author" class="text-sm opacity-80 font-medium"></p>
+          </div>
+          <div id="lightbox-categories" class="flex flex-wrap gap-2">
+            <!-- Categories will be injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  class LightboxManager {
+    constructor() {
+      this.lightbox = document.getElementById('lightbox');
+      this.mediaContainer = document.getElementById('lightbox-media');
+      this.descriptionEl = document.getElementById('lightbox-description');
+      this.authorEl = document.getElementById('lightbox-author');
+      this.categoriesEl = document.getElementById('lightbox-categories');
+      this.closeBtn = document.getElementById('lightbox-close');
+      
+      this.init();
+    }
+
+    init() {
+      // Close button
+      this.closeBtn?.addEventListener('click', () => this.close());
+      
+      // Close on backdrop click
+      this.lightbox?.addEventListener('click', (e) => {
+        if (e.target === this.lightbox) {
+          this.close();
+        }
+      });
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !this.lightbox?.classList.contains('hidden')) {
+          this.close();
+        }
+      });
+
+      // Listen for post card clicks
+      document.addEventListener('click', (e) => {
+        const postCard = e.target.closest('.post-card');
+        if (postCard) {
+          e.preventDefault();
+          this.openPost(postCard);
+        }
+      });
+    }
+
+    openPost(postCard) {
+      const data = {
+        id: postCard.dataset.postId,
+        image: postCard.dataset.image,
+        description: postCard.dataset.description,
+        author: postCard.dataset.author,
+        link: postCard.dataset.link,
+        hasMedia: postCard.dataset.hasMedia === 'true',
+        isVideo: postCard.dataset.isVideo === 'true'
+      };
+
+      // Handle external links
+      if (data.link && data.link !== '') {
+        window.open(data.link, '_blank');
+        return;
+      }
+
+      // Show lightbox
+      this.show(data);
+    }
+
+    show(data) {
+      // Clear previous content
+      this.mediaContainer.innerHTML = '';
+      
+      // Create media content
+      if (data.hasMedia) {
+        if (data.isVideo) {
+          this.mediaContainer.innerHTML = `
+            <video 
+              class="w-full h-auto max-h-[70vh] object-contain" 
+              controls 
+              autoplay 
+              loop
+            >
+              <source src="${data.image}" type="video/mp4" />
+              Tu navegador no soporta el elemento video.
+            </video>
+          `;
+        } else {
+          this.mediaContainer.innerHTML = `
+            <img 
+              src="${data.image}" 
+              alt="${data.description}" 
+              class="w-full h-auto max-h-[70vh] object-contain"
+            />
+          `;
+        }
+      } else {
+        // Placeholder for posts without media
+        this.mediaContainer.innerHTML = `
+          <div class="flex items-center justify-center h-64 bg-gradient-to-br from-orange to-red rounded-lg">
+            <div class="text-center text-white">
+              <svg class="w-16 h-16 mx-auto mb-4 opacity-60" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              <p class="text-lg font-semibold">Contenido de texto</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Set description and author
+      this.descriptionEl.textContent = data.description;
+      this.authorEl.textContent = `Por ${data.author}`;
+
+      // Show lightbox
+      this.lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+      this.lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+      
+      // Stop any playing videos
+      const videos = this.mediaContainer.querySelectorAll('video');
+      videos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    }
+  }
+
+  // Initialize lightbox when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new LightboxManager());
+  } else {
+    new LightboxManager();
+  }
+
+  // Re-initialize on page transitions
+  document.addEventListener('astro:page-load', () => new LightboxManager());
+</script>
+
+<style>
+  #lightbox {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  #lightbox.hidden {
+    animation: fadeOut 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  #lightbox-media img,
+  #lightbox-media video {
+    border-radius: 0.5rem;
+  }
+</style>
