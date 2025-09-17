@@ -2,6 +2,7 @@
 // src/components/creators/PostCard.astro
 import { Image } from 'astro:assets';
 import { getCountryInfo } from '../../utils/countryUtils';
+import LazyImage from '../common/LazyImage.astro';
 
 interface Props {
   backgroundImage: string;
@@ -62,7 +63,16 @@ const { name: countryName, flag: countryFlag } = getCountryInfo(country);
 >
   <!-- Background Image/Video -->
   <div class="absolute inset-0 w-full h-full">
-    {isVideo ? (
+    {actionUrl ? (
+      <!-- Imagen de fondo para links externos -->
+      <LazyImage
+        src="https://snack.yummiespromociones.com/zibas/socialmedia.webp"
+        alt="Social Media Link"
+        width={400}
+        height={600}
+        class="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    ) : isVideo ? (
       <video
         class="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105"
         muted
@@ -73,7 +83,7 @@ const { name: countryName, flag: countryFlag } = getCountryInfo(country);
         <source src={backgroundImage} type="video/mp4" />
       </video>
     ) : (
-      <Image
+      <LazyImage
         src={backgroundImage}
         alt={description}
         width={400}
@@ -83,19 +93,19 @@ const { name: countryName, flag: countryFlag } = getCountryInfo(country);
     )}
   </div>
 
-  <!-- Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  <!-- Overlay animado solo en hover -->
+  <div class="absolute inset-0 bg-gradient-to-t from-orange/70 via-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-  <!-- Content (visible on hover) -->
-  <div class="absolute inset-0 p-5 flex flex-col justify-end items-center text-center bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-    <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 w-full">
+  <!-- Content (siempre visible) -->
+  <div class="absolute inset-0 p-5 flex flex-col justify-end items-center text-center bg-gradient-to-t from-black/80 to-transparent">
+    <div class="w-full">
       <!-- Description -->
       <p class="text-white text-sm font-medium mb-3 line-clamp-3">
         {description}
       </p>
       
       <!-- Author -->
-      <div class="flex items-center justify-center text-white text-xs font-bold gap-2">
+      <div class="flex items-center justify-center text-white text-md font-bold gap-2 mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
         </svg>
@@ -104,9 +114,20 @@ const { name: countryName, flag: countryFlag } = getCountryInfo(country);
 
       <!-- Country -->
       {country && (
-        <div class="flex items-center justify-center text-white text-xs font-medium gap-1 mt-1 opacity-80">
+        <div class="flex items-center justify-center text-white text-md font-medium gap-1 mb-2 opacity-80">
           <span>{countryFlag}</span>
           <span>{countryName}</span>
+        </div>
+      )}
+
+      <!-- Categories -->
+      {categories && categories.length > 0 && (
+        <div class="flex flex-wrap justify-center gap-1">
+          {categories.map(category => (
+            <span class="bg-white/20 text-white text-md px-2 py-1 rounded-full">
+              {category}
+            </span>
+          ))}
         </div>
       )}
     </div>
