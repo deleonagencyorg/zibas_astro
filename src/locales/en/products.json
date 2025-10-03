@@ -51,6 +51,33 @@
       ]
     },
     {
+      "id": "zibas-chile-toreado",
+      "name": "Ziba's Chile Toreado",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
+      "background_color": "#147a2f",  
+      "header_color": "#FFFFFF",
+      "text_color":"#147a2f",
+      "header_background": "#147a2f",
+      "header_color": "#FFFFFF",
+      "color_button": "#147a2f",
+      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "23g",
+        "26g",
+        "40g",
+        "80g",
+        "190g"
+      ]
+    },
+    {
       "id": "zibas-queso",
       "name": "Ziba's Queso",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
