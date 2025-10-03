@@ -159,6 +159,14 @@
                     "titleColor": "#FDE820"
                 },
                 {
+                    "id": "zibas-chile-toreado",
+                    "slug": "zibas-chile-toreado",
+                    "title": "Zibas Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
+                    "titleColor": "#147a2f"
+                },
+                {
                     "id": "zibas-crema-y-especias",
                     "slug": "zibas-crema-y-especias",
                     "title": "Zibas Crema y Especias",
