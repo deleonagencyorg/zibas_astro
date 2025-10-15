@@ -3,18 +3,6 @@
   "description": "Descubre todas las categorías disponibles para participar en el concurso de creatividad de Ziba's",
   "categories": [
     {
-      "id": "audiovisual",
-      "title": "AUDIOVISUAL",
-      "description": "Crea una historia sobre Ziba’s en formato corto y cinematográfico. Usa memes, IA, animación o cualquier estilo que muestre tu creatividad.",
-      "subtitle": "Crea una historia sobre Ziba’s en formato corto y cinematográfico. Usa memes, IA, animación o cualquier estilo que muestre tu creatividad.",
-      "longDescription": "Crea una historia sobre Ziba’s en formato corto y cinematográfico. Usa memes, IA, animación o cualquier estilo que muestre tu creatividad.",
-      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
-      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
-      "url": "/es/zibas-creators/categoria/audiovisual",
-      "color": "#8B5CF6",
-      "gradient": "from-purple-400 to-pink-400"
-    },
-    {
       "id": "baile",
       "title": "BAILE",
       "description": "Muestra tu flow, tus pasos y tu estilo. Grábate moviendo el cuerpo al ritmo que más te guste.",
