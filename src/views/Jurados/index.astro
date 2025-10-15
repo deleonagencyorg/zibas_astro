@@ -47,13 +47,11 @@ const socialMedia = t('social_media', { namespace: 'common', locale: lang as Loc
                mutateAmount={50}
              />
           </div>
-        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-white relative z-10">
-          {juradosData.description}
-        </h2>
+   
         {juradosData.description&& (
           <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-white relative z-10 flex items-center justify-center">
             
-            <span class="font-title pl-2 relative z-10">{juradosData.title}</span>
+            <span class="font-title pl-2 relative z-10">{juradosData.description}</span>
           </h1>
         
         )}
