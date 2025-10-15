@@ -82,28 +82,20 @@ try {
 <MainLayout title={title} description={metaDescription} headerColors={headerColorConfig}>
   <Lightbox />
       <!-- Hero Section - Orange -->
-    <section id="hero" class="h-[300px] lg:h-[800px] relative overflow-hidden" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/coverzibascreators.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <section id="hero" class="min-h-[420px] lg:h-[800px] relative overflow-hidden py-12 lg:py-0" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/coverzibascreators.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
       <!-- Background decorative bars -->
       
       
       <!-- Main content -->
       <div class="relative z-10 flex items-center justify-center h-full">
-        <div class="container mx-auto px-4">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="container mx-auto px-4 h-full">
+          <div class="flex items-center justify-center h-full">
             <!-- Left Content -->
-            <div class="text-white  hero-content animate-fade-in-up">
-              <h1 class="text-5xl md:text-16xl font-title font-bold leading-tight animate-fade-in-up animation-delay-200">
-                 AQUÍ PREMIAREMOS TU TALENTO EN VIDEO, BAILE, MÚSICA, ARTE, MEMES E INTELIGENCIA ARTIFICIAL.
-              </h1>
-             
-             <a href="/es/participacion" class="inline-block bg-orange border border-white text-white font-bold py-4 px-8 rounded-md text-lg mt-6 md:mt-8">
-              Participa
-             </a>
-            </div>
+       
             
             <!-- Right Content - Ziba's Creators Image -->
             <div class="relative hero-graphic flex justify-center animate-fade-in-left">
-              <div class="relative z-10 max-w-md lg:max-w-lg ">
+              <div class="relative z-10 max-w-md lg:max-w-lg text-center flex flex-col items-center ">
                 <!-- Main Ziba's Creators Image -->
                 <div class="relative">
                   <LazyImage
@@ -111,6 +103,9 @@ try {
                     alt="Ziba's Creators" 
                     class="w-full h-auto object-contain animate-fade-in-up animation-delay-300"
                   />
+                    <a href="/es/participacion" class="inline-block bg-orange border border-white text-white font-bold py-4 px-8 rounded-md text-lg mt-6 md:mt-8">
+              Participa
+             </a>
                 </div>
               </div>
             </div>

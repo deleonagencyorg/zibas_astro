@@ -51,30 +51,6 @@
       "gradient": "from-green-400 to-emerald-400"
     },
     {
-      "id": "memes",
-      "title": "MEMES",
-      "description": "Porque reír también es un arte.",
-      "subtitle": "Crea contenido viral y divertido",
-      "longDescription": "Comparte tus memes más creativos, videos graciosos, parodias y cualquier contenido que haga reír a la comunidad.",
-      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MEME.webp",
-      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_MEME.webp",
-      "url": "/es/zibas-creators/categoria/memes",
-      "color": "#F59E0B",
-      "gradient": "from-yellow-400 to-orange-400"
-    },
-    {
-      "id": "ia",
-      "title": "INTELIGENCIA ARTIFICIAL",
-      "description": "Contenido creado con IA.",
-      "subtitle": "Innovación y tecnología creativa",
-      "longDescription": "Comparte tus creaciones con IA, imágenes generadas, videos con efectos especiales y contenido que combine tecnología y creatividad.",
-      "image": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
-      "imageMobile": "https://snack.yummiespromociones.com/zibas/ZIBA_S-CREATORS_AI.webp",
-      "url": "/es/zibas-creators/categoria/inteligencia-artificial",
-      "color": "#EC4899",
-      "gradient": "from-pink-400 to-rose-400"
-    },
-    {
       "id": "cortometraje",
       "title": "CORTOMETRAJE",
       "description": "Cuenta historias en formato corto.",
