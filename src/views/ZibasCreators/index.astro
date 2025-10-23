@@ -564,6 +564,38 @@ try {
 
    </MainLayout>
 
+<script is:inline>
+  const appendUtmToZibasLinks = () => {
+    try {
+      const qs = window.location.search || '';
+      if (!qs || qs === '?') return;
+      const currentParams = new URLSearchParams(qs);
+      const anchors = Array.from(document.querySelectorAll('a[href^="https://zibascreators.yummiespromociones.com/"]'));
+      anchors.forEach((a) => {
+        try {
+          const url = new URL(a.href);
+          currentParams.forEach((value, key) => {
+            if (!key) return;
+            const k = String(key).toLowerCase();
+            if (!k.startsWith('utm_')) return;
+            if (!url.searchParams.has(key)) {
+              url.searchParams.append(key, value);
+            }
+          });
+          a.href = url.toString();
+        } catch (_) { /* noop */ }
+      });
+    } catch (_) { /* noop */ }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', appendUtmToZibasLinks);
+  } else {
+    appendUtmToZibasLinks();
+  }
+  document.addEventListener('astro:page-load', appendUtmToZibasLinks);
+</script>
+
 <script src="./scripts.js"></script>
 <script>
   document.addEventListener('astro:page-load', () => {
