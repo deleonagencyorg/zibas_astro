@@ -413,10 +413,9 @@ import LazyImage from '../LazyImage.astro';
 
   // Inicializar en DOMContentLoaded
   document.addEventListener('DOMContentLoaded', initializeCarousels);
-  
-  // Reinicializar cuando cambie el idioma
+  // Reinicializar en navegaciones parciales
   document.addEventListener('astro:page-load', initializeCarousels);
-  
-  // Limpiar antes de que la página se descargue
-  document.addEventListener('astro:before-preparation', cleanupCarousels);
+  document.addEventListener('astro:after-swap', initializeCarousels);
+  // Limpiar antes del swap de Astro
+  document.addEventListener('astro:before-swap', cleanupCarousels);
 </script> 

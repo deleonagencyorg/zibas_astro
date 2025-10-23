@@ -132,7 +132,11 @@ function normalizeType(r: Recipe): string {
 
 <script>
   // This script runs only on the client side
-  document.addEventListener('DOMContentLoaded', () => {
+  let recipesIO: IntersectionObserver | null = null;
+  function initializeRecipesFilters() {
+    const filtersRoot = document.getElementById('recipeFilters') as HTMLElement | null;
+    if (!filtersRoot) return;
+
     // Fallback image handling
     const images = document.querySelectorAll('img');
     images.forEach((img) => {
@@ -216,16 +220,29 @@ function normalizeType(r: Recipe): string {
       });
     });
 
-    // Initialize default state (ALL)
-    const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
-    if (defaultBtn) {
-      setActive(defaultBtn);
-      applyFilter('all');
+    // Prevent duplicate listener binding across transitions
+    if (filtersRoot.dataset.rfInitialized === 'true') {
+      // Re-apply current state quickly
+      const activeBtn = filterButtons.find(b => b.classList.contains('bg-orange')) || filterButtons.find(b => b.getAttribute('data-filter') === 'all');
+      if (activeBtn) {
+        setActive(activeBtn as HTMLButtonElement);
+        applyFilter(activeBtn.getAttribute('data-filter') || 'all');
+      }
+    } else {
+      filtersRoot.dataset.rfInitialized = 'true';
+      // Initialize default state (ALL)
+      const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
+      if (defaultBtn) {
+        setActive(defaultBtn);
+        applyFilter('all');
+      }
     }
 
     // Infinite scroll observer
     if ('IntersectionObserver' in window && sentinel) {
-      const io = new IntersectionObserver((entries) => {
+      // Cleanup previous observer if any
+      if (recipesIO) { recipesIO.disconnect(); recipesIO = null; }
+      recipesIO = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const matching = getMatchingCards(currentFilter);
@@ -235,8 +252,20 @@ function normalizeType(r: Recipe): string {
           }
         });
       });
-      io.observe(sentinel);
+      recipesIO.observe(sentinel);
     }
+  }
+
+  // Init on initial load and Astro transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRecipesFilters);
+  } else {
+    initializeRecipesFilters();
+  }
+  document.addEventListener('astro:page-load', initializeRecipesFilters);
+  document.addEventListener('astro:after-swap', initializeRecipesFilters);
+  document.addEventListener('astro:before-swap', () => {
+    if (recipesIO) { recipesIO.disconnect(); recipesIO = null; }
   });
 </script>
 
