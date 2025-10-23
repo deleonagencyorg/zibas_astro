@@ -2,24 +2,24 @@
 // src/components/creators/Lightbox.astro
 ---
 
-<div id="creator-lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+<div id="creator-lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[2147483647] isolate flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-2 md:p-4">
   <!-- Contenedor del contenido -->
-  <div id="lightbox-content" class="relative w-full h-[90vh] max-w-6xl bg-orange rounded-lg shadow-xl transform scale-95 transition-all duration-300 flex flex-col md:flex-row">
+  <div id="lightbox-content" class="relative w-[95%] lg:w-full h-[90vh] max-w-6xl bg-orange rounded-lg shadow-xl transform scale-95 transition-all duration-300 flex flex-col md:flex-row overflow-hidden">
     <!-- Botón de cerrar -->
-    <button id="lightbox-close" class="absolute -top-4 -right-4 bg-white text-black rounded-full h-10 w-10 flex items-center justify-center z-10">
+    <button id="lightbox-close" class="absolute top-2 right-2 md:-top-4 md:-right-4 bg-white text-black rounded-full h-10 w-10 flex items-center justify-center z-10 shadow-lg">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     </button>
 
     <!-- Contenedor de medios (imagen o video) -->
-    <div id="media-container" class="flex-1 bg-black rounded-t-lg md:rounded-l-lg md:rounded-tr-none overflow-hidden flex items-center justify-center">
+    <div id="media-container" class="flex-1 bg-black rounded-t-lg md:rounded-l-lg md:rounded-tr-none overflow-hidden flex items-center justify-center min-h-[50vh] md:min-h-0">
       <!-- El contenido se insertará aquí dinámicamente -->
     </div>
 
     <!-- Información del post -->
-    <div class="w-full md:w-80 p-6 flex flex-col justify-center">
-      <p id="lightbox-description" class="text-white text-2xl mb-4 leading-relaxed"></p>
-      <p id="lightbox-author" class="text-white/70 text-2xl mb-3"></p>
-      <div id="lightbox-country" class="text-white/60 text-2xl mb-2"></div>
+    <div class="w-full md:w-80 p-4 md:p-6 flex flex-col justify-center overflow-y-auto">
+      <p id="lightbox-description" class="text-white text-lg md:text-2xl mb-3 md:mb-4 leading-relaxed"></p>
+      <p id="lightbox-author" class="text-white/70 text-lg md:text-2xl mb-2 md:mb-3"></p>
+      <div id="lightbox-country" class="text-white/60 text-lg md:text-2xl mb-2"></div>
       <div id="lightbox-categories" class="flex flex-wrap gap-2"></div>
     </div>
   </div>
@@ -89,7 +89,7 @@
       if (detail.categories && detail.categories.length > 0) {
         detail.categories.forEach(category => {
           const categoryTag = document.createElement('span');
-          categoryTag.className = 'bg-white/20 text-white text-2xl px-3 py-2 rounded-full';
+          categoryTag.className = 'bg-white/20 text-white text-sm md:text-2xl px-2 md:px-3 py-1 md:py-2 rounded-full';
           categoryTag.textContent = category;
           categoriesEl.appendChild(categoryTag);
         });
@@ -97,11 +97,22 @@
 
       lightbox.classList.remove('opacity-0', 'pointer-events-none');
       content.classList.remove('scale-95');
+
+      // Lock page scroll while lightbox is open
+      try {
+        document.documentElement.classList.add('overflow-hidden');
+        document.body.classList.add('overflow-hidden');
+      } catch (_) { /* noop */ }
     };
 
     const closeLightbox = () => {
       lightbox.classList.add('opacity-0', 'pointer-events-none');
       content.classList.add('scale-95');
+      // Unlock page scroll
+      try {
+        document.documentElement.classList.remove('overflow-hidden');
+        document.body.classList.remove('overflow-hidden');
+      } catch (_) { /* noop */ }
       // Detener video si existe
       const video = mediaContainer.querySelector('video');
       if (video) {

@@ -24,15 +24,15 @@ function getCategoryType(category: any): string {
 ---
 
 <div class="w-full" data-categories-carousel>
-  <div class="w-full px-4">
+  <div class="w-full px-0 md:px-4">
     <!-- Title Section -->
  
     <!-- Desktop Carousel -->
     <div class="categories-carousel relative">
-      <div class="categories-carousel-container overflow-hidden">
+      <div class="categories-carousel-container overflow-hidden px-4 md:px-0">
         <div class="categories-carousel-track flex items-start gap-4 md:gap-6 transition-transform duration-300" id="categoriesTrackDesktop" style="transform: translateX(0px); width: max-content;">
           {categoryItems.map((category, index) => (
-            <div class="category-slide flex-shrink-0" data-index={index} data-category={getCategoryType(category)}>
+            <div class="category-slide flex-shrink-0 w-[calc(100vw-2rem)] md:w-auto" data-index={index} data-category={getCategoryType(category)}>
               <CategoryCard
                 id={category.id}
                 title={category.title}
@@ -83,7 +83,13 @@ function getCategoryType(category: any): string {
       const slides = Array.from(track.querySelectorAll('.category-slide'));
       // Inicializar en 0 para mostrar la primera categoría
       let currentSlide = 0;
-      const slidesPerView = 4;
+      
+      // Responsive slidesPerView: 1 en mobile, 4 en desktop
+      function getSlidesPerView() {
+        return window.innerWidth < 768 ? 1 : 4;
+      }
+      
+      let slidesPerView = getSlidesPerView();
       
       // Asegurar que el track esté visible desde el inicio
       track.style.transform = 'translateX(0px)';
@@ -136,6 +142,7 @@ function getCategoryType(category: any): string {
 
       function createDots() {
         dotsContainer.innerHTML = '';
+        slidesPerView = getSlidesPerView();
         const totalDots = Math.max(0, slides.length - slidesPerView + 1);
         for (let i = 0; i < totalDots; i++) {
           const dot = document.createElement('button');
@@ -150,7 +157,21 @@ function getCategoryType(category: any): string {
 
       function updateCarousel() {
         // Asegurar que el carrusel comience desde la primera categoría
-        const offset = currentSlide * (310 + 24); // 310px card width + 24px gap
+        slidesPerView = getSlidesPerView();
+        
+        // Calcular offset basado en el ancho de la pantalla
+        // Mobile: usar el ancho de la primera slide + gap
+        // Desktop: usar el ancho fijo de la card (310px) + gap (24px)
+        let offset;
+        if (window.innerWidth < 768) {
+          const firstSlide = slides[0];
+          const slideWidth = firstSlide ? firstSlide.offsetWidth : window.innerWidth - 32;
+          const gap = 16; // gap-4 = 1rem = 16px
+          offset = currentSlide * (slideWidth + gap);
+        } else {
+          offset = currentSlide * (310 + 24); // 310px card width + 24px gap
+        }
+        
         track.style.transform = `translateX(-${offset}px)`;
 
         slides.forEach((slide) => {
@@ -219,11 +240,27 @@ function getCategoryType(category: any): string {
       }
 
       function updateButtons() {
+        slidesPerView = getSlidesPerView();
         prevClone.disabled = currentSlide === 0;
         nextClone.disabled = currentSlide >= slides.length - slidesPerView;
         prevClone.classList.toggle('opacity-50', prevClone.disabled);
         nextClone.classList.toggle('opacity-50', nextClone.disabled);
       }
+      
+      // Agregar listener para resize para actualizar el carousel cuando cambie el tamaño de la ventana
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          const newSlidesPerView = getSlidesPerView();
+          if (newSlidesPerView !== slidesPerView) {
+            // Resetear a la primera slide si cambia el modo
+            currentSlide = 0;
+            createDots();
+            updateCarousel();
+          }
+        }, 150);
+      });
     }
   }
 
