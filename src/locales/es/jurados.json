@@ -30,6 +30,11 @@
       "id": "costa_rica",
       "name": "Costa Rica",
       "active": true
+    },
+    {
+      "id": "nicaragua",
+      "name": "Nicaragua",
+      "active": true
     }
   ],
   "jurors": {
@@ -86,6 +91,17 @@
         "instagram": "emii_salas30",
         "instagramLink": "https://instagram.com/emii_salas30",
         "followers": "233,000"
+      }
+    ],
+    "nicaragua": [
+      {
+        "name": "Cindy Bustamante",
+        "title": "Modelo y Creadora de Contenido",
+        "bio": "Creadora de contenido, modelo y empresaria nicaragüense reconocida por su estilo creativo y su autenticidad frente a cámara.",
+        "image": "https://snack.yummiespromociones.com/zibas/Cindy_Bustamante.jpeg",
+        "instagram": "cindybustamanteof",
+        "instagramLink": "https://www.instagram.com/cindybustamanteof",
+        "followers": ""
       }
     ]
   }
