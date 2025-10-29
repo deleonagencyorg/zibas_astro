@@ -97,6 +97,11 @@
     "explore": "Explorar"
   },
   "menu_items": [
+     {
+      "id": "zibas_creators",
+      "text": "Ziba's Creators",
+      "href": "/es/zibas-creators"
+    },
     {
       "id": "products",
       "text": "Productos",

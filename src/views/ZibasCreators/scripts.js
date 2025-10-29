@@ -44,7 +44,8 @@ function initScrollAnimations() {
  */
 function initButtonInteractions() {
   // Botón "REVISAR A LOS JURADOS"
-  const judgesButton = document.querySelector('button:contains("REVISAR A LOS JURADOS")');
+  const judgesButton = Array.from(document.querySelectorAll('button, a'))
+    .find(el => (el.textContent || '').trim().includes('REVISAR A LOS JURADOS'));
   if (judgesButton) {
     judgesButton.addEventListener('click', function() {
       // Simular apertura de modal o navegación
@@ -53,7 +54,8 @@ function initButtonInteractions() {
   }
 
   // Botón "SUBIR CONTENIDO"
-  const uploadButton = document.querySelector('button:contains("SUBIR CONTENIDO")');
+  const uploadButton = Array.from(document.querySelectorAll('button, a'))
+    .find(el => (el.textContent || '').trim().includes('SUBIR CONTENIDO'));
   if (uploadButton) {
     uploadButton.addEventListener('click', function() {
       // Simular apertura de formulario de subida
