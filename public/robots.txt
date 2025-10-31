@@ -1,4 +1,27 @@
 User-agent: *
-Allow: /
+
+# Allow only pages in navigation menu
+Allow: /es/$
+Allow: /en/$
+Allow: /es/zibas-creators
+Allow: /en/zibas-creators
+Allow: /es/recetas
+Allow: /en/recipes
+Allow: /es/blog
+Allow: /en/blog
+Allow: /es/contacto
+Allow: /en/contact
+
+# Block all other pages
+Disallow: /es/marcas
+Disallow: /en/brands
+Disallow: /es/nosotros
+Disallow: /en/about
+Disallow: /es/encontranos
+Disallow: /en/find-us
+Disallow: /es/menu
+Disallow: /en/menu
+Disallow: /api/
+Disallow: /_astro/
 
 Sitemap: https://zibaspapas.com/sitemap.xml

@@ -2,38 +2,41 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import config from '../i18n/config';
 
-const staticPages = ['/', '/menu', '/nosotros', '/contacto'];
-
-// Menu URLs from both languages
-const menuUrls = [
-  '/marcas', '/brands',
+// Only pages that are in the navigation menu
+const staticPages = [
+  '/',
+  '/zibas-creators',
+  '/recetas',
+  '/recipes',
   '/blog',
-  '/contacto', '/contact',
-  '/encontranos', '/find-us'
+  '/contacto',
+  '/contact'
 ];
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection('blog');
   
-  // Generate language versions of static pages
-  const staticPagesWithLang = staticPages.flatMap(page => 
-    config.supportedLocales.map(lang => `/${lang}${page}`)
-  );
-
-  // Generate language versions of menu URLs
-  const menuUrlsWithLang = menuUrls.flatMap(url => {
-    const lang = url.startsWith('/en') ? 'en' : 'es';
-    return config.supportedLocales.includes(lang) 
-      ? [`/${lang}${url.replace(`/${lang}`, '')}`]
-      : [url];
-  });
+  // Generate URLs with proper language prefixes
+  const pageUrls = staticPages.map(page => {
+    // Pages already have language prefix or are root
+    if (page === '/') {
+      return config.supportedLocales.map(lang => `/${lang}`);
+    }
+    // Check if page already has language prefix
+    const hasLangPrefix = config.supportedLocales.some(lang => page.startsWith(`/${lang}`));
+    if (hasLangPrefix) {
+      return [page];
+    }
+    // Add language prefix to pages without it
+    return config.supportedLocales.map(lang => `/${lang}${page}`);
+  }).flat();
 
   // Blog posts with language prefixes
-  const blogPosts = posts.map(post => 
+  const blogPosts = posts.map((post: any) => 
     `/${post.slug.split('/')[0]}/blog/${post.slug.split('/')[1]}`
   );
 
-  const allUrls = [...staticPagesWithLang, ...menuUrlsWithLang, ...blogPosts];
+  const allUrls = [...pageUrls, ...blogPosts];
 
   return new Response(
     `<?xml version="1.0" encoding="UTF-8"?>
