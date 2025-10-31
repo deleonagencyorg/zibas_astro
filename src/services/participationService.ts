@@ -6,23 +6,37 @@ const API_TOKEN = import.meta.env.PUBLIC_API_TOKEN;
 
 interface Participation {
   id: number;
-  // Define aquí la estructura completa de una participación según la respuesta de tu API
-  attributes: {
-    creatorName: string;
-    socialMediaLink: string;
-    cover: {
-      data: {
-        attributes: {
-          url: string;
-        }
-      }
-    }
-  }
+  description?: string;
+  image?: string;
+  thumbnail?: string;
+  link?: string;
+  channel?: string;
+  store?: string;
+  city?: string;
+  country?: string;
+  categories?: string[];
+  registeredAt?: string;
+  status?: boolean;
+  contact?: {
+    id: number;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
 }
 
 interface ApiResponse {
   data: Participation[];
-  meta: {
+  pagination?: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
+  meta?: {
     pagination: {
       page: number;
       pageSize: number;
@@ -64,8 +78,21 @@ export async function getParticipations(promotionId: number, page: number = 1, p
       throw new Error(`Error al obtener las participaciones: ${response.statusText}`);
     }
 
-    const data: ApiResponse = await response.json();
-    console.log('[ParticipationService] Received data:', data);
+    const rawData = await response.json();
+    console.log('[ParticipationService] Received data:', rawData);
+    
+    const data: ApiResponse = {
+      data: rawData.data || [],
+      meta: {
+        pagination: rawData.pagination || rawData.meta?.pagination || {
+          page: page,
+          pageSize: pageSize,
+          pageCount: 1,
+          total: 0
+        }
+      }
+    };
+    
     return data;
 
   } catch (error) {
