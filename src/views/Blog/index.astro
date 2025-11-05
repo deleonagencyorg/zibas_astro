@@ -107,9 +107,9 @@ const restPosts = allPosts.slice(5);
 
       <!-- Filter Buttons -->
       <div id="blogFilters" class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto md:max-w-none md:grid-cols-4 md:gap-4 md:flex md:justify-center">
-        <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
+        <button type="button" class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
         {categories.map((cat) => (
-          <button class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
+          <button type="button" class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
         ))}
       </div>
 
@@ -186,7 +186,8 @@ const restPosts = allPosts.slice(5);
       carousel.setData(filtered);
     }
     filterButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const filter = btn.getAttribute('data-filter') || 'all';
         setActive(btn);
         applyFilter(filter);
