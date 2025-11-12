@@ -62,7 +62,7 @@ export default function PostsGrid({
   const [selectedTag, setSelectedTag] = useState(initialTag);
   const [loading, setLoading] = useState(false);
 
-  // Single unified requester for filters + pagination via local proxy (GET)
+  // Single unified requester for filters + pagination (client → external API)
   const loadData = useCallback(async (page: number, country: string = '', tag: string = '') => {
     setLoading(true);
     // Small delay to ensure loading state is visible
@@ -76,8 +76,12 @@ export default function PostsGrid({
       if (country) params.set('country', country);
       if (tag) params.append('tags[]', tag);
 
-      const res = await fetch(`/api/creators/participations?${params.toString()}`, {
-        headers: { 'Content-Type': 'application/json' },
+      const url = `${apiHost}/v1/auth/participations?${params.toString()}`;
+      const res = await fetch(url, {
+        headers: {
+          Authorization: apiToken,
+          'Content-Type': 'application/json',
+        },
       });
 
       if (!res.ok) throw new Error('Error al cargar participaciones');
