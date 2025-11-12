@@ -11,6 +11,7 @@ import CategoriesCarousel from '../../components/categories/CategoriesCarousel.a
 import { getParticipations } from '../../services/participationService';
 import PostCard from '../../components/creators/PostCard.astro';
 import Lightbox from '../../components/creators/Lightbox.astro';
+import PostsGrid from '../../components/creators/PostsGrid';
 import './styles.css';
 import { PUBLIC_PROMOTION_ID } from '../../config/env';
 import juradosData from '../../locales/es/jurados.json';
@@ -65,7 +66,8 @@ interface ParticipationItem {
 
 // Read filters from URL
 const urlParams = Astro.url.searchParams;
-const selectedCategory = urlParams.get('categories') || '';
+const selectedTags = urlParams.getAll('tags[]');
+const selectedTag = selectedTags[0] || '';
 const selectedCountry = urlParams.get('country') || '';
 
 // Filter countries configuration
@@ -90,28 +92,24 @@ let participations: ParticipationItem[] = [];
 let pagination = { page: 1, pageSize: 24, pageCount: 1, total: 0 };
 const promotionId = PUBLIC_PROMOTION_ID || 0;
 const initialPage = 1;
-const initialPageSize = 24;
+const initialPageSize = 10;
 
 try {
-  const participationData = await getParticipations(promotionId, initialPage, initialPageSize);
+  const participationData = await getParticipations(
+    promotionId,
+    initialPage,
+    initialPageSize,
+    { country: selectedCountry || undefined, tags: selectedTag ? [selectedTag] : [] }
+  );
   participations = participationData.data;
-  
-  // Apply filters on server side
-  if (selectedCategory || selectedCountry) {
-    participations = participations.filter(p => {
-      const matchCategory = !selectedCategory || (p.categories && p.categories.includes(selectedCategory));
-      const matchCountry = !selectedCountry || p.country === selectedCountry;
-      return matchCategory && matchCountry;
-    });
-  }
-  
+
   pagination = participationData.meta?.pagination || pagination;
   const total = Number(pagination.total || 0);
   const pageSize = Number(pagination.pageSize || initialPageSize);
   if ((Number(pagination.pageCount || 0) <= 1) && total > pageSize) {
     pagination.pageCount = Math.ceil(total / pageSize);
   }
-  console.log('[ZibasCreatorsView] Participations loaded:', { count: participations.length, pagination, filters: { selectedCategory, selectedCountry } });
+  console.log('[ZibasCreatorsView] Participations loaded:', { count: participations.length, pagination, filters: { selectedTag, selectedCountry } });
 } catch (error) {
   console.error('[ZibasCreatorsView] Failed to load participations:', error);
 }
@@ -557,99 +555,18 @@ try {
           </h3>
         </div>
 
-        <!-- Filters Section -->
-        <div class="mb-8 space-y-6">
-          <!-- Category Filters -->
-          <div class="flex flex-col items-center gap-4">
-            <h4 class="text-white text-xl md:text-2xl font-bold">Categorías</h4>
-            <div class="flex flex-wrap justify-center gap-3">
-              <a 
-                href={`?${selectedCountry ? `country=${selectedCountry}` : ''}`}
-                class={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${!selectedCategory ? 'bg-orange text-white shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'}`}
-              >
-                Todas
-              </a>
-              {categoriesWithEmojis.map((cat) => (
-                <a 
-                  href={`?categories=${cat.id}${selectedCountry ? `&country=${selectedCountry}` : ''}`}
-                  class={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${selectedCategory === cat.id ? 'bg-orange text-white shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                >
-                  <span class="mr-2">{cat.emoji}</span>
-                  {cat.name}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <!-- Country Filters -->
-          <div class="flex flex-col items-center gap-4">
-            <h4 class="text-white text-xl md:text-2xl font-bold">Países</h4>
-            <div class="flex flex-wrap justify-center gap-3">
-              <a 
-                href={`?${selectedCategory ? `categories=${selectedCategory}` : ''}`}
-                class={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${!selectedCountry ? 'bg-orange text-white shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'}`}
-              >
-                Todos
-              </a>
-              {filterCountries.map((country) => (
-                <a 
-                  href={`?country=${country.id}${selectedCategory ? `&categories=${selectedCategory}` : ''}`}
-                  class={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${selectedCountry === country.id ? 'bg-orange text-white shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'}`}
-                >
-                  <span class="mr-2">{country.flag}</span>
-                  {country.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {(participations.length === 0 || pagination.pageCount === 0) ? (
-          <div class="text-center text-white text-xl md:text-2xl font-semibold">
-            Aún no hay resultados que mostrar.
-          </div>
-        ) : (
-          <>
-            <div id="posts-grid" class="grid grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
-              {participations.map((p) => {
-                const author = `${p.contact?.firstName || ''} ${p.contact?.lastName || ''}`.trim();
-                const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
-                return (
-                  <PostCard 
-                    backgroundImage={displayImage}
-                    originalMedia={p.image}
-                    description={p.description || 'Sin descripción'}
-                    profileName={author || 'Anónimo'}
-                    actionUrl={p.link}
-                    country={p.country}
-                    categories={p.categories}
-                  />
-                )
-              })}
-            </div>
-            {(pagination.pageCount > 1 || (pagination.total && pagination.total > pagination.pageSize) || (participations.length >= pagination.pageSize)) && (
-              <div class="mt-10 flex items-center justify-center gap-2 flex-wrap" id="pagination"
-                   data-current-page={pagination.page}
-                   data-page-count={pagination.pageCount}
-                   data-page-size={pagination.pageSize}
-                   data-promotion-id={promotionId}
-                   data-total={pagination.total}
-              >
-                <button class="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50" data-prev>
-                  Anterior
-                </button>
-                {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map((n) => (
-                  <button class={`px-4 py-2 rounded-full font-semibold ${n === pagination.page ? 'bg-orange text-white' : 'bg-white/10 text-white hover:bg-white/20'}`} data-page={n}>
-                    {n}
-                  </button>
-                ))}
-                <button class="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50" data-next>
-                  Siguiente
-                </button>
-              </div>
-            )}
-          </>
-        )}
+        <PostsGrid 
+          client:load
+          categories={categoriesWithEmojis}
+          countries={filterCountries}
+          initialParticipations={participations}
+          initialPagination={pagination}
+          promotionId={promotionId}
+          initialTag={selectedTag}
+          initialCountry={selectedCountry}
+          apiHost={import.meta.env.PUBLIC_API_HOST || ''}
+          apiToken={import.meta.env.PUBLIC_API_TOKEN || ''}
+        />
       </div>
     </section>
 
@@ -688,253 +605,3 @@ try {
 </script>
 
 <script src="./scripts.js"></script>
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const API_HOST = import.meta.env.PUBLIC_API_HOST;
-    const API_TOKEN = import.meta.env.PUBLIC_API_TOKEN;
-    const grid = document.getElementById('posts-grid');
-    const paginationEl = document.getElementById('pagination');
-    if (!grid || !API_HOST || !API_TOKEN) return;
-
-    const countryMap = {
-      'guatemala': { name: 'Guatemala', flag: '🇬🇹' },
-      'honduras': { name: 'Honduras', flag: '🇭🇳' },
-      'el_salvador': { name: 'El Salvador', flag: '🇸🇻' },
-      'nicaragua': { name: 'Nicaragua', flag: '🇳🇮' },
-      'costa_rica': { name: 'Costa Rica', flag: '🇨🇷' },
-      'republica_dominicana': { name: 'República Dominicana', flag: '🇩🇴' }
-    };
-
-    const getCountryInfo = (code: string) => countryMap[code as keyof typeof countryMap] || { name: (code || ''), flag: '🌍' };
-
-    const socialLinkBg = 'https://snack.yummiespromociones.com/zibas/socialmedia.webp';
-
-    let currentPage = Number(paginationEl?.dataset.currentPage || '1');
-    let pageCount = Number(paginationEl?.dataset.pageCount || '1');
-    let pageSize = Number(paginationEl?.dataset.pageSize || '8');
-    const promotionId = Number(paginationEl?.dataset.promotionId || '7');
-
-    const getPageSize = () => (window.innerWidth >= 768 ? 24 : 8);
-
-    const renderPaginationButtons = () => {
-      if (!paginationEl) return;
-      paginationEl.innerHTML = '';
-      const prevBtn = document.createElement('button');
-      prevBtn.className = 'px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50';
-      prevBtn.setAttribute('data-prev','');
-      prevBtn.textContent = 'Anterior';
-      paginationEl.appendChild(prevBtn);
-      for (let n = 1; n <= pageCount; n++) {
-        const b = document.createElement('button');
-        b.className = `px-4 py-2 rounded-full font-semibold ${n === currentPage ? 'bg-orange text-white' : 'bg-white/10 text-white hover:bg-white/20'}`;
-        b.setAttribute('data-page', String(n));
-        b.textContent = String(n);
-        paginationEl.appendChild(b);
-      }
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50';
-      nextBtn.setAttribute('data-next','');
-      nextBtn.textContent = 'Siguiente';
-      paginationEl.appendChild(nextBtn);
-      bindPaginationHandlers();
-      updateActiveButtons();
-    };
-
-    const buildCard = (p: any) => {
-      const author = `${(p.contact?.firstName || '')} ${(p.contact?.lastName || '')}`.trim() || 'Anónimo';
-      const displayImage = p.thumbnail || p.image || 'https://via.placeholder.com/400x600/ff6b35/ffffff?text=Ziba\'s+Creators';
-      const originalMedia = p.image;
-      const isVideo = (originalMedia || displayImage || '').match(/\.(mp4|webm|mov)(\?|$)/i);
-      const countryInfo = getCountryInfo(p.country);
-      const categories = Array.isArray(p.categories) ? p.categories : [];
-
-      const wrapper = document.createElement(p.link ? 'button' : 'button');
-      wrapper.className = 'block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out hover:shadow-[0_0_20px_rgba(0,0,0,0.3)] cursor-pointer';
-      wrapper.style.aspectRatio = '9 / 16';
-
-      if (p.link) {
-        wrapper.onclick = () => window.open(p.link, '_blank');
-      } else {
-        const mediaType = isVideo ? 'video' : 'image';
-        wrapper.onclick = () => {
-          const detail = {
-            src: originalMedia || displayImage,
-            type: mediaType,
-            description: p.description || 'Sin descripción',
-            author: author,
-            country: p.country,
-            categories: categories
-          };
-          document.dispatchEvent(new CustomEvent('show-lightbox', { detail }));
-        };
-      }
-
-      // Background container
-      const bg = document.createElement('div');
-      bg.className = 'absolute inset-0 w-full h-full';
-
-      if (p.link) {
-        const img = document.createElement('img');
-        img.src = socialLinkBg;
-        img.alt = 'Social Media Link';
-        img.width = 400;
-        img.height = 600;
-        img.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
-        bg.appendChild(img);
-      } else if (isVideo) {
-        const video = document.createElement('video');
-        video.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
-        video.muted = true;
-        video.loop = true;
-        video.autoplay = true;
-        video.playsInline = true;
-        const source = document.createElement('source');
-        source.src = displayImage; // thumbnail como poster equivalente visual
-        source.type = 'video/mp4';
-        video.src = originalMedia || displayImage;
-        bg.appendChild(video);
-      } else {
-        const img = document.createElement('img');
-        img.src = displayImage;
-        img.alt = p.description || 'Post';
-        img.width = 400;
-        img.height = 600;
-        img.className = 'w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105';
-        bg.appendChild(img);
-      }
-
-      // Overlay hover
-      const overlay = document.createElement('div');
-      overlay.className = 'absolute inset-0 bg-gradient-to-t from-orange/70 via-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300';
-
-      // Content always visible
-      const content = document.createElement('div');
-      content.className = 'absolute inset-0 p-5 flex flex-col justify-end items-center text-center bg-gradient-to-t from-black/80 to-transparent';
-      const inner = document.createElement('div');
-      inner.className = 'w-full';
-
-      const desc = document.createElement('p');
-      desc.className = 'text-white text-sm font-medium mb-3 line-clamp-3';
-      desc.textContent = p.description || 'Sin descripción';
-
-      const authorRow = document.createElement('div');
-      authorRow.className = 'flex items-center justify-center text-white text-md font-bold gap-2 mb-2';
-      authorRow.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>';
-      const authorSpan = document.createElement('span');
-      authorSpan.textContent = author;
-      authorRow.appendChild(authorSpan);
-
-      const countryRow = document.createElement('div');
-      countryRow.className = 'flex items-center justify-center text-white text-md font-medium gap-1 mb-2 opacity-80';
-      const flagSpan = document.createElement('span');
-      flagSpan.textContent = countryInfo.flag;
-      const countrySpan = document.createElement('span');
-      countrySpan.textContent = countryInfo.name;
-      if (p.country) {
-        countryRow.appendChild(flagSpan);
-        countryRow.appendChild(countrySpan);
-      }
-
-      const catsRow = document.createElement('div');
-      catsRow.className = 'flex flex-wrap justify-center gap-1';
-      categories.forEach((c: any) => {
-        const tag = document.createElement('span');
-        tag.className = 'bg-white/20 text-white text-md px-2 py-1 rounded-full';
-        tag.textContent = c;
-        catsRow.appendChild(tag);
-      });
-
-      inner.appendChild(desc);
-      inner.appendChild(authorRow);
-      if (p.country) inner.appendChild(countryRow);
-      if (categories.length) inner.appendChild(catsRow);
-      content.appendChild(inner);
-
-      wrapper.appendChild(bg);
-      wrapper.appendChild(overlay);
-      wrapper.appendChild(content);
-
-      return wrapper;
-    };
-
-    const updateActiveButtons = () => {
-      if (!paginationEl) return;
-      const buttons = paginationEl.querySelectorAll('button[data-page]');
-      buttons.forEach((b) => {
-        const n = Number(b.getAttribute('data-page'));
-        if (n === currentPage) {
-          b.classList.add('bg-orange','text-white');
-          b.classList.remove('bg-white/10');
-        } else {
-          b.classList.remove('bg-orange','text-white');
-          b.classList.add('bg-white/10','text-white');
-        }
-      });
-      const prev = paginationEl.querySelector('button[data-prev]') as HTMLButtonElement | null;
-      const next = paginationEl.querySelector('button[data-next]') as HTMLButtonElement | null;
-      if (prev) prev.disabled = currentPage <= 1;
-      if (next) next.disabled = currentPage >= pageCount;
-    };
-
-    const loadPage = async (page: number) => {
-      try {
-        const url = `${API_HOST}/v1/auth/participations?promotionId=${promotionId}&page=${page}&pageSize=${pageSize}`;
-        const res = await fetch(url, { headers: { 'Authorization': API_TOKEN, 'Content-Type': 'application/json' }});
-        if (!res.ok) throw new Error('Error al cargar participaciones');
-        const json = await res.json();
-        const items = json?.data || [];
-        grid.innerHTML = '';
-        items.forEach((p: any) => grid.appendChild(buildCard(p)));
-        currentPage = Number(json?.meta?.pagination?.page || page);
-        pageCount = Number(json?.meta?.pagination?.pageCount || pageCount);
-        if (paginationEl) {
-          paginationEl.dataset.currentPage = String(currentPage);
-          paginationEl.dataset.pageCount = String(pageCount);
-          paginationEl.dataset.pageSize = String(pageSize);
-        }
-        renderPaginationButtons();
-      } catch (e) {
-        console.error('[ZibasCreatorsView] Pagination load failed:', e);
-      }
-    };
-
-    const bindPaginationHandlers = () => {
-      if (!paginationEl) return;
-      paginationEl.querySelectorAll('button[data-page]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const n = Number(btn.getAttribute('data-page'));
-          if (!Number.isNaN(n) && n !== currentPage) {
-            loadPage(n);
-          }
-        });
-      });
-      const prev = paginationEl.querySelector('button[data-prev]');
-      const next = paginationEl.querySelector('button[data-next]');
-      prev?.addEventListener('click', () => { if (currentPage > 1) loadPage(currentPage - 1); });
-      next?.addEventListener('click', () => { if (currentPage < pageCount) loadPage(currentPage + 1); });
-    };
-
-    if (paginationEl) {
-      const desired = getPageSize();
-      if (desired !== pageSize) {
-        pageSize = desired;
-        paginationEl.dataset.pageSize = String(pageSize);
-        loadPage(1);
-      } else {
-        bindPaginationHandlers();
-        updateActiveButtons();
-      }
-      let lastIsDesktop = window.innerWidth >= 768;
-      const onResize = () => {
-        const isDesktop = window.innerWidth >= 768;
-        if (isDesktop !== lastIsDesktop) {
-          lastIsDesktop = isDesktop;
-          pageSize = getPageSize();
-          paginationEl.dataset.pageSize = String(pageSize);
-          loadPage(1);
-        }
-      };
-      window.addEventListener('resize', onResize);
-    }
-  });
-</script>
