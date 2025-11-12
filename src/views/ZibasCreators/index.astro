@@ -92,7 +92,7 @@ let participations: ParticipationItem[] = [];
 let pagination = { page: 1, pageSize: 24, pageCount: 1, total: 0 };
 const promotionId = PUBLIC_PROMOTION_ID || 0;
 const initialPage = 1;
-const initialPageSize = 10;
+const initialPageSize = 20;
 
 try {
   const participationData = await getParticipations(
