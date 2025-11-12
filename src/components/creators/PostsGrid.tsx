@@ -62,34 +62,28 @@ export default function PostsGrid({
   const [selectedTag, setSelectedTag] = useState(initialTag);
   const [loading, setLoading] = useState(false);
 
-  const loadParticipations = async (page: number, country: string, tag: string) => {
+  // Single unified requester for filters + pagination via local proxy (GET)
+  const loadData = useCallback(async (page: number, country: string = '', tag: string = '') => {
     setLoading(true);
-    
     // Small delay to ensure loading state is visible
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     try {
       const params = new URLSearchParams();
       params.set('promotionId', String(promotionId));
       params.set('page', String(page));
       params.set('pageSize', String(pagination.pageSize));
-      
       if (country) params.set('country', country);
       if (tag) params.append('tags[]', tag);
 
-      const url = `${apiHost}/v1/auth/participations?${params.toString()}`;
-      const res = await fetch(url, {
-        headers: {
-          'Authorization': apiToken,
-          'Content-Type': 'application/json'
-        }
+      const res = await fetch(`/api/creators/participations?${params.toString()}`, {
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (!res.ok) throw new Error('Error al cargar participaciones');
 
       const json = await res.json();
       setParticipations(json?.data || []);
-      
       const newPagination = json?.meta?.pagination || pagination;
       setPagination(newPagination);
       setCurrentPage(newPagination.page);
@@ -98,51 +92,20 @@ export default function PostsGrid({
     } finally {
       setLoading(false);
     }
-  };
+  }, [promotionId, pagination.pageSize, pagination]);
 
-  const handleFilterChange = useCallback(async (country: string, tag: string) => {
+  const handleFilterChange = useCallback((country: string, tag: string) => {
     setSelectedCountry(country);
     setSelectedTag(tag);
-    
-    setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    try {
-      const params = new URLSearchParams();
-      params.set('promotionId', String(promotionId));
-      params.set('page', '1');
-      params.set('pageSize', String(pagination.pageSize));
-      
-      if (country) params.set('country', country);
-      if (tag) params.append('tags[]', tag);
+    // Reset to page 1 when filters change
+    loadData(1, country, tag);
+  }, [loadData]);
 
-      const url = `${apiHost}/v1/auth/participations?${params.toString()}`;
-      const res = await fetch(url, {
-        headers: {
-          'Authorization': apiToken,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!res.ok) throw new Error('Error al cargar participaciones');
-
-      const json = await res.json();
-      setParticipations(json?.data || []);
-      
-      const newPagination = json?.meta?.pagination || pagination;
-      setPagination(newPagination);
-      setCurrentPage(newPagination.page);
-    } catch (error) {
-      console.error('[PostsGrid] Error loading participations:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [promotionId, pagination.pageSize, apiHost, apiToken]);
-
-  const handlePageChange = (page: number) => {
-    loadParticipations(page, selectedCountry, selectedTag);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const handlePageChange = useCallback((page: number) => {
+    // Optimistically update current page for immediate active state
+    setCurrentPage(page);
+    loadData(page, selectedCountry, selectedTag);
+  }, [loadData, selectedCountry, selectedTag]);
 
   const countryMap: Record<string, { name: string; flag: string }> = {
     'guatemala': { name: 'Guatemala', flag: '🇬🇹' },
@@ -271,8 +234,8 @@ export default function PostsGrid({
           {pagination.pageCount > 1 && (
             <div className="mt-10 flex items-center justify-center gap-2 flex-wrap">
               <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage <= 1}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(currentPage - 1); }}
+                disabled={currentPage <= 1 || loading}
                 className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Anterior
@@ -281,7 +244,8 @@ export default function PostsGrid({
               {Array.from({ length: pagination.pageCount }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
-                  onClick={() => handlePageChange(n)}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(n); }}
+                  disabled={loading}
                   className={`px-4 py-2 rounded-full font-semibold transition-all ${
                     n === currentPage
                       ? 'bg-orange text-white'
@@ -293,8 +257,8 @@ export default function PostsGrid({
               ))}
               
               <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage >= pagination.pageCount}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(currentPage + 1); }}
+                disabled={currentPage >= pagination.pageCount || loading}
                 className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Siguiente
