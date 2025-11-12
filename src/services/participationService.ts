@@ -53,9 +53,29 @@ interface ApiResponse {
  * @param pageSize - El número de items por página.
  * @returns Una promesa que se resuelve con los datos de las participaciones.
  */
-export async function getParticipations(promotionId: number, page: number = 1, pageSize: number = 10): Promise<ApiResponse> {
-  const url = `${API_HOST}/v1/auth/participations?promotionId=${promotionId}&page=${page}&pageSize=${pageSize}`;
-  
+export async function getParticipations(
+  promotionId: number,
+  page: number = 1,
+  pageSize: number = 10,
+  filters?: { country?: string; tags?: string | string[]; categories?: string | string[] }
+): Promise<ApiResponse> {
+  const params = new URLSearchParams();
+  params.set('promotionId', String(promotionId));
+  params.set('page', String(page));
+  params.set('pageSize', String(pageSize));
+
+  // Backward compatible: allow either filters.tags or filters.categories, but always send as tags[] to API
+  const country = filters?.country?.trim();
+  if (country) params.set('country', country);
+
+  const tagsInput = (filters?.tags ?? filters?.categories);
+  const tagsArray = Array.isArray(tagsInput) ? tagsInput : (tagsInput ? [tagsInput] : []);
+  tagsArray.forEach(tag => {
+    if (tag) params.append('tags[]', String(tag));
+  });
+
+  const url = `${API_HOST}/v1/auth/participations?${params.toString()}`;
+
   console.log('[ParticipationService] Fetching participations from:', url);
 
   if (!API_HOST || !API_TOKEN) {

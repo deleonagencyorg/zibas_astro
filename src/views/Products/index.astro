@@ -21,11 +21,11 @@ const uniqueCategories = Object.keys(categories);
     
     <!-- Filtro de categorías -->
     <div class="flex flex-wrap justify-center mb-8 gap-2">
-      <button class="category-filter active" data-category="all">
+      <button type="button" class="category-filter active" data-category="all">
         {categories.all}
       </button>
       {uniqueCategories.filter(cat => cat !== 'all').map((category) => (
-        <button class="category-filter" data-category={category}>
+        <button type="button" class="category-filter" data-category={category}>
           {categories[category]}
         </button>
       ))}
@@ -80,15 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const productCards = document.querySelectorAll('.product-card');
   
   filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
       // Actualizar estado activo de los botones
       filterButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
       
-      const category = button.getAttribute('data-category');
+      const category = button.getAttribute('data-category') || 'all';
       
       // Filtrar productos
-      productCards.forEach(card => {
+      productCards.forEach(cardEl => {
+        const card = cardEl as HTMLElement;
         if (category === 'all' || card.getAttribute('data-category') === category) {
           card.style.display = 'block';
         } else {

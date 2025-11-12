@@ -17,6 +17,8 @@ export const GET: APIRoute = async ({ request }) => {
     const promotionId = url.searchParams.get('promotionId');
     const page = url.searchParams.get('page') || '1';
     const pageSize = url.searchParams.get('pageSize') || '12';
+    const country = url.searchParams.get('country') || '';
+    const tags = url.searchParams.getAll('tags[]');
 
     if (!promotionId) {
       return new Response(
@@ -31,9 +33,15 @@ export const GET: APIRoute = async ({ request }) => {
       baseHost = `${baseHost}/api`;
     }
 
-    const targetUrl = `${baseHost}/v1/auth/participations?promotionId=${encodeURIComponent(
-      promotionId
-    )}&page=${encodeURIComponent(page)}&pageSize=${encodeURIComponent(pageSize)}`;
+    const params = new URLSearchParams();
+    params.set('promotionId', String(promotionId));
+    params.set('page', String(page));
+    params.set('pageSize', String(pageSize));
+    if (country) params.set('country', country);
+    if (tags && tags.length) {
+      tags.forEach((t) => { if (t) params.append('tags[]', t); });
+    }
+    const targetUrl = `${baseHost}/v1/auth/participations?${params.toString()}`;
 
     // Server-side diagnostic log (does not print token)
     if (LOG_LEVEL !== 'silent') {
@@ -42,6 +50,8 @@ export const GET: APIRoute = async ({ request }) => {
         promotionId,
         page,
         pageSize,
+        country,
+        tags,
       });
     }
 
