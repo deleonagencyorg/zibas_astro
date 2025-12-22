@@ -105,12 +105,12 @@ for (let i = 0; i < recipeItems.length; i += 1) {
      
     <!-- Carousel de recetas - MOBILE (1 por slide) - Solo visible en mobile -->
     <div class="recipes-carousel-mobile relative md:hidden">
-      <div class="recipes-carousel-container overflow-hidden w-full">
-        <div class="recipes-carousel-track flex items-start w-full gap-0 transition-transform duration-300" id="recipesTrackMobile" style="transform: translateX(0);">
+      <div class="recipes-carousel-container overflow-hidden w-full flex justify-center">
+        <div class="recipes-carousel-track flex items-center gap-0 transition-transform duration-300" id="recipesTrackMobile" style="transform: translateX(0);">
           {mobileGroups.map((group, gIndex) => (
-            <div class="recipe-slide-group flex-shrink-0 w-full">
+            <div class="recipe-slide-group flex-shrink-0 w-full flex justify-center items-center px-4">
               {group.map((recipe: any) => (
-                <div class="recipe-slide w-full" data-category={getCategoryKey(recipe)}>
+                <div class="recipe-slide flex justify-center" data-category={getCategoryKey(recipe)}>
                   <RecipeCardCarousel
                     image={recipe.image}
                     hoverImage={recipe.hover_image || recipe.image}
@@ -256,6 +256,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       const visibleGroups = allGroups.filter(g => g.style.display !== 'none');
       let currentGroup = 0;
+      let autoplayInterval;
 
       // Handlers prev/next: reset listeners para evitar acumulación
       const prevClone = prevBtn.cloneNode(true);
@@ -265,19 +266,24 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       createDots();
       updatePosition();
+      startAutoplay();
 
       prevClone.addEventListener('click', () => {
+        stopAutoplay();
         if (currentGroup > 0) {
           currentGroup--;
           updatePosition();
         }
+        startAutoplay();
       });
 
       nextClone.addEventListener('click', () => {
+        stopAutoplay();
         if (currentGroup < visibleGroups.length - 1) {
           currentGroup++;
           updatePosition();
         }
+        startAutoplay();
       });
 
       function createDots() {
@@ -286,8 +292,10 @@ for (let i = 0; i < recipeItems.length; i += 1) {
           const dot = document.createElement('button');
           dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentGroup ? 'bg-white' : 'bg-gray-300');
           dot.addEventListener('click', () => {
+            stopAutoplay();
             currentGroup = i;
             updatePosition();
+            startAutoplay();
           });
           dotsContainer.appendChild(dot);
         }
@@ -316,6 +324,30 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         prevClone.classList.toggle('opacity-50', currentGroup === 0);
         nextClone.classList.toggle('opacity-50', currentGroup >= visibleGroups.length - 1);
       }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(() => {
+          if (currentGroup < visibleGroups.length - 1) {
+            currentGroup++;
+          } else {
+            currentGroup = 0;
+          }
+          updatePosition();
+        }, 4000);
+      }
+
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+
+      // Pausar autoplay cuando el usuario interactúa
+      track.addEventListener('mouseenter', stopAutoplay);
+      track.addEventListener('mouseleave', startAutoplay);
+      track.addEventListener('touchstart', stopAutoplay);
     }
 
     // Función para configurar el carrusel desktop
@@ -341,6 +373,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       const visibleSlides = allSlides.filter(s => s.style.display !== 'none');
       let currentSlide = 0;
+      let autoplayInterval;
 
       // Resetear listeners para evitar acumulación
       const prevClone = prevBtn.cloneNode(true);
@@ -350,19 +383,24 @@ for (let i = 0; i < recipeItems.length; i += 1) {
 
       updateDesktopCarousel();
       createDesktopDots();
+      startAutoplay();
 
       prevClone.addEventListener('click', () => {
+        stopAutoplay();
         if (currentSlide > 0) {
           currentSlide--;
           updateDesktopCarousel();
         }
+        startAutoplay();
       });
 
       nextClone.addEventListener('click', () => {
+        stopAutoplay();
         if (currentSlide < Math.max(0, visibleSlides.length - 4)) {
           currentSlide++;
           updateDesktopCarousel();
         }
+        startAutoplay();
       });
 
       function createDesktopDots() {
@@ -372,8 +410,10 @@ for (let i = 0; i < recipeItems.length; i += 1) {
           const dot = document.createElement('button');
           dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentSlide ? 'bg-white' : 'bg-gray-300');
           dot.addEventListener('click', () => {
+            stopAutoplay();
             currentSlide = i;
             updateDesktopCarousel();
+            startAutoplay();
           });
           dotsContainer.appendChild(dot);
         }
@@ -503,6 +543,30 @@ for (let i = 0; i < recipeItems.length; i += 1) {
         prevClone.classList.toggle('opacity-50', currentSlide === 0);
         nextClone.classList.toggle('opacity-50', currentSlide >= Math.max(0, visibleSlides.length - 4));
       }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(() => {
+          const maxSlide = Math.max(0, visibleSlides.length - 4);
+          if (currentSlide < maxSlide) {
+            currentSlide++;
+          } else {
+            currentSlide = 0;
+          }
+          updateDesktopCarousel();
+        }, 4000);
+      }
+
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+
+      // Pausar autoplay cuando el usuario interactúa
+      track.addEventListener('mouseenter', stopAutoplay);
+      track.addEventListener('mouseleave', startAutoplay);
     }
   }
 
