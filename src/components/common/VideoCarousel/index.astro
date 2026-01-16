@@ -281,6 +281,13 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       height: 300px !important;
     }
   }
+
+  /* Reduce height for small desktop/tablet landscape to avoid excessive cropping */
+  @media (min-width: 768px) and (max-width: 1200px) {
+    .slide-content {
+      height: 60vh !important;
+    }
+  }
 </style>
 
 <script>
