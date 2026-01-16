@@ -22,11 +22,11 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 ---
 
 <!-- Desktop Navigation -->
-<nav class={`hidden md:flex items-center justify-between w-full py-3 px-6 bg-[#fcb800]`} data-current-lang={currentLang}>
+<nav class={`hidden md:flex items-center justify-between w-full py-2 lg:py-3 px-4 lg:px-6 bg-[#fcb800]`} data-current-lang={currentLang}>
   <!-- Logo -->
   <div class="flex-shrink-0">
     <a href={`/${currentLang}/`} class="block">
-      <img src={logos.principal.url} alt={logos.principal.alt} class="h-20 w-auto" />
+      <img src={logos.principal.url} alt={logos.principal.alt} class="h-14 lg:h-16 xl:h-20 w-auto" />
     </a>
   </div>
 
@@ -36,13 +36,13 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
   </div>
 
   <!-- Right Side - Language Switcher and Yummies One -->
-  <div class="flex items-center space-x-5">
-    <div class="flex space-x-10" id="desktop-menu-items">
+  <div class="flex items-center space-x-3 xl:space-x-5">
+    <div class="flex space-x-4 lg:space-x-6 xl:space-x-8 2xl:space-x-10" id="desktop-menu-items">
       {menuItems && menuItems.map((item: any) => (
         <div class="relative group">
           <a 
             href={item.href} 
-            class={`${headerColorConfig.textColor} font-title text-xl uppercase font-medium transition-colors py-2 px-3 rounded-md flex items-center hover:bg-quinary ${!item.href.startsWith('#') && currentPath === item.href ? 'bg-quinary' : ''}`}
+            class={`${headerColorConfig.textColor} font-title text-sm lg:text-base xl:text-xl uppercase leading-tight font-medium whitespace-nowrap transition-colors py-1 lg:py-2 px-2 lg:px-3 rounded-md flex items-center hover:bg-quinary ${!item.href.startsWith('#') && currentPath === item.href ? 'bg-quinary' : ''}`}
             style={`color: ${headerColorConfig.textColor};`}
           >
             {item.text}
