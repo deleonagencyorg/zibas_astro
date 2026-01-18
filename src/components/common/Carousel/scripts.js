@@ -20,7 +20,6 @@ function initCarousel() {
         },
         on: {
           init: function() {
-            console.log('Swiper inicializado correctamente');
           }
         }
       });
@@ -28,10 +27,8 @@ function initCarousel() {
       // Forzar update después de carga completa
       window.addEventListener('load', () => {
         swiper.update();
-        console.log('Swiper actualizado después de carga completa');
       });
     } catch (error) {
-      console.error('Error al inicializar Swiper:', error);
     }
   }, 500);
 }

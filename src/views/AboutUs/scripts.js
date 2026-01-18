@@ -38,7 +38,6 @@
             // Log para debugging en desarrollo
             if (process.env.NODE_ENV === 'development') {
               const year = timelineItem.getAttribute('data-year');
-              console.log(`Timeline item ${year} is now active`);
             }
           }
         });
@@ -51,11 +50,9 @@
     if (timelineItems.length === 0) {
       retryCount++;
       if (retryCount < MAX_RETRIES) {
-        console.log(`Timeline items not found, retrying ${retryCount}/${MAX_RETRIES}...`);
         setTimeout(initializeTimelineObserver, 100);
         return;
       } else {
-        console.warn('Timeline items not found after maximum retries');
         return;
       }
     }
@@ -83,7 +80,6 @@
     });
 
     isInitialized = true;
-    console.log(`Timeline observer initialized with ${timelineItems.length} items`);
 
     // Cleanup cuando se navega fuera de la página
     const cleanup = () => {
@@ -122,7 +118,6 @@
     // Estrategia 3: Backup con window.load
     window.addEventListener('load', () => {
       if (!isInitialized) {
-        console.log('Fallback initialization on window.load');
         initializeTimelineObserver();
       }
     }, { once: true });
@@ -130,7 +125,6 @@
     // Estrategia 4: Timeout de seguridad para casos extremos
     setTimeout(() => {
       if (!isInitialized && retryCount === 0) {
-        console.log('Safety timeout initialization');
         initializeTimelineObserver();
       }
     }, 1000);

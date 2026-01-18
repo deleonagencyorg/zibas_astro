@@ -12,7 +12,6 @@ export function getStaticPaths() {
   for (const locale of locales) {
     // Obtener productos para este idioma
     const products = t('items', { namespace: 'products', locale: locale as Locale }) || [];
-    console.log(`Encontrados ${products.length} productos para idioma ${locale}`);
     
     // Para cada producto, crear una ruta
     for (const product of products) {
@@ -23,7 +22,6 @@ export function getStaticPaths() {
     }
   }
 
-  console.log(`Generadas ${paths.length} rutas de productos en español`);
   return paths;
 }
 

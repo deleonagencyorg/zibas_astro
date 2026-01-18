@@ -20,8 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
       
       switch(text) {
         case 'Únete Ahora':
-          // Handle join now action
-          console.log('Join now clicked');
           // Add your join logic here
           break;
         case 'Saber Más':
@@ -29,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
           smoothScroll('.features-section');
           break;
         case 'Registrarse Gratis':
-          // Handle registration action
-          console.log('Register clicked');
           // Add your registration logic here
           break;
       }

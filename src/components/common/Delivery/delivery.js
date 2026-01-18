@@ -13,7 +13,6 @@ async function detectCountry() {
     let apiUrl = '/api/country';
     if (forceCountry) {
       apiUrl += `?force=${forceCountry}`;
-      console.log('Forzando país desde URL:', forceCountry);
     }
     
     // Usar nuestro endpoint API que utiliza geoip-lite
@@ -21,23 +20,18 @@ async function detectCountry() {
     const data = await response.json();
     
     if (data.country) {
-      console.log('País detectado:', data.country, data.countryCode, data.forced ? '(FORZADO)' : '(DETECTADO)');
       return data.country;
     } else {
-      console.log('geoip-lite no pudo detectar el país, intentando fallback');
       throw new Error('No country detected by geoip-lite');
     }
   } catch (error) {
-    console.log('Error con API local, usando fallback externo:', error);
     
     // Fallback 1: ipapi.co
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
-      console.log('País detectado con ipapi.co:', data.country_name);
       return data.country_name;
     } catch (fallbackError1) {
-      console.log('Error con ipapi.co, intentando api.country.is:', fallbackError1);
       
       // Fallback 2: api.country.is
       try {
@@ -52,10 +46,8 @@ async function detectCountry() {
           'DO': 'Dominican Republic'
         };
         const countryName = countryMap[data.country] || data.country;
-        console.log('País detectado con api.country.is:', countryName);
         return countryName;
       } catch (fallbackError2) {
-        console.log('Todos los métodos de detección fallaron:', fallbackError2);
         return null;
       }
     }
@@ -69,7 +61,6 @@ function showDeliveryApps(detectedCountry, deliveryApps) {
   
   // Verificar que los elementos existan
   if (!loadingElement || !contentElement) {
-    console.error('Elementos del DOM no encontrados');
     return;
   }
 
@@ -88,12 +79,10 @@ function showDeliveryApps(detectedCountry, deliveryApps) {
     // Si hay app para el país del usuario, solo mostrar esa
     appsToShow = [userCountryApp];
     showCountryIndicator = false;
-    console.log(`Mostrando solo la app de tu país: ${userCountryApp.app_name} (${detectedCountry})`);
   } else {
     // Si no hay app para el país o no se detectó país, mostrar todas
     appsToShow = deliveryApps;
     showCountryIndicator = true;
-    console.log(`No hay app específica para ${detectedCountry || 'país no detectado'}, mostrando todas las apps`);
   }
 
   // Crear una tarjeta para cada app a mostrar
@@ -124,13 +113,10 @@ function showDeliveryApps(detectedCountry, deliveryApps) {
   // Ocultar loading y mostrar contenido
   loadingElement.classList.add('hidden');
   contentElement.classList.remove('hidden');
-  
-  console.log(`Mostrando ${appsToShow.length} app(s) de delivery. País detectado: ${detectedCountry || 'No detectado'}`);
 }
 
 // Función principal de inicialización
 async function initializeDelivery(deliveryApps) {
-  console.log('DOM cargado, iniciando detección de país para delivery...');
   const detectedCountry = await detectCountry();
   showDeliveryApps(detectedCountry, deliveryApps);
 }
