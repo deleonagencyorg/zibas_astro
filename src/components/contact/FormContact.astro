@@ -353,6 +353,29 @@ const options = dynamicOptions[locale];
         }
       }
 
+      // Normalize specific fields for Winner flow before building multipart data
+      if (formData.dynamicOrPromotion) {
+        try {
+          const raw = String(formData.dynamicOrPromotion).trim();
+          if (raw && !raw.toLowerCase().startsWith('dinámica o promoción:')) {
+            formData.dynamicOrPromotion = `Dinámica o promoción: ${raw}`;
+          } else {
+            formData.dynamicOrPromotion = raw;
+          }
+        } catch {}
+      }
+
+      if (formData.award) {
+        try {
+          const raw = String(formData.award).trim();
+          if (raw && !raw.toLowerCase().startsWith('premio adjudicado')) {
+            formData.award = `Premio adjudicado: ${raw}`;
+          } else {
+            formData.award = raw;
+          }
+        } catch {}
+      }
+
       // Create FormData for multipart submission
       const multipartData = new FormData();
 
@@ -376,9 +399,6 @@ const options = dynamicOptions[locale];
       // Build full API URL
       const apiUrl = `${apiHost}${contactFormPath}`;
 
-      console.log('Submitting contact form to:', apiUrl);
-      console.log('Template for contact reason "' + formData.contactReason + '":', template);
-
       // Submit to API
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -395,7 +415,6 @@ const options = dynamicOptions[locale];
           const errorData = await response.json();
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch (parseError) {
-          console.error('Error parsing error response:', parseError);
         }
 
         throw new Error(errorMessage);
@@ -409,7 +428,6 @@ const options = dynamicOptions[locale];
       };
 
     } catch (error) {
-      console.error('Contact form submission error:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : (locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form')
@@ -424,22 +442,11 @@ const options = dynamicOptions[locale];
     const citySelect = document.getElementById('departmentSelect');
     const dynamicFields = document.getElementById('dynamicFields');
     const form = document.getElementById('contactForm');
-
-    // Debug: Check if elements exist
-    console.log('Form elements found:', {
-      contactReasonSelect: !!contactReasonSelect,
-      countrySelect: !!countrySelect,
-      citySelect: !!citySelect,
-      dynamicFields: !!dynamicFields,
-      form: !!form
-    });
-
-    // Debug: Check if variables are passed correctly
-    console.log('Script variables:', { labels, options, locale, apiHost, apiToken, contactFormPath });
+    const phoneInput = document.querySelector('input[name="phone"]');
+    const messageTextarea = document.querySelector('textarea[name="message"]');
 
     // If any of the required elements are missing, exit early
     if (!contactReasonSelect || !countrySelect || !citySelect || !dynamicFields || !form) {
-      console.error('Required form elements not found');
       return;
     }
 
@@ -456,11 +463,31 @@ const options = dynamicOptions[locale];
       }
     }
 
+    // Helper to adjust requirements for 'Soy un ganador'
+    function adjustWinnerRequirements(selectedReason) {
+      if (!phoneInput || !messageTextarea) return;
+      // Capture default placeholder once (data attribute) to restore later
+      if (!messageTextarea.dataset.defaultPlaceholder) {
+        messageTextarea.dataset.defaultPlaceholder = messageTextarea.getAttribute('placeholder') || '';
+      }
+      if (selectedReason === 'Soy un ganador') {
+        phoneInput.required = true;
+        // Winner-specific guidance (available only in ES per component logic)
+        messageTextarea.setAttribute(
+          'placeholder',
+          'Escribe la promoción en la que ganaste o detalla el premio que ganaste. Ej: PS5, giftcards, etc.'
+        );
+      } else {
+        phoneInput.required = false;
+        messageTextarea.setAttribute('placeholder', messageTextarea.dataset.defaultPlaceholder || '');
+      }
+    }
+
     // Handle contact reason change
     contactReasonSelect.onchange = function() {
       const selectedReason = this.value;
-      console.log('Contact reason changed to:', selectedReason);
       updateDynamicFields(selectedReason);
+      adjustWinnerRequirements(selectedReason);
     };
 
     // Handle country change
@@ -518,8 +545,6 @@ const options = dynamicOptions[locale];
           data.file = fileInput.files[0];
         }
         
-        console.log('Form data to submit:', data);
-        
         // Submit form
         const result = await submitContactForm(data);
         
@@ -550,7 +575,6 @@ const options = dynamicOptions[locale];
         }
         
       } catch (error) {
-        console.error('Form submission error:', error);
         alert(locale === 'es' ? 'Error al enviar el formulario' : 'Error sending form');
       } finally {
         // Restore button state
@@ -564,6 +588,7 @@ const options = dynamicOptions[locale];
     // Initialize dynamic fields with default contact reason if selected
     if (contactReasonSelect.value) {
       updateDynamicFields(contactReasonSelect.value);
+      adjustWinnerRequirements(contactReasonSelect.value);
     }
   }
 
@@ -576,11 +601,8 @@ const options = dynamicOptions[locale];
   // Function to update dynamic fields based on contact reason
   function updateDynamicFields(contactReason) {
     if (!dynamicFields) {
-      console.error('Dynamic fields container not found');
       return;
     }
-    
-    console.log('Updating dynamic fields for reason:', contactReason);
     
     // Clear existing dynamic fields
     dynamicFields.innerHTML = '';
@@ -621,14 +643,12 @@ const options = dynamicOptions[locale];
         createOthersFields();
         break;
       default:
-        console.log('No specific fields for reason:', contactReason);
     }
   }
 
   // Field creation functions
   function createClientFields() {
     if (!labels || !options) {
-      console.error('Labels or options not available');
       return;
     }
     
@@ -777,6 +797,11 @@ const options = dynamicOptions[locale];
       <div>
         <label class="block text-white font-medium mb-2">Premio adjudicado *</label>
         <input type="text" name="award" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-white font-medium mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-white mt-1">${labels.fileHelp}</p>
       </div>
     `;
   }

@@ -22,8 +22,12 @@ const contactUs = t('footer.contact_us', { namespace: 'common', locale: currentL
 const choose = t('footer.choose', { namespace: 'common', locale: currentLang });
 const instagramText = t('footer.instagram_text', { namespace: 'common', locale: currentLang });
 const facebookText = t('footer.facebook_text', { namespace: 'common', locale: currentLang });
-const email = t('footer.email', { namespace: 'common', locale: currentLang });
 const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang });
+
+// Contact page URL and button label
+const contactSlug = currentLang === 'es' ? 'contacto' : 'contact';
+const contactHref = `/${currentLang}/${contactSlug}`;
+const sendMessageText = currentLang === 'es' ? 'Enviar un mensaje' : 'Send a message';
 
 
 // Social media URLs
@@ -109,11 +113,11 @@ const zibasLogo = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/ziba
               {contactUs}
             </h3>
             <div class="flex flex-col space-y-1">
-              <a 
-                href={`mailto:${email}`}
-                class="font-sans text-sm md:text-base hover:underline transition-all duration-200 hover:opacity-80"
+              <a
+                href={contactHref}
+                class="inline-flex items-center justify-center px-4 py-2 bg-white text-secondary font-sans text-sm md:text-base font-medium rounded-md shadow hover:shadow-md transition-all duration-200 hover:opacity-90"
               >
-                {email}
+                {sendMessageText}
               </a>
             </div>
           </div>

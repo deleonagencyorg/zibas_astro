@@ -109,7 +109,6 @@ try {
   if ((Number(pagination.pageCount || 0) <= 1) && total > pageSize) {
     pagination.pageCount = Math.ceil(total / pageSize);
   }
-  console.log('[ZibasCreatorsView] Participations loaded:', { count: participations.length, pagination, filters: { selectedTag, selectedCountry } });
 } catch (error) {
   console.error('[ZibasCreatorsView] Failed to load participations:', error);
 }

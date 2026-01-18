@@ -290,7 +290,6 @@ const skeletonCount = 3;
                           // Crear un elemento Image para precargar
                           const img = new Image();
                           img.onload = function() {
-                            console.log(`Precargada imagen ${index} de ${brandId}`);
                           };
                           img.onerror = function() {
                             console.error(`Error al precargar imagen ${index} de ${brandId}`);

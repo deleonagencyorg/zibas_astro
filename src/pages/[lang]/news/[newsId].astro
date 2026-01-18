@@ -12,7 +12,6 @@ export function getStaticPaths() {
   for (const locale of locales) {
     // Obtener noticias para este idioma
     const blogPosts = t('items', { namespace: 'news', locale: locale as Locale }) || [];
-    console.log(`Found ${blogPosts.length} blog posts for language ${locale}`);
     
     // Para cada noticia, crear una ruta
     for (const blogPost of blogPosts) {
@@ -23,7 +22,6 @@ export function getStaticPaths() {
     }
   }
 
-  console.log(`Generated ${paths.length} blog routes in English`);
   return paths;
 }
 
@@ -33,7 +31,6 @@ const { lang, newsId } = Astro.params;
 // Establecer el idioma para las traducciones
 setLocale(currentLang);
 
-console.log(`Rendering blog: ${newsId} in language: ${lang}`);
 ---
 
 <MainLayout title={blogPost.title}>

@@ -14,13 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          // La reproducción automática comenzó con éxito
-          console.log('Video playback started successfully');
         })
         .catch(error => {
-          // La reproducción automática fue impedida
-          console.warn('Video playback was prevented:', error);
-          // En dispositivos móviles, puede requerir interacción del usuario
         });
     }
   }

@@ -76,7 +76,6 @@ export async function getParticipations(
 
   const url = `${API_HOST}/v1/auth/participations?${params.toString()}`;
 
-  console.log('[ParticipationService] Fetching participations from:', url);
 
   if (!API_HOST || !API_TOKEN) {
     console.error('[ParticipationService] Error: PUBLIC_API_HOST o PUBLIC_API_TOKEN no están definidas en las variables de entorno.');
@@ -99,7 +98,6 @@ export async function getParticipations(
     }
 
     const rawData = await response.json();
-    console.log('[ParticipationService] Received data:', rawData);
     
     const data: ApiResponse = {
       data: rawData.data || [],

@@ -34,7 +34,6 @@ const contact = locale === 'es' ? contactEs : contactEn;
 // Meta information
 const title = contact.title;
 const metaDescription = contact.description;
-console.log('headerColorConfig in Contact:', headerColorConfig);
 const headerColors = {
   backgroundColor: '#FE5A00',
   textColor: '#FFFFFF'
@@ -184,22 +183,13 @@ const headerColors = {
         // Contact data is directly available from Astro's define:vars
         const contactData = contactLocations;
         
-        // For debugging
-        console.log('Contact locations:', contactData);
-        console.log('Tabs found:', tabs.length);
-        console.log('Map containers found:', mapContainers.length);
-        
         // Function to update office information
         function updateOfficeInfo(countryCode) {
-          console.log('Updating office for:', countryCode);
           const office = contactData[countryCode];
           
           if (!office) {
-            console.error('No office data found for', countryCode);
             return;
           }
-          
-          console.log('Office data:', office);
           
           // Update text content and attributes
           if (officeName) officeName.textContent = office.name;
@@ -234,7 +224,6 @@ const headerColors = {
           }
           
           // Update map iframe visibility
-          console.log('Updating map visibility for country:', countryCode);
           
           // First hide all maps
           mapContainers.forEach(container => {
@@ -245,9 +234,7 @@ const headerColors = {
           const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
           if (selectedMap) {
             selectedMap.style.display = 'block';
-            console.log('Showing map container:', countryCode);
           } else {
-            console.error('No map container found for country code:', countryCode);
           }
         }
         
@@ -275,7 +262,6 @@ const headerColors = {
           // Función para manejar ambos tipos de eventos
           const handleEvent = (e) => {
             e.preventDefault();
-            console.log('Tab interaction:', tab.getAttribute('data-country-code'));
             handleTabSelection(tab);
           };
           

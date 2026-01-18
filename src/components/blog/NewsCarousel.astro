@@ -165,22 +165,18 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
 
   // auto-init when loaded and after Astro view transitions
   function autoInit(event){
-    console.log(`[NewsCarousel] autoInit triggered by: ${event?.type || 'direct call'}`);
     document.querySelectorAll('[data-news-carousel]').forEach((rootEl) => {
       const root = /** @type {HTMLElement} */(rootEl);
       if (root._carouselInitialized) {
-        console.log(`[NewsCarousel] Skipping already initialized carousel: ${root.id}`);
         return;
       }
       root._carouselInitialized = true;
-      console.log(`[NewsCarousel] Initializing carousel: ${root.id}`);
 
       let items = [];
       const dataScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
       if (dataScript && dataScript.textContent) {
         try { 
           items = JSON.parse(dataScript.textContent);
-          console.log(`[NewsCarousel] Parsed ${items.length} items from embedded JSON for ${root.id}.`);
         } catch (e) {
           console.error(`[NewsCarousel] Failed to parse embedded JSON for ${root.id}:`, e);
         }

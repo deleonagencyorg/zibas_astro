@@ -36,18 +36,15 @@ export interface GeoDetectionResult {
  * Detecta el país del usuario usando múltiples APIs externas
  */
 export async function detectUserCountry(): Promise<GeoDetectionResult> {
-  console.log('🌍 Iniciando detección de país del lado del cliente...');
   
   // Intentar con ipapi.co primero
   try {
-    console.log('🔍 Intentando con ipapi.co...');
     const response = await fetch('https://ipapi.co/json/', {
       timeout: 5000
     });
     
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ ipapi.co response:', data);
       
       if (data.country_code && data.country_name) {
         return {
@@ -59,19 +56,17 @@ export async function detectUserCountry(): Promise<GeoDetectionResult> {
       }
     }
   } catch (error) {
-    console.log('❌ ipapi.co falló:', error);
+    
   }
 
   // Intentar con api.country.is
   try {
-    console.log('🔍 Intentando con api.country.is...');
     const response = await fetch('https://api.country.is/', {
       timeout: 5000
     });
     
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ api.country.is response:', data);
       
       if (data.country) {
         const countryName = COUNTRY_CODE_TO_NAME[data.country] || data.country;
@@ -84,17 +79,15 @@ export async function detectUserCountry(): Promise<GeoDetectionResult> {
       }
     }
   } catch (error) {
-    console.log('❌ api.country.is falló:', error);
+    
   }
 
   // Intentar con Cloudflare headers (si están disponibles)
   try {
-    console.log('🔍 Intentando con headers de Cloudflare...');
     const response = await fetch('/api/geo-headers');
     
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ Cloudflare headers response:', data);
       
       if (data.country) {
         const countryName = COUNTRY_CODE_TO_NAME[data.country] || data.country;
@@ -107,10 +100,9 @@ export async function detectUserCountry(): Promise<GeoDetectionResult> {
       }
     }
   } catch (error) {
-    console.log('❌ Cloudflare headers falló:', error);
+    
   }
 
-  console.log('❌ Todas las APIs de detección fallaron');
   return {
     country: null,
     countryCode: null,

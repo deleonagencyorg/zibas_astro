@@ -82,8 +82,6 @@ export class ContactService {
       // Build full API URL
       const apiUrl = `${this.apiHost}${this.contactFormPath}`;
 
-      console.log('Submitting contact form to:', apiUrl);
-
       // Submit to API
       const response = await fetch(apiUrl, {
         method: 'POST',
