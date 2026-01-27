@@ -129,6 +129,17 @@
       "published_date": "5/10/2023",
       "author": "CSR Team",
       "tags": ["charity", "health", "honduras"]
+    },
+    {
+      "id": "lorem-ipsum-post",
+      "slug": "lorem-ipsum-post",
+      "title": "Lorem ipsum: sample post update",
+      "summary": "Dummy blog post with lorem ipsum text to validate the news structure.",
+      "content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p><p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+      "image": "https://snack.yummiespromociones.com/snacksyummies/n-4.webp",
+      "published_date": "21/1/2026",
+      "author": "Editorial Team",
+      "tags": ["lorem", "dummy", "sample"]
     }
   ]
 }

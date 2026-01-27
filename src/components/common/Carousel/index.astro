@@ -29,6 +29,9 @@ const firstSlide = slides[0] || {};
 // Opcional: Precargar la primera imagen para mejorar el LCP
 const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
 
+const slidesCount = Array.isArray(slides) ? slides.length : 0;
+const showControls = slidesCount > 1;
+
 ---
 
 <!-- Importar Swiper desde CDN para garantizar disponibilidad -->
@@ -43,6 +46,20 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       try {
+        const root = document.querySelector(carouselSelector);
+        const slideCount = root?.querySelectorAll('.swiper-slide')?.length || 0;
+
+        const nextEl = document.querySelector('.swiper-button-next');
+        const prevEl = document.querySelector('.swiper-button-prev');
+        const paginationEl = document.querySelector('.swiper-pagination');
+
+        if (slideCount <= 1) {
+          if (nextEl) nextEl.style.display = 'none';
+          if (prevEl) prevEl.style.display = 'none';
+          if (paginationEl) paginationEl.style.display = 'none';
+          return;
+        }
+
         const swiper = new Swiper(carouselSelector, {
           loop: true,
           autoplay: {
@@ -88,6 +105,10 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
 
 {loading ? (
   <Skeleton items={3} />
+) : slidesCount === 0 ? (
+  <div class="relative overflow-hidden w-screen" transition:animate="fade">
+    <div class="w-full h-[300px] md:h-[500px] bg-gray-200"></div>
+  </div>
 ) : (
   <div class="relative overflow-hidden w-screen" transition:animate="fade">
     {preloadFirstImage && (
@@ -118,9 +139,9 @@ const preloadFirstImage = true && firstSlide.mobile && firstSlide.desktop;
       </div>
       
       <!-- Controles de navegación -->
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-pagination"></div>
+      {showControls && <div class="swiper-button-next"></div>}
+      {showControls && <div class="swiper-button-prev"></div>}
+      {showControls && <div class="swiper-pagination"></div>}
     </div>
   </div>
 )}
