@@ -34,8 +34,8 @@ const {
   showLabels = false
 } = Astro.props;
 
-// Si no se proporciona una URL, usar la URL actual
-const shareUrl = url || Astro.url.href;
+// Si no se proporciona una URL, construir la URL completa con el site de producción
+const shareUrl = url || new URL(Astro.url.pathname, Astro.site || 'https://zibaspapas.com').href;
 
 // Determinar el idioma actual basado en la URL
 const currentLang = Astro.url.pathname.split('/')[1] || 'es';

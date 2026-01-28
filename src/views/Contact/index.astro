@@ -48,8 +48,8 @@ const headerColors = {
     <div class="flex flex-col justify-center px-4 items-start lg:flex-row gap-12 py-12" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center;">
       
       <!-- Left Column - Contact Info -->
-    <div class="w-[100%] lg:w-[40%] pl-8 lg:pl-16 flex flex-col justify-center h-[100%] lg:h-[600px]">
-        <h1 class="text-white font-title text-7xl uppercase md:text-6xl lg:text-7xl font-bold mb-6">
+    <div class="text-center  lg:text-left w-[100%] lg:w-[40%]  lg:pl-16 flex flex-col justify-center h-[100%] lg:h-[600px]">
+        <h1 class="text-white font-title text-5xl uppercase md:text-6xl lg:text-7xl font-bold mb-6">
           {contact.title}
         </h1>
         
@@ -70,14 +70,14 @@ const headerColors = {
       <h3 class="text-white md:text-4xl text-4xl italic font-title uppercase font-bold mb-4 flex items-center justify-center gap-1">
         <span class="font-title">{contact.offices.title.split(' ')[0]} {contact.offices.title.split(' ')[1]}</span>
       </h3>
-      <h1 class="text-white md:text-9xl text-12xl italic font-title uppercase font-bold mb-4 flex items-center justify-center gap-1">
+      <h1 class="text-white md:text-9xl text-6xl italic font-title uppercase font-bold mb-4 flex items-center justify-center gap-1">
         <span class="font-title">{contact.offices.title.split(' ').slice(2).join(' ')}</span>
       </h1>
       
       <!-- Tabs and Office Info -->
       <div class="flex flex-col mb-4">
         <!-- Office Details -->
-        <div class="order-2 w-[80%] mx-auto">
+        <div class="order-2 w-[100%] lg:w-[80%] mx-auto">
           <div id="officeInfo" class="bg-blue rounded-2xl p-8 ">
             <div class="flex flex-col lg:flex-row justify-between items-center">
               <div class="space-y-4">
@@ -126,7 +126,7 @@ const headerColors = {
           {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (
             <button 
               data-country-code={countryCode}
-              class={`country-tab px-10 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
+              class={`country-tab md:px-10 px-6 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
                 ${index === 0 
                   ? 'h-[54px] bg-[#005ADA] opacity-100 border border-white' 
                   : 'h-[54px] bg-[#005ADA] opacity-75 hover:opacity-100'
@@ -138,7 +138,7 @@ const headerColors = {
         </div>
           
           <!-- Map -->
-          <div class="bg-gradient-to-br w-[80%] mx-auto bg-white rounded-2xl p-6 shadow-lg mb-4">
+          <div class="bg-gradient-to-br md:w-[80%] w-full mx-auto bg-white rounded-2xl p-6 shadow-lg mb-4">
             <div class="w-full  overflow-hidden rounded-xl" style="height: 500px;">
               <!-- Container for all map iframes -->
               <div id="maps-container" style="width: 100%; height: 100%;">

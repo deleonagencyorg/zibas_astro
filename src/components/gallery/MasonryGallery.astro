@@ -11,21 +11,71 @@ export interface Props {
   columns?: number; // desktop columns
   title?: string;
   className?: string;
+  mobileLimit?: number;
 }
 
 const {
   items = [],
   columns = 3,
   title = '',
-  className = ''
+  className = '',
+  mobileLimit = 12,
 } = Astro.props as Props;
+
+function normalizeUrlKey(input?: string): string {
+  if (!input) return '';
+  try {
+    // Asegurar URL absoluta para poder parsear pathname cuando sea relativa
+    const abs = input.startsWith('http') ? input : `http://local${input.startsWith('/') ? '' : '/'}${input}`;
+    const u = new URL(abs);
+    let path = (u.pathname || '').toLowerCase();
+    // Normalizar barras
+    path = path.replace(/\/+/, '/');
+    // Obtener el último segmento (archivo)
+    const filename = path.split('/').pop() || '';
+    // Remover extensión y sufijos de tamaño -640w, -768w, etc.
+    let base = filename
+      .replace(/\.(webp|jpg|jpeg|png)$/i, '')
+      .replace(/-\d+w$/i, '')
+      .replace(/@\dx$/i, '')
+      .replace(/[-_](\d+)$/i, '')
+      .replace(/[-_](final|edit|copy|min)$/i, '');
+    // El key final es el nombre base sin extensión ni sufijos
+    return base;
+  } catch {
+    // Fallback: quitar query/hash y bajar a minúsculas
+    const clean = input.split('?')[0].split('#')[0].toLowerCase();
+    const filename = clean.split('/').pop() || clean;
+    return filename
+      .replace(/\.(webp|jpg|jpeg|png)$/i, '')
+      .replace(/-\d+w$/i, '')
+      .replace(/@\dx$/i, '')
+      .replace(/[-_](\d+)$/i, '')
+      .replace(/[-_](final|edit|copy|min)$/i, '');
+  }
+}
+
+const seen = new Set<string>();
+const seenAlt = new Set<string>();
+const dedupedItems = items.filter((it) => {
+  const raw = it?.url?.trim() || '';
+  const key = normalizeUrlKey(raw);
+  const altKey = (it?.alt || '').trim().toLowerCase();
+  if (!key) return false;
+  if (seen.has(key)) return false;
+  if (altKey && seenAlt.has(altKey)) return false;
+  seen.add(key);
+  if (altKey) seenAlt.add(altKey);
+  return true;
+});
 ---
 
-<section class={`w-full ${className}`} data-gallery-root> 
+<section class={`w-full ${className}`} data-gallery-root data-mobile-limit={mobileLimit}> 
   
   <div class="gallery-viewport">
-    <div class="masonry" style={`--cols: ${columns}; --gap: 1rem;`}>
-      {items.map((item, idx) => (
+    <div class="masonry-grid" data-masonry-grid>
+      <div class="grid-sizer" aria-hidden="true"></div>
+      {dedupedItems.map((item, idx) => (
         <div class="masonry-item">
           <button class="block w-full text-left focus:outline-none" data-index={idx} aria-label={item.alt || 'Abrir imagen'}>
             <LazyImage src={item.url} alt={item.alt || ''} class="w-full h-auto rounded-lg block" />
@@ -60,71 +110,60 @@ const {
 </section>
 
 <style>
-  /* Responsive gallery viewport - no fixed height, images scale */
+  /* Contenedor de galería sin altura fija */
   .gallery-viewport {
     width: 100%;
-    max-height: 600px;
-    overflow: hidden;
     padding: 0 0.5rem;
   }
 
   @media (min-width: 768px) {
     .gallery-viewport {
-      max-height: 700px;
       padding: 0;
     }
   }
 
-  @media (min-width: 1024px) {
-    .gallery-viewport {
-      max-height: 900px;
-    }
-  }
-
-  .masonry {
+  /* Grid masonry con Masonry.js + fallback CSS columns */
+  .masonry-grid {
+    position: relative;
+    width: 100%;
     column-count: 2;
-    column-gap: var(--gap, 0.75rem);
+    -webkit-column-count: 2;
+    column-gap: 12px;
+    -webkit-column-gap: 12px;
   }
 
+  /* Fallback con columnas: evitar cortes por column-flow */
   .masonry-item {
-    break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 12px;
+    break-inside: avoid-column;
     -webkit-column-break-inside: avoid;
-    margin-bottom: var(--gap, 0.75rem);
+    page-break-inside: avoid;
     transition: opacity 300ms ease;
   }
 
-  /* Imágenes responsive que se escalan proporcionalmente */
+  .grid-sizer { width: calc(50% - 6px); }
+
+  @media (min-width: 768px) {
+    .masonry-grid {
+      column-count: 3;
+      -webkit-column-count: 3;
+      column-gap: 16px;
+      -webkit-column-gap: 16px;
+    }
+    .masonry-item {
+      margin-bottom: 16px;
+    }
+    .grid-sizer { width: calc(33.333% - 11px); }
+  }
+
+  /* Imágenes masonry - altura natural */
   .masonry-item img {
     width: 100%;
     height: auto;
-    max-height: 200px;
-    object-fit: cover;
+    display: block;
     border-radius: 0.5rem;
-  }
-
-  @media (min-width: 480px) {
-    .masonry-item img {
-      max-height: 250px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .masonry {
-      column-count: var(--cols, 3);
-      column-gap: var(--gap, 1rem);
-    }
-    .masonry-item {
-      margin-bottom: var(--gap, 1rem);
-    }
-    .masonry-item img {
-      max-height: 300px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .masonry-item img {
-      max-height: 400px;
-    }
   }
 
   .fade-out { opacity: 0; }
@@ -136,13 +175,17 @@ const {
   }
 </style>
 
+<!-- Masonry.js y imagesLoaded desde CDN -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
 <script is:inline>
   (() => {
     function init(section) {
       if (!section || section.dataset.galleryInit === '1') return;
       section.dataset.galleryInit = '1';
 
-      const grid = section.querySelector('.masonry');
+      const grid = section.querySelector('[data-masonry-grid]');
       if (!grid) return;
 
       const modal = section.querySelector('#gallery-modal');
@@ -156,6 +199,54 @@ const {
       const data = thumbs.map((img) => ({ url: img.currentSrc || img.src, alt: img.alt || '' }));
       let index = 0;
       let isOpen = false;
+
+      // Inicializar Masonry.js después de cargar imágenes
+      let msnry = null;
+      if (window.Masonry && window.imagesLoaded) {
+        msnry = new Masonry(grid, {
+          itemSelector: '.masonry-item',
+          columnWidth: '.grid-sizer',
+          gutter: window.innerWidth >= 768 ? 16 : 12,
+          percentPosition: true,
+          transitionDuration: '0.3s'
+        });
+
+        imagesLoaded(grid, function() {
+          if (msnry) msnry.layout();
+        });
+
+        // Re-layout en resize
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function() {
+            if (msnry) {
+              msnry.options.gutter = window.innerWidth >= 768 ? 16 : 12;
+              msnry.layout();
+            }
+
+      // Limitar cantidad visible en mobile
+      const limitAttr = section.getAttribute('data-mobile-limit');
+      const mobileLimit = Number(limitAttr || '0');
+      const items = Array.from(grid.querySelectorAll('.masonry-item'));
+
+      function applyMobileLimit() {
+        const isMobile = window.innerWidth < 768;
+        items.forEach((el, idx) => {
+          const hide = isMobile && mobileLimit > 0 && idx >= mobileLimit;
+          el.style.display = hide ? 'none' : 'inline-block';
+          el.setAttribute('aria-hidden', hide ? 'true' : 'false');
+        });
+        if (msnry) msnry.layout();
+      }
+
+      applyMobileLimit();
+      window.addEventListener('resize', () => {
+        applyMobileLimit();
+      });
+          }, 250);
+        });
+      }
 
       function show(i) {
         if (!imgEl) return;
@@ -214,7 +305,7 @@ const {
         else if (e.key === 'ArrowRight') onNext();
       });
 
-      // Auto-rotation
+      // Auto-rotation con Masonry
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const ROTATE_MS = 4000;
       let rotateTimer = null;
@@ -228,6 +319,7 @@ const {
           grid.appendChild(firstItem);
           firstItem.classList.add('fade-in');
           setTimeout(() => firstItem.classList.remove('fade-in'), 300);
+          if (msnry) msnry.layout();
         }, 300);
       }
 

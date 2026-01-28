@@ -70,16 +70,7 @@
     "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
-      {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
-        "mobile": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
-        "alt": "Ziba's",
-        "title": "",
-        "description": "",
-        "link": "#"
-      },
-   
+
       {
         "id": "slide1",
         "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
@@ -88,7 +79,17 @@
         "title": "",
         "description": "",
         "link": "#"
+      },
+      {
+        "id": "slide2",
+        "desktop": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
+        "mobile": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
+        "alt": "Ziba's",
+        "title": "",
+        "description": "",
+        "link": "#"
       }
+   
      
     ]
   },
