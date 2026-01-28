@@ -75,7 +75,9 @@
         "id": "slide1",
         "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
         "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
+        "preview": "https://snack.yummiespromociones.com/zibas/previewzibas.webp",
         "alt": "Ziba's",
+        "type": "video",
         "title": "",
         "description": "",
         "link": "#"
@@ -85,6 +87,7 @@
         "desktop": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
         "mobile": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
         "alt": "Ziba's",
+        "type": "image",
         "title": "",
         "description": "",
         "link": "#"
