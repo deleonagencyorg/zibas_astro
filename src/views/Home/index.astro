@@ -127,7 +127,7 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
     <section id="recipes" class="w-full py-12" transition:animate="slide">
       <div class="container mx-auto px-4">
         {recipesAssets.home?.title && (
-          <div class="text-center mb-16 relative z-20" >
+          <div class="text-center mb-4 md:mb-16 relative z-20" >
             <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: #5B3F2E`}>
               {recipesAssets.home?.title}
             </h2>
@@ -163,127 +163,9 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
 
 
 
-    <!-- Sección News -->
-      <section id="news" class="bg-yellow w-full py-12 " transition:animate="slide">
-  <div class="container mx-auto px-4">
-    {newsAssets.home.title && (
-      <div class="text-center mb-16 relative z-20 overflow-hidden" >
-          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
-            <PixelGrid
-               pixelSize={20}
-               density={0.7}
-               introDuration={800}
-               loopInterval={1100}
-               mutateAmount={50}
-             />
-          </div>
-        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown relative z-10">
-          {newsAssets.home.title}
-        </h2>
-        {newsAssets.home.subtitle && (
-          <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown relative z-10 flex items-center justify-center">
-            
-            <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
-          </h1>
-        
-        )}
-      </div>
-    )}
-
-    {latestBlogPosts.length === 0 ? (
-      <div class="max-w-5xl mx-auto text-center py-12">
-        <p class="text-brown text-lg md:text-xl font-semibold">{noNewsText}</p>
-      </div>
-    ) : (
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
-          <!-- Columna izquierda: 3 más recientes -->
-          <div class="md:col-span-2">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
-              <div class="flex-1 ml-4 border-b border-brown/40"></div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {latestBlogPosts.slice(0,3).map((post) => (
-                <a
-                  href={`/${currentLang}/blog/${post.slug || post.id}`}
-                  class="block group relative overflow-hidden rounded-[1.5rem] bg-black/10"
-                  style="aspect-ratio: 3/4;"
-                >
-                  <img
-                    src={post.image || '/images/blog/placeholder.jpg'}
-                    alt={post.title}
-                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div class="absolute inset-0 bg-black/10"></div>
-                  <div class="absolute inset-x-0 bottom-0 p-5">
-                    {post.published_date && (
-                      <p class="text-white/80 text-xs md:text-sm mb-1">{post.published_date}</p>
-                    )}
-                    <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <!-- Columna derecha: destacados (posiciones 3 y 4) -->
-          <div class="md:col-span-1">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
-              <div class="flex-1 ml-4 border-b border-brown/40"></div>
-            </div>
-            <div class="bg-yellow/0">
-              <p class="text-brown font-bold text-sm md:text-base leading-snug mb-4">
-                {newsAssets?.meta?.descriptiondestacados || (currentLang === 'es'
-                  ? 'Sé el primero en conocer nuestras promociones, lanzamientos y más.'
-                  : 'Be the first to know about our promotions, launches and more.')}
-              </p>
-              <a
-                href="https://www.snacksyummies.com/es/yummiesone"
-                class="inline-flex items-center justify-center w-full border-2 border-brown text-brown py-3 px-6 rounded-full text-center text-sm md:text-base font-bold hover:bg-brown hover:text-white transition-colors mb-6"
-              >
-                {currentLang === 'es' ? 'QUIERO SUSCRIBIRME' : 'SUBSCRIBE'}
-              </a>
-
-              <div class="grid grid-cols-1 gap-4">
-                {latestBlogPosts.slice(3,5).map((post) => (
-                  <a
-                    href={`/${currentLang}/blog/${post.slug || post.id}`}
-                    class="flex items-center gap-4 rounded-[1.25rem] bg-white/35 hover:bg-white/50 transition-colors p-3"
-                  >
-                    <img
-                      src={post.image || '/images/blog/placeholder.jpg'}
-                      alt={post.title}
-                      class="w-20 h-20 object-cover rounded-[1rem] flex-shrink-0"
-                      loading="lazy"
-                    />
-                    <div class="min-w-0">
-                      {post.published_date && (
-                        <p class="text-brown/70 text-xs md:text-sm mb-1">{post.published_date}</p>
-                      )}
-                      <p class="text-brown font-bold text-sm md:text-base leading-snug line-clamp-3">{post.title}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex justify-center mt-10">
-          <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
-            {currentLang==='es' ? 'Ver más' : 'View more'}
-          </a>
-        </div>
-      </div>
-    )}
-  </div>
-</section>
-
 
     <!-- Sección Abaout -->
-<section id="about" class="bg-red w-full py-12" transition:animate="slide">
+<!-- <section id="about" class="bg-red w-full py-12" transition:animate="slide">
   <div class="container mx-auto px-4">
     <div class="text-center mb-8">
       {aboutAssets.title && (
@@ -315,7 +197,7 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
     </div>
   </div>
 </section> 
-
+ -->
 
 
 

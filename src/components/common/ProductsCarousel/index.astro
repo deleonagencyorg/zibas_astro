@@ -69,8 +69,7 @@ import LazyImage from '../LazyImage.astro';
                   src={product.imageMobile || product.image} 
                   alt={product.name}
                   class="product-image z-20 md:mt-[0px] -mt-[35px]"
-                  width={300}
-                  height={400}
+                  sizes="(max-width: 480px) 250px, (max-width: 768px) 260px, 300px"
                 />
               </div>
               
@@ -159,6 +158,16 @@ import LazyImage from '../LazyImage.astro';
     z-index: 10;
     
     margin-top: -75px; /* Aumentar mucho más el overflow */
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0px);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-10px);
+    }
   }
 
   .product-image-container img {
@@ -268,7 +277,7 @@ import LazyImage from '../LazyImage.astro';
 
   @media (max-width: 480px) {
     .products-carousel {
-      padding-top: 120px; /* Reducir para móvil */
+      padding-top: 140px; /* Más espacio superior para la imagen */
     }
     
     .swiper-container {
@@ -276,27 +285,39 @@ import LazyImage from '../LazyImage.astro';
     }
 
     .product-card {
-      min-height: 420px; /* Aumentar altura en móvil */
-      padding: 1rem;
+      min-height: 400px; /* Más altura para acomodar imagen y textos */
+      padding: 0.875rem;
+      padding-top: 3rem; /* Espacio superior dentro de la card */
     }
 
     .product-image-container {
-      margin-top: -100px; /* Ajustar overflow para móvil */
+      margin-top: -90px; /* Ajuste para bajar la imagen un poco */
+    }
+
+    /* Mayor especificidad para sobrescribir estilos globales */
+    .product-card .product-image-container img,
+    .product-card .product-image-container .product-image {
+      width: 250px !important; /* Tamaño ajustado en móvil */
+      height: 333px !important;
+      max-width: 250px !important;
+      max-height: 333px !important;
     }
 
     .product-image-container img,
     .product-image-container .product-image {
-      width: 220px !important; /* Más grande en móvil */
-      height: 320px !important;
+      width: 250px !important; /* Tamaño ajustado en móvil */
+      height: 333px !important;
+      max-width: 250px !important;
+      max-height: 333px !important;
     }
 
     /* Ajustar botón en móvil */
     .product-card a {
-      max-width: 240px !important;
+      max-width: 200px !important;
       width: 100% !important;
-      height: 50px !important;
-      font-size: 14px !important;
-      padding: 16px 8px !important;
+      height: 46px !important;
+      font-size: 13px !important;
+      padding: 12px 8px !important;
     }
   }
 </style>
