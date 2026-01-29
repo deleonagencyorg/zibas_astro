@@ -110,7 +110,7 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
         const slide = document.createElement('div');
         slide.className = 'w-full flex-shrink-0 px-1';
         slide.innerHTML = `
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-2 gap-8    md:gap-8">
             ${group.map((item) => `
               <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
                 <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
