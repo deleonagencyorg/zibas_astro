@@ -5,6 +5,9 @@ interface SlideItem {
   desktop: string;
   mobile: string;
   alt: string;
+  type?: string;
+  preview?: string;
+  Preview?: string;
   title?: string;
   subtitle?: string;
   description?: string;
@@ -48,8 +51,9 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
   <div class="swiper-container video-carousel">
     <div class="swiper-wrapper">
       {slides.map((slide, index) => {
-        const isVideo = slide.desktop?.toLowerCase().endsWith('.mp4') || 
+        const isVideoByExt = slide.desktop?.toLowerCase().endsWith('.mp4') || 
                        slide.desktop?.toLowerCase().endsWith('.webm');
+        const isVideo = slide.type === 'video' || isVideoByExt;
         const slideId = `slide-${index}`;
         
         return (
@@ -58,7 +62,7 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
               <!-- Fallback image that shows while video loads or if video fails -->
               <div class="fallback-image">
                 <img 
-                  src={isVideo ? slide.desktop.replace(/\.(mp4|webm)$/i, '.jpg') : slide.desktop} 
+                  src={isVideo ? (slide.preview || slide.Preview || slide.desktop.replace(/\.(mp4|webm)$/i, '.jpg')) : slide.desktop} 
                   alt={slide.alt || "Slide background"} 
                   width="1920" 
                   height="1080"
@@ -72,10 +76,11 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
                   <video 
                     autoplay 
                     muted 
-                    loop 
+                    loop={slide.type !== 'video'}
                     playsinline
                     class="slide-video"
                     data-slide-id={slideId}
+                    data-slide-type={slide.type || ''}
                     preload={index === 0 ? "auto" : "metadata"}
                   >
                     <source src={slide.desktop} type={slide.desktop.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4'}>
@@ -343,11 +348,45 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
     
     // Handle video playback
     const videos = document.querySelectorAll('video.slide-video') as NodeListOf<HTMLVideoElement>;
-    const fallbackImages = document.querySelectorAll('.fallback-image') as NodeListOf<HTMLElement>;
     
+    function setFallbackOpacity(slideId: string | null, opacity: string) {
+      if (!slideId) return;
+      const fallbackImage = document.querySelector(`#${slideId} .fallback-image`) as HTMLElement | null;
+      if (fallbackImage instanceof HTMLElement) {
+        fallbackImage.style.opacity = opacity;
+      }
+    }
+
+    function isTypeVideoSlide(video: HTMLVideoElement | null): boolean {
+      if (!video) return false;
+      return (video.getAttribute('data-slide-type') || '').toLowerCase() === 'video';
+    }
+
+    function updateAutoplayForActiveSlide() {
+      const activeSlide = swiper.slides[swiper.activeIndex];
+      const activeVideo = activeSlide?.querySelector('video.slide-video') as HTMLVideoElement | null;
+
+      if (activeVideo && isTypeVideoSlide(activeVideo)) {
+        swiper.autoplay?.stop();
+      } else {
+        swiper.autoplay?.start();
+      }
+    }
+
     // Function to play video
     function playVideo(video: HTMLVideoElement | null) {
       if (!video) return;
+
+      // Always show preview while the video is (re)loading/buffering
+      const slideId = video.getAttribute('data-slide-id');
+      setFallbackOpacity(slideId, '1');
+
+      if (isTypeVideoSlide(video)) {
+        // Start from the beginning so slide change timing is deterministic
+        try {
+          video.currentTime = 0;
+        } catch {}
+      }
       
       const playPromise = video.play();
 
@@ -355,8 +394,6 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
         playPromise
           .then(() => {
             // Video playback started successfully
-            const slideId = video.getAttribute('data-slide-id');
-            showFallbackImage(slideId);
           })
           .catch((error: unknown) => {
             // Auto-play was prevented
@@ -378,12 +415,17 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       
       const activeSlide = swiper.slides[swiper.activeIndex];
       const activeVideo = activeSlide?.querySelector('video.slide-video') as HTMLVideoElement | null;
+
+      updateAutoplayForActiveSlide();
       
       if (activeVideo) {
         setTimeout(() => playVideo(activeVideo), 300);
       }
     });
     
+    // Apply initial autoplay state
+    updateAutoplayForActiveSlide();
+
     // Play initial video
     const initialVideo = swiper.slides[swiper.activeIndex]?.querySelector('video.slide-video') as HTMLVideoElement | null;
     if (initialVideo) {
@@ -393,20 +435,24 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
     // Handle video loading and fallback
     videos.forEach((video) => {
       const slideId = video.getAttribute('data-slide-id');
-      const fallbackImage = document.querySelector(`#${slideId} .fallback-image`) as HTMLElement | null;
+
+      // Show preview while loading/buffering
+      video.addEventListener('loadstart', () => setFallbackOpacity(slideId, '1'));
+      video.addEventListener('waiting', () => setFallbackOpacity(slideId, '1'));
       
-      // Hide fallback image once video can play
-      video.addEventListener('canplay', () => {
-        if (fallbackImage instanceof HTMLElement) {
-          fallbackImage.style.opacity = '0';
-        }
-      });
+      // Hide preview once video can play / is playing
+      video.addEventListener('canplay', () => setFallbackOpacity(slideId, '0'));
+      video.addEventListener('playing', () => setFallbackOpacity(slideId, '0'));
       
       // Show fallback image if video errors
       video.addEventListener('error', () => {
-        if (fallbackImage instanceof HTMLElement) {
-          fallbackImage.style.opacity = '1';
-        }
+        setFallbackOpacity(slideId, '1');
+      });
+
+      // If slide is explicitly type:video, advance only when it ends
+      video.addEventListener('ended', () => {
+        if (!isTypeVideoSlide(video)) return;
+        swiper.slideNext();
       });
     });
   });
