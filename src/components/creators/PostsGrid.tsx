@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import PostsFilter from './PostsFilter';
+import Pagination from '../common/Pagination';
 
 interface Category {
   id: string;
@@ -61,6 +62,13 @@ export default function PostsGrid({
   const [selectedCountry, setSelectedCountry] = useState(initialCountry);
   const [selectedTag, setSelectedTag] = useState(initialTag);
   const [loading, setLoading] = useState(false);
+
+  const lastKnownPageCountRef = useRef<number>(Number(initialPagination.pageCount) || 1);
+
+  useEffect(() => {
+    const pageCount = Number(pagination.pageCount) || 1;
+    if (pageCount > 1) lastKnownPageCountRef.current = pageCount;
+  }, [pagination.pageCount]);
 
   // Single unified requester for filters + pagination (client → external API)
   const loadData = useCallback(async (page: number, country: string = '', tag: string = '') => {
@@ -242,40 +250,19 @@ export default function PostsGrid({
           </div>
 
           {/* Pagination */}
-          {pagination.pageCount > 1 && (
-            <div className="mt-10 flex items-center justify-center gap-2 flex-wrap">
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(currentPage - 1); }}
-                disabled={currentPage <= 1 || loading}
-                className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Anterior
-              </button>
-              
-              {Array.from({ length: Number(pagination.pageCount) }, (_, i) => i + 1).map((n) => (
-                <button
-                  key={n}
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(n); }}
-                  disabled={loading}
-                  className={`px-4 py-2 rounded-full font-semibold transition-all ${
-                    n === Number(currentPage)
-                      ? 'bg-orange text-white'
-                      : 'bg-white/10 text-white hover:bg-white/20'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-              
-              <button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePageChange(currentPage + 1); }}
-                disabled={currentPage >= pagination.pageCount || loading}
-                className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Siguiente
-              </button>
-            </div>
-          )}
+          {(() => {
+            const pageCount = Number(pagination.pageCount) || 1;
+            const effectivePageCount = loading && pageCount <= 1 ? lastKnownPageCountRef.current : pageCount;
+            if (effectivePageCount <= 1) return null;
+            return (
+              <Pagination
+                currentPage={Number(currentPage) || 1}
+                pageCount={effectivePageCount}
+                onPageChange={handlePageChange}
+                disabled={loading}
+              />
+            );
+          })()}
           </>
         )}
       </div>
