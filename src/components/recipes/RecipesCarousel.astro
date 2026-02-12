@@ -105,30 +105,30 @@ for (let i = 0; i < recipeItems.length; i += 1) {
     )}
      
     <!-- Carousel de recetas - MOBILE (1 por slide) - Solo visible en mobile -->
-    <div class="recipes-carousel-mobile relative md:hidden">
-      <div class="recipes-carousel-container overflow-hidden w-full flex justify-center">
-        <div class="recipes-carousel-track flex items-center gap-0 transition-transform duration-300" id="recipesTrackMobile" style="transform: translateX(0);">
-          {mobileGroups.map((group, gIndex) => (
-            <div class="recipe-slide-group flex-shrink-0 w-full flex justify-center items-center px-4">
-              {group.map((recipe: any) => (
-                <div class="recipe-slide flex justify-center" data-category={getCategoryKey(recipe)}>
-                  <RecipeCardCarousel
-                    image={recipe.image}
-                    hoverImage={recipe.hover_image || recipe.image}
-                    title={recipe.title}
-                    time={`${recipe.preparation_time}MIN`}
-                    id={recipe.id}
-                    difficulty={recipe.difficulty || '---'}
-                    servings={recipe.servings || 0}
-                    rating={recipe.rating || 0}
-                    isMainCard={false}
-                  />
-                </div>
-              ))}
+<div class="recipes-carousel-mobile relative md:hidden">
+  <div class="recipes-carousel-container overflow-hidden w-full flex justify-center">
+    <div class="recipes-carousel-track flex items-center gap-0 transition-transform duration-300" id="recipesTrackMobile" style="transform: translateX(0);">
+      {mobileGroups.map((group, gIndex) => (
+        <div class="recipe-slide-group flex-shrink-0 w-full flex justify-center items-center px-4 pb-8"> 
+          {group.map((recipe: any) => (
+            <div class="recipe-slide flex justify-center" data-category={getCategoryKey(recipe)}>
+              <RecipeCardCarousel
+                image={recipe.image}
+                hoverImage={recipe.hover_image || recipe.image}
+                title={recipe.title}
+                time={`${recipe.preparation_time}MIN`}
+                id={recipe.id}
+                difficulty={recipe.difficulty || '---'}
+                servings={recipe.servings || 0}
+                rating={recipe.rating || 0}
+                isMainCard={false}
+              />
             </div>
           ))}
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
 
       <!-- Controles de navegación mobile (flechas y puntos) -->
       <div class="flex justify-center items-center gap-4 mt-6">

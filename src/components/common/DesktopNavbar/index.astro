@@ -42,12 +42,12 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
         <div class="relative group">
           <a 
             href={item.href} 
-            class={`${headerColorConfig.textColor} font-title text-sm lg:text-base xl:text-xl uppercase leading-tight font-medium whitespace-nowrap transition-colors py-1 lg:py-2 px-2 lg:px-3 rounded-md flex items-center hover:bg-quinary ${!item.href.startsWith('#') && currentPath === item.href ? 'bg-quinary' : ''}`}
-            style={`color: ${headerColorConfig.textColor};`}
+            class={`text-white font-title text-sm lg:text-base xl:text-xl uppercase leading-tight font-medium whitespace-nowrap transition-colors py-1 lg:py-2 px-2 lg:px-3 rounded-md flex items-center hover:bg-quinary ${!item.href.startsWith('#') && currentPath === item.href ? 'bg-quinary' : ''}`}
+            style="color: white;"
           >
             {item.text}
             {item.submenu && (
-              <svg class="w-4 h-4 ml-1 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+              <svg class="w-4 h-4 ml-1 fill-current text-white" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
             )}
           </a>
           {item.submenu && (
@@ -80,7 +80,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     <div class="hidden md:flex">
       <SocialMediaIcons 
         currentLang={currentLang} 
-        iconColor={headerColorConfig.isSpecialBackground ? 'black' : headerColorConfig.textColor.replace('text-', '')}
+        iconColor="white"
         centered={false} 
       />
     </div>
