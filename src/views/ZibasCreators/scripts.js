@@ -261,64 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initCategoriesInteraction();
 });
 
-/**
- * Inicializar interacción de categorías con hover
- */
-function initCategoriesInteraction() {
-  const categoryCards = document.querySelectorAll('.category-card');
-  const container = document.querySelector('.categories-container');
-  
-  if (!container || categoryCards.length === 0) return;
-  
-  categoryCards.forEach((card, index) => {
-    // Reset all cards on mouse leave
-    card.addEventListener('mouseleave', function() {
-      categoryCards.forEach(c => {
-        c.style.opacity = '1';
-        c.style.transform = 'scale(1)';
-        c.style.minWidth = '310px';
-        c.style.maxWidth = '310px';
-        c.style.zIndex = '1';
-      });
-    });
-    
-    // Expand card on mouse enter
-    card.addEventListener('mouseenter', function() {
-      categoryCards.forEach((c, i) => {
-        if (i === index) {
-          // Expand the hovered card
-          c.style.opacity = '1';
-          c.style.transform = 'scale(1)';
-          c.style.minWidth = '641px';
-          c.style.maxWidth = '641px';
-          c.style.zIndex = '20';
-        } else {
-          // Reduce opacity for other cards
-          c.style.opacity = '0.3';
-          c.style.transform = 'scale(0.9)';
-          c.style.zIndex = '1';
-        }
-      });
-    });
-    
-    // Add click handler for navigation
-    card.addEventListener('click', function() {
-      const categoryIndex = this.getAttribute('data-category-index');
-      const categoryData = window.categoryData || [];
-      
-      if (categoryData[categoryIndex] && categoryData[categoryIndex].url) {
-        window.location.href = categoryData[categoryIndex].url;
-      }
-    });
-  });
-  
-  // Make category data available globally for click handlers
-  window.categoryData = Array.from(categoryCards).map(card => {
-    const title = card.querySelector('h4')?.textContent || '';
-    const description = card.querySelector('p')?.textContent || '';
-    return { title, description };
-  });
-}
+
 
 // Agregar estilos CSS dinámicos para animaciones
 const style = document.createElement('style');

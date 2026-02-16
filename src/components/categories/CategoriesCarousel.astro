@@ -30,7 +30,7 @@ function getCategoryType(category: any): string {
     <!-- Desktop Carousel -->
     <div class="categories-carousel relative">
       <div class="categories-carousel-container overflow-hidden px-4 md:px-0">
-        <div class="categories-carousel-track flex items-start gap-4 md:gap-6 transition-transform duration-300" id="categoriesTrackDesktop" style="transform: translateX(0px); width: max-content;">
+        <div class="categories-carousel-track flex items-start gap-4 md:gap-6" id="categoriesTrackDesktop" style="transform: none; width: max-content;">
           {categoryItems.map((category, index) => (
             <div class="category-slide flex-shrink-0 w-[calc(100vw-2rem)] md:w-auto" data-index={index} data-category={getCategoryType(category)}>
               <CategoryCard
