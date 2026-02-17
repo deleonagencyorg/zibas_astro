@@ -151,6 +151,29 @@ for (let i = 0; i < recipeItems.length; i += 1) {
           </button>
         </div>
       </div>    
+
+    <!-- Carousel de recetas - DESKTOP - Solo visible en desktop -->
+    <div class="recipes-carousel relative hidden md:block">
+      <div class="recipes-carousel-container overflow-visible ">
+        <div class="recipes-carousel-track flex items-start justify-center w-full gap-4 md:gap-6 transition-transform duration-300" id="recipesTrackDesktop" style="transform: translateX(0);">
+          {recipeItems.map((recipe, index) => (
+            <div class="recipe-slide flex-shrink-0 group-hover-container" data-index={index} data-category={getCategoryKey(recipe)}>
+              <RecipeCardCarousel
+                image={recipe.image}
+                hoverImage={recipe.hover_image || recipe.image}
+                title={recipe.title}
+                time={`${recipe.preparation_time}MIN`}
+                id={recipe.id}
+                difficulty={recipe.difficulty || '---'}
+                servings={recipe.servings || 0}
+                rating={recipe.rating || 0}
+                isMainCard={false}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    
       
       <!-- Controles de navegación desktop (flechas y puntos en la parte inferior) -->
       <div class="flex justify-center items-center gap-4 mt-8">
