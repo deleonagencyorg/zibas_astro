@@ -1,4 +1,5 @@
 ---
+import { tr } from 'framer-motion/m';
 import LazyImage from '../common/LazyImage.astro';
 
 export interface Props {
@@ -18,21 +19,21 @@ const {
   image,
   url = '#',
   id,
-  clickable = true
+  clickable = true,
 } = Astro.props;
 ---
 
 <a 
   href={clickable ? url : '#'}
-  class="block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-full md:w-[310px] h-auto md:h-[463px] md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]"
+  class="block group relative transition-all duration-500 ease-in-out flex-shrink-0 w-full md:w-[310px] h-auto md:h-[463px] md:transition-[width] md:duration-300 md:ease-in-out "
   data-category-id={id}
   aria-disabled={clickable ? 'false' : 'true'}
   onclick={clickable ? undefined : 'return false;'}
   style={clickable ? '' : 'cursor: default;'}
 >
-  <div class="w-full md:w-[310px] h-auto md:h-[463px] bg-white rounded-[30px] overflow-hidden shadow-lg transition-all duration-500 ease-in-out md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]">
+  <div class="w-full md:w-[310px] h-auto md:h-[463px] bg-white rounded-[30px] overflow-hidden shadow-lg transition-all duration-500 ease-in-out md:transition-[width] md:duration-300 md:ease-in-out ">
     <!-- Gradient background section -->
-    <div class={`w-full md:w-[310px] h-[250px] md:h-[300px] bg-gradient-to-br ${gradient} relative rounded-t-[30px] md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]`}>
+    <div class={`w-full md:w-[310px] h-[250px] md:h-[300px] bg-gradient-to-br ${gradient} relative rounded-t-[30px] md:transition-[width] md:duration-300 md:ease-in-out `}>
       <LazyImage src={image} alt={`Imagen de la categoría ${title}`} class="absolute inset-0 w-full h-full object-cover rounded-t-[30px]" />
       <div class="absolute inset-0 bg-black bg-opacity-30 rounded-t-[30px]"></div>
       <div class="absolute inset-0 flex items-center justify-center rounded-t-[30px]">
@@ -41,7 +42,7 @@ const {
     </div>
     
     <!-- Content section -->
-    <div class="bg-pink w-full md:w-[310px] h-auto md:h-[163px] p-4 md:p-6 flex flex-col justify-center rounded-b-[30px] md:transition-[width] md:duration-300 md:ease-in-out md:group-hover:w-[380px]">
+    <div class="bg-pink w-full md:w-[310px] h-auto md:h-[163px] p-4 md:p-6 flex flex-col justify-center rounded-b-[30px] md:transition-[width] md:duration-300 md:ease-in-out ">
       <h3 class="font-title font-bold text-white leading-tight flex-1 flex items-center text-xl md:text-2xl mb-2">
         {title}
       </h3>

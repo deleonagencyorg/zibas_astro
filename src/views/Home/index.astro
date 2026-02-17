@@ -79,7 +79,7 @@ function toDate(s?: string){
   const t=Date.parse(s); return isNaN(t)?0:t;
 }
 latestBlogPosts = latestBlogPosts.sort((a,b)=> toDate(b.published_date)-toDate(a.published_date)).slice(0,5);
-const noNewsText = currentLang==='es' ? 'No se encuentra novedades aún para mostrar' : 'There are no updates to show yet';
+const noNewsText = currentLang==='es' ? 'Entérate de nuestras últimas novedades en experiencias, sabores y más.' : 'Stay updated on our latest news in experiences, flavors, and more.';
 const topNewsLabel = currentLang==='es' ? 'NOTICIAS MÁS IMPORTANTES' : 'TOP NEWS';
 const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
 
@@ -188,9 +188,21 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
             
             <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
           </h1>
-        
+
+          
         )}
       </div>
+
+
+      <!-- botón Suscríbete -->
+    <div class="flex justify-center w-full mt-8">
+      <a 
+        href="https://www.snacksyummies.com/es/yummiesone" 
+        class="px-8 py-3 text-white font-bold text-lg rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg inline-block"
+        style="background-color: #5b3f2e;" 
+        target="_blank" 
+        rel="noopener noreferrer">Sub</a>   <!-- pendiente -->
+    </div>
     )}
 
     {latestBlogPosts.length === 0 ? (
@@ -282,7 +294,7 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
       </div>
     )}
   </div>
-</section>
+</section> 
 
     <!-- Sección Abaout -->
      <!--
