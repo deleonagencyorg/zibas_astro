@@ -68,12 +68,12 @@ import LazyImage from '../LazyImage.astro';
                 <LazyImage 
                   src={product.imageMobile || product.image} 
                   alt={product.name}
-                  class="product-image z-20 md:mt-[0px] -mt-[35px]"
+                  class="product-image"
                   sizes="(max-width: 480px) 250px, (max-width: 768px) 260px, 300px"
                 />
               </div>
               
-              <div class="absolute bottom-0 left-0 right-0 p-6 text-left text-white">
+              <div class="product-info p-6 text-left text-white">
                 <h4 class="text-left text-4xl">
                   ZIBA'S
                 </h4>
@@ -112,22 +112,22 @@ import LazyImage from '../LazyImage.astro';
 <style>
   .products-carousel {
     width: 100%;
-    padding: 1rem 0; /* Reducir padding vertical */
-    overflow: visible; /* Cambiar a visible para permitir que las imágenes se muestren completamente */
-    padding-top: 180px; /* Reducir el espacio superior */
+    overflow: visible;
+    padding-top: 80px;
+    padding-bottom: 1rem;
   }
 
   .swiper-container {
     position: relative;
     width: 100%;
     padding: 0 40px;
-    overflow: visible; /* Cambiar a visible para permitir overflow */
+    overflow: visible;
   }
 
   .swiper-wrapper {
     display: flex;
     align-items: stretch;
-    overflow: visible; /* Asegurar que el wrapper también tenga overflow visible */
+    overflow: visible;
   }
 
   .swiper-slide {
@@ -135,79 +135,54 @@ import LazyImage from '../LazyImage.astro';
     display: flex;
     flex-shrink: 0;
     width: auto;
-    padding-top: 0; /* Remover padding extra si existe */
-    overflow: visible; /* Permitir overflow en las slides también */
+    overflow: visible;
   }
 
   .product-card {
     width: 100%;
-    padding: 2rem; /* Aumentar padding interno */
-    min-height: 500px; /* Aumentar altura de la tarjeta */
+    min-height: 420px;
     position: relative;
-    overflow: visible; /* Cambiar a visible para que la imagen pueda salir del contenedor */
+    overflow: visible;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 2rem;
+    margin-top: 80px;
   }
 
   .product-image-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: -80px;
     z-index: 10;
-    
-    margin-top: -75px; /* Aumentar mucho más el overflow */
+    position: relative;
     animation: float 3s ease-in-out infinite;
   }
 
   @keyframes float {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0px);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
   }
 
+  .product-image-container .product-image,
   .product-image-container img {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
+    width: 260px !important;
+    height: 340px !important;
     object-fit: contain !important;
     border-radius: 0 !important;
-    background: transparent !important; /* Eliminar background, solo la card lo tiene */
+    background: transparent !important;
     flex-shrink: 0 !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
 
-  .product-card .product-image-container img {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
-    object-fit: contain !important;
-    border-radius: 0 !important;
-    background-color: transparent !important; /* Eliminar background, solo la card lo tiene */
-    flex-shrink: 0 !important;
-  }
-
-  /* Estilos específicos para LazyImage */
-  .product-image-container .product-image {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
-    object-fit: contain !important;
-    border-radius: 0 !important;
-    background: transparent !important; /* Eliminar background, solo la card lo tiene */
-    flex-shrink: 0 !important;
-    max-width: none !important;
-    max-height: none !important;
-  }
-
-  .product-card .absolute.bottom-0 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem;
-    text-align: left; /* Cambiar de center a left */
+  .product-info {
+    width: 100%;
+    text-align: left;
     color: white;
+    padding: 1.5rem;
   }
 
   .product-card h3 {
@@ -246,29 +221,28 @@ import LazyImage from '../LazyImage.astro';
   /* Responsive */
   @media (max-width: 768px) {
     .products-carousel {
-      padding-top: 150px; /* Reducir para tablet */
+      padding-top: 70px;
     }
-    
+
     .swiper-container {
       padding: 0 30px;
     }
 
     .product-card {
-      min-height: 480px; /* Aumentar altura en tablet */
-      padding: 1.5rem;
+      min-height: 380px;
+      margin-top: 70px;
     }
 
     .product-image-container {
-      margin-top: -120px; /* Ajustar overflow para tablet */
+      margin-top: -70px;
     }
 
     .product-image-container img,
     .product-image-container .product-image {
-      width: 280px !important; /* Más grande en tablet */
-      height: 380px !important;
+      width: 230px !important;
+      height: 300px !important;
     }
 
-    /* Ajustar botón en tablet */
     .product-card a {
       max-width: 280px !important;
       width: 100% !important;
@@ -277,43 +251,32 @@ import LazyImage from '../LazyImage.astro';
 
   @media (max-width: 480px) {
     .products-carousel {
-      padding-top: 140px; /* Más espacio superior para la imagen */
+      padding-top: 60px;
     }
-    
+
     .swiper-container {
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     .product-card {
-      min-height: 400px; /* Más altura para acomodar imagen y textos */
-      padding: 0.875rem;
-      padding-top: 3rem; /* Espacio superior dentro de la card */
+      min-height: 340px;
+      margin-top: 60px;
     }
 
     .product-image-container {
-      margin-top: -90px; /* Ajuste para bajar la imagen un poco */
-    }
-
-    /* Mayor especificidad para sobrescribir estilos globales */
-    .product-card .product-image-container img,
-    .product-card .product-image-container .product-image {
-      width: 250px !important; /* Tamaño ajustado en móvil */
-      height: 333px !important;
-      max-width: 250px !important;
-      max-height: 333px !important;
+      margin-top: -60px;
     }
 
     .product-image-container img,
     .product-image-container .product-image {
-      width: 250px !important; /* Tamaño ajustado en móvil */
-      height: 333px !important;
-      max-width: 250px !important;
-      max-height: 333px !important;
+      width: 200px !important;
+      height: 260px !important;
+      max-width: 200px !important;
+      max-height: 260px !important;
     }
 
-    /* Ajustar botón en móvil */
     .product-card a {
-      max-width: 200px !important;
+      max-width: 100% !important;
       width: 100% !important;
       height: 46px !important;
       font-size: 13px !important;
