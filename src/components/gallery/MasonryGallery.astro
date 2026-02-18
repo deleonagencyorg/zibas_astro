@@ -169,15 +169,14 @@ const dedupedItems = items.filter((it) => {
   .fade-out { opacity: 0; }
   .fade-in { opacity: 1; }
 
+  /* Mobile limit hiding */
+  .hidden-mobile { display: none !important; }
+
   /* Reduce motion preference */
   @media (prefers-reduced-motion: reduce) {
     .masonry-item { transition: none; }
   }
 </style>
-
-<!-- Masonry.js y imagesLoaded desde CDN -->
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 
 <script is:inline>
   (() => {
@@ -199,54 +198,6 @@ const dedupedItems = items.filter((it) => {
       const data = thumbs.map((img) => ({ url: img.currentSrc || img.src, alt: img.alt || '' }));
       let index = 0;
       let isOpen = false;
-
-      // Inicializar Masonry.js después de cargar imágenes
-      let msnry = null;
-      if (window.Masonry && window.imagesLoaded) {
-        msnry = new Masonry(grid, {
-          itemSelector: '.masonry-item',
-          columnWidth: '.grid-sizer',
-          gutter: window.innerWidth >= 768 ? 16 : 12,
-          percentPosition: true,
-          transitionDuration: '0.3s'
-        });
-
-        imagesLoaded(grid, function() {
-          if (msnry) msnry.layout();
-        });
-
-        // Re-layout en resize
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(function() {
-            if (msnry) {
-              msnry.options.gutter = window.innerWidth >= 768 ? 16 : 12;
-              msnry.layout();
-            }
-
-      // Limitar cantidad visible en mobile
-      const limitAttr = section.getAttribute('data-mobile-limit');
-      const mobileLimit = Number(limitAttr || '0');
-      const items = Array.from(grid.querySelectorAll('.masonry-item'));
-
-      function applyMobileLimit() {
-        const isMobile = window.innerWidth < 768;
-        items.forEach((el, idx) => {
-          const hide = isMobile && mobileLimit > 0 && idx >= mobileLimit;
-          el.style.display = hide ? 'none' : 'inline-block';
-          el.setAttribute('aria-hidden', hide ? 'true' : 'false');
-        });
-        if (msnry) msnry.layout();
-      }
-
-      applyMobileLimit();
-      window.addEventListener('resize', () => {
-        applyMobileLimit();
-      });
-          }, 250);
-        });
-      }
 
       function show(i) {
         if (!imgEl) return;
@@ -319,7 +270,6 @@ const dedupedItems = items.filter((it) => {
           grid.appendChild(firstItem);
           firstItem.classList.add('fade-in');
           setTimeout(() => firstItem.classList.remove('fade-in'), 300);
-          if (msnry) msnry.layout();
         }, 300);
       }
 
@@ -343,17 +293,36 @@ const dedupedItems = items.filter((it) => {
       });
 
       btnClose && btnClose.addEventListener('click', () => { if (!reduceMotion) startRotation(); });
+
+      // Limitar cantidad visible en mobile (CSS-based con media queries)
+      const limitAttr = section.getAttribute('data-mobile-limit');
+      const mobileLimit = Number(limitAttr || '0');
+      const allItems = Array.from(grid.querySelectorAll('.masonry-item'));
+
+      function applyMobileLimit() {
+        const isMobile = window.innerWidth < 768;
+        allItems.forEach((el, idx) => {
+          const hide = isMobile && mobileLimit > 0 && idx >= mobileLimit;
+          el.classList.toggle('hidden-mobile', hide);
+          el.setAttribute('aria-hidden', hide ? 'true' : 'false');
+        });
+      }
+
+      applyMobileLimit();
+      window.addEventListener('resize', applyMobileLimit);
     }
 
     function tryInit() {
       const section = document.querySelector('[data-gallery-root]');
-      init(section);
+      if (section && !section.dataset.galleryInit) {
+        section.dataset.galleryInit = '1';
+        init(section);
+      }
     }
 
-    // Initial load and after swaps
+    // Solo inicializar el modal/lightbox, el grid es CSS puro
     document.addEventListener('astro:page-load', tryInit);
     document.addEventListener('astro:after-swap', tryInit);
-    // Fallback for full reload
     tryInit();
   })();
 </script>
