@@ -17,22 +17,25 @@ const {
 
 const categoryItems = Array.isArray(categories) ? categories : [];
 
-// Helper to get a consistent key for category types if needed in the future
 function getCategoryType(category: any): string {
   return String(category?.id || 'general').trim().toLowerCase();
 }
 ---
 
 <div class="w-full" data-categories-carousel>
-  <div class="w-full px-0 md:px-4">
-    <!-- Title Section -->
- 
-    <!-- Desktop Carousel -->
+  <div class="w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10">
     <div class="categories-carousel relative">
-      <div class="categories-carousel-container overflow-hidden px-4 md:px-0">
-        <div class="categories-carousel-track flex items-start gap-4 md:gap-6" id="categoriesTrackDesktop" style="transform: none; width: max-content;">
+      <div class="categories-carousel-container w-full overflow-hidden px-[6px] mx-[-6px] box-content">
+        <div
+          class="categories-carousel-track flex items-stretch py-[6px]"
+          id="categoriesTrackDesktop"
+        >
           {categoryItems.map((category, index) => (
-            <div class="category-slide flex-shrink-0 w-[calc(100vw-2rem)] md:w-auto" data-index={index} data-category={getCategoryType(category)}>
+            <div
+              class="category-slide flex-shrink-0"
+              data-index={index}
+              data-category={getCategoryType(category)}
+            >
               <CategoryCard
                 id={category.id}
                 title={category.title}
@@ -47,221 +50,178 @@ function getCategoryType(category: any): string {
         </div>
       </div>
 
-      <!-- Desktop Navigation Controls -->
-      <div class="flex justify-center items-center gap-4 mt-8">
-        <button class="carousel-prev bg-white text-pink p-2 rounded-full shadow-lg z-10" aria-label="Anterior" id="prevBtnDesktop">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="carousel-controls flex justify-center items-center gap-3 mt-4 sm:mt-5 lg:mt-7">
+        <button
+          class="carousel-prev bg-white text-pink p-2 sm:p-2.5 rounded-full shadow-lg z-10 hover:bg-gray-100 transition-colors"
+          aria-label="Anterior"
+          id="prevBtnDesktop"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div class="carousel-dots-desktop flex gap-2"></div>
-        <button class="carousel-next bg-white text-pink p-2 rounded-full shadow-lg z-10" aria-label="Siguiente" id="nextBtnDesktop">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="carousel-dots flex gap-2"></div>
+        <button
+          class="carousel-next bg-white text-pink p-2 sm:p-2.5 rounded-full shadow-lg z-10 hover:bg-gray-100 transition-colors"
+          aria-label="Siguiente"
+          id="nextBtnDesktop"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
+
     </div>
   </div>
 </div>
+
+<style>
+  .categories-carousel-track {
+    flex-wrap: nowrap;
+    transition: transform 0.35s ease;
+  }
+  .category-slide {
+    flex-shrink: 0;
+  }
+</style>
 
 <script>
   function initCategoriesCarousel(root) {
     if (!root || root.dataset.ccInitialized === 'true') return;
     root.dataset.ccInitialized = 'true';
 
-    setupDesktopCarousel();
+    const track         = root.querySelector('#categoriesTrackDesktop');
+    const prevBtn       = root.querySelector('#prevBtnDesktop');
+    const nextBtn       = root.querySelector('#nextBtnDesktop');
+    const dotsContainer = root.querySelector('.carousel-dots');
+    const controls      = root.querySelector('.carousel-controls');
+    const outerWrap     = root.querySelector('.categories-carousel-container');
 
-    function setupDesktopCarousel() {
-      const track = root.querySelector('#categoriesTrackDesktop');
-      const prevBtn = root.querySelector('#prevBtnDesktop');
-      const nextBtn = root.querySelector('#nextBtnDesktop');
-      const dotsContainer = root.querySelector('.carousel-dots-desktop');
+    if (!track || !prevBtn || !nextBtn || !dotsContainer || !controls || !outerWrap) return;
 
-      if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+    const slides = Array.from(track.querySelectorAll('.category-slide'));
+    let currentSlide = 0;
 
-      const slides = Array.from(track.querySelectorAll('.category-slide'));
-      // Inicializar en 0 para mostrar la primera categoría
-      let currentSlide = 0;
-      
-      // Responsive slidesPerView: 1 en mobile, 4 en desktop
-      function getSlidesPerView() {
-        return window.innerWidth < 768 ? 1 : 4;
-      }
-      
-      let slidesPerView = getSlidesPerView();
-      
-      // Asegurar que el track esté visible desde el inicio
-      track.style.transform = 'translateX(0px)';
-      
-      // Asegurar que el contenedor tenga el ancho correcto
-      track.style.width = 'max-content';
+    /* ─── breakpoints ───── */
 
-      if (slides.length <= slidesPerView) {
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
-        dotsContainer.style.display = 'none';
-        // Center the items if they are less than the view
-        track.parentElement.style.display = 'flex';
-        track.parentElement.style.justifyContent = 'center';
-        return;
-      }
+    function getSlidesPerView() {
+      const w = window.innerWidth;
+      if (w < 480)  return 1;
+      if (w < 1024) return 2;
+      if (w < 1280) return 3;
+      return 4;
+    }
 
-      const prevClone = prevBtn.cloneNode(true);
-      const nextClone = nextBtn.cloneNode(true);
-      prevBtn.parentNode.replaceChild(prevClone, prevBtn);
-      nextBtn.parentNode.replaceChild(nextClone, nextBtn);
+    function getGap() {
+      const w = window.innerWidth;
+      if (w < 480)  return 12;
+      if (w < 768)  return 14;
+      if (w < 1024) return 16;
+      if (w < 1280) return 18;
+      return 20;
+    }
 
-      // Llamar a createDots primero para que los puntos estén listos
-      createDots();
-      
-      // Luego actualizar el carrusel para mostrar la primera categoría
-      updateCarousel();
-      
-      // Forzar la visibilidad de la primera categoría
-      setTimeout(() => {
-        currentSlide = 0;
-        track.style.transform = 'translateX(0px)';
-        updateDots();
-        updateButtons();
-      }, 100);
+    function slideWidth() {
+      const spv = Math.min(getSlidesPerView(), slides.length);
+      const gap = getGap();
+      const cw  = outerWrap.offsetWidth - 12;
+      return (cw - gap * (spv - 1)) / spv;
+    }
 
-      prevClone.addEventListener('click', () => {
-        if (currentSlide > 0) {
-          currentSlide--;
-          updateCarousel();
-        }
-      });
-
-      nextClone.addEventListener('click', () => {
-        if (currentSlide < slides.length - slidesPerView) {
-          currentSlide++;
-          updateCarousel();
-        }
-      });
-
-      function createDots() {
-        dotsContainer.innerHTML = '';
-        slidesPerView = getSlidesPerView();
-        const totalDots = Math.max(0, slides.length - slidesPerView + 1);
-        for (let i = 0; i < totalDots; i++) {
-          const dot = document.createElement('button');
-          dot.classList.add('w-3', 'h-3', 'rounded-full', i === currentSlide ? 'bg-white' : 'bg-gray-100');
-          dot.addEventListener('click', () => {
-            currentSlide = i;
-            updateCarousel();
-          });
-          dotsContainer.appendChild(dot);
-        }
-      }
-
-      function updateCarousel() {
-        // Asegurar que el carrusel comience desde la primera categoría
-        slidesPerView = getSlidesPerView();
-        
-        // Calcular offset basado en el ancho de la pantalla
-        // Mobile: usar el ancho de la primera slide + gap
-        // Desktop: usar el ancho fijo de la card (310px) + gap (24px)
-        let offset;
-        if (window.innerWidth < 768) {
-          const firstSlide = slides[0];
-          const slideWidth = firstSlide ? firstSlide.offsetWidth : window.innerWidth - 32;
-          const gap = 16; // gap-4 = 1rem = 16px
-          offset = currentSlide * (slideWidth + gap);
-        } else {
-          offset = currentSlide * (310 + 24); // 310px card width + 24px gap
-        }
-        
-        track.style.transform = `translateX(-${offset}px)`;
-
-        slides.forEach((slide) => {
-            const card = slide.querySelector('a');
-            if (!card) return;
-
-            // Clone to remove old listeners
-            const newCard = card.cloneNode(true);
-            card.parentNode.replaceChild(newCard, card);
-
-            const slideContainer = newCard.parentElement;
-            const cardContainer = newCard.querySelector('div');
-            const gradientBg = cardContainer.querySelector('div:first-child');
-            const contentBg = cardContainer.querySelector('div:last-child');
-
-            const originalWidth = 310;
-            const expandedWidth = 380;
-
-            // Set base transition
-            slideContainer.style.transition = 'width 300ms ease';
-            newCard.style.transition = 'opacity 300ms ease';
-            [cardContainer, gradientBg, contentBg].forEach(el => {
-                if(el) el.style.transition = 'width 300ms ease';
-            });
-
-            newCard.addEventListener('mouseenter', () => {
-                if (window.innerWidth < 768) return;
-
-                slideContainer.style.width = `${expandedWidth}px`;
-                if(cardContainer) cardContainer.style.width = `${expandedWidth}px`;
-                if(gradientBg) gradientBg.style.width = `${expandedWidth}px`;
-                if(contentBg) contentBg.style.width = `${expandedWidth}px`;
-
-                slides.forEach(s => {
-                    const otherCard = s.querySelector('a');
-                    if (otherCard !== newCard) {
-                        otherCard.style.opacity = '0.6';
-                    }
-                });
-            });
-
-            newCard.addEventListener('mouseleave', () => {
-                if (window.innerWidth < 768) return;
-
-                slideContainer.style.width = `${originalWidth}px`;
-                if(cardContainer) cardContainer.style.width = `${originalWidth}px`;
-                if(gradientBg) gradientBg.style.width = `${originalWidth}px`;
-                if(contentBg) contentBg.style.width = `${originalWidth}px`;
-
-                slides.forEach(s => {
-                    s.querySelector('a').style.opacity = '1';
-                });
-            });
-        });
-
-        updateDots();
-        updateButtons();
-      }
-
-      function updateDots() {
-        const dots = dotsContainer.querySelectorAll('button');
-        dots.forEach((dot, i) => {
-          dot.classList.toggle('bg-brown', i === currentSlide);
-          dot.classList.toggle('bg-gray-300', i !== currentSlide);
-        });
-      }
-
-      function updateButtons() {
-        slidesPerView = getSlidesPerView();
-        prevClone.disabled = currentSlide === 0;
-        nextClone.disabled = currentSlide >= slides.length - slidesPerView;
-        prevClone.classList.toggle('opacity-50', prevClone.disabled);
-        nextClone.classList.toggle('opacity-50', nextClone.disabled);
-      }
-      
-      // Agregar listener para resize para actualizar el carousel cuando cambie el tamaño de la ventana
-      let resizeTimeout;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-          const newSlidesPerView = getSlidesPerView();
-          if (newSlidesPerView !== slidesPerView) {
-            // Resetear a la primera slide si cambia el modo
-            currentSlide = 0;
-            createDots();
-            updateCarousel();
-          }
-        }, 150);
+    function applySlideWidths() {
+      const sw  = slideWidth();
+      const gap = getGap();
+      track.style.gap = gap + 'px';
+      slides.forEach(s => {
+        s.style.width    = sw + 'px';
+        s.style.minWidth = sw + 'px';
+        s.style.maxWidth = sw + 'px';
       });
     }
+
+    function needsCarousel() {
+      return slides.length > getSlidesPerView();
+    }
+
+    function maxSlide() {
+      return Math.max(0, slides.length - getSlidesPerView());
+    }
+
+    /* ─── navegación ───────── */
+
+    function goTo(index) {
+      currentSlide = Math.max(0, Math.min(index, maxSlide()));
+      const offset = currentSlide * (slideWidth() + getGap());
+      track.style.transform = `translateX(-${offset}px)`;
+      updateDots();
+      updateButtons();
+    }
+
+    /* ─── dots ───────── */
+
+    function buildDots() {
+      dotsContainer.innerHTML = '';
+      if (!needsCarousel()) return;
+      const totalDots = maxSlide() + 1;
+      for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'w-3 h-3 rounded-full transition-colors duration-200 ' +
+          (i === currentSlide ? 'bg-pink' : 'bg-gray-300');
+        dot.setAttribute('aria-label', `Ir a slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      Array.from(dotsContainer.querySelectorAll('button')).forEach((dot, i) => {
+        dot.classList.toggle('bg-pink',      i === currentSlide);
+        dot.classList.toggle('bg-gray-300',  i !== currentSlide);
+      });
+    }
+
+    /* ─── botones ─────── */
+
+    function updateButtons() {
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide >= maxSlide();
+      prevBtn.classList.toggle('opacity-40',         prevBtn.disabled);
+      prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);
+      nextBtn.classList.toggle('opacity-40',         nextBtn.disabled);
+      nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
+    }
+
+    function refresh() {
+      if (currentSlide > maxSlide()) currentSlide = maxSlide();
+
+      applySlideWidths();
+
+      track.style.flexWrap       = 'nowrap';
+      track.style.justifyContent = 'flex-start';
+
+      if (needsCarousel()) {
+        controls.style.display = 'flex';
+        buildDots();
+        goTo(currentSlide);
+      } else {
+        controls.style.display = 'none';
+        track.style.transform  = 'translateX(0px)';
+      }
+    }
+
+    /* ─── eventos ────── */
+
+    prevBtn.addEventListener('click', () => goTo(currentSlide - 1));
+    nextBtn.addEventListener('click', () => goTo(currentSlide + 1));
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(refresh, 120);
+    });
+
+    refresh();
   }
 
   function initAll() {
@@ -273,6 +233,6 @@ function getCategoryType(category: any): string {
   } else {
     initAll();
   }
-  document.addEventListener('astro:page-load', initAll);
+  document.addEventListener('astro:page-load',  initAll);
   document.addEventListener('astro:after-swap', initAll);
 </script>

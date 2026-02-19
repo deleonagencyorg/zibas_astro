@@ -39,8 +39,8 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
 
 <a 
   href={recipeLink} 
-  class={`block group relative transition-all duration-500 ease-in-out flex-shrink-0 ${
-    isMainCard ? 'w-[530px] h-[520px] md:h-[562px]' : 'w-[310px] h-[520px] md:h-[562px]'
+  class={`block group relative transition-all duration-500 ease-in-out w-full ${
+    isMainCard ? 'md:w-[430px] md:h-[520px] lg:h-[562px]' : 'md:w-[280px] md:h-[520px] lg:h-[562px]'
   }`}
   transition:animate="fade"
 >
@@ -55,10 +55,10 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
     )}
     
     <!-- Imagen -->
-    <div class={`relative overflow-hidden flex-shrink-0 ${
+    <div class={`relative overflow-hidden flex-shrink-0 w-full aspect-[430/340] md:aspect-auto ${
       isMainCard 
-        ? 'w-[530px] h-[260px] md:h-[300px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]' 
-        : 'w-[310px] h-[260px] md:h-[300px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50'
+        ? 'md:w-[430px] md:h-[280px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]' 
+        : 'md:w-[280px] md:h-[300px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50'
     }`}>
       <LazyImage
         src={image}
@@ -69,17 +69,17 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
     </div>
     
     <!-- Información -->
-    <div class={`flex-shrink-0 ${
-      isMainCard 
-        ? 'w-[530px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50' 
+      <div class={`flex-shrink-0 md:${isMainCard ? 'w-[430px]' : 'w-[280px]'}${
+        isMainCard 
+        ? 'min-h-[180px] md:min-h-[320px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50' 
         : 'w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50'
-    } p-6 flex flex-col justify-between`}>
+    } p-6 flex flex-col justify-between gap-3 md:gap-6`}>
       <!-- Título -->
       <h3 class="font-title font-bold text-black leading-tight flex-1 flex items-center text-2xl">{title}</h3>
       
       <!-- Botón Ver Receta -->
       <div class="flex justify-center">
-        <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-xl font-bold hover:bg-yellow-300 transition-colors">
+                <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-xl font-bold hover:bg-yellow-300 transition-colors">
           {viewRecipeText}
         </div>
       </div>
