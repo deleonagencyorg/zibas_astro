@@ -6,6 +6,7 @@ import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import LazyImage from '../../components/common/LazyImage.astro';
 import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
 
 interface Recipe {
   id: string;
@@ -69,7 +70,7 @@ function normalizeType(r: Recipe): string {
   return 'other';
 }
 ---
-<div class="-mt-px -mb-px overflow-hidden" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<div class="-mt-px -mb-px w-full"  style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   
   <div class="container mx-auto px-4 mt-0">
     <div class="pt-4">
