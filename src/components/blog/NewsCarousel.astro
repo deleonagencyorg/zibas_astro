@@ -28,15 +28,17 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     </div>
   ) : (
     <div class="w-full">
-      <div class="relative overflow-hidden">
-        <div class="flex transition-transform duration-300 will-change-transform" data-track>
-          <!-- Slides will be built by script -->
-        </div>
-        <!-- Nav Buttons overlaid, centered vertically -->
-        <button data-prev class="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Prev">
+      <div class="flex items-center gap-4">
+        <!-- Botón izquierdo -->
+        <button data-prev class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Prev">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
         </button>
-        <button data-next class="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Next">
+        <!-- Track -->
+        <div class="flex-1 overflow-hidden">
+          <div class="flex transition-transform duration-300 will-change-transform" data-track></div>
+        </div>
+        <!-- Botón derecho -->
+        <button data-next class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Next">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
       </div>
@@ -110,7 +112,7 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
         const slide = document.createElement('div');
         slide.className = 'w-full flex-shrink-0 px-1';
         slide.innerHTML = `
-          <div class="grid grid-cols-2 md:grid-cols-2 gap-8    md:gap-8">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             ${group.map((item) => `
               <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
                 <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
