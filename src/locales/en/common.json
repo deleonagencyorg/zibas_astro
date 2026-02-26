@@ -93,7 +93,6 @@
     "explore": "Explorar"
   },
   "menu_items": [
- 
     {
       "id": "products",
       "text": "Products",
@@ -169,8 +168,8 @@
     },
     {
       "id":"2",
-      "title":"🎨 Ziba's Creators: Join with your creativity and win prizes!",
-      "link":"/en/zibas-creators"
+      "title":"😎 Welcome to Ziba's! If you're craving a snack, you're in the right place 🎉",
+      "link":""
     }
   ],
   "form_validation": {
