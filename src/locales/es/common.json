@@ -101,11 +101,6 @@
     "explore": "Explorar"
   },
   "menu_items": [
-     {
-      "id": "zibas_creators",
-      "text": "Ziba's Creators",
-      "href": "/es/zibas-creators"
-    },
     {
       "id": "products",
       "text": "Productos",
@@ -186,8 +181,8 @@
     },
     {
       "id":"2",
-      "title":"🎨 Ziba's Creators: ¡Participa con tu creatividad y gana premios!",
-      "link":"/es/zibas-creators"
+      "title":"😎 ¡Bienvenidos a Ziba's! Si se te antoja un snack, estás en el lugar correcto 🎉",
+      "link":""
     }
   ],
   "form_validation": {
