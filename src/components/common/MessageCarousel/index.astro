@@ -16,7 +16,7 @@ const { currentLang } = Astro.props;
 const messages = t('messagetop', { namespace: 'common', locale: currentLang }) as Message[] || [];
 ---
 
-<div id="message-carousel" class="w-full bg-[#ca0203]  text-white py-8 md:py-4  relative overflow-hidden z-10">
+<div id="message-carousel" class="w-full bg-[#ca0203] text-white py-8 md:py-4 relative overflow-hidden z-10">
   <div class="container mx-auto px-4">
     <div class="message-slider flex items-center justify-center min-h-[1.5rem] md:min-h-[2rem] relative">
       {messages.map((message: Message, index: number) => (
@@ -51,33 +51,46 @@ const messages = t('messagetop', { namespace: 'common', locale: currentLang }) a
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  //  interval fuera de initCarousel y limpiar llamadas
+  let interval: ReturnType<typeof setInterval> | null = null;
+
+  function initCarousel() {
+    // limpiar interval anterior para no acumular
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+
     const slides = document.querySelectorAll('.message-slide');
     const totalSlides = slides.length;
+    if (totalSlides === 0) return;
+
     let currentSlide = 0;
-    let interval: ReturnType<typeof setInterval> | null = null;
-    
-    // Define button references at the top level
-    const prevButton: HTMLElement | null = document.getElementById('prev-message');
-    const nextButton: HTMLElement | null = document.getElementById('next-message');
+
+    const prevRaw = document.getElementById('prev-message');
+    const nextRaw = document.getElementById('next-message');
+
+    const prevButton = prevRaw?.cloneNode(true) as HTMLElement | null;
+    const nextButton = nextRaw?.cloneNode(true) as HTMLElement | null;
+
+    if (prevRaw && prevButton) prevRaw.parentNode?.replaceChild(prevButton, prevRaw);
+    if (nextRaw && nextButton) nextRaw.parentNode?.replaceChild(nextButton, nextRaw);
 
     function showSlide(index: number) {
-      slides.forEach((slide, i: number) => {
-        const slideElement = slide as HTMLElement;
+      slides.forEach((slide, i) => {
+        const el = slide as HTMLElement;
         if (i === index) {
-          slideElement.style.opacity = '1';
-          slideElement.style.transform = 'translateY(0)';
-          slideElement.style.zIndex = '1';
-          // Añadir un efecto visual al botón activo
-          slideElement.classList.add('active-slide');
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          el.style.zIndex = '1';
+          el.classList.add('active-slide');
         } else {
-          slideElement.style.opacity = '0';
-          slideElement.style.transform = 'translateY(20px)';
-          slideElement.style.zIndex = '0';
-          slideElement.classList.remove('active-slide');
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.zIndex = '0';
+          el.classList.remove('active-slide');
         }
       });
-      
       // Añadir un efecto visual a los botones
       if (prevButton && nextButton) {
         prevButton.classList.add('pulse-animation');
@@ -88,51 +101,51 @@ const messages = t('messagetop', { namespace: 'common', locale: currentLang }) a
           nextButton.classList.remove('pulse-animation');
         }, 300);
       }
-    };
-    
+    }
     const nextSlide = () => {
       currentSlide = (currentSlide + 1) % totalSlides;
       showSlide(currentSlide);
     };
-    
     const prevSlide = () => {
       currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
       showSlide(currentSlide);
     };
-    
-    // Iniciar rotación automática
+
     const startAutoRotation = () => {
-      interval = setInterval(nextSlide, 5000); // Cambiar cada 5 segundos
+      interval = setInterval(nextSlide, 5000);
     };
-    
-    // Detener rotación al interactuar
-    // Limpiar el intervalo anterior si existe
-    const stopAutoRotation = () => {
-      if (interval) clearInterval(interval);
-    };
-    
-    // Reiniciar rotación después de interactuar
+
     const resetAutoRotation = () => {
-      stopAutoRotation();
+      if (interval) clearInterval(interval);
       startAutoRotation();
     };
-    
-    // Configurar botones de navegación
+
     if (prevButton) {
       prevButton.addEventListener('click', () => {
         prevSlide();
         resetAutoRotation();
       });
     }
-    
+
     if (nextButton) {
       nextButton.addEventListener('click', () => {
         nextSlide();
         resetAutoRotation();
       });
     }
-    
-    // Iniciar rotación automática
+
+    // Mostrar primer slide y arrancar rotación
+    showSlide(0);
     startAutoRotation();
-  });
+  }
+
+  //primera carga
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousel);
+  } else {
+    initCarousel();
+  }
+
+  // navegación interna
+  document.addEventListener('astro:page-load', initCarousel);
 </script>

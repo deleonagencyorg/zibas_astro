@@ -32,8 +32,8 @@ const {
   showOverlay = true
 } = Astro.props;
 
- const slidesCount = Array.isArray(slides) ? slides.length : 0;
- const showControls = slidesCount > 1;
+const slidesCount = Array.isArray(slides) ? slides.length : 0;
+const showControls = slidesCount > 1;
 
 // Identificar el primer slide para precargar
 const firstSlide = slides[0] || {};
@@ -310,15 +310,22 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Swiper
-    const root = document.querySelector('.video-carousel');
-    const slideCount = root?.querySelectorAll('.swiper-slide')?.length || 0;
 
-    const nextEl = document.querySelector('.video-carousel .swiper-button-next') as HTMLElement | null;
-    const prevEl = document.querySelector('.video-carousel .swiper-button-prev') as HTMLElement | null;
-    const paginationEl = document.querySelector('.video-carousel .swiper-pagination') as HTMLElement | null;
+  function initVideoCarousel() {
+    const root = document.querySelector('.video-carousel');
+    if (!root) return;
+
+    // evitar duplicar listener
+    const existing = (root as any).swiper;
+    if (existing) {
+      existing.destroy(true, true);
+    }
+
+    const slideCount = root.querySelectorAll('.swiper-slide').length;
+
+    const nextEl = root.querySelector('.swiper-button-next') as HTMLElement | null;
+    const prevEl = root.querySelector('.swiper-button-prev') as HTMLElement | null;
+    const paginationEl = root.querySelector('.swiper-pagination') as HTMLElement | null;
 
     if (slideCount <= 1) {
       if (nextEl) nextEl.style.display = 'none';
@@ -327,7 +334,7 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       return;
     }
 
-    const swiper = new Swiper('.video-carousel', {
+    const swiper = new Swiper(root as HTMLElement, {
       modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 1,
       spaceBetween: 0,
@@ -337,24 +344,21 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
         disableOnInteraction: false,
       },
       navigation: {
-        nextEl: '.video-carousel .swiper-button-next',
-        prevEl: '.video-carousel .swiper-button-prev',
+        nextEl: root.querySelector('.swiper-button-next') as HTMLElement,
+        prevEl: root.querySelector('.swiper-button-prev') as HTMLElement,
       },
       pagination: {
-        el: '.video-carousel .swiper-pagination',
+        el: root.querySelector('.swiper-pagination') as HTMLElement,
         clickable: true,
       },
     });
-    
-    // Handle video playback
-    const videos = document.querySelectorAll('video.slide-video') as NodeListOf<HTMLVideoElement>;
-    
+
+    const videos = root.querySelectorAll('video.slide-video') as NodeListOf<HTMLVideoElement>;
+
     function setFallbackOpacity(slideId: string | null, opacity: string) {
       if (!slideId) return;
       const fallbackImage = document.querySelector(`#${slideId} .fallback-image`) as HTMLElement | null;
-      if (fallbackImage instanceof HTMLElement) {
-        fallbackImage.style.opacity = opacity;
-      }
+      if (fallbackImage) fallbackImage.style.opacity = opacity;
     }
 
     function isTypeVideoSlide(video: HTMLVideoElement | null): boolean {
@@ -382,33 +386,23 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       setFallbackOpacity(slideId, '1');
 
       if (isTypeVideoSlide(video)) {
-        // Start from the beginning so slide change timing is deterministic
-        try {
-          video.currentTime = 0;
-        } catch {}
+        try { video.currentTime = 0; } catch {}
       }
       
       const playPromise = video.play();
 
       if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Video playback started successfully
-          })
-          .catch((error: unknown) => {
-            // Auto-play was prevented
-            console.warn('Video playback was prevented:', error);
-          });
+        playPromise.catch((error: unknown) => {
+          console.warn('Video playback was prevented:', error);
+        });
       }
     }
-    
+
     // Function to pause all videos
     function pauseAllVideos() {
-      videos.forEach((video) => {
-        video.pause();
-      });
+      videos.forEach((video) => video.pause());
     }
-    
+
     // Play video on active slide
     swiper.on('slideChange', () => {
       pauseAllVideos();
@@ -417,21 +411,16 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       const activeVideo = activeSlide?.querySelector('video.slide-video') as HTMLVideoElement | null;
 
       updateAutoplayForActiveSlide();
-      
-      if (activeVideo) {
-        setTimeout(() => playVideo(activeVideo), 300);
-      }
+      if (activeVideo) setTimeout(() => playVideo(activeVideo), 300);
     });
-    
+
     // Apply initial autoplay state
     updateAutoplayForActiveSlide();
 
     // Play initial video
     const initialVideo = swiper.slides[swiper.activeIndex]?.querySelector('video.slide-video') as HTMLVideoElement | null;
-    if (initialVideo) {
-      playVideo(initialVideo);
-    }
-    
+    if (initialVideo) playVideo(initialVideo);
+
     // Handle video loading and fallback
     videos.forEach((video) => {
       const slideId = video.getAttribute('data-slide-id');
@@ -443,17 +432,18 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       // Hide preview once video can play / is playing
       video.addEventListener('canplay', () => setFallbackOpacity(slideId, '0'));
       video.addEventListener('playing', () => setFallbackOpacity(slideId, '0'));
-      
-      // Show fallback image if video errors
-      video.addEventListener('error', () => {
-        setFallbackOpacity(slideId, '1');
-      });
-
-      // If slide is explicitly type:video, advance only when it ends
+      video.addEventListener('error', () => setFallbackOpacity(slideId, '1'));
       video.addEventListener('ended', () => {
         if (!isTypeVideoSlide(video)) return;
         swiper.slideNext();
       });
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVideoCarousel);
+  } else {
+    initVideoCarousel();
+  }
+  document.addEventListener('astro:page-load', initVideoCarousel);
 </script>
