@@ -1,7 +1,7 @@
 {
   "title": "Contáctanos",
   "subtitle": "¿Tienes preguntas? ¡Estamos aquí para ti!",
-  "description": "ENVÍANOS TUS DUDAS O COMENTARIOS LLENANDO EL FORMULARIO DE LA DERECHA, O CONTÁCTANOS VIA E-MAIL O TELÉFONO.",
+  "description": "ENVÍANOS TUS DUDAS O COMENTARIOS LLENANDO EL FORMULARIO DE LA DERECHA, O CONTÁCTANOS VÍA E-MAIL O TELÉFONO.",
   "email": "contacto@yummies.com",
   "phone": "1234-56789",
   "form": {
@@ -15,7 +15,7 @@
         "Quiero ser cliente",
         "Exportaciones",
         "Quiero ser proveedor",
-        "Enviar Hoja de vida",
+        "Enviar hoja de vida",
         "Soy Estudiante Universitario",
         "Soy Periodista/ Medio de comunicación",
         "Línea Ética YUMMIES",
