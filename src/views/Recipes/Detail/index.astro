@@ -146,7 +146,7 @@ function formatTime(minutes: number): string {
       <h2 class="font-title font-bold md:text-4xl text-2xl text-white text-left uppercase italic mb-4">
         {recipesAssets.preparation}
       </h2>
-      <ul class="list-disc list-inside space-y-2 text-white">
+      <ul class="list-disc list-outside space-y-2 text-white">
         {recipe.instructions.map((instruction: string) => (
           <li class="text-lg">{instruction}</li>
         ))}
