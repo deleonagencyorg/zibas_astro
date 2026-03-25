@@ -44,26 +44,26 @@
       ],
       "weight": ["23g", "26g", "40g", "80g", "190g"],
       "nutrition": {
-        "title": "Nutrition Facts",
-        "serving": "Serving Size: 1oz (28g). Servings per container: 0.82",
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
         "rows": [
-          { "label": "Energy", "value": "650 kJ (150 kcal)" },
-          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
-          { "label": "Total Fat", "value": "10g (15% DV)" },
-          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
-          { "label": "Trans Fat", "value": "0g (0% DV)" },
-          { "label": "Cholesterol", "value": "0mg (0% DV)" },
-          { "label": "Sodium", "value": "180mg (8% DV)" },
-          { "label": "Total Carbohydrates", "value": "15g (5% DV)" },
-          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
-          { "label": "Total Sugars", "value": "less than 1g" },
-          { "label": "Protein", "value": "2g" },
-          { "label": "Vitamin D", "value": "0% DV" },
-          { "label": "Calcium", "value": "0% DV" },
-          { "label": "Iron", "value": "2% DV" },
-          { "label": "Potassium", "value": "10% DV" }
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (15% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "180mg (8% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "menos de 1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "10% VD" }
         ],
-        "disclaimer": "Percent Daily Values are based on a 8,378 kJ (2,000 cal) diet. Your daily values may be higher or lower depending on your caloric needs. ACCORDING TO FDA."
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     },
     {
@@ -72,7 +72,7 @@
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
       "background_color": "#147a2f",
       "header_color": "#FFFFFF",
-      "text_color": "#147a2f",
+      "text_color": "#B1C92D",
       "header_background": "#147a2f",
       "header_text_color": "#FFFFFF",
       "color_button": "#147a2f",
@@ -87,26 +87,26 @@
       ],
       "weight": ["23g", "26g", "40g", "80g", "190g"],
       "nutrition": {
-        "title": "Nutrition Facts",
-        "serving": "Serving Size: 1oz 1/4 cup (28g). Servings per container: 0.82",
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz 1/4 taza (28g). Porciones por envase: 0.82",
         "rows": [
-          { "label": "Energy", "value": "650 kJ (150 kcal)" },
-          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
-          { "label": "Total Fat", "value": "10g (15% DV)" },
-          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
-          { "label": "Trans Fat", "value": "0g (0% DV)" },
-          { "label": "Cholesterol", "value": "0mg (0% DV)" },
-          { "label": "Sodium", "value": "220mg (9% DV)" },
-          { "label": "Total Carbohydrates", "value": "15g (5% DV)" },
-          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
-          { "label": "Total Sugars", "value": "less than 1g" },
-          { "label": "Protein", "value": "2g" },
-          { "label": "Vitamin D", "value": "0% DV" },
-          { "label": "Calcium", "value": "0% DV" },
-          { "label": "Iron", "value": "2% DV" },
-          { "label": "Potassium", "value": "10% DV" }
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (15% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "220mg (9% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "menos de 1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "10% VD" }
         ],
-        "disclaimer": "Percent Daily Values are based on a 8,378 kJ (2,000 cal) diet. Your daily values may be higher or lower depending on your caloric needs. ACCORDING TO FDA."
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     },
     {
@@ -130,26 +130,26 @@
       ],
       "weight": ["23g", "26g", "40g", "80g", "190g"],
       "nutrition": {
-        "title": "Nutrition Facts",
-        "serving": "Serving Size: 1oz (28g). Servings per container: 0.82",
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
         "rows": [
-          { "label": "Energy", "value": "650 kJ (150 kcal)" },
-          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
-          { "label": "Total Fat", "value": "10g (13% DV)" },
-          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
-          { "label": "Trans Fat", "value": "0g (0% DV)" },
-          { "label": "Cholesterol", "value": "0mg (0% DV)" },
-          { "label": "Sodium", "value": "160mg (7% DV)" },
-          { "label": "Total Carbohydrates", "value": "14g (5% DV)" },
-          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
-          { "label": "Total Sugars", "value": "less than 1g" },
-          { "label": "Protein", "value": "2g" },
-          { "label": "Vitamin D", "value": "0% DV" },
-          { "label": "Calcium", "value": "0% DV" },
-          { "label": "Iron", "value": "2% DV" },
-          { "label": "Potassium", "value": "8% DV" }
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (13% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "160mg (7% VD)" },
+          { "label": "Carbohidratos Totales", "value": "14g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "menos de 1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "8% VD" }
         ],
-        "disclaimer": "Percent Daily Values are based on a 8,378 kJ (2,000 cal) diet. Your daily values may be higher or lower depending on your caloric needs. ACCORDING TO FDA."
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     },
     {
@@ -173,26 +173,26 @@
       ],
       "weight": ["23g", "26g", "40g", "80g", "190g"],
       "nutrition": {
-        "title": "Nutrition Facts",
-        "serving": "Serving Size: 1oz (28g). Servings per container: 0.82",
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
         "rows": [
-          { "label": "Energy", "value": "650 kJ (150 kcal)" },
-          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
-          { "label": "Total Fat", "value": "10g (13% DV)" },
-          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
-          { "label": "Trans Fat", "value": "0g (0% DV)" },
-          { "label": "Cholesterol", "value": "0mg (0% DV)" },
-          { "label": "Sodium", "value": "150mg (7% DV)" },
-          { "label": "Total Carbohydrates", "value": "15g (5% DV)" },
-          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
-          { "label": "Total Sugars", "value": "1g" },
-          { "label": "Protein", "value": "2g" },
-          { "label": "Vitamin D", "value": "0% DV" },
-          { "label": "Calcium", "value": "0% DV" },
-          { "label": "Iron", "value": "2% DV" },
-          { "label": "Potassium", "value": "8% DV" }
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (13% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "150mg (7% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "8% VD" }
         ],
-        "disclaimer": "Percent Daily Values are based on a 8,378 kJ (2,000 cal) diet. Your daily values may be higher or lower depending on your caloric needs. ACCORDING TO FDA."
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     },
     {
@@ -216,26 +216,26 @@
       ],
       "weight": ["23g", "26g", "40g", "80g", "190g"],
       "nutrition": {
-        "title": "Nutrition Facts",
-        "serving": "Serving Size: 1oz (28g). Servings per container: 0.82",
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
         "rows": [
-          { "label": "Energy", "value": "650 kJ (150 kcal)" },
-          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
-          { "label": "Total Fat", "value": "10g (13% DV)" },
-          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
-          { "label": "Trans Fat", "value": "0g (0% DV)" },
-          { "label": "Cholesterol", "value": "0mg (0% DV)" },
-          { "label": "Sodium", "value": "150mg (7% DV)" },
-          { "label": "Total Carbohydrates", "value": "15g (5% DV)" },
-          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
-          { "label": "Total Sugars", "value": "1g" },
-          { "label": "Protein", "value": "2g" },
-          { "label": "Vitamin D", "value": "0% DV" },
-          { "label": "Calcium", "value": "0% DV" },
-          { "label": "Iron", "value": "2% DV" },
-          { "label": "Potassium", "value": "8% DV" }
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (13% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "150mg (7% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "8% VD" }
         ],
-        "disclaimer": "Percent Daily Values are based on a 8,378 kJ (2,000 cal) diet. Your daily values may be higher or lower depending on your caloric needs. ACCORDING TO FDA."
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     }
   ]
