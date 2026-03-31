@@ -15,6 +15,7 @@ interface Props {
     title: string;
     content: string;
     image: string;
+    video?: string;
     author: string;
     published_date: string;
   };
@@ -37,8 +38,16 @@ const suggestedPosts = allBlogPosts
   .filter(post => post.id !== blogPost.id)
   .slice(0, 4);
 
-// Get the appropriate title based on language
 const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
+
+// Función para extraer el id de youtube de una URL
+const getYoutubeId = (url: string) => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+};
+
+const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
 ---
 
 <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
@@ -49,10 +58,40 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
         <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
         <div class="w-full mx-auto my-6">
           <div class="mb-8">
-            <h1 class="font-title text-3xl md:text-5xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>{blogPost.title}</h1>
+            <h1 class="font-title text-3xl md:text-5xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>
+              {blogPost.title}
+            </h1>
           </div>
 
-          <div class="blog-image-container w-full mb-4 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
+          <!-- Video -->
+          {youtubeId && (
+            <div class="w-full mb-8 rounded-lg overflow-hidden">
+              <div class="aspect-video w-full">
+                <iframe
+                  class="w-full h-full"
+                  src={`https://www.youtube.com/embed/${youtubeId}`}
+                  title={blogPost.title}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          )}
+
+          <!-- Botón de compartir -->
+          <div class="w-full mb-8 flex justify-center">
+            <ShareButton modalId="shareModal-blog" />
+          </div>
+
+          <!-- Contenido del artículo -->
+          <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
+            <Fragment set:html={blogPost.content} />
+          </div>
+        </div>
+
+          <!-- Imagen principal -->
+          <div class="blog-image-container w-full mb-6 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
             <LazyImage 
               src={blogPost.image} 
               alt={blogPost.title}
@@ -60,15 +99,7 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
               loading="lazy"
             />
           </div>
-          <!-- Share button under main image -->
-          <div class="w-full mb-8 flex justify-center">
-            <ShareButton modalId="shareModal-blog" />
-          </div>
 
-          <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
-            <Fragment set:html={blogPost.content} />
-          </div>
-        </div>
 
         {suggestedPosts.length > 0 && (
           <section class="mt-16 mb-0 pb-8" transition:animate={fade({ duration: '0.7s' })}>
@@ -90,7 +121,7 @@ const readMoreTitle = currentLang === 'es' ? 'Otras Noticias' : 'Other News';
   </div>
 </div>
 
-<!-- Share Modal instance for blog -->
+<!-- Share Modal -->
 <ShareModal
   id="shareModal-blog"
   url={Astro.url.href}
