@@ -1,5 +1,4 @@
 ---
-// Componente de carrusel de productos con Swiper
 interface Product {
   id: string;
   slug: string;
@@ -34,7 +33,6 @@ const {
 
 const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 
-// Textos según idioma
 const texts = {
   es: {
     viewMore: 'Ver más'
@@ -46,11 +44,10 @@ const texts = {
 
 const currentTexts = texts[currentLang as keyof typeof texts];
 
-// Asegurarse de que products es un array
 const productsItems = Array.isArray(products) ? products : [];
 
- const productsCount = Array.isArray(productsItems) ? productsItems.length : 0;
- const showControls = productsCount > 1;
+const productsCount = Array.isArray(productsItems) ? productsItems.length : 0;
+const showControls = productsCount > 1;
 
 import LazyImage from '../LazyImage.astro';
 ---
@@ -70,7 +67,7 @@ import LazyImage from '../LazyImage.astro';
                   data-no-swipe="true"
                   data-no-animation="true"
                   class="swiper-no-swiping product-image-link"
-                  >
+                >
                   <LazyImage 
                     src={product.imageMobile || product.image} 
                     alt={product.name}
@@ -81,29 +78,33 @@ import LazyImage from '../LazyImage.astro';
               </div>
               
               <div class="product-info p-6 text-left text-white">
-                <h4 class="text-left text-4xl">
-                  ZIBA'S
-                </h4>
-                <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.text_color || '#10b981'}`}>
-                  {product.name.split(' ').slice(1).join(' ')}
-                </h3>
-                
-                <a 
-                  href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                  style={`background-color: #004AB2`}  
-                  class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold hover:shadow-lg uppercase mx-auto"
-                  data-no-swipe="true"
-                  data-no-animation="true"
-                >
-                  {currentTexts.viewMore}
-                </a>
+                <div>
+                  <h4 class="text-left text-4xl">
+                    ZIBA'S
+                  </h4>
+                  <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" 
+                      style={`color: ${product.text_color || '#10b981'}`}>
+                    {product.name.split(' ').slice(1).join(' ')}
+                  </h3>
+                </div>
+
+                <div class="mt-auto pt-1 md:pt-2">
+                  <a 
+                    href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+                    style="background-color: #004AB2"
+                    class="flex w-full max-w-[310px] md:max-w-none h-14 md:h-[58px] text-lg md:text-2xl font-semibold justify-center items-center rounded-[100px] uppercase mx-auto md:mx-0 hover:shadow-lg transition-all"
+                    data-no-swipe="true"
+                    data-no-animation="true"
+                  >
+                    {currentTexts.viewMore}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
       
-      <!-- Navegación -->
       {showControls && (
         <div class="swiper-button-next !text-white !bg-blue-500/80 !w-12 !h-12 !rounded-full hover:!bg-blue-600/90 transition-all duration-300 !border-2 !border-white/30 backdrop-blur-sm">
         </div>
@@ -187,37 +188,10 @@ import LazyImage from '../LazyImage.astro';
 
   .product-info {
     width: 100%;
-    text-align: left;
-    color: white;
-    padding: 1.5rem;
-  }
-
-  .product-card h3 {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-  }
-
-  .product-card a {
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  /* Prevent animation glitches during navigation */
-  .product-card a[data-no-animation] {
-    transition: box-shadow 0.3s ease;
-    transform: none !important;
-  }
-
-  /* Estilos responsive para el botón ViewMore */
-  .product-card a {
-    max-width: 100%;
-    min-width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   /* Responsive */
@@ -231,7 +205,7 @@ import LazyImage from '../LazyImage.astro';
     }
 
     .product-card {
-      min-height: 380px;
+      min-height: 390px;
       margin-top: 70px;
     }
 
@@ -241,13 +215,8 @@ import LazyImage from '../LazyImage.astro';
 
     .product-image-container img,
     .product-image-container .product-image {
-      width: 230px !important;
-      height: 300px !important;
-    }
-
-    .product-card a {
-      max-width: 280px !important;
-      width: 100% !important;
+      width: 235px !important;
+      height: 305px !important;
     }
   }
 
@@ -261,8 +230,8 @@ import LazyImage from '../LazyImage.astro';
     }
 
     .product-card {
-      min-height: 340px;
-      margin-top: 60px;
+      min-height: 370px;
+      margin-top: 65px;
     }
 
     .product-image-container {
@@ -271,18 +240,21 @@ import LazyImage from '../LazyImage.astro';
 
     .product-image-container img,
     .product-image-container .product-image {
-      width: 200px !important;
-      height: 260px !important;
-      max-width: 200px !important;
-      max-height: 260px !important;
+      width: 205px !important;
+      height: 265px !important;
     }
 
-    .product-card a {
-      max-width: 100% !important;
-      width: 100% !important;
-      height: 46px !important;
-      font-size: 13px !important;
-      padding: 12px 8px !important;
+    .product-info h4 {
+      font-size: 1.85rem;
+    }
+
+    .product-info h3 {
+      font-size: 1.55rem;
+    }
+
+    .product-info a {
+      height: 52px;
+      font-size: 1.15rem;
     }
   }
 </style>
@@ -328,11 +300,9 @@ import LazyImage from '../LazyImage.astro';
         return;
       }
 
-      // Add event listeners to prevent swiper from handling link clicks
       const productLinks = swiperContainer.querySelectorAll('a[data-no-swipe]');
       productLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-          // Stop propagation to prevent Swiper from handling the click
           e.stopPropagation();
         });
       });
@@ -364,14 +334,12 @@ import LazyImage from '../LazyImage.astro';
             spaceBetween: this.options.spaceBetween || 30,
           },
         },
-        // Prevent swiper from handling clicks on links with data-no-animation
         preventClicksPropagation: true,
         preventClicks: false,
         noSwiping: true,
         noSwipingClass: 'swiper-no-swiping',
       });
 
-      // Add swiper-no-swiping class to all links with data-no-swipe attribute
       productLinks.forEach(link => {
         link.classList.add('swiper-no-swiping');
       });
@@ -385,16 +353,13 @@ import LazyImage from '../LazyImage.astro';
     }
   }
 
-  // Variable global para almacenar instancias
   let carouselInstances: ProductsCarousel[] = [];
 
-  // Función para limpiar instancias existentes
   function cleanupCarousels() {
     carouselInstances.forEach(instance => instance.destroy());
     carouselInstances = [];
   }
 
-  // Función para inicializar carruseles
   function initializeCarousels() {
     cleanupCarousels();
     
@@ -413,11 +378,8 @@ import LazyImage from '../LazyImage.astro';
     });
   }
 
-  // Inicializar en DOMContentLoaded
   document.addEventListener('DOMContentLoaded', initializeCarousels);
-  // Reinicializar en navegaciones parciales
   document.addEventListener('astro:page-load', initializeCarousels);
   document.addEventListener('astro:after-swap', initializeCarousels);
-  // Limpiar antes del swap de Astro
   document.addEventListener('astro:before-swap', cleanupCarousels);
-</script> 
+</script>
