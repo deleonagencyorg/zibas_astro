@@ -65,12 +65,19 @@ import LazyImage from '../LazyImage.astro';
           <div class="swiper-slide">
             <div class="product-card rounded-[50px] border border-indigo-300 bg-[#0f5fcd]">
               <div class="product-image-container">
-                <LazyImage 
-                  src={product.imageMobile || product.image} 
-                  alt={product.name}
-                  class="product-image"
-                  sizes="(max-width: 480px) 250px, (max-width: 768px) 260px, 300px"
-                />
+                <a 
+                  href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+                  data-no-swipe="true"
+                  data-no-animation="true"
+                  class="swiper-no-swiping product-image-link"
+                  >
+                  <LazyImage 
+                    src={product.imageMobile || product.image} 
+                    alt={product.name}
+                    class="product-image"
+                    sizes="(max-width: 480px) 250px, (max-width: 768px) 260px, 300px"
+                  />
+                </a>
               </div>
               
               <div class="product-info p-6 text-left text-white">
@@ -193,7 +200,6 @@ import LazyImage from '../LazyImage.astro';
   }
 
   .product-card a {
-    background-color: #F08C00;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
@@ -202,10 +208,6 @@ import LazyImage from '../LazyImage.astro';
     transition: all 0.3s ease;
   }
 
-  .product-card a:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
   /* Prevent animation glitches during navigation */
   .product-card a[data-no-animation] {
     transition: box-shadow 0.3s ease;
