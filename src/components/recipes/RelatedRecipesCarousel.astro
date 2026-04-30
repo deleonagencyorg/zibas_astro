@@ -10,6 +10,7 @@ interface RecipeItem {
   difficulty?: string;
   servings?: number;
   rating?: number;
+  video?: string;
 }
 
 export interface Props {
@@ -39,6 +40,7 @@ const currentLang = getLocale();
                 id={recipe.id}
                 textColor="text-white"
                 iconColor="text-white"
+                video={recipe.video}
               />
             </div>
           ))}
@@ -66,6 +68,7 @@ const currentLang = getLocale();
                 id={recipe.id}
                 textColor="text-white"
                 iconColor="text-white"
+                video={recipe.video}
               />
             </div>
           ))}

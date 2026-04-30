@@ -18,6 +18,7 @@ interface Recipe {
   difficulty?: string;
   servings?: number;
   rating?: number;
+  video?: string;
 }
 
 // Define a type for the imported module
@@ -126,6 +127,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
                       servings={recipe.servings || 0}
                       rating={recipe.rating || 0}
                       isMainCard={false}
+                      video={recipe.video}
                     />
                   </div>
                 ))}
@@ -168,6 +170,7 @@ for (let i = 0; i < recipeItems.length; i += 1) {
                 servings={recipe.servings || 0}
                 rating={recipe.rating || 0}
                 isMainCard={false}
+                video={recipe.video}
               />
             </div>
           ))}

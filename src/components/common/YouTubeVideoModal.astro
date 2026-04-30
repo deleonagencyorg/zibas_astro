@@ -1,0 +1,164 @@
+---
+interface Props {
+  modalId?: string;
+}
+
+const { modalId = 'youtube-video-modal' } = Astro.props;
+---
+
+<!-- Modal de Video de YouTube -->
+<div 
+  id={modalId} 
+  class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm"
+  aria-hidden="true"
+>
+  <!-- Contenedor del modal -->
+  <div class="relative w-full max-w-5xl mx-4 md:mx-8">
+    <!-- Botón cerrar -->
+    <button 
+      type="button"
+      class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors p-2"
+      onclick="window.closeYouTubeModal && window.closeYouTubeModal('youtube-video-modal')"
+      aria-label="Cerrar video"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    
+    <!-- Contenedor responsive del video -->
+    <div class="relative w-full bg-black rounded-lg overflow-hidden shadow-2xl">
+      <div class="aspect-video">
+        <iframe
+          id={`${modalId}-iframe`}
+          class="w-full h-full"
+          src=""
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Función para extraer el ID del video de YouTube de diferentes formatos de URL
+  function extractYouTubeId(url) {
+    if (!url) return null;
+
+    // Patrones comunes de URLs de YouTube
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+      /^([a-zA-Z0-9_-]{11})$/ // ID directo
+    ];
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match && match[1]) {
+        return match[1];
+      }
+    }
+
+    return null;
+  }
+
+  // Función para abrir el modal con un video
+  window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
+    const modal = document.getElementById(id);
+    const iframe = document.getElementById(`${id}-iframe`);
+
+    if (!modal || !iframe) {
+      console.error('Modal or iframe not found:', id);
+      return;
+    }
+
+    const videoId = extractYouTubeId(videoUrl);
+    if (!videoId) {
+      console.error('Invalid YouTube URL:', videoUrl);
+      return;
+    }
+
+    // Establecer la URL del iframe con autoplay
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+
+    // Mostrar el modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+
+    // Prevenir scroll del body
+    document.body.style.overflow = 'hidden';
+
+    // Focus trap para accesibilidad
+    setTimeout(() => {
+      const closeBtn = modal.querySelector('button');
+      if (closeBtn) closeBtn.focus();
+    }, 100);
+  };
+
+  // Función para cerrar el modal
+  window.closeYouTubeModal = function(id = 'youtube-video-modal') {
+    const modal = document.getElementById(id);
+    const iframe = document.getElementById(`${id}-iframe`);
+
+    if (!modal || !iframe) return;
+
+    // Limpiar el src para detener el video
+    iframe.src = '';
+
+    // Ocultar el modal
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    modal.setAttribute('aria-hidden', 'true');
+
+    // Restaurar scroll del body
+    document.body.style.overflow = '';
+  };
+
+  // Cerrar al hacer clic fuera del video
+  document.addEventListener('click', function(e) {
+    const modal = document.getElementById('youtube-video-modal');
+    if (modal && !modal.classList.contains('hidden') && e.target === modal) {
+      window.closeYouTubeModal('youtube-video-modal');
+    }
+  });
+
+  // Cerrar con la tecla Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('youtube-video-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        window.closeYouTubeModal('youtube-video-modal');
+      }
+    }
+  });
+
+  // Cerrar modal antes de navegar (para Astro transitions)
+  document.addEventListener('astro:before-preparation', () => {
+    window.closeYouTubeModal && window.closeYouTubeModal('youtube-video-modal');
+  });
+
+  // Inicializar después de que Astro termine de cargar la página
+  document.addEventListener('astro:page-load', () => {
+    console.log('YouTube modal functions initialized');
+  });
+</script>
+
+<style>
+  /* Animación suave para el modal */
+  #youtube-video-modal {
+    transition: opacity 0.3s ease;
+  }
+  
+  #youtube-video-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  #youtube-video-modal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>

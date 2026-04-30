@@ -16,6 +16,7 @@ interface Props {
   servings?: number;
   rating?: number;
   isMainCard?: boolean;
+  video?: string;
 }
 
 const { 
@@ -29,7 +30,8 @@ const {
   difficulty = "---",
   servings = 0,
   rating = 0,
-  isMainCard = false
+  isMainCard = false,
+  video
 } = Astro.props;
 
 const currentLocale = getLocale();
@@ -37,8 +39,7 @@ const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 're
 const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
 ---
 
-<a 
-  href={recipeLink} 
+<div 
   class={`block group relative transition-all duration-500 ease-in-out w-full ${
     isMainCard ? 'md:w-[430px] md:h-[520px] lg:h-[562px]' : 'md:w-[280px] md:h-[520px] lg:h-[562px]'
   }`}
@@ -54,35 +55,64 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
       <div class="absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px] hidden md:block"></div>
     )}
     
-    <!-- Imagen -->
+    <!-- Imagen - clickable para video si existe -->
     <div class={`relative overflow-hidden flex-shrink-0 w-full aspect-[430/340] md:aspect-auto ${
       isMainCard 
         ? 'md:w-[430px] md:h-[280px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]' 
         : 'md:w-[280px] md:h-[300px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50'
     }`}>
-      <LazyImage
-        src={image}
-        alt={title}
-        class="w-full h-full object-cover"
-        transition:name={`recipe-image-${id}`}
-      />
+      {video ? (
+        <button 
+          type="button"
+          class="absolute inset-0 w-full h-full p-0 border-0 bg-transparent cursor-pointer z-20"
+          onclick={`window.openYouTubeModal && window.openYouTubeModal('${video}')`}
+          aria-label={`Ver video de ${title}`}
+        >
+          <LazyImage
+            src={image}
+            alt={title}
+            class="w-full h-full object-cover pointer-events-none"
+            transition:name={`recipe-image-${id}`}
+          />
+          <!-- Icono de play centrado -->
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
+              </svg>
+            </div>
+          </div>
+        </button>
+      ) : (
+        <div class="absolute inset-0 w-full h-full">
+          <LazyImage
+            src={image}
+            alt={title}
+            class="w-full h-full object-cover"
+            transition:name={`recipe-image-${id}`}
+          />
+        </div>
+      )}
     </div>
     
     <!-- Información -->
-      <div class={`flex-shrink-0 md:${isMainCard ? 'w-[430px]' : 'w-[280px]'}${
-        isMainCard 
-        ? 'min-h-[180px] md:min-h-[320px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50' 
-        : 'w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50'
-    } p-6 flex flex-col justify-between gap-3 md:gap-6`}>
+    <a 
+      href={recipeLink}
+      class={`flex-shrink-0 md:${isMainCard ? 'w-[430px]' : 'w-[280px]'}
+        ${isMainCard 
+          ? 'min-h-[180px] md:min-h-[320px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50' 
+          : 'w-[310px] h-[262px] bg-[#F8E31F] rounded-b-[30px] border border-black border-opacity-50'
+        } p-6 flex flex-col justify-between gap-3 md:gap-6 hover:bg-[#F5E01A] transition-colors`}
+    >
       <!-- Título -->
       <h3 class="font-title font-bold text-black leading-tight flex-1 flex items-center text-2xl">{title}</h3>
       
       <!-- Botón Ver Receta -->
       <div class="flex justify-center">
-                <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-xl font-bold hover:bg-yellow-300 transition-colors">
+        <div class="flex py-5 px-2.5 justify-center w-full items-center gap-2.5 rounded-[15px] border border-[#388BFF66] bg-[#FFED41] text-black text-xl font-bold hover:bg-yellow-300 transition-colors">
           {viewRecipeText}
         </div>
       </div>
-    </div>
+    </a>
   </div>
-</a>
+</div>
