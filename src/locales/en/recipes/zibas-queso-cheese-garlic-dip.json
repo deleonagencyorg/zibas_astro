@@ -1,0 +1,36 @@
+{
+  "date": "2026-04-30",
+  "id": "zibas-queso-cheese-garlic-dip",
+  "slug": "zibas-queso-cheese-garlic-dip",
+  "title": "Zibas Queso Cheese & Garlic Dip",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-dip-queso-ajo.webp",
+  "gallery": [
+    "zibas-queso-dip-queso-ajo.webp"
+  ],
+  "type": "image",
+  "video": {
+  },
+  "preparation_time": 15,
+  "cooking_time": 5,
+  "ingredients": [
+    "1/2 cup cream cheese at room temperature",
+    "1/2 cup Mexican crema or sour cream",
+    "1 cup shredded melting cheese",
+    "1 teaspoon fried garlic",
+    "Salt to taste",
+    "1 bag of Ziba's Queso chips for serving"
+  ],
+  "instructions": [
+    "Step 1. In a small saucepan, heat the crema over medium-low heat.",
+    "Step 2. Add the cream cheese and mix until smooth and well combined.",
+    "Step 3. Add the fried garlic and cook for 1 minute, stirring constantly.",
+    "Step 4. Add the shredded cheese and mix until completely melted and the dip is creamy.",
+    "Step 5. Adjust salt to taste and serve hot with Ziba's Queso chips for dipping."
+  ],
+  "brand": ["zibas"],
+  "product": ["zibas-queso"],
+  "category": "snack",
+  "servings": 6,
+  "description": "A super creamy cheese dip with a delicious fried garlic twist, perfect for enjoying with crunchy Ziba's Queso chips. Quick, easy, and full of flavor."
+}

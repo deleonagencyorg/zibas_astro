@@ -1,0 +1,37 @@
+{
+  "date": "2026-04-30",
+  "id": "zibas-clasicas-creamy-chive-dip",
+  "slug": "zibas-clasicas-creamy-chive-dip",
+  "title": "Zibas Clásicas Creamy Chive Dip",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-dip-cremoso-cebollin.webp",
+  "gallery": [
+    "zibas-clasicas-dip-cremoso-cebollin.webp"
+  ],
+  "type": "image",
+  "video": {
+  },
+  "preparation_time": 10,
+  "cooking_time": 0,
+  "ingredients": [
+    "1 bag of Ziba's Clásicas potato chips",
+    "1/2 cup Mexican crema or sour cream",
+    "1/2 cup plain Greek yogurt",
+    "1/4 cup fried and crumbled bacon",
+    "Chopped chives to taste",
+    "Fresh chopped herbs to taste",
+    "Lemon juice to taste",
+    "Salt to taste"
+  ],
+  "instructions": [
+    "Step 1. In a bowl, mix the crema with the Greek yogurt until well combined.",
+    "Step 2. Add the crumbled bacon, chopped chives, fresh herbs, and a splash of lemon juice.",
+    "Step 3. Gently mix and adjust salt to taste.",
+    "Step 4. Serve the dip cold with Ziba's Clásicas potato chips for sharing."
+  ],
+  "brand": ["zibas"],
+  "product": ["zibas-clasicas"],
+  "category": "snack",
+  "servings": 4,
+  "description": "A fresh and creamy chive dip with crispy bacon and aromatic herbs, perfect for enjoying with classic Ziba's potato chips. No cooking required, quick and delicious."
+}

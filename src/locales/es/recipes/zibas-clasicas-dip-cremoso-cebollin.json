@@ -1,0 +1,37 @@
+{
+  "date": "2026-04-30",
+  "id": "zibas-clasicas-dip-cremoso-cebollin",
+  "slug": "zibas-clasicas-dip-cremoso-cebollin",
+  "title": "Zibas Clásicas Dip Cremoso de Cebollín",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-dip-cremoso-cebollin.webp",
+  "gallery": [
+    "zibas-clasicas-dip-cremoso-cebollin.webp"
+  ],
+  "type": "image",
+  "video": {
+  },
+  "preparation_time": 10,
+  "cooking_time": 0,
+  "ingredients": [
+    "1 bolsa de Papas Ziba's Clásicas",
+    "1/2 taza de crema",
+    "1/2 taza de yogur griego natural",
+    "1/4 de taza de tocino frito y picado",
+    "Cebollín picado al gusto",
+    "Hierbas frescas picadas al gusto",
+    "Jugo de limón al gusto",
+    "Sal al gusto"
+  ],
+  "instructions": [
+    "Paso 1. En un recipiente, mezcla la crema con el yogur griego hasta integrar.",
+    "Paso 2. Agrega el tocino frito, el cebollín, las hierbas frescas y un chorrito de jugo de limón.",
+    "Paso 3. Mezcla suavemente y ajusta la sal al gusto.",
+    "Paso 4. Sirve el dip frío acompañado de Papas Ziba's Clásicas para compartir."
+  ],
+  "brand": ["zibas"],
+  "product": ["zibas-clasicas"],
+  "category": "snack",
+  "servings": 4,
+  "description": "Un dip fresco y cremoso de cebollín con tocino crujiente y hierbas aromáticas, perfecto para disfrutar con las clásicas Papas Ziba's. Sin cocción, rápido y delicioso."
+}
