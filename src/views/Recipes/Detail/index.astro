@@ -21,6 +21,8 @@ interface RecipeItem {
   image?: string;
   tags?: string[];
   product_image?: string;
+  video?: string;
+  date?: string;
 }
 
 const { currentLang, recipeId } = Astro.props;
@@ -35,6 +37,16 @@ for (const path in recipeModules) {
     allRecipes.push(mod.default);
   }
 }
+
+// Ordenar recetas por fecha: más recientes primero, sin fecha al final
+allRecipes.sort((a: RecipeItem, b: RecipeItem) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  if (dateA === 0 && dateB === 0) return 0;
+  if (dateA === 0) return 1; // a no tiene fecha, va al final
+  if (dateB === 0) return -1; // b no tiene fecha, va al final
+  return dateB - dateA; // Orden descendente (más reciente primero)
+});
 
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);

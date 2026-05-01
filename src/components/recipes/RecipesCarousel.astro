@@ -18,6 +18,7 @@ interface Recipe {
   difficulty?: string;
   servings?: number;
   rating?: number;
+  date?: string;
 }
 
 // Define a type for the imported module
@@ -49,6 +50,16 @@ if (!recipeItems.length) {
     }
   }
 }
+
+// Ordenar recetas por fecha: más recientes primero, sin fecha al final
+recipeItems.sort((a: Recipe, b: Recipe) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  if (dateA === 0 && dateB === 0) return 0;
+  if (dateA === 0) return 1; // a no tiene fecha, va al final
+  if (dateB === 0) return -1; // b no tiene fecha, va al final
+  return dateB - dateA; // Orden descendente (más reciente primero)
+});
 
 // Determine if we are in provided-items mode (hide filters/CTA)
 const providedMode = Array.isArray(items) && items.length > 0;
