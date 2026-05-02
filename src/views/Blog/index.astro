@@ -1,7 +1,6 @@
 ---
 // src/views/Blog/index.astro
 import { type Locale } from '../../i18n/i18n';
-import { ViewTransitions } from 'astro:transitions';
 import MainLayout from '../../layouts/MainLayout.astro';
 import './styles.css';
 import BlogCard from '../../components/blog/BlogCard.astro';
@@ -86,8 +85,6 @@ const restPosts = allPosts.slice(5);
 ---
 
 <MainLayout title={pageTitle} description={pageDescription} class="bg-primary">
-  
-  <ViewTransitions />
   <div class="-mt-px -mb-px overflow-hidden pb-15" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container mx-auto px-4 mt-0 pb-16">
       <div class="pt-4">

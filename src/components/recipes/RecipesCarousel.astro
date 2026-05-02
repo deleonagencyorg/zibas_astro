@@ -19,6 +19,7 @@ interface Recipe {
   servings?: number;
   rating?: number;
   video?: string;
+  date?: string;
 }
 
 // Define a type for the imported module
@@ -50,6 +51,13 @@ if (!recipeItems.length) {
     }
   }
 }
+
+// Ordenar por fecha descendente (más nuevas primero)
+recipeItems.sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
 
 // Determine if we are in provided-items mode (hide filters/CTA)
 const providedMode = Array.isArray(items) && items.length > 0;
@@ -623,6 +631,33 @@ for (let i = 0; i < recipeItems.length; i += 1) {
   function initAll(): void {
     document.querySelectorAll('[data-recipes-carousel]')
       .forEach((el) => initRecipesCarousel(el as HTMLElement));
+    
+    // Manejar clic en imagen de cards para abrir video
+    document.querySelectorAll('[data-video]').forEach(function(card) {
+      var videoUrl = card.getAttribute('data-video');
+      if (!videoUrl) return;
+      
+      // Evitar duplicar listeners
+      if ((card as any).dataset.videoHandlerAttached) return;
+      (card as any).dataset.videoHandlerAttached = 'true';
+      
+      card.addEventListener('click', function(e) {
+        var mouseEvent = e as MouseEvent;
+        var rect = card.getBoundingClientRect();
+        var clickY = mouseEvent.clientY - rect.top;
+        var cardHeight = rect.height;
+        
+        // Si el clic está en la parte superior (~60% de la card, zona de imagen)
+        if (clickY < cardHeight * 0.6) {
+          e.preventDefault();
+          var w = window as any;
+          if (w.openYouTubeModal) {
+            w.openYouTubeModal(videoUrl);
+          }
+        }
+        // Si está en la parte inferior, deja que el enlace navegue al detalle
+      });
+    });
   }
 
   if (document.readyState === 'loading') {

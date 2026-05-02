@@ -1,8 +1,6 @@
 ---
 import LazyImage from '../common/LazyImage.astro';
 import { getLocale } from '../../i18n/i18n';
-import { Image } from 'astro:assets';
-import { fade } from 'astro:transitions';
 
 interface Props {
   image: string;
@@ -37,50 +35,37 @@ const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 're
 const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
 ---
 
-<div 
+<div transition:animate="fade">
+<a 
+  href={recipeLink}
   class="block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out h-[350px] md:h-[450px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
-  transition:animate="fade"
+  aria-label={`Ver detalle de ${title}`}
+  data-video={video || ''}
+  data-recipe-id={id}
 >
-  <!-- Imagen de fondo (siempre visible) - clickable para video si existe -->
-  {video ? (
-    <button 
-      type="button"
-      class="absolute inset-0 w-full h-full p-0 border-0 bg-transparent cursor-pointer"
-      onclick={`window.openYouTubeModal && window.openYouTubeModal('${video}')`}
-      aria-label={`Ver video de ${title}`}
-    >
-      <LazyImage
-        src={image}
-        alt={title}
-        class="w-full h-full object-cover pointer-events-none"
-        transition:name={`recipe-image-${id}`}
-      />
-      <!-- Icono de play centrado -->
-      <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
-        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-10 md:w-10 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
-          </svg>
-        </div>
+  <!-- Imagen de fondo (siempre visible) -->
+  <div class="absolute inset-0 w-full h-full">
+    <LazyImage
+      src={image}
+      alt={title}
+      class="w-full h-full object-cover"
+      transition:name={`recipe-image-${id}`}
+    />
+  </div>
+  
+  <!-- Icono de play si tiene video (solo visual) -->
+  {video && (
+    <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors pointer-events-none">
+      <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-10 md:w-10 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
+        </svg>
       </div>
-    </button>
-  ) : (
-    <div class="absolute inset-0 w-full h-full">
-      <LazyImage
-        src={image}
-        alt={title}
-        class="w-full h-full object-cover"
-        transition:name={`recipe-image-${id}`}
-      />
     </div>
   )}
   
   <!-- Overlay con gradiente para el estado normal -->
-  <a 
-    href={recipeLink}
-    class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300"
-    aria-label={`Ver detalle de ${title}`}
-  >
+  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300">
     <!-- Información en estado normal -->
     <div class="absolute bottom-0 left-0 right-0 p-4 bg-[#F04F00] bg-opacity-90 border-4 border-white border-opacity-10">
       <h3 class="font-title text-lg font-bold text-white text-left mb-3">{title}</h3>
@@ -90,7 +75,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
         </div>
       </div>
     </div>
-  </a>
+  </div>
   
   <!-- Overlay para hover (oscuro para mejorar legibilidad) -->
   <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -147,14 +132,37 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
       </div>
       
       <!-- Botón Ver Receta -->
-      <a 
-        href={recipeLink}
-        class="mt-3 flex justify-center w-full"
-      >
+      <div class="mt-3 flex justify-center w-full">
         <div class="border-2 border-white bg-orange text-white py-2 px-8 rounded-xl text-center text-sm font-medium hover:shadow-md w-full transition-colors">
           {viewRecipeText}
         </div>
-      </a>
+      </div>
     </div>
   </div>
+</a>
 </div>
+
+<script is:inline>
+  (function() {
+    // Manejar clic en las cards con video
+    document.querySelectorAll('[data-video]').forEach(function(card) {
+      var videoUrl = card.getAttribute('data-video');
+      if (!videoUrl) return;
+      
+      card.addEventListener('click', function(e) {
+        var rect = card.getBoundingClientRect();
+        var clickY = e.clientY - rect.top;
+        var cardHeight = rect.height;
+        
+        // Si el clic está en la parte superior (~65% de la card, zona de imagen)
+        if (clickY < cardHeight * 0.65) {
+          e.preventDefault();
+          if (window.openYouTubeModal) {
+            window.openYouTubeModal(videoUrl);
+          }
+        }
+        // Si está en la parte inferior, deja que el enlace navegue al detalle
+      });
+    });
+  })();
+</script>

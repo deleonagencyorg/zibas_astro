@@ -1,8 +1,6 @@
 ---
 import LazyImage from '../common/LazyImage.astro';
 import { getLocale } from '../../i18n/i18n';
-import { Image } from 'astro:assets';
-import { fade } from 'astro:transitions';
 
 interface Props {
   image: string;
@@ -39,11 +37,15 @@ const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 're
 const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
 ---
 
-<div 
-  class={`block group relative transition-all duration-500 ease-in-out w-full ${
+<div transition:animate="fade">
+<a 
+  href={recipeLink}
+  class="block group relative transition-all duration-500 ease-in-out w-full ${
     isMainCard ? 'md:w-[430px] md:h-[520px] lg:h-[562px]' : 'md:w-[280px] md:h-[520px] lg:h-[562px]'
-  }`}
-  transition:animate="fade"
+  }"
+  aria-label={`Ver detalle de ${title}`}
+  data-video={video || ''}
+  data-recipe-id={id}
 >
   <!-- Container principal con las medidas específicas -->
   <div class={`flex flex-col ${isMainCard ? 'w-[530px] h-[520px] md:h-[562px]' : 'w-[310px] h-[520px] md:h-[562px]' } relative overflow-visible
@@ -55,49 +57,35 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
       <div class="absolute inset-0 bg-[#0A0A0A40] z-10 rounded-[30px] hidden md:block"></div>
     )}
     
-    <!-- Imagen - clickable para video si existe -->
+    <!-- Imagen -->
     <div class={`relative overflow-hidden flex-shrink-0 w-full aspect-[430/340] md:aspect-auto ${
       isMainCard 
         ? 'md:w-[430px] md:h-[280px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-[#388BFF]' 
         : 'md:w-[280px] md:h-[300px] lg:h-[320px] rounded-t-[30px] border-t border-r border-l border-black border-opacity-50'
     }`}>
-      {video ? (
-        <button 
-          type="button"
-          class="absolute inset-0 w-full h-full p-0 border-0 bg-transparent cursor-pointer z-20"
-          onclick={`window.openYouTubeModal && window.openYouTubeModal('${video}')`}
-          aria-label={`Ver video de ${title}`}
-        >
-          <LazyImage
-            src={image}
-            alt={title}
-            class="w-full h-full object-cover pointer-events-none"
-            transition:name={`recipe-image-${id}`}
-          />
-          <!-- Icono de play centrado -->
-          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
-            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
-              </svg>
-            </div>
+      <div class="absolute inset-0 w-full h-full">
+        <LazyImage
+          src={image}
+          alt={title}
+          class="w-full h-full object-cover"
+          transition:name={`recipe-image-${id}`}
+        />
+      </div>
+      
+      <!-- Icono de play si tiene video (solo visual) -->
+      {video && (
+        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors pointer-events-none z-20">
+          <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
+            </svg>
           </div>
-        </button>
-      ) : (
-        <div class="absolute inset-0 w-full h-full">
-          <LazyImage
-            src={image}
-            alt={title}
-            class="w-full h-full object-cover"
-            transition:name={`recipe-image-${id}`}
-          />
         </div>
       )}
     </div>
     
     <!-- Información -->
-    <a 
-      href={recipeLink}
+    <div 
       class={`flex-shrink-0 md:${isMainCard ? 'w-[430px]' : 'w-[280px]'}
         ${isMainCard 
           ? 'min-h-[180px] md:min-h-[320px] bg-[#F8E31F] rounded-b-[30px] border-r border-b border-l border-black border-opacity-50' 
@@ -113,6 +101,32 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
           {viewRecipeText}
         </div>
       </div>
-    </a>
+    </div>
   </div>
+</a>
 </div>
+
+<script is:inline>
+  (function() {
+    // Manejar clic en las cards con video
+    document.querySelectorAll('[data-video]').forEach(function(card) {
+      var videoUrl = card.getAttribute('data-video');
+      if (!videoUrl) return;
+      
+      card.addEventListener('click', function(e) {
+        var rect = card.getBoundingClientRect();
+        var clickY = e.clientY - rect.top;
+        var cardHeight = rect.height;
+        
+        // Si el clic está en la parte superior (~60% de la card, zona de imagen)
+        if (clickY < cardHeight * 0.6) {
+          e.preventDefault();
+          if (window.openYouTubeModal) {
+            window.openYouTubeModal(videoUrl);
+          }
+        }
+        // Si está en la parte inferior, deja que el enlace navegue al detalle
+      });
+    });
+  })();
+</script>

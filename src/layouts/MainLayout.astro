@@ -11,7 +11,7 @@ import I18nProvider from '../components/i18n/I18nProvider.astro';
 import YouTubeVideoModal from '../components/common/YouTubeVideoModal.astro';
 import { routesConfig } from '../config/routes';
 import { getHeaderColors } from '../config/headerColors';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import "../styles/global.css";
 import { head } from 'framer-motion/m';
 
@@ -56,7 +56,7 @@ if (headerColors) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {title && <title> Zibas -  {title}</title>}
     {description && <meta name="description" content={description} />}
-    <ViewTransitions />
+    <ClientRouter />
     <slot name="head" />
     {/* <GoogleTagManager /> */}
   </head>

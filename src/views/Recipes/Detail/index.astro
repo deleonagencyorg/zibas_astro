@@ -22,6 +22,7 @@ interface RecipeItem {
   tags?: string[];
   product_image?: string;
   video?: string;
+  date?: string;
 }
 
 const { currentLang, recipeId } = Astro.props;
@@ -40,8 +41,15 @@ for (const path in recipeModules) {
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
 
+// Ordenar por fecha descendente (más nuevas primero)
+const sortedRecipes = [...allRecipes].sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
+
 // Get related recipes (filter current and limit to 3)
-const relatedRecipes = allRecipes
+const relatedRecipes = sortedRecipes
   .filter((item: RecipeItem) => item.id !== recipeId)
   .slice(0, 3);
 
