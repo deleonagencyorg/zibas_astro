@@ -10,11 +10,6 @@ interface PageModule {
   default: any; // Using 'any' for simplicity with dynamic Astro component imports
 }
 
-// Obtener todos los posibles componentes de contenido de página
-// La ruta para Astro.glob debe ser relativa desde este archivo o absoluta desde el proyecto.
-// Usaremos una ruta que asume que los componentes están en src/views/*/index.astro
-const pageComponents = await Astro.glob('../../views/*/index.astro');
-
 export async function getStaticPaths() {
   const paths = [];
   for (const route of routesConfig) {

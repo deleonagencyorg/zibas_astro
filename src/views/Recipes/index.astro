@@ -14,6 +14,8 @@ interface Recipe {
   image?: string;
   preparation_time: number;
   type?: string;
+  video?: string;
+  date?: string;
 }
 
 const currentLang = getLocale();
@@ -30,6 +32,13 @@ for (const path in recipeModules) {
     allRecipes.push(module.default);
   }
 }
+
+// Ordenar por fecha descendente (más nuevas primero)
+allRecipes.sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
 
 // Shared translations
 const noRecipesText = currentLang === 'es' 
@@ -117,6 +126,7 @@ function normalizeType(r: Recipe): string {
               id={recipe.id}
               textColor="text-white"
               iconColor="text-white"
+              video={recipe.video}
             />
           </div>
         ))}

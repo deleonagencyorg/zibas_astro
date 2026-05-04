@@ -10,6 +10,8 @@ interface RecipeItem {
   difficulty?: string;
   servings?: number;
   rating?: number;
+  video?: string;
+  date?: string;
 }
 
 export interface Props {
@@ -18,9 +20,16 @@ export interface Props {
 
 const { items = [] } = Astro.props as { items: RecipeItem[] };
 const currentLang = getLocale();
+
+// Ordenar por fecha descendente (más nuevas primero)
+const sortedItems = [...items].sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
 ---
 
-{items.length === 0 ? (
+{sortedItems.length === 0 ? (
   <div class="w-full text-center text-gray-500 py-8">
     {currentLang === 'es' ? 'No hay recetas relacionadas.' : 'No related recipes.'}
   </div>
@@ -30,7 +39,7 @@ const currentLang = getLocale();
     <div class="hidden md:block relative">
       <div class="overflow-hidden relative">
         <div id="relatedTrackDesktop" class="flex gap-6 transition-transform duration-300 will-change-transform">
-          {items.map((recipe) => (
+          {sortedItems.map((recipe) => (
             <div class="w-[360px] flex-shrink-0">
               <RecipeCard
                 image={recipe.image || '/images/recipes/placeholder.jpg'}
@@ -39,6 +48,7 @@ const currentLang = getLocale();
                 id={recipe.id}
                 textColor="text-white"
                 iconColor="text-white"
+                video={recipe.video}
               />
             </div>
           ))}
@@ -57,7 +67,7 @@ const currentLang = getLocale();
     <div class="md:hidden relative">
       <div class="overflow-hidden relative">
         <div id="relatedTrackMobile" class="flex gap-4 transition-transform duration-300 will-change-transform">
-          {items.map((recipe) => (
+          {sortedItems.map((recipe) => (
             <div class="w-[85%] flex-shrink-0">
               <RecipeCard
                 image={recipe.image || '/images/recipes/placeholder.jpg'}
@@ -66,6 +76,7 @@ const currentLang = getLocale();
                 id={recipe.id}
                 textColor="text-white"
                 iconColor="text-white"
+                video={recipe.video}
               />
             </div>
           ))}
@@ -151,6 +162,33 @@ const currentLang = getLocale();
 
   function initAll() {
     document.querySelectorAll('[data-related-recipes-carousel]').forEach((el) => initRelatedCarousel(el as any));
+    
+    // Manejar clic en imagen de cards para abrir video
+    document.querySelectorAll('[data-video]').forEach(function(card) {
+      var videoUrl = card.getAttribute('data-video');
+      if (!videoUrl) return;
+      
+      // Evitar duplicar listeners
+      if ((card as any).dataset.videoHandlerAttached) return;
+      (card as any).dataset.videoHandlerAttached = 'true';
+      
+      card.addEventListener('click', function(e) {
+        var mouseEvent = e as MouseEvent;
+        var rect = card.getBoundingClientRect();
+        var clickY = mouseEvent.clientY - rect.top;
+        var cardHeight = rect.height;
+        
+        // Si el clic está en la parte superior (~60% de la card, zona de imagen)
+        if (clickY < cardHeight * 0.6) {
+          e.preventDefault();
+          var w = window as any;
+          if (w.openYouTubeModal) {
+            w.openYouTubeModal(videoUrl);
+          }
+        }
+        // Si está en la parte inferior, deja que el enlace navegue al detalle
+      });
+    });
   }
 
   if (document.readyState === 'loading') {

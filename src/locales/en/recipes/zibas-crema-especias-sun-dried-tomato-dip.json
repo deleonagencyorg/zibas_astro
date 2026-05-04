@@ -1,16 +1,15 @@
 {
   "date": "2026-04-30",
-  "id": "zibas-crema-especias-sun-dried-tomato-dip",
-  "slug": "zibas-crema-especias-sun-dried-tomato-dip",
-  "title": "Zibas Crema y Especias Sun-Dried Tomato Dip",
+  "id": "zibas-crema-especias-dip-tomate-deshidratado",
+  "slug": "zibas-crema-especias-dip-tomate-deshidratado",
+  "title": "Zibas Crema y Especias Dip de Tomate Deshidratado",
   "difficulty": "Easy",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-especias-dip-tomate-deshidratado.webp",
   "gallery": [
     "zibas-crema-especias-dip-tomate-deshidratado.webp"
   ],
   "type": "image",
-  "video": {
-  },
+  "video":"https://www.youtube.com/shorts/Nv5aD2Gv-Z0",
   "preparation_time": 10,
   "cooking_time": 0,
   "ingredients": [
