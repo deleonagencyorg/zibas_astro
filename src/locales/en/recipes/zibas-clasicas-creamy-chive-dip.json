@@ -30,7 +30,6 @@
   ],
   "brand": ["zibas"],
   "product": ["zibas-clasicas"],
-  "category": "snack",
-  "servings": 4,
-  "description": "A fresh and creamy chive dip with crispy bacon and aromatic herbs, perfect for enjoying with classic Ziba's potato chips. No cooking required, quick and delicious."
+  "category": "brunch",
+  "servings": 4
 }

@@ -68,7 +68,7 @@ const sortedItems = [...items].sort((a, b) => {
       <div class="overflow-hidden relative">
         <div id="relatedTrackMobile" class="flex gap-4 transition-transform duration-300 will-change-transform">
           {sortedItems.map((recipe) => (
-            <div class="w-[85%] flex-shrink-0">
+            <div class="w-full flex-shrink-0">
               <RecipeCard
                 image={recipe.image || '/images/recipes/placeholder.jpg'}
                 title={recipe.title}
@@ -141,11 +141,19 @@ const sortedItems = [...items].sort((a, b) => {
     const nextM = root.querySelector('#relNextMobile');
 
     let indexM = 0;
+
+    function getSlideWidthM() {
+      const slide = trackM?.children[0] as HTMLElement | null;
+      if (!slide) return 0;
+      const gap = 16;
+      return slide.getBoundingClientRect().width + gap;
+    }
+
     function updateMobile() {
       if (!trackM) return;
-      // translate by 100% of slide width + gap approximate (85% width + ~15% gap area)
-      trackM.style.transform = `translateX(-${indexM * 100}%)`;
+      trackM.style.transform = `translateX(-${indexM * getSlideWidthM()}px)`;
     }
+
     if (trackM && prevM && nextM) {
       prevM.addEventListener('click', () => {
         indexM = Math.max(0, indexM - 1);
@@ -154,6 +162,10 @@ const sortedItems = [...items].sort((a, b) => {
       nextM.addEventListener('click', () => {
         const maxIndex = Math.max(0, trackM.children.length - 1);
         indexM = Math.min(maxIndex, indexM + 1);
+        updateMobile();
+      });
+      // Recalcular si cambia el tamaño de pantalla (rotación de dispositivo, etc.)
+      window.addEventListener('resize', () => {
         updateMobile();
       });
       updateMobile();

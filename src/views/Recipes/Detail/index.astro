@@ -51,7 +51,7 @@ const sortedRecipes = [...allRecipes].sort((a, b) => {
 // Get related recipes (filter current and limit to 3)
 const relatedRecipes = sortedRecipes
   .filter((item: RecipeItem) => item.id !== recipeId)
-  .slice(0, 3);
+  .slice(0, 8);
 
 if (!recipe) {
   throw new Error(`Recipe with id ${recipeId} not found`);
