@@ -1,8 +1,8 @@
 {
       "date": "2025-09-16",
-      "id": "crunchy-sandwich-con-zibas-clasicas",
-      "slug": "crunchy-sandwich-con-zibas-clasicas",
-      "title": "Crunchy Sandwich with classic zibas",
+      "id": "crunchy-sandwich-with-zibas-clasicas",
+      "slug": "crunchy-sandwich-with-zibas-clasicas",
+      "title": "Crunchy Sandwich with Ziba's Clásicas",
       "people": "2",
       "difficulty": "Easy",
   "image": "https://snack.yummiespromociones.com/zibas/crunchy-sandwich-zibas-clasicas.webp",
@@ -10,7 +10,7 @@
          "https://snack.yummiespromociones.com/zibas/crunchy-sandwich-zibas-clasicas.webp"
       ],      
       "type":"image",
-      "category": "brunch",
+      "category": "desayuno",
       "preparation_time":15,
       "ingredients": [
         "Turkey ham",
@@ -28,9 +28,9 @@
 
       ],
       "instructions": [
-        "Step 1. Unta mayonnaise and mustard on each slice of bread",
+        "Step 1. Spread mayonnaise and mustard on each slice of bread",
         "Step 2. Place 2 slices of sausages, then 2 cheese and continue the process to use everything.",
-        "Step 3. Add the olive salad up, and end with a layer of classic zibas.",
+        "Step 3. Add the olive salad up, and end with a layer of Ziba's Clásicas.",
         "Step 4. Cover with the slice of bread and serves."
       ],
       "brand": ["zibas"]
