@@ -1,0 +1,34 @@
+{
+  "date": "2026-04-30",
+  "id": "dried-tomato-dip-zibas-crema-especias",
+  "slug": "dried-tomato-dip-zibas-crema-especias",
+  "title": "Dried Tomato Dip Zibas Crema y Especias",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/10-zibas-crema-y-especias-dip-de-tomate-deshidratado800x800.webp",
+  "gallery": [
+    "10-zibas-crema-y-especias-dip-de-tomate-deshidratado800x800.webp"
+  ],
+  "type": "image",
+  "preview-image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-especias-dip-tomate-deshidratado.webp",
+  "video":"https://www.youtube.com/shorts/Nv5aD2Gv-Z0",
+  "preparation_time": 10,
+  "cooking_time": 0,
+  "ingredients": [
+    "1/2 cup rehydrated and chopped sun-dried tomatoes",
+    "1/2 cup cream cheese at room temperature",
+    "1/4 cup Mexican crema or sour cream",
+    "2 tablespoons olive oil",
+    "1 teaspoon finely chopped garlic",
+    "Salt to taste",
+    "1 bag of Ziba's Crema y Especias chips for serving"
+  ],
+  "instructions": [
+    "Step 1. Place the rehydrated sun-dried tomatoes, cream cheese, crema, olive oil, and garlic in a food processor or blender and process until you get a creamy and well-integrated dip.",
+    "Step 2. Adjust salt to taste and refrigerate for a few minutes to let the flavors settle.",
+    "Step 3. Serve the dip cold with Ziba's Crema y Especias chips for diping."
+  ],
+  "brand": ["zibas"],
+  "product": ["zibas-crema-especias"],
+  "category": "brunch",
+  "servings": 6
+}

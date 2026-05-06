@@ -1,8 +1,8 @@
 {
       "date": "2025-09-16",
-      "id": "tortilla-de-papa-con-zibas-clasicas",
-      "slug": "tortilla-de-papa-con-zibas-clasicas",
-      "title": "Pope tortilla with classic zibas",
+      "id": "tortilla-de-papa-with-zibas-clasicas",
+      "slug": "tortilla-de-papa-with-zibas-clasicas",
+      "title": "Pope tortilla with Ziba's Clásicas",
       "people": "2",
       "difficulty": "Easy",
       "image": "https://snack.yummiespromociones.com/zibas/tortilla-de-papa-con-zibas-clasicas.webp",
@@ -10,14 +10,15 @@
          "https://snack.yummiespromociones.com/zibas/tortilla-de-papa-con-zibas-clasicas.webp"
       ],      
       "type":"image",
+      "preview-image": "",
       "category": "lunch",
       "preparation_time":20,
       "ingredients": [
         "4 teaspoons of vegetable oil",
-        "1 onion cut in Julianas",
+        "1 onion cut in julianas",
         "5 eggs",
         "2 tablespoons of whole milk",
-        "2 Classical ziba zib poppy bags of 100g"
+        "2 Ziba's Clásicas bags of 100g"
      
       ],
       "instructions": [

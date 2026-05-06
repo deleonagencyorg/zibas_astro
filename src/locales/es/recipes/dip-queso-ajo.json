@@ -1,0 +1,35 @@
+{
+  "date": "2026-04-30",
+  "id": "dip-queso-ajo",
+  "slug": "dip",
+  "title": "Dip de Queso y Ajo",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/12-zibas-queso-dip-de-queso-y-ajo800x800.webp",
+  "gallery": [
+    "12-zibas-queso-dip-de-queso-y-ajo800x800.webp"
+  ],
+  "type": "image",
+  "preview-image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-dip-queso-ajo.webp",
+  "video": "https://www.youtube.com/shorts/Ic150ZdJgO4",
+  "preparation_time": 15,
+  "cooking_time": 5,
+  "ingredients": [
+    "1/2 taza de queso crema a temperatura ambiente",
+    "1/2 taza de crema",
+    "1 taza de queso rallado para fundir",
+    "1 cucharadita de ajo frito",
+    "Sal al gusto",
+    "1 bolsa de Ziba's Queso para servir"
+  ],
+  "instructions": [
+    "Paso 1. En una cacerola pequeña, calienta la crema a fuego medio bajo.",
+    "Paso 2. Agrega el queso crema y mezcla hasta que se integre y esté suave.",
+    "Paso 3. Incorpora el ajo frito y cocina por 1 minuto, moviendo constantemente.",
+    "Paso 4. Añade el queso rallado y mezcla hasta que se derrita por completo y el dip esté cremoso.",
+    "Paso 5. Ajusta de sal al gusto y sirve caliente acompañado de Ziba's Queso para dipear."
+  ],
+  "brand": ["zibas"],
+  "product": ["zibas-queso"],
+  "category": "brunch",
+  "servings": 6
+}

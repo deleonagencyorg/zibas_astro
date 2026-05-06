@@ -21,6 +21,8 @@ interface RecipeItem {
   image?: string;
   tags?: string[];
   product_image?: string;
+  video?: string;
+  date?: string;
 }
 
 const { currentLang, recipeId } = Astro.props;
@@ -39,10 +41,17 @@ for (const path in recipeModules) {
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
 
+// Ordenar por fecha descendente (más nuevas primero)
+const sortedRecipes = [...allRecipes].sort((a, b) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+});
+
 // Get related recipes (filter current and limit to 3)
-const relatedRecipes = allRecipes
+const relatedRecipes = sortedRecipes
   .filter((item: RecipeItem) => item.id !== recipeId)
-  .slice(0, 3);
+  .slice(0, 8);
 
 if (!recipe) {
   throw new Error(`Recipe with id ${recipeId} not found`);
@@ -111,14 +120,39 @@ function formatTime(minutes: number): string {
       </div>
     {recipe.image && (
         <div class="w-full md:w-1/2 flex justify-center">
-          <div class="relative rounded-2xl overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
-            <LazyImage
-              src={recipe.image} 
-              alt={recipe.title}
-              class="w-full h-full object-cover"
-              onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-              transition:name={`recipe-image-${recipe.id}`}
-            />
+          <div class="relative rounded-2xl overflow-hidden h-80 lg:h-96 w-80 max-w-lg group">
+            {recipe.video ? (
+              <button
+                type="button"
+                class="absolute inset-0 w-full h-full p-0 border-0 bg-transparent cursor-pointer z-20"
+                onclick={`window.openYouTubeModal && window.openYouTubeModal('${recipe.video}')`}
+                aria-label={`Ver video de ${recipe.title}`}
+              >
+                <LazyImage
+                  src={recipe.image}
+                  alt={recipe.title}
+                  class="w-full h-full object-cover pointer-events-none"
+                  onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+                  transition:name={`recipe-image-${recipe.id}`}
+                />
+                <!-- Icono de play centrado -->
+                <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                  <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/80 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M6.3 5.84a.5.5 0 0 1 .77-.42l7.15 4.16a.5.5 0 0 1 0 .84l-7.15 4.16a.5.5 0 0 1-.77-.42V5.84z" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+            ) : (
+              <LazyImage
+                src={recipe.image}
+                alt={recipe.title}
+                class="w-full h-full object-cover"
+                onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+                transition:name={`recipe-image-${recipe.id}`}
+              />
+            )}
           </div>
         </div>
       )}

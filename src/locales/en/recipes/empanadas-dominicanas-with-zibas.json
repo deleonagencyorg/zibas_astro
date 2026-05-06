@@ -1,8 +1,8 @@
 {
       "date": "2025-09-16",
-      "id": "empanadas-dominicanas-con-zibas",
-      "slug": "empanadas-dominicanas-con-zibas",
-      "title": "Empanadas Dominicanas with Zibas",
+      "id": "empanadas-dominicanas-with-zibas",
+      "slug": "empanadas-dominicanas-with-zibas",
+      "title": "Empanadas Dominicanas with Ziba's",
       "people": "2",
       "difficulty": "Easy",
       "image": "https://snack.yummiespromociones.com/zibas/empanadas-dominicanas-con-zibas.webp",
@@ -23,7 +23,7 @@
         "1 garlic clove",
         "Olives",
         " 1 Rayada Carrot",
-        "1 classic zibas",
+        "1 Ziba's Clásicas",
         "Oil",
         "whater",
         "1 lb of flour all use",
@@ -38,6 +38,7 @@
         "Step 6. Place the oil in a pot and immerse the empanadas until they have a golden appearance.",
         "Step 7. Serve and accompany with tomato sauce and chopped parsley."
       ],
-      "brand": ["zibas"]
+      "brand": ["zibas"],
+  "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
 
