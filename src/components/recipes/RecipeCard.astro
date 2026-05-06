@@ -14,6 +14,7 @@ interface Props {
   servings?: number;
   rating?: number;
   video?: string;
+  previewImage?: string; 
 }
 
 const { 
@@ -27,7 +28,8 @@ const {
   difficulty = "---",
   servings = 0,
   rating = 0,
-  video
+  video,
+  previewImage,
 } = Astro.props;
 
 const currentLocale = getLocale();
@@ -46,7 +48,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
   <!-- Imagen de fondo (siempre visible) -->
   <div class="absolute inset-0 w-full h-full">
     <LazyImage
-      src={image}
+      src={previewImage || image}
       alt={title}
       class="w-full h-full object-cover"
       transition:name={`recipe-image-${id}`}
