@@ -51,7 +51,7 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
     // Patrones comunes de URLs de YouTube
     const patterns = [
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-      /^([a-zA-Z0-9_-]{11})$/ // ID directo
+      /^([a-zA-Z0-9_-]{11})$/
     ];
 
     for (const pattern of patterns) {
@@ -66,6 +66,15 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
 
   // Función para abrir el modal con un video
   window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
+    if (!videoUrl) return;
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      // redireccionar a YouTube en dispositivos móviles para una mejor experiencia
+      window.open(videoUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    // seguir con el modal en desktop
     const modal = document.getElementById(id);
     const iframe = document.getElementById(`${id}-iframe`);
 
@@ -147,7 +156,6 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
 </script>
 
 <style>
-  /* Animación suave para el modal */
   #youtube-video-modal {
     transition: opacity 0.3s ease;
   }
