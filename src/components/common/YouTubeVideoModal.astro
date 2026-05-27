@@ -48,76 +48,58 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
 </div>
 
 <script is:inline>
-  (function () {
-    function initYouTubeModal() {
-      const modal = document.getElementById('youtube-video-modal');
-      if (!modal) return;
+  function extractYouTubeId(url) {
+    if (!url) return null;
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+      /^([a-zA-Z0-9_-]{11})$/
+    ];
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match && match[1]) return match[1];
+    }
+    return null;
+  }
 
-      const iframe = document.getElementById('youtube-video-modal-iframe');
-      const closeBtn = document.getElementById('close-btn');
-      const backdrop = modal.querySelector('[data-video-backdrop]');
+  window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
+    if (!videoUrl) return;
 
-      // Función para cerrar
-      const closeModal = () => {
-        if (!modal) return;
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-        if (iframe) iframe.src = '';
-      };
+    const modal = document.getElementById(id);
+    const iframe = document.getElementById(`${id}-iframe`);
 
-      // Función para abrir
-      window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
-        if (!videoUrl) return;
+    if (!modal || !iframe) return;
 
-        const currentModal = document.getElementById(id);
-        const currentIframe = document.getElementById(`${id}-iframe`);
-
-        if (!currentModal || !currentIframe) return;
-
-        const videoId = extractYouTubeId(videoUrl);
-        if (videoId) {
-          currentIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-        }
-
-        currentModal.classList.remove('hidden');
-        currentModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      };
-
-      // Eventos
-      if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-      }
-
-      if (backdrop) {
-        backdrop.addEventListener('click', closeModal);
-      }
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-      });
+    const videoId = extractYouTubeId(videoUrl);
+    if (videoId) {
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
     }
 
-    // Función auxiliar
-    function extractYouTubeId(url) {
-      if (!url) return null;
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-        /^([a-zA-Z0-9_-]{11})$/
-      ];
-      for (const pattern of patterns) {
-        const match = url.match(pattern);
-        if (match && match[1]) return match[1];
-      }
-      return null;
-    }
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  };
 
-    // Ejecutar cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initYouTubeModal);
-    } else {
-      initYouTubeModal();
+  // Función para cerrar el modal
+  window.closeYouTubeModal = function(id = 'youtube-video-modal') {
+    const modal = document.getElementById(id);
+    const iframe = document.getElementById(`${id}-iframe`);
+
+    if (!modal || !iframe) return;
+
+    // Limpiar el src para detener el video
+    iframe.src = '';
+
+    // Ocultar el modal
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  };
+
+  // Inicializar eventos
+  (function init() {
+    const closeBtn = document.getElementById('close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => window.closeYouTubeModal());
     }
 
     // Cerrar clic en backdrop (desktop)
