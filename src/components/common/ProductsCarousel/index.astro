@@ -7,6 +7,7 @@ interface Product {
   imageMobile?: string;
   background_color?: string;
   text_color?: string;
+  b_color?: string;
 }
 
 export interface Props {
@@ -71,7 +72,7 @@ function hexToRgba(hex: string | undefined, alpha = 1) {
       <div class="swiper-wrapper">
         {productsItems.map((product) => (
           <div class="swiper-slide">
-            <div class="product-card rounded-[50px] border border-indigo-300" style={`background-color: ${hexToRgba(product.background_color, 0.75)}`}>
+            <div class="product-card rounded-[50px] border-2" style={`border-color: ${product.b_color}`}>
               <div class="product-image-container">
                 <a 
                   href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
