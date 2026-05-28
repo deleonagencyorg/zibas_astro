@@ -7,6 +7,7 @@ import { fade, slide } from 'astro:transitions';
 import ShareModal from '../../../components/common/ShareModal.astro';
 import ShareButton from '../../../components/common/ShareButton.astro';
 import LazyImage from '../../../components/common/LazyImage.astro';
+import VideoModal from '../../../components/common/YouTubeVideoModal.astro';
 
 interface Props {
   blogPost: {
@@ -69,27 +70,30 @@ const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
 
           <!-- Video -->
           {videos.length > 0 && (
-            <div class="w-full mb-8 flex flex-col gap-6">
-              {videos.map((url) => {
-                const ytId = getYoutubeId(url);
-                return ytId ? (
-                  <div class="rounded-lg overflow-hidden aspect-video w-full">
-                    <iframe
-                      class="w-full h-full"
-                      src={`https://www.youtube.com/embed/${ytId}`}
-                      title={blogPost.title}
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    />
-                  </div>
-                ) : isDirectVideo(url) ? (
-                  <div class="rounded-lg overflow-hidden aspect-video w-full">
-                    <video class="w-full h-full bg-transparent" controls preload="metadata" style="background: transparent ;">
-                      <source src={url} />
-                    </video>
-                  </div>
-                ) : null;
+            <div class={`w-full mb-8 grid gap-4 ${videos.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' : videos.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+              {videos.map((url, i) => {
+                const ytId = getYoutubeId(url.trim());
+                const thumb = ytId
+                  ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
+                  : "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp";
+
+                return (
+                  <button
+                    class="relative rounded-xl overflow-hidden aspect-square group cursor-pointer border-0 p-0"
+                    data-video-url={ytId ? `https://www.youtube.com/embed/${ytId}?autoplay=1` : url}
+                    data-video-type={ytId ? 'youtube' : 'direct'}
+                    onclick="openYouTubeModal(this.dataset.videoUrl)"
+                  >
+                    <img src={thumb} alt={`Video ${i+1}`} class="w-full h-full object-cover" />
+                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
+                      <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                        <svg class="w-6 h-6 text-orange-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </button>
+                );
               })}
             </div>
           )}
@@ -135,7 +139,7 @@ const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
   }
   </div>
 </div>
-
+<VideoModal />
 <!-- Share Modal -->
 <ShareModal
   id="shareModal-blog"
