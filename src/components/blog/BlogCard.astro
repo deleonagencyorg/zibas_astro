@@ -33,10 +33,11 @@ const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
 <div class="news-card">
   <a href={blogLink} class="block group relative overflow-hidden rounded-[1rem]" style="aspect-ratio: 9/16;">
     <img 
-      src={image || '/images/blog/placeholder.jpg'} 
+      src={image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'} 
       alt={title} 
       class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" 
       loading="lazy" 
+      onerror="this.onerror=null;this.src='https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'"
       transition:name={`blog-image-${id}`}
     />
     <!-- Overlay oscuro base que aumenta en hover -->

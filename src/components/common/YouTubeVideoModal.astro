@@ -48,72 +48,76 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
 </div>
 
 <script is:inline>
-  function extractYouTubeId(url) {
-    if (!url) return null;
-    const patterns = [
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
-      /^([a-zA-Z0-9_-]{11})$/
-    ];
-    for (const pattern of patterns) {
-      const match = url.match(pattern);
-      if (match && match[1]) return match[1];
-    }
-    return null;
-  }
+  (function () {
+    let modal, iframe, closeBtn, backdrop;
 
-  window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
-    if (!videoUrl) return;
+    function initYouTubeModal() {
+      modal = document.getElementById('youtube-video-modal');
+      if (!modal) return;
 
-    const modal = document.getElementById(id);
-    const iframe = document.getElementById(`${id}-iframe`);
+      iframe = document.getElementById('youtube-video-modal-iframe');
+      closeBtn = document.getElementById('close-btn');
+      backdrop = modal.querySelector('[data-video-backdrop]');
 
-    if (!modal || !iframe) return;
+      // Función para cerrar
+      window.closeYouTubeModal = function() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        if (iframe) iframe.src = '';
+      };
 
-    const videoId = extractYouTubeId(videoUrl);
-    if (videoId) {
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-    }
+      // Función para abrir
+      window.openYouTubeModal = function(videoUrl) {
+        if (!videoUrl || !modal || !iframe) return;
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  };
+        const videoId = extractYouTubeId(videoUrl);
+        if (videoId) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+        }
 
-  // Función para cerrar el modal
-  window.closeYouTubeModal = function(id = 'youtube-video-modal') {
-    const modal = document.getElementById(id);
-    const iframe = document.getElementById(`${id}-iframe`);
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      };
 
-    if (!modal || !iframe) return;
-
-    // Limpiar el src para detener el video
-    iframe.src = '';
-
-    // Ocultar el modal
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = '';
-  };
-
-  // Inicializar eventos
-  (function init() {
-    const closeBtn = document.getElementById('close-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => window.closeYouTubeModal());
-    }
-
-    // Cerrar clic en backdrop (desktop)
-    document.addEventListener('click', function(e) {
-      const backdrop = document.querySelector('[data-video-backdrop]');
-      if (e.target === backdrop) {
-        window.closeYouTubeModal();
+      // Eventos
+      if (closeBtn) {
+        closeBtn.addEventListener('click', window.closeYouTubeModal);
       }
-    });
 
-    // Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') window.closeYouTubeModal();
-    });
+      if (backdrop) {
+        backdrop.addEventListener('click', window.closeYouTubeModal);
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') window.closeYouTubeModal();
+      });
+    }
+
+    // Función auxiliar
+    function extractYouTubeId(url) {
+      if (!url) return null;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /^([a-zA-Z0-9_-]{11})$/
+      ];
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) return match[1];
+      }
+      return null;
+    }
+
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initYouTubeModal);
+    } else {
+      initYouTubeModal();
+    }
+
+    document.addEventListener('astro:page-load', initYouTubeModal);
   })();
 </script>
 

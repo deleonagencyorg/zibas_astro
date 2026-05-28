@@ -116,7 +116,7 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
             ${group.map((item) => `
               <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
                 <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
-                  <img src=\"${item.image || '/images/blog/placeholder.jpg'}\" alt=\"${item.title}\" class=\"absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105\" loading=\"lazy\" />\
+                  <img src=\"${item.image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'}\" alt=\"${item.title}\" onerror=\"this.onerror=null;this.src='https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'\" class=\"absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105\" loading=\"lazy\" />\
                   <!-- Overlay oscuro base que aumenta en hover -->\
                   <div class=\"absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300\"></div>\
                   <!-- Contenido inferior -->\
