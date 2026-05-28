@@ -15,7 +15,7 @@ interface Props {
     title: string;
     content: string;
     image: string;
-    video?: string;
+    videos?: string []; 
     author: string;
     published_date: string;
   };
@@ -47,7 +47,11 @@ const getYoutubeId = (url: string) => {
   return (match && match[2].length === 11) ? match[2] : null;
 };
 
-const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
+// Detectar si es video directo
+const isDirectVideo = (url: string) => /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
+
+const videos = blogPost.videos || [];
+const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
 ---
 
 <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
@@ -64,18 +68,29 @@ const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
           </div>
 
           <!-- Video -->
-          {youtubeId && (
-            <div class="w-full mb-8 rounded-lg overflow-hidden">
-              <div class="aspect-video w-full">
-                <iframe
-                  class="w-full h-full"
-                  src={`https://www.youtube.com/embed/${youtubeId}`}
-                  title={blogPost.title}
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
+          {videos.length > 0 && (
+            <div class="w-full mb-8 flex flex-col gap-6">
+              {videos.map((url) => {
+                const ytId = getYoutubeId(url);
+                return ytId ? (
+                  <div class="rounded-lg overflow-hidden aspect-video w-full">
+                    <iframe
+                      class="w-full h-full"
+                      src={`https://www.youtube.com/embed/${ytId}`}
+                      title={blogPost.title}
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    />
+                  </div>
+                ) : isDirectVideo(url) ? (
+                  <div class="rounded-lg overflow-hidden aspect-video w-full">
+                    <video class="w-full h-full bg-transparent" controls preload="metadata" style="background: transparent ;">
+                      <source src={url} />
+                    </video>
+                  </div>
+                ) : null;
+              })}
             </div>
           )}
 

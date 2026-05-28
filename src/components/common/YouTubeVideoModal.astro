@@ -49,16 +49,18 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
 
 <script is:inline>
   (function () {
+    let modal, iframe, closeBtn, backdrop;
+
     function initYouTubeModal() {
-      const modal = document.getElementById('youtube-video-modal');
+      modal = document.getElementById('youtube-video-modal');
       if (!modal) return;
 
-      const iframe = document.getElementById('youtube-video-modal-iframe');
-      const closeBtn = document.getElementById('close-btn');
-      const backdrop = modal.querySelector('[data-video-backdrop]');
+      iframe = document.getElementById('youtube-video-modal-iframe');
+      closeBtn = document.getElementById('close-btn');
+      backdrop = modal.querySelector('[data-video-backdrop]');
 
       // Función para cerrar
-      const closeModal = () => {
+      window.closeYouTubeModal = function() {
         if (!modal) return;
         modal.classList.add('hidden');
         modal.classList.remove('flex');
@@ -67,35 +69,30 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
       };
 
       // Función para abrir
-      window.openYouTubeModal = function(videoUrl, id = 'youtube-video-modal') {
-        if (!videoUrl) return;
-
-        const currentModal = document.getElementById(id);
-        const currentIframe = document.getElementById(`${id}-iframe`);
-
-        if (!currentModal || !currentIframe) return;
+      window.openYouTubeModal = function(videoUrl) {
+        if (!videoUrl || !modal || !iframe) return;
 
         const videoId = extractYouTubeId(videoUrl);
         if (videoId) {
-          currentIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
         }
 
-        currentModal.classList.remove('hidden');
-        currentModal.classList.add('flex');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
       };
 
       // Eventos
       if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', window.closeYouTubeModal);
       }
 
       if (backdrop) {
-        backdrop.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', window.closeYouTubeModal);
       }
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') window.closeYouTubeModal();
       });
     }
 
@@ -120,18 +117,7 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
       initYouTubeModal();
     }
 
-    // Cerrar clic en backdrop (desktop)
-    document.addEventListener('click', function(e) {
-      const backdrop = document.querySelector('[data-video-backdrop]');
-      if (e.target === backdrop) {
-        window.closeYouTubeModal();
-      }
-    });
-
-    // Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') window.closeYouTubeModal();
-    });
+    document.addEventListener('astro:page-load', initYouTubeModal);
   })();
 </script>
 
