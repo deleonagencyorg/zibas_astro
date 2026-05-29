@@ -1,0 +1,151 @@
+---
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+interface MediaItem {
+  type: 'image' | 'video';
+  src?: string;
+  url?: string;
+  youtubeId: string | null;
+  thumb: string;
+}
+
+interface Props {
+  items: MediaItem[];
+  aspectRatio?: string;
+  id?: string;
+}
+
+const { 
+  items = [], 
+  aspectRatio = "9/16", 
+  id = "media-carousel" 
+} = Astro.props;
+
+const hasMultipleItems = items.length > 1;
+---
+
+<div id={id} class="relative w-full" data-media-carousel>
+  <div class="overflow-hidden rounded-[1rem]">
+    <div class="flex transition-transform duration-500 ease-out" data-track>
+      {items.map((item, index) => {
+        const videoUrl = item.type === 'video' 
+          ? (item.youtubeId 
+              ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1` 
+              : item.url) 
+          : item.src;
+
+        return (
+          <div class="flex-shrink-0 w-full px-1">
+            <button
+              class="block group relative overflow-hidden rounded-[1rem] w-full cursor-pointer border-0"
+              style={`aspect-ratio: ${aspectRatio};`}
+              data-video-url={videoUrl}
+              onclick="openYouTubeModal(this.dataset.videoUrl)"
+            >
+              <img 
+                src={item.type === 'video' ? item.thumb : item.src} 
+                alt={`Media ${index + 1}`}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                loading="lazy"
+              />
+              {item.type === 'video' && (
+                <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                  <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-play text-orange-500 text-2xl ml-1"></i>
+                  </div>
+                </div>
+              )}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Flechas de navegación (solo si hay más de 1 item) -->
+  {hasMultipleItems && (
+    <>
+      <button data-prev class="media-arrow left-3" aria-label="Anterior">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <button data-next class="media-arrow right-3" aria-label="Siguiente">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </>
+  )}
+</div>
+
+<style>
+  .media-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background-color: #FD6600;
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease;
+  }
+  .media-arrow:hover {
+    background-color: #e25c00;
+    transform: translateY(-50%) scale(1.1);
+  }
+  @media (max-width: 768px) {
+    .media-arrow {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+</style>
+
+<script>
+  function initMediaCarousel() {
+    const carousels = document.querySelectorAll('[data-media-carousel]');
+    
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('[data-track]');
+      if (!track || track.children.length <= 1) return;
+
+      const prevBtn = carousel.querySelector('[data-prev]');
+      const nextBtn = carousel.querySelector('[data-next]');
+      let currentIndex = 0;
+
+      const updateCarousel = () => {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        if (prevBtn) prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        if (nextBtn) nextBtn.style.opacity = currentIndex >= track.children.length - 1 ? '0.5' : '1';
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          currentIndex = Math.max(0, currentIndex - 1);
+          updateCarousel();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          currentIndex = Math.min(track.children.length - 1, currentIndex + 1);
+          updateCarousel();
+        });
+      }
+
+      // Inicializar
+      updateCarousel();
+    });
+  }
+
+  // Inicialización para Astro
+  document.addEventListener('astro:page-load', initMediaCarousel);
+  document.addEventListener('astro:after-swap', initMediaCarousel);
+  if (document.readyState === 'complete') initMediaCarousel();
+</script>
