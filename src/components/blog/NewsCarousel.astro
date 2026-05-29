@@ -1,11 +1,13 @@
 ---
-import BlogCard from './BlogCard.astro';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 interface Item {
   id: string;
   slug: string;
   title: string;
+  preview?: string;
   image?: string;
+  summary?: string;
   published_date?: string;
   category?: string;
 }
@@ -27,40 +29,104 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       <p class="text-white text-center text-lg md:text-xl font-semibold">{noContent}</p>
     </div>
   ) : (
-    <div class="w-full">
-      <div class="overflow-hidden">
-        <div class="flex transition-transform duration-300 will-change-transform" data-track></div>
+    <div class="relative w-full">
+      <!-- Track -->
+      <div class="overflow-hidden w-full">
+        <div class="flex transition-transform duration-500 ease-out will-change-transform" data-track></div>
       </div>
-      <div class="flex justify-center items-center gap-4 mt-6">
-        <button data-prev class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Prev">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <div class="flex gap-2" data-dots></div>
-        <button data-next class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Next">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-        </button>
-      </div>
+
+      <!-- Flechas DESKTOP (sobre los bordes del carousel) -->
+      <button data-prev aria-label="Prev"
+        class="news-arrow hidden md:inline-flex absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <button data-next aria-label="Next"
+        class="news-arrow hidden md:inline-flex absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
       <div class="mt-4 hidden items-center justify-center" data-empty>
         <span class="text-white text-lg md:text-xl font-semibold">{noContent}</span>
       </div>
+
       <!-- Provide initial items as JSON for reliable init -->
       <script type="application/json" data-items>{JSON.stringify(items)}</script>
     </div>
   )}
 </div>
 
+<style is:global>
+  .news-arrow {
+    align-items: center;
+    justify-content: center;
+    width: clamp(2.5rem, 4vw, 3.5rem);
+    height: clamp(2.5rem, 4vw, 3.5rem);
+    border-radius: 9999px;
+    border: 2px solid #ffffff;
+    background-color: #FD6600;
+    color: #ffffff;
+    font-size: clamp(1rem, 1.6vw, 1.4rem);
+    transition: background-color .25s ease, transform .2s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    line-height: 1;
+  }
+  .news-arrow:hover {
+    background-color: #e25c00;
+  }
+  @media (max-width: 767px) {
+    .news-arrow {
+      width: 2.25rem;
+      height: 2.25rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
 <script>
   // @ts-check
-  /** @typedef {{id:string, slug:string, title:string, image?:string, published_date?:string, category?:string}} Item */
-
-  (function(){
-    const root = document.currentScript?.closest('[data-news-carousel]');
-    if (!root || (/** @type {any} */(root))._newsInit) return;
-    (/** @type {any} */(root))._newsInit = true;
-  })();
+  /** @typedef {{id:string, slug:string, title:string, preview?:string, image?:string, summary?:string, published_date?:string, category?:string}} Item */
 
   /**
-   * Initialize a news carousel instance by root element
+   * @param {string} text
+   * @param {number} max
+   */
+  function truncate(text, max) {
+    const t = (text || '').trim();
+    if (t.length <= max) return t;
+    return t.slice(0, max).replace(/\s+\S*$/, '') + '…';
+  }
+
+  /**
+   * Relative "published" label based on a date string.
+   * @param {string|undefined} dateStr
+   * @param {string} lang
+   */
+  function publishedLabel(dateStr, lang) {
+    const es = lang === 'es';
+    const prefix = es ? 'Publicado hace:' : 'Published:';
+    if (!dateStr) return '';
+    let ts = 0;
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStr)) {
+      const [d, m, y] = dateStr.split('/').map(Number);
+      ts = new Date(y, (m || 1) - 1, d || 1).getTime();
+    } else {
+      const p = Date.parse(dateStr);
+      ts = isNaN(p) ? 0 : p;
+    }
+    if (!ts) return `${prefix} ${dateStr}`;
+    const diff = Math.max(0, Date.now() - ts);
+    const mins = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    let value;
+    if (mins < 60) value = es ? `${mins} min` : `${mins} min`;
+    else if (hours < 24) value = es ? `${hours} h` : `${hours} h`;
+    else if (days < 30) value = es ? `${days} día${days === 1 ? '' : 's'}` : `${days} day${days === 1 ? '' : 's'}`;
+    else value = dateStr;
+    return `${prefix} ${value}`;
+  }
+
+  /**
    * @param {HTMLElement} root
    * @param {Item[]} items
    * @param {string} currentLang
@@ -68,9 +134,6 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
   const initNewsCarousel = (root, items, currentLang) => {
     if (!root) return;
     const track = /** @type {HTMLElement|null} */(root.querySelector('[data-track]'));
-    const prev = /** @type {HTMLElement|null} */(root.querySelector('[data-prev]'));
-    const next = /** @type {HTMLElement|null} */(root.querySelector('[data-next]'));
-    const dotsContainer = /** @type {HTMLElement|null} */(root.querySelector('[data-dots]'));
     const empty = /** @type {HTMLElement|null} */(root.querySelector('[data-empty]'));
     const itemsScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
 
@@ -81,21 +144,11 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     let autoplayInterval;
     const langAttr = root.getAttribute('data-lang') || '';
     const lang = (currentLang && typeof currentLang === 'string' && currentLang) || langAttr || (location.pathname.split('/')[1] || 'es');
+    const readMore = lang === 'es' ? 'Leer más' : 'Read more';
+    const fallbackImg = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp';
 
     if (!data.length && itemsScript && itemsScript.textContent) {
       try { data = JSON.parse(itemsScript.textContent); } catch {}
-    }
-
-    /** @template T
-     * @param {T[]} arr
-     * @param {number} size
-     * @returns {T[][]} */
-    function chunk(arr, size) {
-      const out = []; for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size)); return out;
-    }
-
-    function isMobile() {
-      return window.innerWidth < 768;
     }
 
     function buildSlides() {
@@ -110,36 +163,50 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       }
       if (empty) { empty.classList.add('hidden'); empty.classList.remove('flex'); }
 
-      const perSlide = isMobile() ? 1 : 4;
-      const groups = chunk(data, perSlide);
-      groups.forEach((group) => {
+      data.forEach((item) => {
         const slide = document.createElement('div');
-        slide.className = 'w-full flex-shrink-0 px-1';
+        slide.className = 'w-full flex-shrink-0';
+        const href = `/${lang}/blog/${item.slug || item.id}`;
+        const img = item.preview || item.image || fallbackImg;
+        const body = truncate(item.summary || '', 220);
+        const published = publishedLabel(item.published_date, lang);
+
         slide.innerHTML = `
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-            ${group.map((item) => `
-              <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
-                <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
-                  <img src=\"${item.image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'}\" alt=\"${item.title}\" onerror=\"this.onerror=null;this.src='https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'\" class=\"absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105\" loading=\"lazy\" />\
-                  <div class=\"absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent\"></div>\
-                  <div class=\"absolute inset-x-0 bottom-0 p-3 z-10 flex flex-col gap-2\">\
-                    ${item.published_date ? `<p class=\"text-white text-xs md:text-sm font-medium\">${item.published_date}</p>` : ''}\
-                    <h3 class=\"text-white font-bold text-sm md:text-base leading-tight\">${item.title}</h3>\
-                    <span class=\"block w-[90%] mx-auto text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium\">${lang==='es' ? 'Leer más' : 'Read more'}</span>\
-                  </div>\
-                </a>\
-              </div>
-            `).join('')}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center px-2 md:px-12 lg:px-16">
+            <!-- Imagen -->
+            <div class="relative w-full">
+              <a href="${href}" class="block group relative w-full overflow-hidden rounded-[1.5rem]" style="aspect-ratio: 16/11;">
+                <img src="${img}" alt="${item.title}" onerror="this.onerror=null;this.src='${fallbackImg}'"
+                  class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" loading="lazy" />
+              </a>
+              <!-- Flechas MOBILE sobre la imagen -->
+              <button data-prev aria-label="Prev" class="news-arrow is-mobile inline-flex md:hidden absolute left-1 top-1/2 -translate-y-1/2 z-20">
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+              <button data-next aria-label="Next" class="news-arrow is-mobile inline-flex md:hidden absolute right-1 top-1/2 -translate-y-1/2 z-20">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Texto -->
+            <div class="text-white">
+              <a href="${href}" class="block hover:opacity-90 transition-opacity">
+                <h3 class="font-title font-bold italic uppercase leading-tight mb-4"
+                  style="font-size: clamp(1.5rem, 3.2vw, 3rem);">${item.title}</h3>
+              </a>
+              ${body ? `<p class="italic leading-relaxed mb-6" style="font-size: clamp(0.9rem, 1.2vw, 1.05rem);">${body}</p>` : ''}
+              ${published ? `<p class="font-bold" style="font-size: clamp(0.9rem, 1.2vw, 1.05rem);">${published}</p>` : ''}
+            </div>
           </div>
         `;
         track.appendChild(slide);
       });
-      track.style.width = groups.length * 100 + '%';
+
+      track.style.width = data.length * 100 + '%';
       track.querySelectorAll(':scope > div').forEach((slide) => {
-        (/** @type {HTMLElement} */(slide)).style.width = (100 / groups.length) + '%';
+        (/** @type {HTMLElement} */(slide)).style.width = (100 / data.length) + '%';
       });
-      index = Math.min(index, Math.max(0, groups.length - 1));
-      updateDots();
+      index = Math.min(index, Math.max(0, data.length - 1));
       update();
     }
 
@@ -148,38 +215,19 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       const slidesCount = track.children.length;
       if (slidesCount === 0) return;
       track.style.transform = `translateX(-${index * (100 / slidesCount)}%)`;
-      if (prev) prev.classList.toggle('opacity-50', index === 0);
-      if (next) next.classList.toggle('opacity-50', index >= slidesCount - 1);
     }
 
-    function updateDots() {
-      if (!dotsContainer) return;
-      dotsContainer.innerHTML = '';
-      const slidesCount = track?.children.length || 0;
-      for (let i = 0; i < slidesCount; i++) {
-        const dot = document.createElement('button');
-        dot.className = `w-3 h-3 rounded-full ${i === index ? 'bg-white' : 'bg-gray-300'}`;
-        dot.addEventListener('click', () => {
-          stopAutoplay();
-          index = i;
-          update();
-          updateDots();
-          startAutoplay();
-        });
-        dotsContainer.appendChild(dot);
-      }
+    function go(delta) {
+      const slidesCount = track ? track.children.length : 0;
+      if (slidesCount === 0) return;
+      index = (index + delta + slidesCount) % slidesCount;
+      update();
     }
 
     function startAutoplay() {
       stopAutoplay();
-      autoplayInterval = window.setInterval(() => {
-        const max = Math.max(0, (track?.children.length || 1) - 1);
-        index = index >= max ? 0 : index + 1;
-        update();
-        updateDots();
-      }, 4000);
+      autoplayInterval = window.setInterval(() => go(1), 6000);
     }
-
     function stopAutoplay() {
       if (autoplayInterval !== undefined) {
         clearInterval(autoplayInterval);
@@ -187,26 +235,20 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       }
     }
 
-    if (prev) {
-      prev.addEventListener('click', () => {
-        stopAutoplay();
-        index = Math.max(0, index - 1);
-        update();
-        updateDots();
-        startAutoplay();
-      });
-    }
+    // Delegación de eventos para flechas (desktop estáticas + mobile dentro de slides)
+    root.addEventListener('click', (e) => {
+      const target = /** @type {HTMLElement} */(e.target);
+      const prevBtn = target.closest('[data-prev]');
+      const nextBtn = target.closest('[data-next]');
+      if (!prevBtn && !nextBtn) return;
+      e.preventDefault();
+      stopAutoplay();
+      go(prevBtn ? -1 : 1);
+      startAutoplay();
+    });
 
-    if (next) {
-      next.addEventListener('click', () => {
-        stopAutoplay();
-        const max = Math.max(0, (track?.children.length || 1) - 1);
-        index = Math.min(max, index + 1);
-        update();
-        updateDots();
-        startAutoplay();
-      });
-    }
+    root.addEventListener('mouseenter', stopAutoplay);
+    root.addEventListener('mouseleave', startAutoplay);
 
     /** @param {Item[]} newItems */
     function setData(newItems) {
@@ -216,19 +258,6 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       startAutoplay();
     }
 
-    let lastMobile = isMobile();
-    const handleResize = () => {
-      const nowMobile = isMobile();
-      if (nowMobile !== lastMobile) {
-        lastMobile = nowMobile;
-        stopAutoplay();
-        index = 0;
-        buildSlides();
-        startAutoplay();
-      }
-    };
-    window.addEventListener('resize', handleResize);
-
     const rootId = root.getAttribute('id') || 'news-carousel';
     (/** @type {any} */(window))._newsCarousels = (/** @type {any} */(window))._newsCarousels || {};
     (/** @type {any} */(window))._newsCarousels[rootId] = { setData };
@@ -237,25 +266,20 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     startAutoplay();
   };
 
-  // auto-init when loaded and after Astro view transitions
-  function autoInit(event){
+  function autoInit() {
     document.querySelectorAll('[data-news-carousel]').forEach((rootEl) => {
-      const root = /** @type {HTMLElement} */(rootEl);
-      if (root._carouselInitialized) {
-        return;
-      }
+      const root = /** @type {any} */(rootEl);
+      if (root._carouselInitialized) return;
       root._carouselInitialized = true;
 
       let items = [];
       const dataScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
       if (dataScript && dataScript.textContent) {
-        try { 
+        try {
           items = JSON.parse(dataScript.textContent);
         } catch (e) {
           console.error(`[NewsCarousel] Failed to parse embedded JSON for ${root.id}:`, e);
         }
-      } else {
-        console.warn(`[NewsCarousel] No data-items script tag found for ${root.id}.`);
       }
       const lang = root.getAttribute('data-lang') || '';
       initNewsCarousel(root, items, lang);
@@ -265,7 +289,7 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', autoInit);
   } else {
-    autoInit({type: 'immediate'});
+    autoInit();
   }
   document.addEventListener('astro:page-load', autoInit);
   document.addEventListener('astro:after-swap', autoInit);

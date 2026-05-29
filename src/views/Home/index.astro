@@ -56,7 +56,7 @@ const slides = Array.isArray(commonAssets)
 
 // Load latest blog posts by current language from markdown
 const blogModules = import.meta.glob('../../locales/*/blog/*.md');
-let latestBlogPosts: Array<{ id: string; slug: string; title: string; image?: string; published_date?: string; }>= [];
+let latestBlogPosts: Array<{ id: string; slug: string; title: string; preview?: string; image?: string; published_date?: string; }>= [];
 for (const path in blogModules) {
   const lang = path.split('/')[3];
   if (lang === currentLang) {
@@ -67,7 +67,8 @@ for (const path in blogModules) {
         id: String(fm.id),
         slug: String(fm.slug),
         title: String(fm.title),
-        image: fm.image ? String(fm.image) : '/images/blog/placeholder.jpg',
+        preview: fm.preview ? String(fm.preview) : '',
+        image: fm.preview ? String(fm.preview) : (fm.image ? String(fm.image) : '/images/blog/placeholder.jpg'),
         published_date: fm.published_date ? String(fm.published_date) : ''
       });
     }
@@ -246,7 +247,7 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
                           <p class="text-white text-xs md:text-sm font-medium">{post.published_date}</p>
                         )}
                         <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
-                        <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-sm text-xs md:text-sm font-medium">
+                        <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-md text-xs md:text-sm font-medium">
                           {currentLang === 'es' ? 'Leer más' : 'Read more'}
                         </span>
                       </div>
@@ -342,7 +343,7 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
           </div>
         </div>
         <div class="flex justify-center mt-10">
-          <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
+          <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-md text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
             {currentLang === 'es' ? 'Ver más' : 'View more'}
           </a>
         </div>

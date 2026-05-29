@@ -15,6 +15,7 @@
     "@astrojs/react": "^5.0.4",
     "@astrojs/starlight": "^0.38.4",
     "@formkit/auto-animate": "^0.8.2",
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "aos": "^2.3.4",
     "astro": "^6.2.1",
     "framer-motion": "^12.23.0",
