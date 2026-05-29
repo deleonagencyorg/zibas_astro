@@ -5,10 +5,12 @@ import { Image } from 'astro:assets';
 import { fade } from 'astro:transitions';
 
 interface Props {
+  preview?: string;
   image: string;
   title: string;
   id: string;
   slug: string;
+  published_date?: string;
   textColor?: string;
   iconColor?: string;
   hoverImage?: string;
@@ -16,13 +18,15 @@ interface Props {
 }
 
 const { 
+  preview,
   image, 
   title, 
   id,
   slug,
+  published_date,
   textColor = 'text-blue-900',
   iconColor = 'text-blue-900',
-  hoverImage = image,
+  hoverImage = preview || image,
   currentLang = getLocale()
 } = Astro.props;
 
@@ -33,23 +37,22 @@ const viewBlogText = currentLang === 'es' ? 'Leer más' : 'Read more';
 <div class="news-card">
   <a href={blogLink} class="block group relative overflow-hidden rounded-[1rem]" style="aspect-ratio: 9/16;">
     <img 
-      src={image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'} 
+      src={preview || image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'} 
       alt={title} 
       class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" 
       loading="lazy" 
       onerror="this.onerror=null;this.src='https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'"
       transition:name={`blog-image-${id}`}
     />
-    <!-- Overlay oscuro base que aumenta en hover -->
-    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300"></div>
-    <!-- Contenido inferior -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
     <div class="absolute inset-x-0 bottom-0 p-3 z-10 flex flex-col gap-2">
+      {published_date && (
+        <p class="text-white text-xs md:text-sm font-medium">{published_date}</p>
+      )}
       <h3 class="text-white font-bold text-sm md:text-base leading-tight">{title}</h3>
-      <div>
-        <span class="inline-block border-2 border-white bg-transparent text-white py-1.5 px-4 rounded-md text-center text-xs md:text-sm font-medium">
-          {viewBlogText}
-        </span>
-      </div>
+      <span class="block w-[90%] mx-auto text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium">
+        {viewBlogText}
+      </span>
     </div>
   </a>
 </div>
