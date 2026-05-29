@@ -20,7 +20,7 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      
+
       <div class="relative w-full h-full md:aspect-video bg-black">
         <!-- YouTube -->
         <iframe id="blog-modal-iframe" class="w-full h-full" src="" frameborder="0"
@@ -48,8 +48,8 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
-        if (iframe) { iframe.src = ''; iframe.classList.remove('hidden'); }
-        if (video) { video.src = ''; video.pause(); video.classList.add('hidden'); }
+        const navbar = document.querySelector('header') || document.querySelector('nav');
+        if (navbar) navbar.style.zIndex = '';
       };
 
       window.openYouTubeModal = function (videoUrl) {
@@ -87,6 +87,8 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   document.body.style.overflow = 'hidden';
+  const navbar = document.querySelector('header') || document.querySelector('nav');
+  if (navbar) navbar.style.zIndex = '0';
 };
 
       if (closeBtn) closeBtn.addEventListener('click', window.closeYouTubeModal);
