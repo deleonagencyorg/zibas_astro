@@ -211,20 +211,66 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
       </div>
     )}
 
-<!--   {latestBlogPosts.length === 0 ? (
+ {latestBlogPosts.length === 0 ? (
       <div class="max-w-5xl mx-auto text-center py-12">
         <p class="text-brown text-lg md:text-xl font-semibold">{noNewsText}</p> 
       </div>
     ) : (
       <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
-          Columna izquierda: 3 más recientes ///
+          
           <div class="md:col-span-2">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
               <div class="flex-1 ml-4 border-b border-brown/40"></div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <!-- Mobile carousel -->
+            <div class="md:hidden relative" data-news-carousel>
+              <div class="overflow-hidden rounded-[1.5rem]">
+                <div class="flex transition-transform duration-300" data-news-track>
+                  {latestBlogPosts.slice(0,3).map((post, i) => (
+                    <a
+                      href={`/${currentLang}/blog/${post.slug || post.id}`}
+                      class="block group relative overflow-hidden flex-shrink-0 w-full bg-black/10"
+                      style="aspect-ratio: 3/4;"
+                    >
+                      <img
+                        src={post.image || '/images/blog/placeholder.jpg'}
+                        alt={post.title}
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
+                      <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
+                        {post.published_date && (
+                          <p class="text-white text-xs md:text-sm font-medium">{post.published_date}</p>
+                        )}
+                        <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
+                        <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-sm text-xs md:text-sm font-medium">
+                          {currentLang === 'es' ? 'Leer más' : 'Read more'}
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div class="flex justify-center items-center gap-4 mt-6">
+                <button class="news-carousel-prev bg-white text-brown p-2 rounded-full shadow-lg z-10" aria-label="Anterior">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div class="news-carousel-dots flex gap-2"></div>
+                <button class="news-carousel-next bg-white text-brown p-2 rounded-full shadow-lg z-10" aria-label="Siguiente">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Desktop grid -->
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-3 gap-6">
               {latestBlogPosts.slice(0,3).map((post) => (
                 <a
                   href={`/${currentLang}/blog/${post.slug || post.id}`}
@@ -237,19 +283,22 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div class="absolute inset-0 bg-black/10"></div>
-                  <div class="absolute inset-x-0 bottom-0 p-5">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
+                  <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
                     {post.published_date && (
-                      <p class="text-white/80 text-xs md:text-sm mb-1">{post.published_date}</p>
+                      <p class="text-white text-xs md:text-sm font-medium">{post.published_date}</p>
                     )}
                     <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
+                    <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium">
+                      {currentLang === 'es' ? 'Leer más' : 'Read more'}
+                    </span>
                   </div>
                 </a>
               ))}
             </div>
           </div>
 
-           Columna derecha: destacados (posiciones 3 y 4) --
+        
           <div class="md:col-span-1">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
@@ -299,7 +348,7 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
         </div>
       </div> 
     )}
-  </div> -->
+  </div> 
 </section>
 
     <!-- Sección Abaout -->
@@ -343,5 +392,116 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
 
 
   </main>
+
+<script>
+  function initNewsCarousels(): void {
+    document.querySelectorAll('[data-news-carousel]').forEach(function(root) {
+      if ((root as any).dataset.ncInitialized === 'true') return;
+      (root as any).dataset.ncInitialized = 'true';
+      
+      var track = root.querySelector('[data-news-track]') as HTMLElement | null;
+      var prevBtn = root.querySelector('.news-carousel-prev') as HTMLElement | null;
+      var nextBtn = root.querySelector('.news-carousel-next') as HTMLElement | null;
+      var dotsContainer = root.querySelector('.news-carousel-dots') as HTMLElement | null;
+      
+      if (!track) return;
+      
+      // Since we're using <a> with flex-shrink-0 w-full, get slides as children
+      var slideElements = Array.from(track.children) as HTMLElement[];
+      if (!slideElements.length) return;
+      
+      var current = 0;
+      var autoplayInterval: number | undefined;
+      
+      function updatePosition(): void {
+        track!.style.transform = 'translateX(-' + (current * 100) + '%)';
+        var dots = dotsContainer?.querySelectorAll('button');
+        if (dots) {
+          dots.forEach(function(dot, i) {
+            if (i === current) {
+              dot.className = 'w-3 h-3 rounded-full bg-brown';
+            } else {
+              dot.className = 'w-3 h-3 rounded-full bg-gray-300';
+            }
+          });
+        }
+        if (prevBtn) prevBtn.classList.toggle('opacity-50', current === 0);
+        if (nextBtn) nextBtn.classList.toggle('opacity-50', current >= slideElements.length - 1);
+      }
+      
+      function createDots(): void {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        for (var i = 0; i < slideElements.length; i++) {
+          var dot = document.createElement('button');
+          dot.className = i === current ? 'w-3 h-3 rounded-full bg-brown' : 'w-3 h-3 rounded-full bg-gray-300';
+          (function(idx) {
+            dot.addEventListener('click', function() {
+              stopAutoplay();
+              current = idx;
+              updatePosition();
+              startAutoplay();
+            });
+          })(i);
+          dotsContainer.appendChild(dot);
+        }
+      }
+      
+      function startAutoplay(): void {
+        stopAutoplay();
+        autoplayInterval = window.setInterval(function() {
+          current = (current + 1) % slideElements.length;
+          updatePosition();
+        }, 4000);
+      }
+      
+      function stopAutoplay(): void {
+        if (autoplayInterval !== undefined) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = undefined;
+        }
+      }
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          stopAutoplay();
+          if (current > 0) current--;
+          updatePosition();
+          startAutoplay();
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          stopAutoplay();
+          if (current < slideElements.length - 1) current++;
+          updatePosition();
+          startAutoplay();
+        });
+      }
+      
+      createDots();
+      updatePosition();
+      startAutoplay();
+      
+      root.addEventListener('mouseenter', stopAutoplay);
+      root.addEventListener('mouseleave', startAutoplay);
+      root.addEventListener('touchstart', stopAutoplay);
+      root.addEventListener('touchend', function() { setTimeout(startAutoplay, 3000); });
+    });
+  }
+  
+  function initAllNews(): void {
+    initNewsCarousels();
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAllNews);
+  } else {
+    initAllNews();
+  }
+  document.addEventListener('astro:page-load', initAllNews);
+  document.addEventListener('astro:after-swap', initAllNews);
+</script>
 
   

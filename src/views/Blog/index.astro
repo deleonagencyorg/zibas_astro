@@ -96,10 +96,10 @@ const restPosts = allPosts.slice(5);
             <PixelGrid pixelSize={20} density={0.7} introDuration={800} loopInterval={1100} mutateAmount={50} background="none" />
           </div>
           <h2 class="text-3xl md:text-4xl italic font-bold mt-0 mb-4 text-white relative z-10">
-            {currentLang==='es' ? 'Descubre nuestras' : 'Discover our'}
+            {currentLang==='es' ? 'ENTERATE DE TODO HOY CON NUESTRAS' : 'FIND OUT EVERYTHING TODAY WITH OUR'}
           </h2>
           <h1 class="text-6xl md:text-9xl italic font-bold mt-0 mb-4 text-white relative z-10 flex items-center justify-center">
-            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'Noticias' : 'News'}</span>
+            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'NOVEDADES' : 'NEWS'}</span>
           </h1>
         </div>
       </div>
@@ -117,23 +117,7 @@ const restPosts = allPosts.slice(5);
         <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
       </div>
 
-      {allPosts.length === 0 ? (
-        <div class="max-w-5xl mx-auto text-center py-12">
-          <p class="text-white text-lg md:text-xl font-semibold">{noPostsText}</p>
-        </div>
-      ) : (
-        <div class="max-w-7xl mx-auto">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
-            <div class="flex-1 ml-4 border-b border-white/40"></div>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-6">
-            {leftThree.map((post) => (
-              <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
-            ))}
-          </div>
-        </div>
-      )}
+     
     </div>
   </div>
 </MainLayout>

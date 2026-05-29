@@ -28,16 +28,14 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     </div>
   ) : (
     <div class="w-full">
-      <div class="flex items-center gap-4">
-        <!-- Botón izquierdo -->
+      <div class="overflow-hidden">
+        <div class="flex transition-transform duration-300 will-change-transform" data-track></div>
+      </div>
+      <div class="flex justify-center items-center gap-4 mt-6">
         <button data-prev class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Prev">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
         </button>
-        <!-- Track -->
-        <div class="flex-1 overflow-hidden">
-          <div class="flex transition-transform duration-300 will-change-transform" data-track></div>
-        </div>
-        <!-- Botón derecho -->
+        <div class="flex gap-2" data-dots></div>
         <button data-next class="flex-shrink-0 flex items-center justify-center bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow" aria-label="Next">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </button>
@@ -72,27 +70,32 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     const track = /** @type {HTMLElement|null} */(root.querySelector('[data-track]'));
     const prev = /** @type {HTMLElement|null} */(root.querySelector('[data-prev]'));
     const next = /** @type {HTMLElement|null} */(root.querySelector('[data-next]'));
+    const dotsContainer = /** @type {HTMLElement|null} */(root.querySelector('[data-dots]'));
     const empty = /** @type {HTMLElement|null} */(root.querySelector('[data-empty]'));
     const itemsScript = /** @type {HTMLScriptElement|null} */(root.querySelector('script[data-items]'));
 
     /** @type {Item[]} */
     let data = Array.isArray(items) ? items : [];
     let index = 0;
+    /** @type {number|undefined} */
+    let autoplayInterval;
     const langAttr = root.getAttribute('data-lang') || '';
     const lang = (currentLang && typeof currentLang === 'string' && currentLang) || langAttr || (location.pathname.split('/')[1] || 'es');
 
-    // If no data passed from outside, try to read embedded JSON
     if (!data.length && itemsScript && itemsScript.textContent) {
       try { data = JSON.parse(itemsScript.textContent); } catch {}
     }
 
-    /** @template T 
+    /** @template T
      * @param {T[]} arr
      * @param {number} size
-     * @returns {T[][]}
-     */
-    function chunk(arr, size){
-      const out = []; for (let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out;
+     * @returns {T[][]} */
+    function chunk(arr, size) {
+      const out = []; for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size)); return out;
+    }
+
+    function isMobile() {
+      return window.innerWidth < 768;
     }
 
     function buildSlides() {
@@ -107,22 +110,22 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       }
       if (empty) { empty.classList.add('hidden'); empty.classList.remove('flex'); }
 
-      const groups = chunk(data, 4);
+      const perSlide = isMobile() ? 1 : 4;
+      const groups = chunk(data, perSlide);
       groups.forEach((group) => {
         const slide = document.createElement('div');
         slide.className = 'w-full flex-shrink-0 px-1';
         slide.innerHTML = `
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
             ${group.map((item) => `
               <div class=\"news-card\" data-category=\"${(item.category||'other').toLowerCase()}\">\
                 <a href=\"/${lang}/blog/${item.slug||item.id}\" class=\"block group relative overflow-hidden rounded-[1rem]\" style=\"aspect-ratio: 9/16;\">\
                   <img src=\"${item.image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'}\" alt=\"${item.title}\" onerror=\"this.onerror=null;this.src='https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp'\" class=\"absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105\" loading=\"lazy\" />\
-                  <!-- Overlay oscuro base que aumenta en hover -->\
-                  <div class=\"absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300\"></div>\
-                  <!-- Contenido inferior -->\
+                  <div class=\"absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent\"></div>\
                   <div class=\"absolute inset-x-0 bottom-0 p-3 z-10 flex flex-col gap-2\">\
+                    ${item.published_date ? `<p class=\"text-white text-xs md:text-sm font-medium\">${item.published_date}</p>` : ''}\
                     <h3 class=\"text-white font-bold text-sm md:text-base leading-tight\">${item.title}</h3>\
-                    <div><span class=\"inline-block border-2 border-white bg-transparent text-white py-1.5 px-4 rounded-md text-center text-xs md:text-sm font-medium\">${lang==='es' ? 'Leer más' : 'Read more'}</span></div>\
+                    <span class=\"block w-[90%] mx-auto text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium\">${lang==='es' ? 'Leer más' : 'Read more'}</span>\
                   </div>\
                 </a>\
               </div>
@@ -133,36 +136,105 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
       });
       track.style.width = groups.length * 100 + '%';
       track.querySelectorAll(':scope > div').forEach((slide) => {
-        (/** @type {HTMLElement} */(slide)).style.width = (100/groups.length) + '%';
+        (/** @type {HTMLElement} */(slide)).style.width = (100 / groups.length) + '%';
       });
       index = Math.min(index, Math.max(0, groups.length - 1));
+      updateDots();
       update();
     }
 
-    function update(){
+    function update() {
       if (!track) return;
       const slidesCount = track.children.length;
       if (slidesCount === 0) return;
-      track.style.transform = `translateX(-${index * (100 / slidesCount) }%)`;
+      track.style.transform = `translateX(-${index * (100 / slidesCount)}%)`;
+      if (prev) prev.classList.toggle('opacity-50', index === 0);
+      if (next) next.classList.toggle('opacity-50', index >= slidesCount - 1);
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const slidesCount = track?.children.length || 0;
+      for (let i = 0; i < slidesCount; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-3 h-3 rounded-full ${i === index ? 'bg-white' : 'bg-gray-300'}`;
+        dot.addEventListener('click', () => {
+          stopAutoplay();
+          index = i;
+          update();
+          updateDots();
+          startAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = window.setInterval(() => {
+        const max = Math.max(0, (track?.children.length || 1) - 1);
+        index = index >= max ? 0 : index + 1;
+        update();
+        updateDots();
+      }, 4000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval !== undefined) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = undefined;
+      }
+    }
+
+    if (prev) {
+      prev.addEventListener('click', () => {
+        stopAutoplay();
+        index = Math.max(0, index - 1);
+        update();
+        updateDots();
+        startAutoplay();
+      });
+    }
+
+    if (next) {
+      next.addEventListener('click', () => {
+        stopAutoplay();
+        const max = Math.max(0, (track?.children.length || 1) - 1);
+        index = Math.min(max, index + 1);
+        update();
+        updateDots();
+        startAutoplay();
+      });
     }
 
     /** @param {Item[]} newItems */
-    function setData(newItems){
+    function setData(newItems) {
       data = Array.isArray(newItems) ? newItems : [];
       index = 0;
       buildSlides();
+      startAutoplay();
     }
 
-    if (prev) prev.addEventListener('click', ()=> { index = Math.max(0, index-1); update(); });
-    if (next) next.addEventListener('click', ()=> { const max = Math.max(0, (track?.children.length||1)-1); index = Math.min(max, index+1); update(); });
+    let lastMobile = isMobile();
+    const handleResize = () => {
+      const nowMobile = isMobile();
+      if (nowMobile !== lastMobile) {
+        lastMobile = nowMobile;
+        stopAutoplay();
+        index = 0;
+        buildSlides();
+        startAutoplay();
+      }
+    };
+    window.addEventListener('resize', handleResize);
 
-    // expose to window for external filter control
     const rootId = root.getAttribute('id') || 'news-carousel';
     (/** @type {any} */(window))._newsCarousels = (/** @type {any} */(window))._newsCarousels || {};
     (/** @type {any} */(window))._newsCarousels[rootId] = { setData };
 
-    // First render with current data (from props or embedded JSON)
     buildSlides();
+    startAutoplay();
   };
 
   // auto-init when loaded and after Astro view transitions
