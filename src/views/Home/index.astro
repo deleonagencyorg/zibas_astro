@@ -243,9 +243,6 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
                       />
                       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
                       <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
-                        {post.published_date && (
-                          <p class="text-white text-xs md:text-sm font-medium">{post.published_date}</p>
-                        )}
                         <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
                         <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-md text-xs md:text-sm font-medium">
                           {currentLang === 'es' ? 'Leer más' : 'Read more'}
@@ -286,55 +283,49 @@ const oneDescription = newsAssets.home?.description || (currentLang === 'es' ? '
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
                   <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
-                    {post.published_date && (
-                      <p class="text-white text-xs md:text-sm font-medium">{post.published_date}</p>
-                    )}
-                    <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
-                    <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium">
-                      {currentLang === 'es' ? 'Leer más' : 'Read more'}
-                    </span>
-                  </div>
+                      <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
+                      <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-md text-xs md:text-sm font-medium">
+                        {currentLang === 'es' ? 'Leer más' : 'Read more'}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+          
+            <div class="md:col-span-1">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
+                <div class="flex-1 ml-4 border-b border-brown/40"></div>
+              </div>
+              <div class="bg-yellow/0">
+                <p class="text-brown font-bold text-sm md:text-base leading-snug mb-4">
+                  {newsAssets?.meta?.descriptiondestacados || (currentLang === 'es'
+                    ? 'Sé el primero en conocer nuestras promociones, lanzamientos y más.'
+                    : 'Be the first to know about our promotions, launches and more.')}
+                </p>
+                <a
+                  href="https://www.snacksyummies.com/es/yummiesone"
+                  class="inline-flex items-center justify-center w-full border-2 border-brown text-brown py-3 px-6 rounded-full text-center text-sm md:text-base font-bold hover:bg-brown hover:text-white transition-colors mb-6"
+                >
+                  {currentLang === 'es' ? 'QUIERO SUSCRIBIRME' : 'SUBSCRIBE'}
                 </a>
-              ))}
-            </div>
-          </div>
 
-        
-          <div class="md:col-span-1">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
-              <div class="flex-1 ml-4 border-b border-brown/40"></div>
-            </div>
-            <div class="bg-yellow/0">
-              <p class="text-brown font-bold text-sm md:text-base leading-snug mb-4">
-                {newsAssets?.meta?.descriptiondestacados || (currentLang === 'es'
-                  ? 'Sé el primero en conocer nuestras promociones, lanzamientos y más.'
-                  : 'Be the first to know about our promotions, launches and more.')}
-              </p>
-              <a
-                href="https://www.snacksyummies.com/es/yummiesone"
-                class="inline-flex items-center justify-center w-full border-2 border-brown text-brown py-3 px-6 rounded-full text-center text-sm md:text-base font-bold hover:bg-brown hover:text-white transition-colors mb-6"
-              >
-                {currentLang === 'es' ? 'QUIERO SUSCRIBIRME' : 'SUBSCRIBE'}
-              </a>
-
-              <div class="grid grid-cols-1 gap-4">
-                {latestBlogPosts.slice(3,5).map((post) => (
-                  <a
-                    href={`/${currentLang}/blog/${post.slug || post.id}`}
-                    class="flex items-center gap-4 rounded-[1.25rem] bg-white/35 hover:bg-white/50 transition-colors p-3"
-                  >
-                    <img
-                      src={post.image || '/images/blog/placeholder.jpg'}
-                      alt={post.title}
-                      class="w-20 h-20 object-cover rounded-[1rem] flex-shrink-0"
-                      loading="lazy"
-                    />
-                    <div class="min-w-0">
-                      {post.published_date && (
-                        <p class="text-brown/70 text-xs md:text-sm mb-1">{post.published_date}</p>
-                      )}
-                      <p class="text-brown font-bold text-sm md:text-base leading-snug line-clamp-3">{post.title}</p>
+                <div class="grid grid-cols-1 gap-4">
+                  {latestBlogPosts.slice(3,5).map((post) => (
+                    <a
+                      href={`/${currentLang}/blog/${post.slug || post.id}`}
+                      class="flex items-center gap-4 rounded-[1.25rem] bg-white/35 hover:bg-white/50 transition-colors p-3"
+                    >
+                      <img
+                        src={post.image || '/images/blog/placeholder.jpg'}
+                        alt={post.title}
+                        class="w-20 h-20 object-cover rounded-[1rem] flex-shrink-0"
+                        loading="lazy"
+                      />
+                      <div class="min-w-0">
+                        <p class="text-brown font-bold text-sm md:text-base leading-snug line-clamp-3">{post.title}</p>
                     </div>
                   </a>
                 ))}

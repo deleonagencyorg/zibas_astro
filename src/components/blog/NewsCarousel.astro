@@ -97,36 +97,6 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
   }
 
   /**
-   * Relative "published" label based on a date string.
-   * @param {string|undefined} dateStr
-   * @param {string} lang
-   */
-  function publishedLabel(dateStr, lang) {
-    const es = lang === 'es';
-    const prefix = es ? 'Publicado hace:' : 'Published:';
-    if (!dateStr) return '';
-    let ts = 0;
-    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStr)) {
-      const [d, m, y] = dateStr.split('/').map(Number);
-      ts = new Date(y, (m || 1) - 1, d || 1).getTime();
-    } else {
-      const p = Date.parse(dateStr);
-      ts = isNaN(p) ? 0 : p;
-    }
-    if (!ts) return `${prefix} ${dateStr}`;
-    const diff = Math.max(0, Date.now() - ts);
-    const mins = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-    let value;
-    if (mins < 60) value = es ? `${mins} min` : `${mins} min`;
-    else if (hours < 24) value = es ? `${hours} h` : `${hours} h`;
-    else if (days < 30) value = es ? `${days} día${days === 1 ? '' : 's'}` : `${days} day${days === 1 ? '' : 's'}`;
-    else value = dateStr;
-    return `${prefix} ${value}`;
-  }
-
-  /**
    * @param {HTMLElement} root
    * @param {Item[]} items
    * @param {string} currentLang
@@ -169,8 +139,6 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
         const href = `/${lang}/blog/${item.slug || item.id}`;
         const img = item.preview || item.image || fallbackImg;
         const body = truncate(item.summary || '', 220);
-        const published = publishedLabel(item.published_date, lang);
-
         slide.innerHTML = `
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center px-2 md:px-12 lg:px-16">
             <!-- Imagen -->
@@ -195,7 +163,6 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
                   style="font-size: clamp(1.5rem, 3.2vw, 3rem);">${item.title}</h3>
               </a>
               ${body ? `<p class="italic leading-relaxed mb-6" style="font-size: clamp(0.9rem, 1.2vw, 1.05rem);">${body}</p>` : ''}
-              ${published ? `<p class="font-bold" style="font-size: clamp(0.9rem, 1.2vw, 1.05rem);">${published}</p>` : ''}
             </div>
           </div>
         `;
