@@ -5,7 +5,7 @@ title: "¡Ganadores Regionales Ziba's Creators!"
 summary: "Después de semanas llenas de talento, ideas locas y mucha creatividad real."
 preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp"
 videos:
-  - "https://snack.yummiespromociones.com/SnacksyummiesAssets/1Er-Lugar-Victor-Marquez-Cortometraje-Rd.webm"
+  - "https://snack.yummiespromociones.com/SnacksyummiesAssets/1ErLugar-VictorMarquez-Cortometraje-RD.webm"
   - "https://snack.yummiespromociones.com/SnacksyummiesAssets/2Do-Lugar-Fabian-Morales-Cortometraje-CR.webm"
 published_date: "2026-05-29"
 category: "comunidad"
