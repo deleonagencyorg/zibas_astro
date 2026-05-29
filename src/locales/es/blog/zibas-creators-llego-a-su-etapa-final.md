@@ -3,7 +3,7 @@ id: "zibas-creators-llego-a-su-etapa-final"
 slug: "zibas-creators-llego-a-su-etapa-final"
 title: "¡Ziba's Creators llegó a su etapa final!"
 summary: "Después de semanas llenas de talento, ideas locas y mucha creatividad real."
-image: "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp"
+preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp"
 videos:
   - "https://www.youtube.com/watch?v=gO0uK4RnhMg"
 published_date: "2025-03-30"

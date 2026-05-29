@@ -1,12 +1,12 @@
 ---
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { type Locale } from '../../../i18n/i18n';
 import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
 import BlogCard from '../../../components/blog/BlogCard.astro';
 import BlogDetailSkeleton from '../../../components/blog/BlogDetailSkeleton.astro';
-import { fade, slide } from 'astro:transitions';
+import { fade } from 'astro:transitions';
 import ShareModal from '../../../components/common/ShareModal.astro';
 import ShareButton from '../../../components/common/ShareButton.astro';
-import LazyImage from '../../../components/common/LazyImage.astro';
 import VideoModal from '../../../components/common/YouTubeVideoModal.astro';
 
 interface Props {
@@ -26,6 +26,7 @@ interface Props {
     slug: string;
     title: string;
     summary: string;
+    preview?: string;
     image: string;
     published_date: string;
   }>;
@@ -53,6 +54,18 @@ const isDirectVideo = (url: string) => /\.(mp4|webm|ogg)(\?.*)?$/i.test(url);
 
 const videos = blogPost.videos || [];
 const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
+
+// Build media items array (main image + videos)
+interface MediaItem { type: 'image' | 'video'; src?: string; url?: string; youtubeId: string | null; thumb: string; }
+const mediaItems: MediaItem[] = [];
+if (blogPost.image) mediaItems.push({ type: 'image', src: blogPost.image, url: undefined, youtubeId: null, thumb: blogPost.image });
+for (const v of videos) {
+  const ytId = getYoutubeId(v.trim());
+  const thumb = ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp";
+  mediaItems.push({ type: 'video', url: v, src: undefined, youtubeId: ytId, thumb });
+}
+// determine layout
+const singleMedia = mediaItems.length === 1;
 ---
 
 <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
@@ -61,64 +74,110 @@ const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
     ? <BlogDetailSkeleton />
     : <>
         <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+
+        <!-- Title -->
         <div class="w-full mx-auto my-6">
           <div class="mb-8">
-            <h1 class="font-title text-3xl md:text-5xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>
+            <h1 class="font-title text-3xl md:text-6xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>
               {blogPost.title}
             </h1>
           </div>
-
-          <!-- Video -->
-          {videos.length > 0 && (
-            <div class={`w-full mb-8 grid gap-4 ${videos.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' : videos.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
-              {videos.map((url, i) => {
-                const ytId = getYoutubeId(url.trim());
-                const thumb = ytId
-                  ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`
-                  : "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp";
-
-                return (
-                  <button
-                    class="relative rounded-xl overflow-hidden aspect-square group cursor-pointer border-0 p-0"
-                    data-video-url={ytId ? `https://www.youtube.com/embed/${ytId}?autoplay=1` : url}
-                    data-video-type={ytId ? 'youtube' : 'direct'}
-                    onclick="openYouTubeModal(this.dataset.videoUrl)"
-                  >
-                    <img src={thumb} alt={`Video ${i+1}`} class="w-full h-full object-cover" />
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
-                      <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                        <svg class="w-6 h-6 text-orange-500 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          <!-- Botón de compartir -->
-          <div class="w-full mb-8 flex justify-center">
-            <ShareButton modalId="shareModal-blog" />
-          </div>
-
-          <!-- Contenido del artículo -->
-          <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
-            <Fragment set:html={blogPost.content} />
-          </div>
         </div>
 
-          <!-- Imagen principal -->
-          <div class="blog-image-container w-full mb-6 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
-            <LazyImage 
-              src={blogPost.image} 
-              alt={blogPost.title}
-              class="md:w-[500px] w-[100%] object-cover mx-auto"
-              loading="lazy"
-            />
+        <!-- Media Cards -->
+        {singleMedia ? (() => {
+          const item = mediaItems[0];
+          const vidUrl = item.type === 'video' ? (item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1` : item.url) : item.src;
+          return (
+            <div class="w-full mb-8">
+              <button class="block group relative overflow-hidden rounded-[1rem] cursor-pointer border-0 p-0 w-full mx-auto"
+                style="aspect-ratio: 9/16;"
+                data-video-url={vidUrl}
+                onclick="openYouTubeModal(this.dataset.videoUrl)"
+              >
+                <img src={item.type === 'video' ? item.thumb : item.src} alt={blogPost.title} class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" loading="lazy" />
+                {item.type === 'video' ? (
+                  <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                    <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                      <i class="fa-solid fa-play text-orange-500 ml-0.5 text-lg"></i>
+                    </div>
+                  </div>
+                ) : null}
+              </button>
+            </div>
+          );
+        }        )() : (
+          <>
+          <!-- Mobile carousel -->
+          <div class="relative md:hidden mb-8" data-media-carousel>
+            <div class="overflow-hidden rounded-[1rem]">
+              <div class="flex transition-transform duration-500 ease-out" data-media-track>
+                {mediaItems.map((item) => {
+                  const vidUrl = item.type === 'video' ? (item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1` : item.url) : item.src;
+                  return (
+                    <div class="flex-shrink-0 w-full p-1">
+                      <button class="block group relative overflow-hidden rounded-[1rem] cursor-pointer border-0 p-0 w-full mx-auto"
+                        style="aspect-ratio: 9/16;"
+                        data-video-url={vidUrl}
+                        onclick="openYouTubeModal(this.dataset.videoUrl)"
+                      >
+                        <img src={item.type === 'video' ? item.thumb : item.src} alt={blogPost.title} class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" loading="lazy" />
+                        {item.type === 'video' ? (
+                          <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                            <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                              <i class="fa-solid fa-play text-orange-500 ml-0.5 text-lg"></i>
+                            </div>
+                          </div>
+                        ) : null}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <button data-media-prev aria-label="Previous" class="carousel-arrow left-2">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button data-media-next aria-label="Next" class="carousel-arrow right-2">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
+          <!-- Desktop grid -->
+          <div class="hidden md:flex flex-wrap justify-center gap-8 mx-auto max-w-7xl mb-8">
+            {mediaItems.map((item) => {
+              const vidUrl = item.type === 'video' ? (item.youtubeId ? `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1` : item.url) : item.src;
+              return (
+                <div class="w-[calc(50%-1rem)] md:w-[calc(33.333%-1.334rem)] lg:w-[calc(25%-1.5rem)]">
+                  <button class="block group relative overflow-hidden rounded-[1rem] cursor-pointer border-0 p-0 w-full mx-auto"
+                    style="aspect-ratio: 9/16;"
+                    data-video-url={vidUrl}
+                    onclick="openYouTubeModal(this.dataset.videoUrl)"
+                  >
+                    <img src={item.type === 'video' ? item.thumb : item.src} alt={blogPost.title} class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-105" loading="lazy" />
+                    {item.type === 'video' ? (
+                      <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                        <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                          <i class="fa-solid fa-play text-orange-500 ml-0.5 text-lg"></i>
+                        </div>
+                      </div>
+                    ) : null}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+          </>
+        )}
 
+        <!-- Content -->
+        <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
+          <Fragment set:html={blogPost.content} />
+        </div>
+
+        <!-- Share -->
+        <div class="w-full flex justify-end mb-8">
+          <ShareButton modalId="shareModal-blog" className="bg-[#FD6600] text-white border-2 border-white rounded-md hover:bg-[#e25c00]" />
+        </div>
 
         {suggestedPosts.length > 0 && (
           <section class="mt-16 mb-0 pb-8" transition:animate={fade({ duration: '0.7s' })}>
@@ -126,10 +185,12 @@ const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-7xl">
               {suggestedPosts.map((post) => (
                 <BlogCard 
+                  preview={post.preview}
                   image={post.image}
                   title={post.title}
                   id={post.id}
                   slug={post.slug || post.id}
+                  published_date={post.published_date}
                 />
               ))}
             </div>
@@ -265,4 +326,58 @@ const youtubeId = videos.length > 0 ? getYoutubeId(videos[0]) : null;
   .max-w-none {
     max-width: none;
   }
+
+
+  .carousel-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    border: 2px solid #ffffff;
+    background-color: #FD6600;
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    line-height: 1;
+    transition: background-color .25s ease;
+  }
+  .carousel-arrow:hover {
+    background-color: #e25c00;
+  }
 </style>
+
+<script>
+  function initMediaCarousel() {
+    const root = document.querySelector('[data-media-carousel]');
+    if (!root) return;
+    const track = root.querySelector('[data-media-track]');
+    if (!track || track.children.length <= 1) return;
+    const prev = root.querySelector('[data-media-prev]');
+    const next = root.querySelector('[data-media-next]');
+    let index = 0;
+    function update() {
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      if (prev) prev.style.opacity = index === 0 ? '0.4' : '1';
+      if (next) next.style.opacity = index >= track.children.length - 1 ? '0.4' : '1';
+    }
+    if (prev) prev.addEventListener('click', function() { index = Math.max(0, index - 1); update(); });
+    if (next) next.addEventListener('click', function() { index = Math.min(track.children.length - 1, index + 1); update(); });
+    update();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMediaCarousel);
+  } else {
+    initMediaCarousel();
+  }
+  document.addEventListener('astro:page-load', initMediaCarousel);
+  document.addEventListener('astro:after-swap', initMediaCarousel);
+</script>
+
+
