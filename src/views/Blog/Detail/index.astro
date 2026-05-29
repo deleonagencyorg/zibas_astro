@@ -1,12 +1,14 @@
 ---
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { type Locale } from '../../../i18n/i18n';
 import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
 import BlogCard from '../../../components/blog/BlogCard.astro';
 import BlogDetailSkeleton from '../../../components/blog/BlogDetailSkeleton.astro';
-import { fade, slide } from 'astro:transitions';
+import MediaCarousel from '../../../components/blog/MediaCarousel.astro';
+import { fade } from 'astro:transitions';
 import ShareModal from '../../../components/common/ShareModal.astro';
 import ShareButton from '../../../components/common/ShareButton.astro';
-import LazyImage from '../../../components/common/LazyImage.astro';
+import VideoModal from '../../../components/common/YouTubeVideoModal.astro';
 
 interface Props {
   blogPost: {
@@ -15,7 +17,7 @@ interface Props {
     title: string;
     content: string;
     image: string;
-    video?: string;
+    videos?: string[]; 
     author: string;
     published_date: string;
   };
@@ -25,6 +27,7 @@ interface Props {
     slug: string;
     title: string;
     summary: string;
+    preview?: string;
     image: string;
     published_date: string;
   }>;
@@ -47,59 +50,83 @@ const getYoutubeId = (url: string) => {
   return (match && match[2].length === 11) ? match[2] : null;
 };
 
-const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
+const videos = blogPost.videos || [];
+
+// Build media items array (main image + videos)
+interface MediaItem { type: 'image' | 'video'; src?: string; url?: string; youtubeId: string | null; thumb: string; }
+const mediaItems: MediaItem[] = [];
+
+if (blogPost.image) {
+  mediaItems.push({ 
+    type: 'image', 
+    src: blogPost.image, 
+    url: undefined, 
+    youtubeId: null, 
+    thumb: blogPost.image 
+  });
+}
+
+for (const v of videos) {
+  const ytId = getYoutubeId(v.trim());
+  const thumb = ytId 
+    ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` 
+    : "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp";
+  
+  mediaItems.push({ 
+    type: 'video', 
+    url: v, 
+    src: undefined, 
+    youtubeId: ytId, 
+    thumb 
+  });
+}
 ---
 
 <div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
   <div class="w-full max-w-6xl mx-auto px-4 py-16">
-  {isLoading
-    ? <BlogDetailSkeleton />
-    : <>
+    {isLoading ? (
+      <BlogDetailSkeleton />
+    ) : (
+      <>
         <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+
+        <!-- Title -->
         <div class="w-full mx-auto my-6">
           <div class="mb-8">
-            <h1 class="font-title text-3xl md:text-5xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>
+            <h1 class="font-title text-3xl md:text-6xl font-bold text-white mb-4 italic text-center" transition:name={`blog-title-${blogPost.id}`}>
               {blogPost.title}
             </h1>
           </div>
-
-          <!-- Video -->
-          {youtubeId && (
-            <div class="w-full mb-8 rounded-lg overflow-hidden">
-              <div class="aspect-video w-full">
-                <iframe
-                  class="w-full h-full"
-                  src={`https://www.youtube.com/embed/${youtubeId}`}
-                  title={blogPost.title}
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-          )}
-
-          <!-- Botón de compartir -->
-          <div class="w-full mb-8 flex justify-center">
-            <ShareButton modalId="shareModal-blog" />
-          </div>
-
-          <!-- Contenido del artículo -->
-          <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
-            <Fragment set:html={blogPost.content} />
-          </div>
         </div>
 
-          <!-- Imagen principal -->
-          <div class="blog-image-container w-full mb-6 rounded-lg overflow-hidden text-center flex justify-center" transition:animate={slide({ duration: '0.3s' })}>
-            <LazyImage 
-              src={blogPost.image} 
-              alt={blogPost.title}
-              class="md:w-[500px] w-[100%] object-cover mx-auto"
-              loading="lazy"
+        <!-- Media Carousel -->
+        {mediaItems.length > 0 && (
+          <div class="max-w-6xl mx-auto mb-8">
+            <MediaCarousel 
+              items={mediaItems} 
+              aspectRatio="16/9"
             />
           </div>
+        )}
 
+        <!-- Content -->
+        <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
+          <Fragment set:html={blogPost.content} />
+        </div>
+
+        <!-- Share -->
+        <div class="w-full flex justify-end mb-8">
+          <button type="button"
+            class="flex items-center gap-2 px-4 py-2 font-bold text-white border-2 border-white bg-orange rounded-md hover:brightness-110 transition"
+            onclick="window.showShareModal && window.showShareModal('shareModal-blog')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+              <path d="M9.39713 5.30615H8.35547C5.40919 5.30615 3.93605 5.30615 3.02076 6.18483C2.10547 7.06351 2.10547 8.47772 2.10547 11.3062V15.3062C2.10547 18.1346 2.10547 19.5488 3.02076 20.4275C3.93605 21.3062 5.40919 21.3062 8.35547 21.3062H12.5621C15.5084 21.3062 16.9815 21.3062 17.8968 20.4275C18.4898 19.8582 18.6986 19.0641 18.7721 17.8062" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.1667 7.80615V4.6597C16.1667 4.46444 16.3316 4.30615 16.535 4.30615C16.6326 4.30615 16.7263 4.3434 16.7954 4.4097L21.5275 8.9526C21.7634 9.17897 21.8958 9.48601 21.8958 9.80615C21.8958 10.1263 21.7634 10.4333 21.5275 10.6597L16.7954 15.2026C16.7263 15.269 16.6326 15.3062 16.535 15.3062C16.3316 15.3062 16.1667 15.1479 16.1667 14.9526V11.8062H13.1157C8.875 11.8062 7.3125 15.3062 7.3125 15.3062V12.8062C7.3125 10.0447 9.64435 7.80615 12.5208 7.80615H16.1667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {currentLang === 'es' ? 'Compartir' : 'Share'}
+          </button>
+        </div>
 
         {suggestedPosts.length > 0 && (
           <section class="mt-16 mb-0 pb-8" transition:animate={fade({ duration: '0.7s' })}>
@@ -107,19 +134,23 @@ const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-7xl">
               {suggestedPosts.map((post) => (
                 <BlogCard 
+                  preview={post.preview}
                   image={post.image}
                   title={post.title}
                   id={post.id}
                   slug={post.slug || post.id}
+                  published_date={post.published_date}
                 />
               ))}
             </div>
           </section>
         )}
       </>
-  }
+    )}
   </div>
 </div>
+
+<VideoModal />
 
 <!-- Share Modal -->
 <ShareModal
@@ -138,112 +169,12 @@ const youtubeId = blogPost.video ? getYoutubeId(blogPost.video) : null;
 />
 
 <style>
-.animate-zoom {
-  animation: zoom 15s linear infinite;
-}
-@keyframes zoom {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-  .hero-container {
-    width: 100%;
-    max-height: 300px;
-    overflow: hidden;
-    margin-bottom: 2rem;
+  .animate-zoom {
+    animation: zoom 15s linear infinite;
   }
-  
-  .hero-image {
-    width: 100%;
-    height: 300px;
-    background-image: url('https://snack.yummiespromociones.com/snacksyummies/bgondas.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  @media (max-width: 768px) {
-    .hero-image {
-      height: 200px;
-    }
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .max-w-3xl {
-    max-width: 800px;
-  }
-  
-  .mb-8 {
-    margin-bottom: 2rem;
-  }
-  
-  .text-sm {
-    font-size: 0.875rem;
-  }
-  
-  .text-gray-500 {
-    color: #64748b;
-  }
-  
-  .mb-2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  
-  .font-bold {
-    font-weight: 700;
-  }
-  
-  .mb-4 {
-    margin-bottom: 1rem;
-  }
-  
-  .text-gray-600 {
-    color: #4b5563;
-  }
-  
-  .mb-6 {
-    margin-bottom: 1.5rem;
-  }
-  
-  .relative {
-    position: relative;
-  }
-  
-  .h-96 {
-    height: 24rem;
-  }
-  
-  .rounded-lg {
-    border-radius: 0.5rem;
-  }
-  
-  .overflow-hidden {
-    overflow: hidden;
-  }
-  
-  .w-full {
-    width: 100%;
-  }
-  
-  .h-full {
-    height: 100%;
-  }
-  
-  .object-cover {
-    object-fit: cover;
-  }
-  
-  .prose {
-    line-height: 1.6;
-  }
-  
-  .max-w-none {
-    max-width: none;
+  @keyframes zoom {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
 </style>

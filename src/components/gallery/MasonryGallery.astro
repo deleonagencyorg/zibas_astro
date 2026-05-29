@@ -19,59 +19,22 @@ const {
   columns = 3,
   title = '',
   className = '',
-  mobileLimit = 12,
+  mobileLimit = 0,
 } = Astro.props as Props;
 
-function normalizeUrlKey(input?: string): string {
-  if (!input) return '';
-  try {
-    // Asegurar URL absoluta para poder parsear pathname cuando sea relativa
-    const abs = input.startsWith('http') ? input : `http://local${input.startsWith('/') ? '' : '/'}${input}`;
-    const u = new URL(abs);
-    let path = (u.pathname || '').toLowerCase();
-    // Normalizar barras
-    path = path.replace(/\/+/, '/');
-    // Obtener el último segmento (archivo)
-    const filename = path.split('/').pop() || '';
-    // Remover extensión y sufijos de tamaño -640w, -768w, etc.
-    let base = filename
-      .replace(/\.(webp|jpg|jpeg|png)$/i, '')
-      .replace(/-\d+w$/i, '')
-      .replace(/@\dx$/i, '')
-      .replace(/[-_](\d+)$/i, '')
-      .replace(/[-_](final|edit|copy|min)$/i, '');
-    // El key final es el nombre base sin extensión ni sufijos
-    return base;
-  } catch {
-    // Fallback: quitar query/hash y bajar a minúsculas
-    const clean = input.split('?')[0].split('#')[0].toLowerCase();
-    const filename = clean.split('/').pop() || clean;
-    return filename
-      .replace(/\.(webp|jpg|jpeg|png)$/i, '')
-      .replace(/-\d+w$/i, '')
-      .replace(/@\dx$/i, '')
-      .replace(/[-_](\d+)$/i, '')
-      .replace(/[-_](final|edit|copy|min)$/i, '');
-  }
-}
 
 const seen = new Set<string>();
-const seenAlt = new Set<string>();
-const dedupedItems = items.filter((it) => {
-  const raw = it?.url?.trim() || '';
-  const key = normalizeUrlKey(raw);
-  const altKey = (it?.alt || '').trim().toLowerCase();
-  if (!key) return false;
-  if (seen.has(key)) return false;
-  if (altKey && seenAlt.has(altKey)) return false;
-  seen.add(key);
-  if (altKey) seenAlt.add(altKey);
+const dedupedItems = items.filter((item) => {
+  if (!item?.url) return false;
+  const url = item.url.trim();
+  if (seen.has(url)) return false;
+  seen.add(url);
   return true;
 });
 ---
 
-<section class={`w-full ${className}`} data-gallery-root data-mobile-limit={mobileLimit}> 
-  
+<section class={`w-full ${className}`} data-gallery-root data-mobile-limit={mobileLimit}>
+
   <div class="gallery-viewport">
     <div class="masonry-grid" data-masonry-grid>
       <div class="grid-sizer" aria-hidden="true"></div>
@@ -113,68 +76,44 @@ const dedupedItems = items.filter((it) => {
   /* Contenedor de galería sin altura fija */
   .gallery-viewport {
     width: 100%;
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
 
-  @media (min-width: 768px) {
-    .gallery-viewport {
-      padding: 0;
-    }
-  }
-
-  /* Grid masonry con Masonry.js + fallback CSS columns */
   .masonry-grid {
-    position: relative;
+    column-count: 2;
+    column-gap: 16px;
     width: 100%;
-    column-count: 3;
-    -webkit-column-count: 3;
-    column-gap: 12px;
-    -webkit-column-gap: 12px;
   }
 
   /* Fallback con columnas: evitar cortes por column-flow */
   .masonry-item {
     display: inline-block;
     width: 100%;
-    margin: 0 0 12px;
-    break-inside: avoid-column;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    transition: opacity 300ms ease;
+    margin-bottom: 16px;
+    break-inside: avoid;
   }
-
-  .grid-sizer { width: calc(50% - 6px); }
 
   @media (min-width: 768px) {
     .masonry-grid {
       column-count: 3;
-      -webkit-column-count: 3;
-      column-gap: 16px;
-      -webkit-column-gap: 16px;
+      column-gap: 20px;
     }
     .masonry-item {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .grid-sizer { width: calc(33.333% - 11px); }
   }
 
-  /* Imágenes masonry - altura natural */
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      column-count: 4;
+    }
+  }
+
   .masonry-item img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 0.5rem;
-  }
-
-  .fade-out { opacity: 0; }
-  .fade-in { opacity: 1; }
-
-  /* Mobile limit hiding */
-  .hidden-mobile { display: none !important; }
-
-  /* Reduce motion preference */
-  @media (prefers-reduced-motion: reduce) {
-    .masonry-item { transition: none; }
+    border-radius: 12px;
   }
 </style>
 
@@ -189,135 +128,91 @@ const dedupedItems = items.filter((it) => {
 
       const modal = section.querySelector('#gallery-modal');
       const imgEl = section.querySelector('#gallery-image');
-      const capEl = section.querySelector('#gallery-caption');
+      const captionEl = section.querySelector('#gallery-caption');
       const btnClose = section.querySelector('#gallery-close');
       const btnPrev = section.querySelector('#gallery-prev');
       const btnNext = section.querySelector('#gallery-next');
 
-      const thumbs = Array.from(grid.querySelectorAll('button[data-index] img'));
-      const data = thumbs.map((img) => ({ url: img.currentSrc || img.src, alt: img.alt || '' }));
-      let index = 0;
-      let isOpen = false;
+      const items = Array.from(grid.querySelectorAll('.masonry-item'));
+      const mobileLimit = Number(section.getAttribute('data-mobile-limit') || '0');
 
-      function show(i) {
-        if (!imgEl) return;
-        index = (i + data.length) % data.length;
-        const item = data[index];
-        imgEl.src = item.url;
-        imgEl.alt = item.alt || '';
-        if (capEl) capEl.textContent = item.alt || '';
+      // Mostrar todas las imágenes
+      function updateVisibility() {
+        if (mobileLimit <= 0) {
+          items.forEach(item => {
+            item.classList.remove('hidden');
+          });
+          return;
+        }
+
+        const isMobile = window.innerWidth < 768;
+        items.forEach((item, i) => {
+          const hide = isMobile && i >= mobileLimit;
+          item.classList.toggle('hidden', hide);
+        });
       }
 
-      function onOpen(i) {
-        if (!modal) return;
-        isOpen = true;
+      // Modal logic
+      let currentIndex = 0;
+
+      function showImage(index) {
+        currentIndex = (index + items.length) % items.length;
+        const item = items[currentIndex];
+        const img = item.querySelector('img');
+        if (img) {
+          imgEl.src = img.src;
+          imgEl.alt = img.alt;
+          captionEl.textContent = img.alt || '';
+        }
+      }
+
+      function openModal(startIndex) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
-        show(i);
+        showImage(startIndex);
       }
 
-      function onClose() {
-        if (!modal) return;
-        isOpen = false;
+      function closeModal() {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
       }
 
-      function onPrev() { show(index - 1); }
-      function onNext() { show(index + 1); }
-
-      // Click handlers on thumbnails
+      // Click en imágenes
       grid.addEventListener('click', (e) => {
-        const target = e.target instanceof Element ? e.target : null;
-        const btn = target ? target.closest('button[data-index]') : null;
-        if (!btn) return;
-        const i = Number(btn.getAttribute('data-index') || '0');
-        pauseRotation();
-        onOpen(i);
+        const item = e.target.closest('.masonry-item');
+        if (!item) return;
+        const index = items.indexOf(item);
+        if (index !== -1) openModal(index);
       });
 
-      // Controls
-      btnClose && btnClose.addEventListener('click', onClose);
-      btnPrev && btnPrev.addEventListener('click', onPrev);
-      btnNext && btnNext.addEventListener('click', onNext);
+      // Controles del modal
+      btnClose?.addEventListener('click', closeModal);
+      btnPrev?.addEventListener('click', () => showImage(currentIndex - 1));
+      btnNext?.addEventListener('click', () => showImage(currentIndex + 1));
 
-      // Close when clicking backdrop
-      modal && modal.addEventListener('click', (e) => {
-        if (e.target === modal) onClose();
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
       });
 
-      // Keyboard navigation
       document.addEventListener('keydown', (e) => {
-        if (!isOpen) return;
-        if (e.key === 'Escape') onClose();
-        else if (e.key === 'ArrowLeft') onPrev();
-        else if (e.key === 'ArrowRight') onNext();
+        if (!modal.classList.contains('flex')) return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
       });
 
-      // Auto-rotation con Masonry
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const ROTATE_MS = 4000;
-      let rotateTimer = null;
-
-      function cycleOnce() {
-        const firstItem = grid.querySelector('.masonry-item');
-        if (!firstItem) return;
-        firstItem.classList.add('fade-out');
-        setTimeout(() => {
-          firstItem.classList.remove('fade-out');
-          grid.appendChild(firstItem);
-          firstItem.classList.add('fade-in');
-          setTimeout(() => firstItem.classList.remove('fade-in'), 300);
-        }, 300);
-      }
-
-      function startRotation() {
-        if (reduceMotion || rotateTimer) return;
-        rotateTimer = window.setInterval(cycleOnce, ROTATE_MS);
-      }
-      function pauseRotation() {
-        if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
-      }
-
-      if (!reduceMotion) {
-        setTimeout(cycleOnce, 800);
-        startRotation();
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (reduceMotion) return;
-        if (document.hidden) pauseRotation();
-        else startRotation();
-      });
-
-      btnClose && btnClose.addEventListener('click', () => { if (!reduceMotion) startRotation(); });
-
-      // Limitar cantidad visible en mobile (CSS-based con media queries)
-      const limitAttr = section.getAttribute('data-mobile-limit');
-      const mobileLimit = Number(limitAttr || '0');
-      const allItems = Array.from(grid.querySelectorAll('.masonry-item'));
-
-      function applyMobileLimit() {
-        const isMobile = window.innerWidth < 768;
-        allItems.forEach((el, idx) => {
-          const hide = isMobile && mobileLimit > 0 && idx >= mobileLimit;
-          el.classList.toggle('hidden-mobile', hide);
-          el.setAttribute('aria-hidden', hide ? 'true' : 'false');
-        });
-      }
-
-      applyMobileLimit();
-      window.addEventListener('resize', applyMobileLimit);
+      // Inicializar visibilidad
+      updateVisibility();
+      window.addEventListener('resize', updateVisibility);
+      window.addEventListener('orientationchange', updateVisibility);
     }
 
     function tryInit() {
-      const section = document.querySelector('[data-gallery-root]');
-      if (section && !section.dataset.galleryInit) {
-        section.dataset.galleryInit = '1';
+      document.querySelectorAll('[data-gallery-root]').forEach(section => {
         init(section);
-      }
+      });
     }
 
     // Solo inicializar el modal/lightbox, el grid es CSS puro

@@ -9,6 +9,7 @@ import LazyImage from '../../../components/common/LazyImage.astro';
 import { div } from 'framer-motion/m';
 import IngredientsCarousel from '../../../components/recipes/IngredientsCarousel.astro';
 import ShareModal from '../../../components/common/ShareModal.astro';
+import VideoModal from '../../../components/common/YouTubeVideoModal.astro';
 
 interface RecipeItem {
   id: string;
@@ -245,7 +246,7 @@ function formatTime(minutes: number): string {
     });
   });
 </script>
-
+<VideoModal />
 <!-- Share Modal instance -->
 <ShareModal
   id="shareModal-recipe"
@@ -256,8 +257,8 @@ function formatTime(minutes: number): string {
   showLabels={false}
   iconSize={40}
   round={true}
-  openTextEs="Comparte esta receta en tus redes sociales"
-  openTextEn="Share this recipe on your social networks"
+  openTextEs="Comparte en tus redes sociales"
+  openTextEn="Share on your social networks"
   acceptTextEs="Aceptar"
   acceptTextEn="Accept"
 />

@@ -17,6 +17,7 @@ interface BlogPostFrontmatter {
   slug: string;
   title: string;
   summary?: string;
+  preview?: string;
   image?: string;
   published_date?: string;
   category?: string;
@@ -43,7 +44,8 @@ for (const path in mdModules) {
         slug: String(fm.slug),
         title: String(fm.title),
         summary: fm.summary ? String(fm.summary) : '',
-        image: fm.image ? String(fm.image) : '/images/blog/placeholder.jpg',
+        preview: fm.preview ? String(fm.preview) : '',
+        image: fm.preview ? String(fm.preview) : (fm.image ? String(fm.image) : '/images/blog/placeholder.jpg'),
         published_date: fm.published_date ? String(fm.published_date) : '',
         category: fm.category ? String(fm.category).toLowerCase() : 'other'
       });
@@ -96,10 +98,10 @@ const restPosts = allPosts.slice(5);
             <PixelGrid pixelSize={20} density={0.7} introDuration={800} loopInterval={1100} mutateAmount={50} background="none" />
           </div>
           <h2 class="text-3xl md:text-4xl italic font-bold mt-0 mb-4 text-white relative z-10">
-            {currentLang==='es' ? 'Descubre nuestras' : 'Discover our'}
+            {currentLang==='es' ? 'ENTERATE DE TODO HOY CON NUESTRAS' : 'FIND OUT EVERYTHING TODAY WITH OUR'}
           </h2>
           <h1 class="text-6xl md:text-9xl italic font-bold mt-0 mb-4 text-white relative z-10 flex items-center justify-center">
-            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'Noticias' : 'News'}</span>
+            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'NOVEDADES' : 'NEWS'}</span>
           </h1>
         </div>
       </div>
@@ -112,47 +114,122 @@ const restPosts = allPosts.slice(5);
         ))}
       </div>
 
-      <!-- News Carousel listing 4 per slide -->
+      <!-- News Carousel: una noticia destacada por slide (imagen + título + extracto) -->
       <div class="max-w-6xl mx-auto mb-16">
         <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
       </div>
 
-      {allPosts.length === 0 ? (
-        <div class="max-w-5xl mx-auto text-center py-12">
-          <p class="text-white text-lg md:text-xl font-semibold">{noPostsText}</p>
-        </div>
-      ) : (
-        <div class="max-w-7xl mx-auto">
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 items-start">
-            <!-- Left column: 3 most recent -->
-            <div class="md:col-span-2">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
-                <div class="flex-1 ml-4 border-b border-white/40"></div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {leftThree.map((post) => (
-                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
-                ))}
-              </div>
+      <!-- Two column: TOP NEWS + FEATURED -->
+      {firstFive.length > 0 && (
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
+
+          <!-- Left column: TOP NEWS -->
+          <div class="md:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
+              <div class="flex-1 ml-4 border-b border-white/40"></div>
             </div>
 
-            <!-- Right column: featured (next 2) -->
-            <div class="md:col-span-1">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
-                <div class="flex-1 ml-4 border-b border-white/40"></div>
-              </div>
-              <div class="grid grid-cols-1 gap-6">
+            <!-- Mobile: 1 card -->
+            <div class="md:hidden">
+              {leftThree.slice(0,1).map((post) => (
+                <a
+                  href={`/${currentLang}/blog/${post.slug || post.id}`}
+                  class="block group relative overflow-hidden rounded-[1.5rem] bg-black/10"
+                  style="aspect-ratio: 3/4;"
+                >
+                  <img
+                    src={post.image || '/images/blog/placeholder.jpg'}
+                    alt={post.title}
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
+                  <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
+                    <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
+                    <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium">
+                      {currentLang === 'es' ? 'Leer más' : 'Read more'}
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+
+            <!-- Desktop: 3 cards grid -->
+            <div class="hidden md:grid md:grid-cols-3 gap-6">
+              {leftThree.map((post) => (
+                <a
+                  href={`/${currentLang}/blog/${post.slug || post.id}`}
+                  class="block group relative overflow-hidden rounded-[1.5rem] bg-black/10"
+                  style="aspect-ratio: 3/4;"
+                >
+                  <img
+                    src={post.image || '/images/blog/placeholder.jpg'}
+                    alt={post.title}
+                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 via-50% to-transparent"></div>
+                  <div class="absolute inset-x-0 bottom-0 p-4 md:p-5 flex flex-col gap-2">
+                    <h4 class="text-white font-bold text-sm md:text-base leading-tight">{post.title}</h4>
+                    <span class="block w-[90%] mx-auto mt-1 text-center border-2 border-white text-white py-2 px-4 rounded-full text-xs md:text-sm font-medium">
+                      {currentLang === 'es' ? 'Leer más' : 'Read more'}
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Right column: FEATURED -->
+          <div class="md:col-span-1">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
+              <div class="flex-1 ml-4 border-b border-white/40"></div>
+            </div>
+            <div>
+              <p class="text-white font-bold text-sm md:text-base leading-snug mb-4">
+                {currentLang === 'es'
+                  ? 'Sé el primero en conocer nuestras promociones, lanzamientos y más.'
+                  : 'Be the first to know about our promotions, launches and more.'}
+              </p>
+              <a
+                href="https://www.snacksyummies.com/es/yummiesone"
+                class="inline-flex items-center justify-center w-full border-2 border-white text-white py-3 px-6 rounded-full text-center text-sm md:text-base font-bold hover:bg-white hover:text-orange transition-colors mb-6"
+              >
+                {currentLang === 'es' ? 'QUIERO SUSCRIBIRME' : 'SUBSCRIBE'}
+              </a>
+
+              <div class="grid grid-cols-1 gap-4">
                 {rightTwo.map((post) => (
-                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
+                  <a
+                    href={`/${currentLang}/blog/${post.slug || post.id}`}
+                    class="flex items-center gap-4 rounded-[1.25rem] bg-white/20 hover:bg-white/30 transition-colors p-3"
+                  >
+                    <img
+                      src={post.image || '/images/blog/placeholder.jpg'}
+                      alt={post.title}
+                      class="w-20 h-20 object-cover rounded-[1rem] flex-shrink-0"
+                      loading="lazy"
+                    />
+                    <div class="min-w-0">
+                      <p class="text-white font-bold text-sm md:text-base leading-snug line-clamp-3">{post.title}</p>
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>
           </div>
 
-        
         </div>
+
+        <div class="flex justify-center mt-10">
+          <a href={`/${currentLang}/blog`} class="border-2 border-white text-white py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-white hover:text-orange transition-colors">
+            {currentLang === 'es' ? 'Ver más' : 'View more'}
+          </a>
+        </div>
+      </div>
       )}
     </div>
   </div>
