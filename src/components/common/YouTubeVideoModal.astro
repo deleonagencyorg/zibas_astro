@@ -47,6 +47,19 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
       const backdrop = modal.querySelector('[data-video-backdrop]');
 
       window.closeYouTubeModal = function () {
+        // Detener YouTube
+        if (iframe) {
+          iframe.src = '';                    // ← Importante: detiene YouTube
+        }
+
+        // Detener video directo (.webm, mp4, etc.)
+        if (video) {
+          video.pause();                      // Pausa
+          video.src = '';                     // Limpia la fuente
+          video.load();                       // Fuerza limpieza
+        }
+
+        // Ocultar modal
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
@@ -55,48 +68,53 @@ const { modalId = 'youtube-video-modal' } = Astro.props;
       };
 
       window.openYouTubeModal = function (videoUrl) {
-  if (!videoUrl || !modal) return;
+        if (!videoUrl || !modal) return;
 
-  const isYoutube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
-  const isImage = /\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(videoUrl);
-  const imgEl = document.getElementById('blog-modal-image');
+        const isYoutube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+        const isImage = /\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(videoUrl);
+        const imgEl = document.getElementById('blog-modal-image');
 
-  if (isImage && imgEl) {
-    imgEl.src = videoUrl;
-    imgEl.classList.remove('hidden');
+        // Resetear todo primero
+        if (iframe) iframe.classList.add('hidden');
+        if (video) video.classList.add('hidden');
+        if (imgEl) imgEl.classList.add('hidden');
+
+        if (isImage && imgEl) {
+          imgEl.src = videoUrl;
+          imgEl.classList.remove('hidden');
     iframe.classList.add('hidden');
     video.classList.add('hidden');
   } else if (isYoutube) {
-    let videoId = null;
-    const patterns = [
-      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-      /youtu\.be\/([a-zA-Z0-9_-]{11})/,
-      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
-      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
-    ];
-    for (const pattern of patterns) {
-      const match = videoUrl.match(pattern);
-      if (match) { videoId = match[1]; break; }
-    }
-    if (videoId) {
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-      iframe.classList.remove('hidden');
+          let videoId = null;
+          const patterns = [
+            /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+            /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+            /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+            /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+          ];
+          for (const pattern of patterns) {
+            const match = videoUrl.match(pattern);
+            if (match) { videoId = match[1]; break; }
+          }
+          if (videoId) {
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            iframe.classList.remove('hidden');
       video.classList.add('hidden');
       if (imgEl) imgEl.classList.add('hidden');
-    }
+        } 
   } else {
-    video.src = videoUrl;
-    video.classList.remove('hidden');
+          video.src = videoUrl;
+          video.classList.remove('hidden');
     iframe.classList.add('hidden');
     if (imgEl) imgEl.classList.add('hidden');
-  }
+        }
 
-  modal.classList.remove('hidden');
-  modal.classList.add('flex');
-  document.body.style.overflow = 'hidden';
-  const navbar = document.querySelector('header') || document.querySelector('nav');
-  if (navbar) navbar.style.zIndex = '0';
-};
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        const navbar = document.querySelector('header') || document.querySelector('nav');
+        if (navbar) navbar.style.zIndex = '0';
+      };
 
       if (closeBtn) closeBtn.addEventListener('click', window.closeYouTubeModal);
       if (backdrop) backdrop.addEventListener('click', window.closeYouTubeModal);
