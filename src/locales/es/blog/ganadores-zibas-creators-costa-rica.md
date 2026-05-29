@@ -14,4 +14,4 @@ tags: ["comunidad", "creadores", "talento", "premios"]
 ---
 
 Después de semanas llenas de talento, ideas locas y mucha creatividad real.
-Creadores de Costa Riza.
+Creadores de Costa Rica.
