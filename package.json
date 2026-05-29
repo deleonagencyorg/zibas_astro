@@ -19,7 +19,7 @@
     "aos": "^2.3.4",
     "astro": "^6.2.1",
     "framer-motion": "^12.23.0",
-    "geoip-lite": "^1.4.10",
+    "geoip-lite": "^2.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-share": "^5.2.2",
