@@ -36,7 +36,7 @@ const dedupedItems = items.filter((item) => {
 <section class={`w-full ${className}`} data-gallery-root data-mobile-limit={mobileLimit}>
 
   <div class="gallery-viewport">
-    <div class="masonry-grid" data-masonry-grid>
+    <div class="masonry-grid" data-masonry-grid style={`--masonry-columns: ${columns}`}>
       <div class="grid-sizer" aria-hidden="true"></div>
       {dedupedItems.map((item, idx) => (
         <div class="masonry-item">
@@ -80,7 +80,7 @@ const dedupedItems = items.filter((item) => {
   }
 
   .masonry-grid {
-    column-count: 2;
+    column-count: var(--masonry-columns, 3);
     column-gap: 16px;
     width: 100%;
   }
@@ -95,7 +95,6 @@ const dedupedItems = items.filter((item) => {
 
   @media (min-width: 768px) {
     .masonry-grid {
-      column-count: 3;
       column-gap: 20px;
     }
     .masonry-item {
@@ -103,11 +102,6 @@ const dedupedItems = items.filter((item) => {
     }
   }
 
-  @media (min-width: 1024px) {
-    .masonry-grid {
-      column-count: 4;
-    }
-  }
 
   .masonry-item img {
     width: 100%;
@@ -138,18 +132,7 @@ const dedupedItems = items.filter((item) => {
 
       // Mostrar todas las imágenes
       function updateVisibility() {
-        if (mobileLimit <= 0) {
-          items.forEach(item => {
-            item.classList.remove('hidden');
-          });
-          return;
-        }
-
-        const isMobile = window.innerWidth < 768;
-        items.forEach((item, i) => {
-          const hide = isMobile && i >= mobileLimit;
-          item.classList.toggle('hidden', hide);
-        });
+        items.forEach(item => item.classList.remove('hidden'));
       }
 
       // Modal logic
