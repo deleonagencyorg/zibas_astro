@@ -39,6 +39,13 @@ const showControls = slidesCount > 1;
 const firstSlide = slides[0] || {};
 const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') || 
                          firstSlide.desktop?.toLowerCase().endsWith('.webm');
+
+// Verificar si algún slide es video (para mostrar botón de audio)
+const hasVideoSlide = slides.some(slide => 
+  slide.type === 'video' || 
+  slide.desktop?.toLowerCase().endsWith('.mp4') || 
+  slide.desktop?.toLowerCase().endsWith('.webm')
+);
 ---
 
 <div class="video-carousel-container">
@@ -134,6 +141,20 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
     {showControls && <div class="swiper-button-next"></div>}
     {showControls && <div class="swiper-button-prev"></div>}
     {showControls && <div class="swiper-pagination"></div>}
+
+    <!-- Audio toggle button (only shown when there's at least one video slide) -->
+    {hasVideoSlide && (
+      <button id="toggle-audio" class="audio-btn" aria-label="Toggle audio">
+        <!-- Muted icon (default state) -->
+        <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+        <!-- Unmuted icon (hidden by default) -->
+        <svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white" style="display:none;">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+      </button>
+    )}
   </div>
   )}
 </div>
@@ -270,6 +291,36 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
     background-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
   }
+
+  /* Audio button */
+  .audio-btn {
+    position: absolute;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease, transform 0.2s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .audio-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.08);
+  }
+
+  .audio-btn svg {
+    display: block;
+    flex-shrink: 0;
+  }
   
   /* Responsive styles */
   @media (min-width: 768px) {
@@ -292,7 +343,14 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
   
   @media (max-width: 767px) {
     .slide-content {
-      height: 300px !important;
+      height: 360px !important;
+    }
+
+    .audio-btn {
+      bottom: 0.75rem;
+      right: 0.75rem;
+      width: 38px;
+      height: 38px;
     }
   }
 
@@ -331,7 +389,6 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       if (nextEl) nextEl.style.display = 'none';
       if (prevEl) prevEl.style.display = 'none';
       if (paginationEl) paginationEl.style.display = 'none';
-      return;
     }
 
     const swiper = new Swiper(root as HTMLElement, {
@@ -340,7 +397,7 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       spaceBetween: 0,
       loop: true,
       autoplay: {
-        delay: 5000,
+        delay: 30000,
         disableOnInteraction: false,
       },
       navigation: {
@@ -354,6 +411,26 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
     });
 
     const videos = root.querySelectorAll('video.slide-video') as NodeListOf<HTMLVideoElement>;
+
+    // add audio toggle
+    const audioBtn = root.querySelector('#toggle-audio') as HTMLButtonElement | null;
+    const iconMuted = root.querySelector('#icon-muted') as SVGElement | null;
+    const iconUnmuted = root.querySelector('#icon-unmuted') as SVGElement | null;
+
+    let globalMuted = true; // start muted by default
+
+    function applyMuteState() {
+      videos.forEach(v => { v.muted = globalMuted; });
+      if (iconMuted) iconMuted.style.display = globalMuted ? 'block' : 'none';
+      if (iconUnmuted) iconUnmuted.style.display = globalMuted ? 'none' : 'block';
+    }
+
+    audioBtn?.addEventListener('click', () => {
+      globalMuted = !globalMuted;
+      applyMuteState();
+    });
+
+    applyMuteState();
 
     function setFallbackOpacity(slideId: string | null, opacity: string) {
       if (!slideId) return;
@@ -384,6 +461,7 @@ const isFirstSlideVideo = firstSlide.desktop?.toLowerCase().endsWith('.mp4') ||
       // Always show preview while the video is (re)loading/buffering
       const slideId = video.getAttribute('data-slide-id');
       setFallbackOpacity(slideId, '1');
+      video.muted = globalMuted;
 
       if (isTypeVideoSlide(video)) {
         try { video.currentTime = 0; } catch {}
