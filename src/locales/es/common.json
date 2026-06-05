@@ -71,24 +71,15 @@
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
-        "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/BANNER-ZIBAS-01-1920X1080.webp",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/600X600-ZIBAS-SINFILTRO.webp",
+        "id": "slide2",
+        "desktop": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
+        "mobile": "https://snack.yummiespromociones.com/zibas/bgzibasnuevo.webp",
         "alt": "Ziba's",
         "type": "image",
         "title": "",
         "description": "",
         "link": "#"
-      },
-      {
-        "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Mccann-Zibas-Novela-Master.webm",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Mccann-Zibas-Novela-Master.webm",
-        "alt": "Mccann Zibas Novela Master",
-        "title": "",
-        "description": "",
-        "link": "##"
-                }
+      }
    
      
     ]
