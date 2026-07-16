@@ -25,7 +25,7 @@
   "items": [
     {
       "id": "zibas-jalapenio-grill",
-      "name": "Ziba's Jalapeño al Grill",
+      "name": "Ziba's Jalapeño al grill",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno_gril.webp",
       "background_color": "#FED353",
       "header_color": "#FED353",
@@ -34,7 +34,7 @@
       "header_text_color": "#5B3F2E",
       "color_button": "#FED353",
       "b_color": "#FED353",
-      "description": "Grilled Jalapeño Flavored Potato Chips.",
+      "description": "Grilled jalapeño flavored potato chips.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
