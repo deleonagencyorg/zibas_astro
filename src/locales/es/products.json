@@ -24,17 +24,17 @@
   ],
   "items": [
     {
-      "id": "zibas-clasicas",
-      "name": "Ziba's Clásicas",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
-      "background_color": "#FDE820",
-      "header_color": "#FDE820",
-      "header_background": "#FDE820",
-      "text_color": "#FDE820",
+      "id": "zibas-jalapenio-grill",
+      "name": "Ziba's Jalapeño al Grill",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno_gril.webp",
+      "background_color": "#FED353",
+      "header_color": "#FED353",
+      "header_background": "#FED353",
+      "text_color": "#FED353",
       "header_text_color": "#5B3F2E",
-      "color_button": "#FDE820",
-      "b_color": "#FDE820",
-      "description": "Hojuelas de Papa Fritas sabor clásico.",
+      "color_button": "#FED353",
+      "b_color": "#FED353",
+      "description": "Hojuelas de Papa Fritas con sabor Jalapeño al Grill.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -43,70 +43,26 @@
           "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
         }
       ],
-      "weight": ["23g", "26g", "40g", "80g", "190g"],
+      "weight": ["33g", "75g"],
       "nutrition": {
         "title": "Información Nutricional",
-        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
+        "serving": "Tamaño por porción: 1oz(28g). Porciones por envase: 0.82",
         "rows": [
           { "label": "Energía", "value": "650 kJ (150 kcal)" },
           { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
-          { "label": "Grasa Total", "value": "10g (15% VD)" },
+          { "label": "Grasa Total", "value": "10g (13% VD)" },
           { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
           { "label": "Grasa Trans", "value": "0g (0% VD)" },
           { "label": "Colesterol", "value": "0mg (0% VD)" },
-          { "label": "Sodio", "value": "180mg (8% VD)" },
-          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Sodio", "value": "310mg (14% VD)" },
+          { "label": "Carbohidratos Totales", "value": "14g (5% VD)" },
           { "label": "Fibra Dietética", "value": "1g (4% VD)" },
           { "label": "Azúcares Totales", "value": "menos de 1g" },
           { "label": "Proteína", "value": "2g" },
           { "label": "Vitamina D", "value": "0% VD" },
           { "label": "Calcio", "value": "0% VD" },
           { "label": "Hierro", "value": "2% VD" },
-          { "label": "Potasio", "value": "10% VD" }
-        ],
-        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
-      }
-    },
-    {
-      "id": "zibas-chile-toreado",
-      "name": "Ziba's Chile Toreado",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
-      "background_color": "#147a2f",
-      "header_color": "#FFFFFF",
-      "text_color": "#B1C92D",
-      "header_background": "#147a2f",
-      "header_text_color": "#FFFFFF",
-      "color_button": "#147a2f",
-      "b_color": "#147a2f",
-      "description": "Hojuelas de Papa Fritas con sabor Chile Toreado.",
-      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-      "sizes": [
-        {
-          "value": "150",
-          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-        }
-      ],
-      "weight": ["23g", "26g", "40g", "80g", "190g"],
-      "nutrition": {
-        "title": "Información Nutricional",
-        "serving": "Tamaño por porción: 1oz 1/4 taza (28g). Porciones por envase: 0.82",
-        "rows": [
-          { "label": "Energía", "value": "650 kJ (150 kcal)" },
-          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
-          { "label": "Grasa Total", "value": "10g (15% VD)" },
-          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
-          { "label": "Grasa Trans", "value": "0g (0% VD)" },
-          { "label": "Colesterol", "value": "0mg (0% VD)" },
-          { "label": "Sodio", "value": "220mg (9% VD)" },
-          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
-          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
-          { "label": "Azúcares Totales", "value": "menos de 1g" },
-          { "label": "Proteína", "value": "2g" },
-          { "label": "Vitamina D", "value": "0% VD" },
-          { "label": "Calcio", "value": "0% VD" },
-          { "label": "Hierro", "value": "2% VD" },
-          { "label": "Potasio", "value": "10% VD" }
+          { "label": "Potasio", "value": "8% VD" }
         ],
         "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
@@ -156,6 +112,50 @@
       }
     },
     {
+      "id": "zibas-chile-toreado",
+      "name": "Ziba's Chile Toreado",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
+      "background_color": "#147a2f",
+      "header_color": "#FFFFFF",
+      "text_color": "#B1C92D",
+      "header_background": "#147a2f",
+      "header_text_color": "#FFFFFF",
+      "color_button": "#147a2f",
+      "b_color": "#147a2f",
+      "description": "Hojuelas de Papa Fritas con sabor Chile Toreado.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": ["23g", "26g", "40g", "80g", "190g"],
+      "nutrition": {
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz 1/4 taza (28g). Porciones por envase: 0.82",
+        "rows": [
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (15% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "220mg (9% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "menos de 1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "10% VD" }
+        ],
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
+      }
+    },
+    {
       "id": "zibas-crema-y-especias",
       "name": "Ziba's Crema y Especias",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
@@ -199,6 +199,52 @@
         "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
       }
     },
+    
+    {
+      "id": "zibas-clasicas",
+      "name": "Ziba's Clásicas",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
+      "background_color": "#FDE820",
+      "header_color": "#FDE820",
+      "header_background": "#FDE820",
+      "text_color": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FDE820",
+      "b_color": "#FDE820",
+      "description": "Hojuelas de Papa Fritas sabor clásico.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": ["23g", "26g", "40g", "80g", "190g"],
+      "nutrition": {
+        "title": "Información Nutricional",
+        "serving": "Tamaño por porción: 1oz (28g). Porciones por envase: 0.82",
+        "rows": [
+          { "label": "Energía", "value": "650 kJ (150 kcal)" },
+          { "label": "Energía de la Grasa", "value": "400 kJ (90 kcal)" },
+          { "label": "Grasa Total", "value": "10g (15% VD)" },
+          { "label": "Grasa Saturada", "value": "4.5g (23% VD)" },
+          { "label": "Grasa Trans", "value": "0g (0% VD)" },
+          { "label": "Colesterol", "value": "0mg (0% VD)" },
+          { "label": "Sodio", "value": "180mg (8% VD)" },
+          { "label": "Carbohidratos Totales", "value": "15g (5% VD)" },
+          { "label": "Fibra Dietética", "value": "1g (4% VD)" },
+          { "label": "Azúcares Totales", "value": "menos de 1g" },
+          { "label": "Proteína", "value": "2g" },
+          { "label": "Vitamina D", "value": "0% VD" },
+          { "label": "Calcio", "value": "0% VD" },
+          { "label": "Hierro", "value": "2% VD" },
+          { "label": "Potasio", "value": "10% VD" }
+        ],
+        "disclaimer": "Los porcentajes de Valores Diarios están basados en una dieta de 8,378 kJ (2,000 calorías). Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades calóricas. DE ACUERDO CON LA FDA."
+      }
+    },
+    
     {
       "id": "zibas-miel-mostaza",
       "name": "Ziba's Miel Mostaza",

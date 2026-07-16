@@ -24,6 +24,50 @@
   ],
   "items": [
     {
+      "id": "zibas-jalapenio-grill",
+      "name": "Ziba's Jalapeño al Grill",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno_gril.webp",
+      "background_color": "#FED353",
+      "header_color": "#FED353",
+      "header_background": "#FED353",
+      "text_color": "#FED353",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FED353",
+      "b_color": "#FED353",
+      "description": "Grilled Jalapeño Flavored Potato Chips.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": ["33g", "75g"],
+      "nutrition": {
+        "title": "Nutritional Information",
+        "serving": "Serving Size: 1oz (28g). Servings per container: 0.82",
+        "rows": [
+          { "label": "Energy", "value": "650 kJ (150 kcal)" },
+          { "label": "Energy from Fat", "value": "400 kJ (90 kcal)" },
+          { "label": "Total Fat", "value": "10g (13% DV)" },
+          { "label": "Saturated Fat", "value": "4.5g (23% DV)" },
+          { "label": "Trans Fat", "value": "0g (0% DV)" },
+          { "label": "Cholesterol", "value": "0mg (0% DV)" },
+          { "label": "Sodium", "value": "310mg (14% DV)" },
+          { "label": "Total Carbohydrates", "value": "14g (5% DV)" },
+          { "label": "Dietary Fiber", "value": "1g (4% DV)" },
+          { "label": "Total Sugars", "value": "less than 1g" },
+          { "label": "Protein", "value": "2g" },
+          { "label": "Vitamin D", "value": "0% DV" },
+          { "label": "Calcium", "value": "0% DV" },
+          { "label": "Iron", "value": "2% DV" },
+          { "label": "Potassium", "value": "8% DV" }
+        ],
+        "disclaimer": "Percent Daily Values are based on a diet of 8,378 kJ (2,000 calories). Your daily values may be higher or lower depending on your calorie needs. ACCORDING TO THE FDA."
+      }
+    },
+    {
       "id": "zibas-clasicas",
       "name": "Ziba's Clásicas",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
