@@ -26,6 +26,7 @@
     {
       "id": "zibas-jalapenio-grill",
       "name": "Ziba's Jalapeño al grill",
+      "is_new": true,
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno_gril.webp",
       "background_color": "#FED353",
       "header_color": "#FED353",
