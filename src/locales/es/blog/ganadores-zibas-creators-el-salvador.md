@@ -3,7 +3,7 @@ id: "ganadores-zibas-creators-salvador"
 slug: "ganadores-zibas-creators-salvador"
 title: "¡Ganadores Ziba's Creators El Salvador!"
 summary: "Después de semanas llenas de talento, ideas locas y mucha creatividad real."
-preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp"
+preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas_1920x1080.webp"
 videos:
   - "https://snack.yummiespromociones.com/SnacksyummiesAssets/1ErLugar-RafaelFigueroa-Arte-SV.webm"
   - "https://snack.yummiespromociones.com/SnacksyummiesAssets/2DoLugar-JairLopez-Musica-SV.webm"
