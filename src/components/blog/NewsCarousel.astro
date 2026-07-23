@@ -116,7 +116,7 @@ const noContent = currentLang === 'es' ? 'No hay contenido disponible' : 'No con
     const langAttr = root.getAttribute('data-lang') || '';
     const lang = (currentLang && typeof currentLang === 'string' && currentLang) || langAttr || (location.pathname.split('/')[1] || 'es');
     const readMore = lang === 'es' ? 'Leer más' : 'Read more';
-    const fallbackImg = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp';
+    const fallbackImg = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas_1920x1080.webp';
 
     if (!data.length && itemsScript && itemsScript.textContent) {
       try { data = JSON.parse(itemsScript.textContent); } catch {}

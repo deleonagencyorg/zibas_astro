@@ -3,7 +3,7 @@ id: "ganadores-zibas-creators-honduras"
 slug: "ganadores-zibas-creators-honduras"
 title: "¡Ganadores Ziba's Creators Honduras!"
 summary: "Después de semanas llenas de talento, ideas locas y mucha creatividad real."
-preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/final_creators.webp"
+preview: "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas_1920x1080.webp"
 videos:
   - "https://snack.yummiespromociones.com/SnacksyummiesAssets/1Er%20Lugar%20-%20Jorge%20Ventura%20-%20Cortometraje%20-%20Hn.webm"
   - "https://snack.yummiespromociones.com/SnacksyummiesAssets/2Do%20Lugar%20-%20Yessenia%20Perdomo%20-%20M%C3%BAsica%20-%20Hn.webm"
