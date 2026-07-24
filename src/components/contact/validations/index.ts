@@ -55,7 +55,8 @@ const prospectiveClientSchema = baseContactSchema.extend({
 
 const exportsSchema = baseContactSchema.extend({
   contactReason: z.literal('Exportaciones'),
-  interest: z.enum(['Quiero ser distribuidor', 'Deseo producto para consumo personal'])
+  country: z.string().min(1, 'El país es requerido'),
+  interest: z.enum(['Quiero ser distribuidor', 'Deseo producto para consumo personal']).optional()
 });
 
 const supplierSchema = baseContactSchema.extend({

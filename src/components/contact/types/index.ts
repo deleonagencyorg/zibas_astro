@@ -22,7 +22,7 @@ export type Country =
 // Base form fields that all contact forms must have
 export interface BaseContactForm {
   contactReason: ContactReason;
-  country: Country;
+  country: Country | string;
   city: string;
   name: string;
   email: string;
