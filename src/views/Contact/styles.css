@@ -1,1 +1,16 @@
+@media (max-width: 767px) {
+  .country-tab {
+    line-height: 1.2;
+    text-align: center;
+  }
 
+  #officeInfo a {
+    font-size: 0.875rem;
+  }
+
+  #contactForm select,
+  #contactForm input,
+  #contactForm textarea {
+    line-height: 1.35;
+  }
+}
