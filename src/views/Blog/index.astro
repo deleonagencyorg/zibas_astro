@@ -29,6 +29,8 @@ const pageDescription = currentLang === 'es'
   ? 'Mantente al día con nuestras últimas noticias y artículos.' 
   : 'Stay updated with our latest news and articles.';
 
+const BLOG_PREVIEW_PLACEHOLDER = '/images/blog/placeholder.jpg';
+
 // Load markdown posts for the current language
 const mdModules = import.meta.glob('../../locales/*/blog/*.md');
 let allPosts: BlogPostFrontmatter[] = [];
@@ -44,8 +46,8 @@ for (const path in mdModules) {
         slug: String(fm.slug),
         title: String(fm.title),
         summary: fm.summary ? String(fm.summary) : '',
-        preview: fm.preview ? String(fm.preview) : '',
-        image: fm.preview ? String(fm.preview) : (fm.image ? String(fm.image) : '/images/blog/placeholder.jpg'),
+        preview: fm.preview ? String(fm.preview) : BLOG_PREVIEW_PLACEHOLDER,
+        image: fm.preview ? String(fm.preview) : BLOG_PREVIEW_PLACEHOLDER,
         published_date: fm.published_date ? String(fm.published_date) : '',
         category: fm.category ? String(fm.category).toLowerCase() : 'other'
       });

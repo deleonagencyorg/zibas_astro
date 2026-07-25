@@ -37,3 +37,21 @@ footer .copyright {
   color: #9ca3af; /* text-gray-400 */
   font-size: 0.875rem;
 }
+
+@media (max-width: 639px) {
+  footer .footer-phones-grid {
+    max-width: 20rem;
+    margin-inline: auto;
+  }
+
+  footer .footer-phone-item {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  footer .footer-phone-item {
+    justify-content: flex-start;
+  }
+}
