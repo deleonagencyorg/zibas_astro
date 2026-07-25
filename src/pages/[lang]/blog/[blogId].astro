@@ -2,23 +2,28 @@
 import BlogDetail from '../../../views/Blog/Detail/index.astro';
 import { setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
+import { formatMarkdownHtml, resolveMarkdownCompiledContent } from '../../../components/blog/markdownFormat';
+
+const BLOG_PREVIEW_PLACEHOLDER = '/images/blog/placeholder.jpg';
 
 export async function getStaticPaths() {
   const locales = ['en', 'es'];
   const paths: any[] = [];
-  // Use a static glob and then filter by locale from the file path
   const modules = import.meta.glob('../../../locales/*/blog/*.md');
   for (const locale of locales) {
     const allPosts: any[] = [];
     for (const p in modules) {
       const parts = p.split('/');
-      const fileLocale = parts[4]; // ../../../locales/<lang>/blog/file.md
+      const fileLocale = parts[4];
       if (fileLocale !== locale) continue;
       const mod: any = await modules[p]();
       const fm = mod.frontmatter || {};
       if (fm && fm.slug && fm.id) {
-        const content = typeof mod.compiledContent === 'function' ? mod.compiledContent() : '';
-        allPosts.push({ ...fm, content });
+        const rawContent = await resolveMarkdownCompiledContent(mod);
+        const content = formatMarkdownHtml(rawContent);
+        const preview = fm.preview ? String(fm.preview) : BLOG_PREVIEW_PLACEHOLDER;
+        const image = fm.image ? String(fm.image) : '';
+        allPosts.push({ ...fm, content, preview, image });
       }
     }
     for (const blogPost of allPosts) {
@@ -32,11 +37,13 @@ export async function getStaticPaths() {
 }
 
 const { blogPost, currentLang, allBlogPosts } = Astro.props;
-const { lang, blogId } = Astro.params;
+const { lang } = Astro.params;
 
-// Set locale for this page
 setLocale(lang as Locale);
+
+const pageTitle = blogPost.meta_title || blogPost.title;
+const pageDescription = blogPost.meta_description || blogPost.summary || '';
 ---
-<MainLayout title={blogPost.title}>
+<MainLayout title={pageTitle} description={pageDescription}>
   <BlogDetail blogPost={blogPost} currentLang={currentLang} allBlogPosts={allBlogPosts} />
 </MainLayout>

@@ -16,10 +16,12 @@ interface Props {
     slug: string;
     title: string;
     content: string;
-    image: string;
+    image?: string;
+    preview?: string;
     videos?: string[]; 
     author: string;
     published_date: string;
+    schema?: Record<string, unknown>;
   };
   currentLang: Locale;
   allBlogPosts?: Array<{
@@ -56,13 +58,14 @@ const videos = blogPost.videos || [];
 interface MediaItem { type: 'image' | 'video'; src?: string; url?: string; youtubeId: string | null; thumb: string; }
 const mediaItems: MediaItem[] = [];
 
-if (blogPost.image) {
+const bannerImage = blogPost.image?.trim();
+if (bannerImage) {
   mediaItems.push({ 
     type: 'image', 
-    src: blogPost.image, 
+    src: bannerImage, 
     url: undefined, 
     youtubeId: null, 
-    thumb: blogPost.image 
+    thumb: bannerImage 
   });
 }
 
@@ -110,9 +113,13 @@ for (const v of videos) {
         )}
 
         <!-- Content -->
-        <div class="blog-content prose prose-lg max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
+        <div class="blog-content max-w-none my-8 text-md md:text-lg text-white" transition:animate={fade({ duration: '0.5s' })}>
           <Fragment set:html={blogPost.content} />
         </div>
+
+        {blogPost.schema && (
+          <script type="application/ld+json" set:html={JSON.stringify(blogPost.schema)} />
+        )}
 
         <!-- Share -->
         <div class="w-full flex justify-end mb-8">
@@ -176,5 +183,48 @@ for (const v of videos) {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
+  }
+
+  .blog-content :global(h2) {
+    font-family: var(--font-title, inherit);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content :global(h2) {
+      font-size: 2rem;
+    }
+  }
+
+  .blog-content :global(p) {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content :global(p) {
+      font-size: 1.125rem;
+    }
+  }
+
+  .blog-content :global(ul) {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .blog-content :global(li) {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .blog-content :global(strong) {
+    font-weight: 700;
   }
 </style>
