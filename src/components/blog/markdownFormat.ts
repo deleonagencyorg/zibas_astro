@@ -50,11 +50,25 @@ export const defaultBlogMarkdownClasses: MarkdownClassMap = {
 };
 
 /**
+ * Obtiene el HTML compilado de un módulo Markdown de Astro (v5/v6).
+ */
+export async function resolveMarkdownCompiledContent(mod: {
+  compiledContent?: (() => Promise<string> | string) | Promise<string>;
+}): Promise<string> {
+  const compiled = mod?.compiledContent;
+  if (compiled == null) return '';
+
+  const result = typeof compiled === 'function' ? await compiled() : await compiled;
+  return typeof result === 'string' ? result : '';
+}
+
+/**
  * Inyecta clases CSS a etiquetas HTML comunes generadas por Markdown.
  * Nota: Este método usa reemplazos por regex seguros para HTML simple de Markdown.
  */
-export function formatMarkdownHtml(html: string, classes: MarkdownClassMap = defaultBlogMarkdownClasses): string {
-  if (!html) return html;
+export function formatMarkdownHtml(html: unknown, classes: MarkdownClassMap = defaultBlogMarkdownClasses): string {
+  if (html == null || typeof html !== 'string') return '';
+  if (!html) return '';
   let out = html;
 
   // Helper para insertar/mergear class en una etiqueta
