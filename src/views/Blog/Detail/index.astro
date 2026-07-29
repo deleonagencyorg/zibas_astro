@@ -8,7 +8,6 @@ import MediaCarousel from '../../../components/blog/MediaCarousel.astro';
 import { fade } from 'astro:transitions';
 import ShareModal from '../../../components/common/ShareModal.astro';
 import ShareButton from '../../../components/common/ShareButton.astro';
-import VideoModal from '../../../components/common/YouTubeVideoModal.astro';
 
 interface Props {
   blogPost: {
@@ -157,9 +156,6 @@ for (const v of videos) {
   </div>
 </div>
 
-<VideoModal />
-
-<!-- Share Modal -->
 <ShareModal
   id="shareModal-blog"
   url={Astro.url.href}
