@@ -35,6 +35,7 @@ const {
 const currentLocale = getLocale();
 const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
 const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
+const hasVideo = Boolean(video?.trim());
 ---
 
 <div transition:animate="fade">
@@ -42,7 +43,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
   href={recipeLink}
   class="block group relative overflow-hidden rounded-[2rem] transition-all duration-300 ease-in-out h-[350px] md:h-[450px] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
   aria-label={`Ver detalle de ${title}`}
-  data-video={video || ''}
+  data-video={hasVideo ? video!.trim() : ''}
   data-recipe-id={id}
 >
   <!-- Imagen de fondo (siempre visible) -->
@@ -56,7 +57,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
   </div>
   
   <!-- Icono de play si tiene video (solo visual) -->
-  {video && (
+  {hasVideo && (
     <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors pointer-events-none">
       <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-10 md:w-10 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -143,28 +144,3 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
   </div>
 </a>
 </div>
-
-<script is:inline>
-  (function() {
-    // Manejar clic en las cards con video
-    document.querySelectorAll('[data-video]').forEach(function(card) {
-      var videoUrl = card.getAttribute('data-video');
-      if (!videoUrl) return;
-      
-      card.addEventListener('click', function(e) {
-        var rect = card.getBoundingClientRect();
-        var clickY = e.clientY - rect.top;
-        var cardHeight = rect.height;
-        
-        // Si el clic está en la parte superior (~65% de la card, zona de imagen)
-        if (clickY < cardHeight * 0.65) {
-          e.preventDefault();
-          if (window.openYouTubeModal) {
-            window.openYouTubeModal(videoUrl);
-          }
-        }
-        // Si está en la parte inferior, deja que el enlace navegue al detalle
-      });
-    });
-  })();
-</script>
