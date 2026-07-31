@@ -7,124 +7,248 @@ interface Props {
 const { modalId = 'youtube-video-modal' } = Astro.props;
 ---
 
-<!-- Modal de Video de YouTube -->
-<div id={modalId} class="fixed inset-0 z-[9999] hidden" aria-hidden="true">
-  <div class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden md:block" data-video-backdrop></div>
+<div
+  id={modalId}
+  class="fixed inset-0 z-[9999] hidden items-center justify-center p-3 sm:p-6"
+  aria-hidden="true"
+  data-modal-id={modalId}
+>
+  <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" data-video-backdrop></div>
 
-  <div class="absolute inset-0 flex items-center justify-center p-0 md:p-6 bg-black md:bg-transparent">
-    <div class="w-full h-full md:h-auto md:max-w-5xl bg-black md:rounded-lg overflow-hidden relative shadow-2xl">
-      <button type="button" id="close-btn"
-        class="absolute top-4 right-4 z-[100000] w-11 h-11 rounded-full bg-black/70 hover:bg-black/90 text-white flex items-center justify-center transition-all"
-        aria-label="Cerrar video">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+  <div class="relative z-10 flex w-full items-center justify-center">
+    <div
+      id={`${modalId}-frame`}
+      class="relative overflow-hidden rounded-lg bg-black shadow-2xl"
+      style="width: min(95vw, 1100px);"
+    >
+      <div
+        id={`${modalId}-aspect`}
+        class="relative w-full bg-black"
+        style="aspect-ratio: 16 / 9; max-height: 85vh;"
+      >
+        <button
+          type="button"
+          id={`${modalId}-close`}
+          class="absolute top-2 right-2 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-black/75 text-white shadow-lg transition-colors hover:bg-black/90"
+          aria-label="Cerrar video"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-      <div class="relative w-full h-full md:aspect-video bg-black">
-        <!-- YouTube -->
-        <iframe id="blog-modal-iframe" class="w-full h-full" src="" frameborder="0"
+        <iframe
+          id={`${modalId}-iframe`}
+          class="absolute inset-0 hidden h-full w-full border-0"
+          src=""
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-          allowfullscreen></iframe>
-        <!-- Video directo -->
-        <video id="blog-modal-video" class="w-full h-full hidden" controls autoplay playsinline></video>
-        <!-- Imagen -->
-        <img id="blog-modal-image" class="w-full h-full object-contain hidden" src="" alt="" />
+          allowfullscreen
+        ></iframe>
+        <video
+          id={`${modalId}-video`}
+          class="absolute inset-0 hidden h-full w-full object-contain"
+          controls
+          autoplay
+          playsinline
+        ></video>
+        <img
+          id={`${modalId}-image`}
+          class="absolute inset-0 hidden h-full w-full object-contain"
+          src=""
+          alt=""
+        />
       </div>
     </div>
   </div>
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ modalId }}>
   (function () {
-    function initModal() {
-      const modal = document.getElementById('youtube-video-modal');
+    const MODAL_ID = modalId;
+
+    function getElements() {
+      return {
+        modal: document.getElementById(MODAL_ID),
+        iframe: document.getElementById(`${MODAL_ID}-iframe`),
+        video: document.getElementById(`${MODAL_ID}-video`),
+        imgEl: document.getElementById(`${MODAL_ID}-image`),
+        aspectBox: document.getElementById(`${MODAL_ID}-aspect`),
+        frame: document.getElementById(`${MODAL_ID}-frame`),
+      };
+    }
+
+    function getYoutubeVideoId(videoUrl) {
+      const patterns = [
+        /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+        /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+      ];
+      for (const pattern of patterns) {
+        const match = videoUrl.match(pattern);
+        if (match) return match[1];
+      }
+      return null;
+    }
+
+    function isYoutubeUrl(videoUrl) {
+      return /youtube\.com|youtu\.be/i.test(videoUrl);
+    }
+
+    function isImageUrl(videoUrl) {
+      return /\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(videoUrl);
+    }
+
+    function isYoutubeShort(videoUrl) {
+      return /youtube\.com\/shorts\//i.test(videoUrl);
+    }
+
+    function setFrameAspect(aspectBox, frame, ratio, portrait) {
+      aspectBox.style.aspectRatio = ratio;
+      aspectBox.style.maxHeight = '85vh';
+      aspectBox.style.width = '100%';
+
+      if (portrait) {
+        frame.style.width = 'min(95vw, 420px)';
+      } else {
+        frame.style.width = 'min(95vw, 1100px)';
+      }
+    }
+
+    function resetMedia(iframe, video, imgEl) {
+      if (iframe) {
+        iframe.src = '';
+        iframe.classList.add('hidden');
+      }
+      if (video) {
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+        video.classList.add('hidden');
+      }
+      if (imgEl) {
+        imgEl.removeAttribute('src');
+        imgEl.classList.add('hidden');
+      }
+    }
+
+    window.closeYouTubeModal = function () {
+      const { modal, iframe, video, imgEl } = getElements();
       if (!modal) return;
 
-      const iframe = document.getElementById('blog-modal-iframe');
-      const video = document.getElementById('blog-modal-video');
-      const closeBtn = document.getElementById('close-btn');
+      resetMedia(iframe, video, imgEl);
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      const navbar = document.querySelector('header') || document.querySelector('nav');
+      if (navbar) navbar.style.zIndex = '';
+    };
+
+    window.openYouTubeModal = function (videoUrl) {
+      const { modal, iframe, video, imgEl, aspectBox, frame } = getElements();
+      if (!videoUrl || !String(videoUrl).trim() || !modal || !aspectBox || !frame) return;
+      videoUrl = String(videoUrl).trim();
+
+      resetMedia(iframe, video, imgEl);
+
+      if (isImageUrl(videoUrl) && imgEl) {
+        setFrameAspect(aspectBox, frame, '16 / 9', false);
+        imgEl.src = videoUrl;
+        imgEl.classList.remove('hidden');
+      } else if (isYoutubeUrl(videoUrl)) {
+        const videoId = getYoutubeVideoId(videoUrl);
+        if (!videoId || !iframe) return;
+
+        const portrait = isYoutubeShort(videoUrl);
+        setFrameAspect(aspectBox, frame, portrait ? '9 / 16' : '16 / 9', portrait);
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+        iframe.classList.remove('hidden');
+      } else if (video) {
+        setFrameAspect(aspectBox, frame, '16 / 9', false);
+
+        const applyNativeAspect = function () {
+          const w = video.videoWidth;
+          const h = video.videoHeight;
+          if (!w || !h) return;
+          const portrait = h > w;
+          setFrameAspect(aspectBox, frame, `${w} / ${h}`, portrait);
+        };
+
+        video.addEventListener('loadedmetadata', applyNativeAspect, { once: true });
+        video.src = videoUrl;
+        video.classList.remove('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      const navbar = document.querySelector('header') || document.querySelector('nav');
+      if (navbar) navbar.style.zIndex = '0';
+    };
+
+    function bindModalEvents() {
+      const modal = document.getElementById(MODAL_ID);
+      if (!modal || modal.dataset.bound === 'true') return;
+      modal.dataset.bound = 'true';
+
+      const closeBtn = document.getElementById(`${MODAL_ID}-close`);
       const backdrop = modal.querySelector('[data-video-backdrop]');
-
-      window.closeYouTubeModal = function () {
-        // Detener YouTube
-        if (iframe) {
-          iframe.src = '';                    // ← Importante: detiene YouTube
-        }
-
-        // Detener video directo (.webm, mp4, etc.)
-        if (video) {
-          video.pause();                      // Pausa
-          video.src = '';                     // Limpia la fuente
-          video.load();                       // Fuerza limpieza
-        }
-
-        // Ocultar modal
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-        const navbar = document.querySelector('header') || document.querySelector('nav');
-        if (navbar) navbar.style.zIndex = '';
-      };
-
-      window.openYouTubeModal = function (videoUrl) {
-        if (!videoUrl || !modal) return;
-
-        const isYoutube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
-        const isImage = /\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(videoUrl);
-        const imgEl = document.getElementById('blog-modal-image');
-
-        // Resetear todo primero
-        if (iframe) iframe.classList.add('hidden');
-        if (video) video.classList.add('hidden');
-        if (imgEl) imgEl.classList.add('hidden');
-
-        if (isImage && imgEl) {
-          imgEl.src = videoUrl;
-          imgEl.classList.remove('hidden');
-    iframe.classList.add('hidden');
-    video.classList.add('hidden');
-  } else if (isYoutube) {
-          let videoId = null;
-          const patterns = [
-            /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
-            /youtu\.be\/([a-zA-Z0-9_-]{11})/,
-            /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
-            /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
-          ];
-          for (const pattern of patterns) {
-            const match = videoUrl.match(pattern);
-            if (match) { videoId = match[1]; break; }
-          }
-          if (videoId) {
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            iframe.classList.remove('hidden');
-      video.classList.add('hidden');
-      if (imgEl) imgEl.classList.add('hidden');
-        } 
-  } else {
-          video.src = videoUrl;
-          video.classList.remove('hidden');
-    iframe.classList.add('hidden');
-    if (imgEl) imgEl.classList.add('hidden');
-        }
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-        const navbar = document.querySelector('header') || document.querySelector('nav');
-        if (navbar) navbar.style.zIndex = '0';
-      };
 
       if (closeBtn) closeBtn.addEventListener('click', window.closeYouTubeModal);
       if (backdrop) backdrop.addEventListener('click', window.closeYouTubeModal);
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeYouTubeModal(); });
     }
 
-    document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', initModal)
-      : initModal();
+    function handleRecipeVideoClick(event) {
+      const recipeBtn = event.target.closest('[data-recipe-video]');
+      if (recipeBtn) {
+        event.preventDefault();
+        event.stopPropagation();
+        const videoUrl = recipeBtn.getAttribute('data-recipe-video')?.trim();
+        if (videoUrl) window.openYouTubeModal(videoUrl);
+        return;
+      }
 
-    document.addEventListener('astro:page-load', initModal);
+      const card = event.target.closest('[data-video]');
+      if (!card) return;
+
+      const videoUrl = card.getAttribute('data-video')?.trim();
+      if (!videoUrl) return;
+
+      const rect = card.getBoundingClientRect();
+      const clickY = event.clientY - rect.top;
+      const imageZone = rect.height * 0.65;
+
+      if (clickY < imageZone) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.openYouTubeModal(videoUrl);
+      }
+    }
+
+    function bindRecipeVideoClicks() {
+      if (window.__recipeVideoClickBound) return;
+      window.__recipeVideoClickBound = true;
+      document.addEventListener('click', handleRecipeVideoClick, true);
+    }
+
+    if (!window.__recipeVideoModalKeydownBound) {
+      window.__recipeVideoModalKeydownBound = true;
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') window.closeYouTubeModal();
+      });
+    }
+
+    function init() {
+      bindModalEvents();
+      bindRecipeVideoClicks();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    document.addEventListener('astro:page-load', init);
   })();
 </script>

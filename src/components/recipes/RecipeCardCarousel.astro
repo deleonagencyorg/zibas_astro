@@ -35,6 +35,7 @@ const {
 const currentLocale = getLocale();
 const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
 const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
+const hasVideo = Boolean(video?.trim());
 ---
 
 <div transition:animate="fade">
@@ -44,7 +45,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
     isMainCard ? 'md:w-[430px] md:h-[520px] lg:h-[562px]' : 'md:w-[280px] md:h-[520px] lg:h-[562px]'
   }"
   aria-label={`Ver detalle de ${title}`}
-  data-video={video || ''}
+  data-video={hasVideo ? video!.trim() : ''}
   data-recipe-id={id}
 >
   <!-- Container principal con las medidas específicas -->
@@ -73,7 +74,7 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
       </div>
       
       <!-- Icono de play si tiene video (solo visual) -->
-      {video && (
+      {hasVideo && (
         <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors pointer-events-none z-20">
           <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/80 flex items-center justify-center shadow-lg">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-[#F04F00] ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -105,28 +106,3 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver Receta' : 'View Recipe';
   </div>
 </a>
 </div>
-
-<script is:inline>
-  (function() {
-    // Manejar clic en las cards con video
-    document.querySelectorAll('[data-video]').forEach(function(card) {
-      var videoUrl = card.getAttribute('data-video');
-      if (!videoUrl) return;
-      
-      card.addEventListener('click', function(e) {
-        var rect = card.getBoundingClientRect();
-        var clickY = e.clientY - rect.top;
-        var cardHeight = rect.height;
-        
-        // Si el clic está en la parte superior (~60% de la card, zona de imagen)
-        if (clickY < cardHeight * 0.6) {
-          e.preventDefault();
-          if (window.openYouTubeModal) {
-            window.openYouTubeModal(videoUrl);
-          }
-        }
-        // Si está en la parte inferior, deja que el enlace navegue al detalle
-      });
-    });
-  })();
-</script>
