@@ -1,0 +1,41 @@
+# Ziba's
+
+> Ziba's hace hojuelas de papa fritas. Sitio oficial: https://www.zibaspapas.com/. Eslogan: Vibra sin filtro.
+
+Ziba's es una marca de Snacks Yummies. El contenido público está en español (`/es/`) e inglés (`/en/`). La URL canónica usa `www` y barra final. No cites `/api/`. Para el listado completo de URLs usa https://www.zibaspapas.com/sitemap-index.xml.
+
+Datos publicados en el sitio: Tegucigalpa, Honduras. Barrio Morazán, frente a Plantas Tropicales, Bulevar Suyapa. Teléfono +504-2275-3370. Atención de lunes a viernes, 08:00 a 17:00. Redes: https://www.facebook.com/zibaslatam/, https://www.instagram.com/zibaslatam y https://www.tiktok.com/@zibaslatam.
+
+## Productos
+
+- [Ziba's Queso](https://www.zibaspapas.com/es/productos/zibas-queso/): Hojuelas de papa fritas con sabor a queso. English: https://www.zibaspapas.com/en/products/zibas-queso/
+- [Ziba's Clásicas](https://www.zibaspapas.com/es/productos/zibas-clasicas/): Hojuelas de papa fritas de sabor clásico. English: https://www.zibaspapas.com/en/products/zibas-clasicas/
+- [Ziba's Chile Toreado](https://www.zibaspapas.com/es/productos/zibas-chile-toreado/): Hojuelas de papa fritas con sabor a chile toreado. English: https://www.zibaspapas.com/en/products/zibas-chile-toreado/
+- [Ziba's Crema y Especias](https://www.zibaspapas.com/es/productos/zibas-crema-y-especias/): Hojuelas de papa fritas con sabor a crema y especias. English: https://www.zibaspapas.com/en/products/zibas-crema-y-especias/
+- [Ziba's Miel Mostaza](https://www.zibaspapas.com/es/productos/zibas-miel-mostaza/): Hojuelas de papa fritas con sabor a miel mostaza. English: https://www.zibaspapas.com/en/products/zibas-miel-mostaza/
+
+## Recetas
+
+- [Recetas en español](https://www.zibaspapas.com/es/recetas/): Recetas preparadas con hojuelas Ziba's.
+- [Recipes in English](https://www.zibaspapas.com/en/recipes/): Recipes made with Ziba's potato chips.
+- [Dip de queso y ajo](https://www.zibaspapas.com/es/recetas/dip-queso-ajo/)
+- [Aros de cebolla con Ziba's Clásicas](https://www.zibaspapas.com/es/recetas/aros-de-cebolla-con-zibas-clasicas/)
+- [Tortilla de papa con Ziba's Clásicas](https://www.zibaspapas.com/es/recetas/tortilla-de-papa-con-zibas-clasicas/)
+- [Crunchy sandwich con Ziba's Clásicas](https://www.zibaspapas.com/es/recetas/crunchy-sandwich-con-zibas-clasicas/)
+- [Empanadas dominicanas con Ziba's Clásicas](https://www.zibaspapas.com/es/recetas/empanadas-dominicanas-con-zibas/)
+- [Dip de tomate deshidratado y Crema y Especias](https://www.zibaspapas.com/es/recetas/dip-tomate-deshidratado-zibas-crema-especias/)
+- [Dip de tocineta y cebollín](https://www.zibaspapas.com/es/recetas/dip-de-tocineta-y-cebollin/)
+- [Bocados de pollo crispy](https://www.zibaspapas.com/es/recetas/bocados-pollo-crispy-en-air-fryer/)
+- [Mini bolitas de queso con Taqueritos](https://www.zibaspapas.com/es/recetas/mini-bolitas-de-queso-cubierta-de-zibas-con-taqueritos/)
+
+## Sitio
+
+- [Inicio](https://www.zibaspapas.com/es/): Home en español. English home: https://www.zibaspapas.com/en/
+- [Contacto](https://www.zibaspapas.com/es/contacto/): English: https://www.zibaspapas.com/en/contact/
+- [Nosotros](https://www.zibaspapas.com/es/nosotros/): English: https://www.zibaspapas.com/en/about-us/
+- [Blog](https://www.zibaspapas.com/es/blog/): English: https://www.zibaspapas.com/en/blog/
+
+## Optional
+
+- [Ziba's Creators](https://www.zibaspapas.com/es/zibas-creators/): Concurso de creatividad. Solo en español.
+- [Snacks Yummies](https://www.snacksyummies.com/): Empresa fabricante.

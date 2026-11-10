@@ -1,7 +1,7 @@
 {
   "meta": {
     "home": {
-      "title": "Ziba's - Enjoy your Ziba's at any moment",
+      "title": "Ziba's | Potato chips – Vibe without a filter",
       "description": "Your favorite potato chip flakes come with naturally authentic flavors for all tastes."
     },
     "contact": {
@@ -93,12 +93,12 @@
     {
       "id": "recipes",
       "text": "Recipes",
-      "href": "/en/recipes"
+      "href": "/en/recipes/"
     },
     {
       "id": "contact",
       "text": "Contact",
-      "href": "/en/contact"
+      "href": "/en/contact/"
     }
    
   ],

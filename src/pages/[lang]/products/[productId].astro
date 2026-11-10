@@ -1,5 +1,6 @@
 ---
 // src/pages/[lang]/productos/[productId].astro
+import { getProductSeo } from '../../../config/productSeo';
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import ProductDetail from '../../../views/Products/Detail/index.astro';
@@ -35,8 +36,9 @@ const headerColors = {
   backgroundColor: product.background_color,
   textColor: product.header_text_color
 };
+const seo = getProductSeo(product.id, currentLang, product.name, product.description);
 ---
 
-<MainLayout title={product.name} headerColors={headerColors}>
+<MainLayout title={seo.title} description={seo.description} image={product.image} headerColors={headerColors}>
   <ProductDetail currentLang={currentLang} productId={productId} />
 </MainLayout>

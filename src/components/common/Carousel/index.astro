@@ -139,8 +139,8 @@ const showControls = slidesCount > 1;
       </div>
       
       <!-- Controles de navegación -->
-      {showControls && <div class="swiper-button-next"></div>}
-      {showControls && <div class="swiper-button-prev"></div>}
+      {showControls && <div class="swiper-button-next" role="button" tabindex="0" aria-label="Siguiente"></div>}
+      {showControls && <div class="swiper-button-prev" role="button" tabindex="0" aria-label="Anterior"></div>}
       {showControls && <div class="swiper-pagination"></div>}
     </div>
   </div>

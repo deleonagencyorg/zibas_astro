@@ -1,27 +1,27 @@
-User-agent: *
+# Ziba's — https://www.zibaspapas.com/
+# Guía para modelos de lenguaje: https://www.zibaspapas.com/llms.txt
+# search = indexación. ai-input = citas en respuestas. ai-train = entrenamiento.
 
-# Allow only pages in navigation menu
-Allow: /es/$
-Allow: /en/$
-Allow: /es/zibas-creators
-Allow: /en/zibas-creators
-Allow: /es/recetas
-Allow: /en/recipes
-Allow: /es/blog
-Allow: /en/blog
-Allow: /es/contacto
-Allow: /en/contact
-
-# Block all other pages
-Disallow: /es/marcas
-Disallow: /en/brands
-Disallow: /es/nosotros
-Disallow: /en/about
-Disallow: /es/encontranos
-Disallow: /en/find-us
-Disallow: /es/menu
-Disallow: /en/menu
+User-agent: Googlebot
+User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Applebot
+User-agent: Applebot-Extended
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
 Disallow: /api/
-Disallow: /_astro/
 
-Sitemap: https://zibaspapas.com/sitemap.xml
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+Disallow: /api/
+
+Sitemap: https://www.zibaspapas.com/sitemap-index.xml

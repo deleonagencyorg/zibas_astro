@@ -1,7 +1,7 @@
 {
   "meta": {
     "home": {
-      "title": "Vibra sin filtro",
+      "title": "Ziba's | Hojuelas de papa – Vibra sin filtro",
       "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
     },
     "contact": {
@@ -82,9 +82,10 @@
       },
       {
         "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Mccann-Zibas-Novela-Master.webm",
-        "mobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Mccann-Zibas-Novela-Master.webm",
-        "alt": "Mccann Zibas Novela Master",
+        "desktop": "/videos/zibas-novela-1080.webm",
+        "mobile": "/videos/zibas-novela-720.webm",
+        "preview": "/videos/zibas-novela-poster.webp",
+        "alt": "Ziba's, hojuelas de papa",
         "title": "",
         "description": "",
         "link": "##"
@@ -104,17 +105,17 @@
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/recetas"
+      "href": "/es/recetas/"
     },
     {
       "id": "blog",
       "text": "Blog",
-      "href": "/es/blog"
+      "href": "/es/blog/"
     },
     {
       "id": "contact",
       "text": "Contacto",
-      "href": "/es/contacto"
+      "href": "/es/contacto/"
     }
    
   ],
