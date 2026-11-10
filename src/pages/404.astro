@@ -1,0 +1,23 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const path = Astro.url.pathname;
+const isEnglish = path.startsWith('/en');
+const title = isEnglish ? 'Page not found' : 'Página no encontrada';
+const description = isEnglish
+  ? "This page does not exist on Ziba's. Go back to the home page."
+  : "Esta página no existe en Ziba's. Vuelve al inicio.";
+const homeHref = isEnglish ? '/en/' : '/es/';
+const homeLabel = isEnglish ? 'Back to home' : 'Volver al inicio';
+---
+
+<MainLayout title={title} description={description} noindex>
+  <section class="flex flex-1 flex-col items-center justify-center gap-6 bg-blue px-6 py-24 text-center text-white">
+    <p class="text-sm uppercase tracking-[0.2em]">404</p>
+    <h1 class="font-title text-4xl font-bold italic md:text-6xl">{title}</h1>
+    <p class="max-w-xl text-lg">{description}</p>
+    <a href={homeHref} class="rounded-full bg-white px-8 py-3 font-bold text-blue">
+      {homeLabel}
+    </a>
+  </section>
+</MainLayout>

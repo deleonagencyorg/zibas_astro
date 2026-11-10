@@ -27,8 +27,11 @@ const { lang, recipeId } = Astro.params;
 // Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 
+const recipeDescription = currentLang === 'en'
+  ? `${recipe.title}. A recipe made with Ziba's potato chips.`
+  : `${recipe.title}. Receta preparada con hojuelas Ziba's.`;
 ---
 
-<MainLayout title={recipe.title}>
+<MainLayout title={recipe.title} description={recipeDescription} image={recipe.image}>
   <RecipeDetail currentLang={currentLang} recipeId={recipeId} />
 </MainLayout>

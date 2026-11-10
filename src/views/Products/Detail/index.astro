@@ -6,6 +6,7 @@ import './styles.css';
 import { initProductDetail } from './scripts.js';
 import ProductsCarousel from '../../../components/common/ProductsCarousel/index.astro';
 import LazyImage from '../../../components/common/LazyImage.astro';
+import { SITE } from '../../../utils/seo';
 
 
 // Interfaces locales
@@ -95,7 +96,10 @@ if (allProductsArray.length > 1) {
     .slice(0, 3);
 }
 
-
+const productPath = currentLang === 'en'
+  ? `/en/products/${safeProduct.id}/`
+  : `/es/productos/${safeProduct.id}/`;
+const productUrl = new URL(productPath, SITE).href;
 ---
 
 {safeProduct.background_color && (
@@ -105,6 +109,16 @@ if (allProductsArray.length > 1) {
     style={{ backgroundColor: safeProduct.background_color }}
     transition:animate="slide"
   >
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": safeProduct.name,
+      "description": safeProduct.description,
+      "brand": { "@type": "Brand", "name": "Ziba's" },
+      "manufacturer": { "@type": "Organization", "name": "Snacks Yummies", "url": "https://www.snacksyummies.com/" },
+      "image": [safeProduct.image],
+      "url": productUrl
+    })} />
     <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col lg:flex-row gap-5 lg:items-start">
       {/* Contenedor de la imagen del lado izquierdo */}
       <div class="relative flex justify-center items-center w-full lg:w-[605px] p-4 lg:px-28 lg:py-8 rounded-[85px] gap-2 cursor-pointer overflow-hidden group lg:sticky lg:top-8" style={{ backgroundColor: safeProduct.color_button }}>
@@ -119,29 +133,29 @@ if (allProductsArray.length > 1) {
           <h1 class="lg:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
       
         </div>
-        <h1 
+        <h2 
           class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
          {currentLang === 'es' ? 'DESCRIPCIÓN' : 'DESCRIPTION'}
-        </h1>
-        <h2 
+        </h2>
+        <p 
           class=" lg:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
           style={{ color: safeProduct.header_text_color }}
         >
             {safeProduct.description}
-        </h2>
+        </p>
 
-        <h1 
+        <h2 
           class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
           style={{ color: safeProduct.header_text_color }}>
           {currentLang === 'es' ? 'PRESENTACIONES' : 'PRESENTATIONS'}
-        </h1>
-        <h2 
+        </h2>
+        <p 
           class=" lg:text-3xl text-2xl italic font-text font-medium py-5"
           style={{ color: safeProduct.header_text_color }}
         >
             {currentLang === 'es' ? 'Tamaño por presentación varía de acuerdo al país.​' : 'The size of the presentation varies according to the country.'}
-        </h2>
+        </p>
 
         {safeProduct.weight && safeProduct.weight.length > 0 && (
           <div class="my-4 max-w-full">
@@ -189,11 +203,11 @@ if (allProductsArray.length > 1) {
         {/* Sección de Stockists */}
         {stockists && stockists.length > 0 && (
           <div class="stockists-section mt-8 mb-4">
-            <h1 
+            <h2 
               class="uppercase italic font-title lg:text-4xl text-xl font-medium py-2"
               style={{ color: safeProduct.header_text_color }}>
               {currentLang === 'es' ? productsAssets.product_available || 'DISPONIBLE EN' : 'AVAILABLE AT'}
-            </h1>
+            </h2>
             <div class="flex flex-wrap gap-4 my-4 mb-8">
               {stockists.map((stockist: Stockist) => (
                 <div 
@@ -229,9 +243,9 @@ if (allProductsArray.length > 1) {
               {brandsAssets.home?.title}
             </h2>
             {brandsAssets.home?.subtitle && (
-              <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: white`}>
+              <h2 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: white`}>
                 {brandsAssets.home?.subtitle}
-              </h1>
+              </h2>
             )}
           </div>
         )}

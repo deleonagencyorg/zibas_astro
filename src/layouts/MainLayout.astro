@@ -9,15 +9,16 @@ import Footer from '../components/common/Footer/index.astro';
 import MobileMenu from '../components/common/MobileMenu/index.astro';
 import I18nProvider from '../components/i18n/I18nProvider.astro';
 import YouTubeVideoModal from '../components/common/YouTubeVideoModal.astro';
-import { routesConfig } from '../config/routes';
 import { getHeaderColors } from '../config/headerColors';
 import { ClientRouter } from 'astro:transitions';
 import "../styles/global.css";
-import { head } from 'framer-motion/m';
+import { canonicalPath, hreflangAlternates, SITE } from '../utils/seo';
 
 export interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
   class?: string;
   headerColors?: {
     backgroundColor?: string;
@@ -25,7 +26,7 @@ export interface Props {
   };
 }
 
-const { title, description, class: className, headerColors } = Astro.props;
+const { title, description, image, noindex = false, class: className, headerColors } = Astro.props;
 
 // Determine language for <html lang=...> and for key prop from the URL
 const pathSegments = Astro.url.pathname.split('/');
@@ -35,6 +36,17 @@ const currentLang = validLocales.includes(langFromUrl) ? langFromUrl : 'es'; // 
 // Obtener configuración de colores basada en la ruta actual
 const { pathname } = Astro.url;
 const headerColorConfig = getHeaderColors(pathname);
+const pageTitle = title?.trim()
+  ? (title.includes('|') ? title.trim() : `${title.trim()} | Ziba's`)
+  : "Ziba's";
+const pageDescription = description?.trim()
+  || (currentLang === 'en'
+    ? "Ziba's potato chips with authentic flavors. Explore products, recipes and news."
+    : "Ziba's: hojuelas de papa fritas con sabores auténticos. Conoce productos, recetas y novedades.");
+const canonical = new URL(canonicalPath(pathname), SITE).href;
+const alternates = hreflangAlternates(pathname);
+const ogImage = image || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo-3.webp';
+const ogLocale = currentLang === 'en' ? 'en_US' : 'es_HN';
 
 // Si se pasan colores de header específicos (por ejemplo, desde un producto), 
 // crear una configuración personalizada
@@ -54,8 +66,28 @@ if (headerColors) {
     
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {title && <title> Zibas -  {title}</title>}
-    {description && <meta name="description" content={description} />}
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <link rel="canonical" href={canonical} />
+    <link rel="describedby" href="/llms.txt" type="text/plain" title="Guía para modelos de lenguaje" />
+    {alternates.map((alternate) => (
+      <link rel="alternate" hreflang={alternate.lang} href={new URL(alternate.path, SITE).href} />
+    ))}
+    {alternates.length > 0 && (
+      <link rel="alternate" hreflang="x-default" href={new URL(alternates.find((alternate) => alternate.lang === 'es')?.path ?? '/es/', SITE).href} />
+    )}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content="Ziba's" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
     <ClientRouter />
     <slot name="head" />
     {/* <GoogleTagManager /> */}
